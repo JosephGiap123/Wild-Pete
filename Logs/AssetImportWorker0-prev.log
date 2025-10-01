@@ -1,0 +1,505 @@
+Unity Editor version:    6000.0.56f1 (9c7b5e468860)
+Branch:                  6000.0/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 15.6 (Build 24G84)
+Darwin version:          24.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        8192 MB
+Using pre-set license
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+/Users/josephgiap/WildPete
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+56206
+-job-worker-count
+3
+-background-job-worker-count
+8
+-gc-helper-count
+1
+-name AssetImport
+Successfully changed project path to: /Users/josephgiap/WildPete
+/Users/josephgiap/WildPete
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8375607488]  Target information:
+
+Player connection [8375607488]  * "[IP] 172.25.42.48 [Port] 0 [Flags] 2 [Guid] 4046293889 [EditorId] 4046293889 [Version] 1048832 [Id] OSXEditor(0,Bentons-MacBook-Air-70.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8375607488] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8375607488] Host joined alternative multi-casting on [225.0.0.222:34997]...
+JobSystem: Creating JobQueue using job-worker-count value 3
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 14.08 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.56f1 (9c7b5e468860)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/josephgiap/WildPete/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M1 (high power)
+Metal devices available: 1
+0: Apple M1 (high power)
+Using device Apple M1 (high power)
+Initializing Metal device caps: Apple M1
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56785
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Registered in 0.014795 seconds.
+- Loaded All Assemblies, in  0.858 seconds
+Native extension for OSXStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.644 seconds
+Domain Reload Profiling: 1503ms
+	BeginReloadAssembly (309ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (2ms)
+	RebuildCommonClasses (81ms)
+	RebuildNativeTypeToScriptingClass (29ms)
+	initialDomainReloadingComplete (110ms)
+	LoadAllAssembliesAndSetupDomain (328ms)
+		LoadAssemblies (307ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (321ms)
+			TypeCache.Refresh (318ms)
+				TypeCache.ScanAssembly (279ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (645ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (499ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (61ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (90ms)
+			ProcessInitializeOnLoadAttributes (237ms)
+			ProcessInitializeOnLoadMethodAttributes (104ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Import Worker Mode flag is 0x00
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  1.521 seconds
+Refreshing native plugins compatible for Editor in 0.55 ms, found 3 plugins.
+Native extension for OSXStandalone target not found
+Package Manager log level set to [2]
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.210 seconds
+Domain Reload Profiling: 2674ms
+	BeginReloadAssembly (162ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (9ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (40ms)
+	RebuildCommonClasses (42ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (35ms)
+	LoadAllAssembliesAndSetupDomain (1209ms)
+		LoadAssemblies (885ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (374ms)
+			TypeCache.Refresh (285ms)
+				TypeCache.ScanAssembly (258ms)
+			BuildScriptInfoCaches (72ms)
+			ResolveRequiredComponents (13ms)
+	FinalizeReload (1211ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1047ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (153ms)
+			ProcessInitializeOnLoadAttributes (583ms)
+			ProcessInitializeOnLoadMethodAttributes (300ms)
+			AfterProcessingInitializeOnLoad (1ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (4ms)
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Launching external process: /Applications/Unity/Hub/Editor/6000.0.56f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.78 seconds
+Refreshing native plugins compatible for Editor in 0.81 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 14 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6681 unused Assets / (3.4 MB). Loaded Objects now: 7384.
+Memory consumption went from 140.4 MB to 137.0 MB.
+Total: 71.185208 ms (FindLiveObjects: 9.696916 ms CreateObjectMapping: 0.729792 ms MarkObjects: 54.011750 ms  DeleteObjects: 6.745000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 172960.026079 seconds.
+  path: Assets/Settings/Renderer2D.asset
+  artifactKey: Guid(424799608f7334c24bf367e4bbfa7f9a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Settings/Renderer2D.asset using Guid(424799608f7334c24bf367e4bbfa7f9a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '403a0a9c0aeae1e5730532c1b4a28511') in 0.080123083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.391907 seconds.
+  path: Assets/Tilesets
+  artifactKey: Guid(dc355bc8fe03d4d6faaa3cf50a4fceda) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets using Guid(dc355bc8fe03d4d6faaa3cf50a4fceda) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'fbeb43d35b5c11bdd4a82aa0f5b99045') in 0.002022 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.567875 seconds.
+  path: Assets/Scenes
+  artifactKey: Guid(109e9bdd0fcc649c5bc59085c35bdc83) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes using Guid(109e9bdd0fcc649c5bc59085c35bdc83) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'afdff4c3a2fdaa6f8b2ca806ac4aa93d') in 0.000594375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 15.654735 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '10cc29f1ec935dd342d08637f9a5cf21') in 1.693988708 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 26.275273 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '0df636e6169e928c0df25e4cc54de4ad') in 0.055369625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 96.793992 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6f65658a9378a63c4d9a996c317ba743') in 0.662214333 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 64
+
+========================================================================
+Received Import Request.
+  Time since last request: 75.119413 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '8d8a47efa0a2f327e7415f925f26e766') in 0.23328875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 64
+
+========================================================================
+Received Import Request.
+  Time since last request: 72.189542 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6f19723b5fa81a1de1afce3c02fb643f') in 0.529672083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 64
+
+========================================================================
+Received Import Request.
+  Time since last request: 1398.845382 seconds.
+  path: Assets/Tilesets/Tiles
+  artifactKey: Guid(9fd418fcd0839489f958d09320471745) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/Tiles using Guid(9fd418fcd0839489f958d09320471745) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'e3716aa88985cd7360d351290c498893') in 0.025424083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 380.902938 seconds.
+  path: Assets/Tilesets/Tiles/Jail_Cell.prefab
+  artifactKey: Guid(75115d64bd3464eb3ad93c5dcd6628bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/Tiles/Jail_Cell.prefab using Guid(75115d64bd3464eb3ad93c5dcd6628bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a6c7e004bdea1410fc882da31310fa22') in 0.215341042 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 10
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.489621 seconds.
+  path: Assets/Tilesets/Tiles/Prison.prefab
+  artifactKey: Guid(75115d64bd3464eb3ad93c5dcd6628bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/Tiles/Prison.prefab using Guid(75115d64bd3464eb3ad93c5dcd6628bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '56aa0cfea06f5fea91b6907312ccd5c4') in 0.038644584 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 10
+
+========================================================================
+Received Import Request.
+  Time since last request: 404.621413 seconds.
+  path: Assets/Tilesets/PrisonTileSet-Sheet.aseprite
+  artifactKey: Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Tilesets/PrisonTileSet-Sheet.aseprite using Guid(602f2badec57d4d019d7207a0e9e3ed5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd1fa031ae1f683e2f5927448901efcce') in 0.308418917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 64
+
+========================================================================
+Received Import Request.
+  Time since last request: 827.186115 seconds.
+  path: Assets/CharacterSheet
+  artifactKey: Guid(fe05791c67a664230a2ae118daea7e1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet using Guid(fe05791c67a664230a2ae118daea7e1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '47101761584d3db6ded96a259c8312df') in 0.020660334 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.316068 seconds.
+  path: Assets/CharacterSheet/Player
+  artifactKey: Guid(58fa42c953e88446193cace90e14f7d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player using Guid(58fa42c953e88446193cace90e14f7d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '7b2139df4658f1c67f3556898ae230ed') in 0.006168583 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.331901 seconds.
+  path: Assets/CharacterSheet/Player/WildPete.aseprite
+  artifactKey: Guid(467adbb5c0012415898aa8582487dd00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete.aseprite using Guid(467adbb5c0012415898aa8582487dd00) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6c3f8f3560d5ad8cb090895cb370bf6d') in 0.818095459 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 143
+
+========================================================================
+Received Import Request.
+  Time since last request: 2189.510748 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '77effbcf3b9f7141482e922b92667a1a') in 0.484015375 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 203.749635 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '76a1614db5cd810e3846b2945485d07d') in 0.346151292 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 13.263489 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '1b44a7ac5db4b481c343edd63f6ad582') in 0.218482041 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.245003 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '17501ca749ab7c6057fde53fc336c4fb') in 0.187584625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.698961 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '31710b72b79724cdcaf329d2053cf3f8') in 0.256931417 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.846558 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a4dede0d5df7743e11c8a9bfe386953f') in 0.24490925 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 37.672167 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'cb6641c1a060fe946576ac29d1a4de39') in 0.300709083 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.752463 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '3d77356670033d2a53cfef05cfdddb7e') in 0.240140291 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.448089 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '9a2c36413ec8261284bf5c32b5ad3552') in 0.184637917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 46.349548 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'fea2c70bd6e3f5e4e066d1074591ea67') in 0.30583675 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.253954 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '423641b852a91975cebe17b4a85ea7e2') in 0.250463666 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.587894 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6c6084ed0895bcbd4b2b31098c9d66d3') in 0.23675425 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.949780 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'b22bdcf700d1e99fce36683ee1ac1425') in 0.242407917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 172.422173 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd9e56dd234a39b805e27649024956a77') in 0.279726541 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 147.458766 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ffa12962f69947ddfd7ac9fbbd5f5c03') in 0.239897541 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.998729 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd521d5da5a24bc7a8d95f3efb33e1650') in 0.274719167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.069569 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'eda85e90a8f1e8a13fed8f92d7db6218') in 0.229441875 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 144.845646 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-Sheet.png
+  artifactKey: Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-Sheet.png using Guid(d33ca76772a724a3499e5fb52602b092) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a79c85422c6b87d459ce748d97e87218') in 0.24906825 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 92
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.732404 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-SheetNoTrim.aseprite
+  artifactKey: Guid(83669181b41424eb781f00463e516b8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-SheetNoTrim.aseprite using Guid(83669181b41424eb781f00463e516b8d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ec22c22a29f882c2fb8841f8e6cd4147') in 0.13204925 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 7
+
+========================================================================
+Received Import Request.
+  Time since last request: 108.892614 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png
+  artifactKey: Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png using Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '010c3b9eb78902e2c105b7ac7d7edb28') in 0.186478916 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 15.769198 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png
+  artifactKey: Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png using Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '8aae07857afc9518fec93d390c04b348') in 0.177932625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 83
+
+========================================================================
+Received Import Request.
+  Time since last request: 32.255220 seconds.
+  path: Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png
+  artifactKey: Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete-SheetNoTrim.png using Guid(ce27938f581d24f1997ccb3a3388d7eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'eeb2e9ac3b8796bb885d54b1b6a3531b') in 0.252075917 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 82
+
+========================================================================
+Received Import Request.
+  Time since last request: 10078.609951 seconds.
+  path: Assets/CharacterSheet/Player/WildPete.aseprite
+  artifactKey: Guid(467adbb5c0012415898aa8582487dd00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CharacterSheet/Player/WildPete.aseprite using Guid(467adbb5c0012415898aa8582487dd00) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'e0a2c831d683eef71e238b9d5d237a9e') in 0.427499542 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 143
+
