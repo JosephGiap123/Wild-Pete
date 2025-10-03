@@ -1,0 +1,2200 @@
+fileFormatVersion: 2
+guid: c58daf269b27a4165bccf50c68756029
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4864064003580394900
+    second: WildPeteSheet103_0
+  - first:
+      213: -6352294053515500226
+    second: WildPeteSheet103_1
+  - first:
+      213: 5513296235489910084
+    second: WildPeteSheet103_2
+  - first:
+      213: -281448575882420215
+    second: WildPeteSheet103_3
+  - first:
+      213: 1013592802008669929
+    second: WildPeteSheet103_4
+  - first:
+      213: -6958458225100684257
+    second: WildPeteSheet103_5
+  - first:
+      213: -8786579024419168519
+    second: WildPeteSheet103_6
+  - first:
+      213: -3754234395482025564
+    second: WildPeteSheet103_7
+  - first:
+      213: -2516639467557507483
+    second: WildPeteSheet103_8
+  - first:
+      213: 1552571654901307284
+    second: WildPeteSheet103_9
+  - first:
+      213: 8247311307653236224
+    second: WildPeteSheet103_10
+  - first:
+      213: 6071064217714080071
+    second: WildPeteSheet103_11
+  - first:
+      213: -7640412652845524637
+    second: WildPeteSheet103_12
+  - first:
+      213: -4758174618142635831
+    second: WildPeteSheet103_13
+  - first:
+      213: -221793266739084658
+    second: WildPeteSheet103_14
+  - first:
+      213: 1432118765587198056
+    second: WildPeteSheet103_15
+  - first:
+      213: 7531904473157447410
+    second: WildPeteSheet103_16
+  - first:
+      213: 1172213494495558695
+    second: WildPeteSheet103_17
+  - first:
+      213: -1664313261600184388
+    second: WildPeteSheet103_18
+  - first:
+      213: 4168189373233779392
+    second: WildPeteSheet103_19
+  - first:
+      213: -1551707784937707495
+    second: WildPeteSheet103_20
+  - first:
+      213: -969872796968863495
+    second: WildPeteSheet103_21
+  - first:
+      213: -5081471609787110043
+    second: WildPeteSheet103_22
+  - first:
+      213: -8911365890895149948
+    second: WildPeteSheet103_23
+  - first:
+      213: -4331876180039515435
+    second: WildPeteSheet103_24
+  - first:
+      213: 7132869275391906075
+    second: WildPeteSheet103_25
+  - first:
+      213: -1235436846281350427
+    second: WildPeteSheet103_26
+  - first:
+      213: 8448705127125157113
+    second: WildPeteSheet103_27
+  - first:
+      213: 4491820331098457361
+    second: WildPeteSheet103_28
+  - first:
+      213: -5956493997070430543
+    second: WildPeteSheet103_29
+  - first:
+      213: -604025833293354599
+    second: WildPeteSheet103_30
+  - first:
+      213: -4818932725374867526
+    second: WildPeteSheet103_31
+  - first:
+      213: -7543573215839653231
+    second: WildPeteSheet103_32
+  - first:
+      213: -2971500243691191766
+    second: WildPeteSheet103_33
+  - first:
+      213: 1415588466231058814
+    second: WildPeteSheet103_34
+  - first:
+      213: -1231568613290277691
+    second: WildPeteSheet103_35
+  - first:
+      213: -5658645887170711350
+    second: WildPeteSheet103_36
+  - first:
+      213: 2750263038055657039
+    second: WildPeteSheet103_37
+  - first:
+      213: -526146655750904646
+    second: WildPeteSheet103_38
+  - first:
+      213: 4697280694342325436
+    second: WildPeteSheet103_39
+  - first:
+      213: 5763026775899883292
+    second: WildPeteSheet103_40
+  - first:
+      213: 6849298092649104073
+    second: WildPeteSheet103_41
+  - first:
+      213: 3594082622070147790
+    second: WildPeteSheet103_42
+  - first:
+      213: 5135873364621965999
+    second: WildPeteSheet103_43
+  - first:
+      213: 5158867130691239527
+    second: WildPeteSheet103_44
+  - first:
+      213: 532826246962441857
+    second: WildPeteSheet103_45
+  - first:
+      213: 6753154039763181272
+    second: WildPeteSheet103_46
+  - first:
+      213: -1749984992862334207
+    second: WildPeteSheet103_47
+  - first:
+      213: -697204911562697091
+    second: WildPeteSheet103_48
+  - first:
+      213: -9197092348533717011
+    second: WildPeteSheet103_49
+  - first:
+      213: -6612929435020590356
+    second: WildPeteSheet103_50
+  - first:
+      213: 7587563080883705582
+    second: WildPeteSheet103_51
+  - first:
+      213: -8858332191776907034
+    second: WildPeteSheet103_52
+  - first:
+      213: 6205112118014343845
+    second: WildPeteSheet103_53
+  - first:
+      213: -2728245652801865053
+    second: WildPeteSheet103_54
+  - first:
+      213: -2014781957241491164
+    second: WildPeteSheet103_55
+  - first:
+      213: -5738334577118610462
+    second: WildPeteSheet103_56
+  - first:
+      213: -6891781799088201137
+    second: WildPeteSheet103_57
+  - first:
+      213: 5351402795711398141
+    second: WildPeteSheet103_58
+  - first:
+      213: -1854577521309326031
+    second: WildPeteSheet103_59
+  - first:
+      213: 2274088781546724198
+    second: WildPeteSheet103_60
+  - first:
+      213: -3912239691183564713
+    second: WildPeteSheet103_61
+  - first:
+      213: -1773984177566314968
+    second: WildPeteSheet103_62
+  - first:
+      213: -5969476150726301306
+    second: WildPeteSheet103_63
+  - first:
+      213: -8298664937788997828
+    second: WildPeteSheet103_64
+  - first:
+      213: 7869094129618319556
+    second: WildPeteSheet103_65
+  - first:
+      213: 4897769689809281051
+    second: WildPeteSheet103_66
+  - first:
+      213: -9190653794081115580
+    second: WildPeteSheet103_67
+  - first:
+      213: -1469541837781932022
+    second: WildPeteSheet103_68
+  - first:
+      213: -3760160743165656182
+    second: WildPeteSheet103_69
+  - first:
+      213: 6681906992029072332
+    second: WildPeteSheet103_70
+  - first:
+      213: -1281517102285629611
+    second: WildPeteSheet103_71
+  - first:
+      213: -1899364826507753949
+    second: WildPeteSheet103_72
+  - first:
+      213: -7756057132229464650
+    second: WildPeteSheet103_73
+  - first:
+      213: 8966691497038345940
+    second: WildPeteSheet103_74
+  - first:
+      213: -3416777877534744127
+    second: WildPeteSheet103_75
+  - first:
+      213: 9010011885919073933
+    second: WildPeteSheet103_76
+  - first:
+      213: -4933924592716024152
+    second: WildPeteSheet103_77
+  - first:
+      213: 8312690032221160006
+    second: WildPeteSheet103_78
+  - first:
+      213: -3465457228894303683
+    second: WildPeteSheet103_79
+  - first:
+      213: 4180110279305301840
+    second: WildPeteSheet103_80
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WildPeteSheet103_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76032bec9409240bdad8a1ef8f1e8763
+      internalID: 4864064003580394900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_1
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2216cd54314946a38b226f0b0fe6940
+      internalID: -6352294053515500226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccd1c8abc6df84e8892d8aa65c1576df
+      internalID: 5513296235489910084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_3
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68aa48615ff1b41239c80b162dee36fc
+      internalID: -281448575882420215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_4
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb801f0536f9b4b57a745400034457f8
+      internalID: 1013592802008669929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_5
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a348d2acfefdc4e0994c05178e0c61a6
+      internalID: -6958458225100684257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_6
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d5e217a694de4a38aa3607d85e13884
+      internalID: -8786579024419168519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_7
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3ac3ca7e5f224f4eb8efb32a2263537
+      internalID: -3754234395482025564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_8
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 502a1f1175f24484681b2d90b4d088eb
+      internalID: -2516639467557507483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_9
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76222431e756148ef9eb668b426a9093
+      internalID: 1552571654901307284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_10
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3be84d6752d2b429d94d8d030c419047
+      internalID: 8247311307653236224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_11
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f24be35f0c03f4333b13bbc802256a75
+      internalID: 6071064217714080071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_12
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee4aa0d6abcb54427ad42cf1eeddfaba
+      internalID: -7640412652845524637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_13
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c3420394589f48d98aba0d9a06b4c1b
+      internalID: -4758174618142635831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_14
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26267399c68cc4308b7854cde73437b3
+      internalID: -221793266739084658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_15
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d62d294bdd27941efb89acc5e4eb7b57
+      internalID: 1432118765587198056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_16
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ee087c803c494deb9a3b0c7c23444ca
+      internalID: 7531904473157447410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_17
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e3eefc435c2048eca63ee031a5fbf03
+      internalID: 1172213494495558695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_18
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca7a3ead0174d49b8895f5dc164b5e20
+      internalID: -1664313261600184388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_19
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2db9ff45b2cd340bba3e555fc2cfdeec
+      internalID: 4168189373233779392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_20
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65ea317fb3d2246868d64955e8c9dd51
+      internalID: -1551707784937707495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_21
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3c7dc619ed5b4ec5be0ae52eb42e885
+      internalID: -969872796968863495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_22
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07950b76af16043609d388e04b317226
+      internalID: -5081471609787110043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_23
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 351a99f1b64d745f09aae531001d5dea
+      internalID: -8911365890895149948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_24
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f47f10b64edb74c469e77fcca71ea2c6
+      internalID: -4331876180039515435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_25
+      rect:
+        serializedVersion: 2
+        x: 1125
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d982cffaddb34337a4c4bcd90372a30
+      internalID: 7132869275391906075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_26
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c15b03c1e0424307b95fcbec0b7e720
+      internalID: -1235436846281350427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_27
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a14625b381d3c496aafd278669597a8e
+      internalID: 8448705127125157113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_28
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c116914ea4164884bf105d87e799cd2
+      internalID: 4491820331098457361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_29
+      rect:
+        serializedVersion: 2
+        x: 1305
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 175a06480c4204b718ab232b17a4b54a
+      internalID: -5956493997070430543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_30
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b20dfbf8958154c019a9bcc111074d61
+      internalID: -604025833293354599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_31
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd4d06e99c20143fdab7e61d849183cd
+      internalID: -4818932725374867526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_32
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 386b31c078f474ada890e80af0c5ba37
+      internalID: -7543573215839653231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_33
+      rect:
+        serializedVersion: 2
+        x: 1485
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeb6335a98b0d4b9cb916ce6f671589b
+      internalID: -2971500243691191766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_34
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5242cf0337fb646f08552b1d5ce05a9d
+      internalID: 1415588466231058814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_35
+      rect:
+        serializedVersion: 2
+        x: 1575
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e88ec8c5a25cd42cb81c55843ec5d434
+      internalID: -1231568613290277691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_36
+      rect:
+        serializedVersion: 2
+        x: 1620
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e9d21cd198a4f208b069b86d175621
+      internalID: -5658645887170711350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_37
+      rect:
+        serializedVersion: 2
+        x: 1665
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3533f696346ce46e68752da0e9dec34e
+      internalID: 2750263038055657039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_38
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4067c0d1173a544fd8f5fe5bc35e1d1e
+      internalID: -526146655750904646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_39
+      rect:
+        serializedVersion: 2
+        x: 1755
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7db26560f0fb849ee95303e0d17fe438
+      internalID: 4697280694342325436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_40
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe8ed8697289e41c797d086483c17953
+      internalID: 5763026775899883292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_41
+      rect:
+        serializedVersion: 2
+        x: 1845
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f2fdbfed2cf46aca43b00f4d658dad
+      internalID: 6849298092649104073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_42
+      rect:
+        serializedVersion: 2
+        x: 1890
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce4044844483545449dc2b4508347ecc
+      internalID: 3594082622070147790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_43
+      rect:
+        serializedVersion: 2
+        x: 1935
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b861e31e80cee47888f2d1e7e5f5a678
+      internalID: 5135873364621965999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_44
+      rect:
+        serializedVersion: 2
+        x: 1980
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e14dddabc14ee4d89b090e799b6a6261
+      internalID: 5158867130691239527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_45
+      rect:
+        serializedVersion: 2
+        x: 2025
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b2799e5e5d6e4810ac48e615c7cc235
+      internalID: 532826246962441857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_46
+      rect:
+        serializedVersion: 2
+        x: 2070
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1b098496e5bf4a3bbb67d8e2fb00538
+      internalID: 6753154039763181272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_47
+      rect:
+        serializedVersion: 2
+        x: 2115
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38595935f5cd24f499c8817825aeca77
+      internalID: -1749984992862334207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_48
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a57d5773fcfcf46fbb88311f75978737
+      internalID: -697204911562697091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_49
+      rect:
+        serializedVersion: 2
+        x: 2205
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6aa2dce56fa545e495b59915c06fca7
+      internalID: -9197092348533717011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_50
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 967df8dadd83945df9ad8ca5bef01bea
+      internalID: -6612929435020590356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_51
+      rect:
+        serializedVersion: 2
+        x: 2295
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68e8eb0b8d4be4af2b5337f14258d6c2
+      internalID: 7587563080883705582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_52
+      rect:
+        serializedVersion: 2
+        x: 2340
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aae78ace18c6f4e3eb51c2075279236e
+      internalID: -8858332191776907034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_53
+      rect:
+        serializedVersion: 2
+        x: 2385
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdfd825f013314f42b525f60cf22d1d6
+      internalID: 6205112118014343845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_54
+      rect:
+        serializedVersion: 2
+        x: 2430
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 507d077880e6d4910b0b192f5e189929
+      internalID: -2728245652801865053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_55
+      rect:
+        serializedVersion: 2
+        x: 2475
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4d65afa2b5374dbc92abf0a3dbcc0c0
+      internalID: -2014781957241491164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_56
+      rect:
+        serializedVersion: 2
+        x: 2520
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 616d8019cc8bf442d84ab1b8a5772eee
+      internalID: -5738334577118610462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_57
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21563d8c2acaf4538bf56f9cb9cc6660
+      internalID: -6891781799088201137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_58
+      rect:
+        serializedVersion: 2
+        x: 2610
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f286368ad90484a11953248aa7f45812
+      internalID: 5351402795711398141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_59
+      rect:
+        serializedVersion: 2
+        x: 2655
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef2ffad4d56194bb3b7c21aff5adf1f4
+      internalID: -1854577521309326031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_60
+      rect:
+        serializedVersion: 2
+        x: 2700
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4adf64097931f4a42a33e8e155c8e19f
+      internalID: 2274088781546724198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_61
+      rect:
+        serializedVersion: 2
+        x: 2745
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad16f02205db34ce78b163a23c4fe23d
+      internalID: -3912239691183564713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_62
+      rect:
+        serializedVersion: 2
+        x: 2790
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2595fe9452c57456e84e49c111945ea9
+      internalID: -1773984177566314968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_63
+      rect:
+        serializedVersion: 2
+        x: 2835
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3b03455f9f9a406894ca1f43611c807
+      internalID: -5969476150726301306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_64
+      rect:
+        serializedVersion: 2
+        x: 2880
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9da7f086a3f7f4fa3a7622a9fb18159b
+      internalID: -8298664937788997828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_65
+      rect:
+        serializedVersion: 2
+        x: 2925
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1473c1fd938f14ee5b765d05daa13990
+      internalID: 7869094129618319556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_66
+      rect:
+        serializedVersion: 2
+        x: 2970
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c799e81dd3c541d29553093c3dc63fe
+      internalID: 4897769689809281051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_67
+      rect:
+        serializedVersion: 2
+        x: 3015
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60e1ddf82c8cc4e4b8807a9d5e0849a1
+      internalID: -9190653794081115580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_68
+      rect:
+        serializedVersion: 2
+        x: 3060
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a943fb83acb9749c680e93a3b577f20f
+      internalID: -1469541837781932022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_69
+      rect:
+        serializedVersion: 2
+        x: 3105
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57cabe09c2c3447d9979a3b2e70570cf
+      internalID: -3760160743165656182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_70
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 804a1d480eaa94c758e5dd0fcc175a58
+      internalID: 6681906992029072332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_71
+      rect:
+        serializedVersion: 2
+        x: 3195
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c161617719404617ad66dc362967e94
+      internalID: -1281517102285629611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_72
+      rect:
+        serializedVersion: 2
+        x: 3240
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22c164f29712749919c9e7d17fc5dd25
+      internalID: -1899364826507753949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_73
+      rect:
+        serializedVersion: 2
+        x: 3285
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b776ec2ead38f45b5b0e6488bb47ab9d
+      internalID: -7756057132229464650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_74
+      rect:
+        serializedVersion: 2
+        x: 3330
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b98abc1e5a1b54b7d8313450b2229bf4
+      internalID: 8966691497038345940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_75
+      rect:
+        serializedVersion: 2
+        x: 3375
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 724f5fabfa3b743adaf45c957944aa44
+      internalID: -3416777877534744127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_76
+      rect:
+        serializedVersion: 2
+        x: 3420
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7cfdb04ed9044bc99955ce539e5b40a
+      internalID: 9010011885919073933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_77
+      rect:
+        serializedVersion: 2
+        x: 3465
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2af4ec0ee73aa496bb80d0b491752ede
+      internalID: -4933924592716024152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_78
+      rect:
+        serializedVersion: 2
+        x: 3510
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd7aaea17fb0c42e581c7323f11a8a29
+      internalID: 8312690032221160006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WildPeteSheet103_79
+      rect:
+        serializedVersion: 2
+        x: 3555
+        y: 0
+        width: 45
+        height: 25
+      alignment: 9
+      pivot: {x: 0.25, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cad607ba3270420f9c156512e32d7e7
+      internalID: -3465457228894303683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: c6503a6684e184ca19324cb446ebb2d2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WildPeteSheet103_0: 4864064003580394900
+      WildPeteSheet103_1: -6352294053515500226
+      WildPeteSheet103_10: 8247311307653236224
+      WildPeteSheet103_11: 6071064217714080071
+      WildPeteSheet103_12: -7640412652845524637
+      WildPeteSheet103_13: -4758174618142635831
+      WildPeteSheet103_14: -221793266739084658
+      WildPeteSheet103_15: 1432118765587198056
+      WildPeteSheet103_16: 7531904473157447410
+      WildPeteSheet103_17: 1172213494495558695
+      WildPeteSheet103_18: -1664313261600184388
+      WildPeteSheet103_19: 4168189373233779392
+      WildPeteSheet103_2: 5513296235489910084
+      WildPeteSheet103_20: -1551707784937707495
+      WildPeteSheet103_21: -969872796968863495
+      WildPeteSheet103_22: -5081471609787110043
+      WildPeteSheet103_23: -8911365890895149948
+      WildPeteSheet103_24: -4331876180039515435
+      WildPeteSheet103_25: 7132869275391906075
+      WildPeteSheet103_26: -1235436846281350427
+      WildPeteSheet103_27: 8448705127125157113
+      WildPeteSheet103_28: 4491820331098457361
+      WildPeteSheet103_29: -5956493997070430543
+      WildPeteSheet103_3: -281448575882420215
+      WildPeteSheet103_30: -604025833293354599
+      WildPeteSheet103_31: -4818932725374867526
+      WildPeteSheet103_32: -7543573215839653231
+      WildPeteSheet103_33: -2971500243691191766
+      WildPeteSheet103_34: 1415588466231058814
+      WildPeteSheet103_35: -1231568613290277691
+      WildPeteSheet103_36: -5658645887170711350
+      WildPeteSheet103_37: 2750263038055657039
+      WildPeteSheet103_38: -526146655750904646
+      WildPeteSheet103_39: 4697280694342325436
+      WildPeteSheet103_4: 1013592802008669929
+      WildPeteSheet103_40: 5763026775899883292
+      WildPeteSheet103_41: 6849298092649104073
+      WildPeteSheet103_42: 3594082622070147790
+      WildPeteSheet103_43: 5135873364621965999
+      WildPeteSheet103_44: 5158867130691239527
+      WildPeteSheet103_45: 532826246962441857
+      WildPeteSheet103_46: 6753154039763181272
+      WildPeteSheet103_47: -1749984992862334207
+      WildPeteSheet103_48: -697204911562697091
+      WildPeteSheet103_49: -9197092348533717011
+      WildPeteSheet103_5: -6958458225100684257
+      WildPeteSheet103_50: -6612929435020590356
+      WildPeteSheet103_51: 7587563080883705582
+      WildPeteSheet103_52: -8858332191776907034
+      WildPeteSheet103_53: 6205112118014343845
+      WildPeteSheet103_54: -2728245652801865053
+      WildPeteSheet103_55: -2014781957241491164
+      WildPeteSheet103_56: -5738334577118610462
+      WildPeteSheet103_57: -6891781799088201137
+      WildPeteSheet103_58: 5351402795711398141
+      WildPeteSheet103_59: -1854577521309326031
+      WildPeteSheet103_6: -8786579024419168519
+      WildPeteSheet103_60: 2274088781546724198
+      WildPeteSheet103_61: -3912239691183564713
+      WildPeteSheet103_62: -1773984177566314968
+      WildPeteSheet103_63: -5969476150726301306
+      WildPeteSheet103_64: -8298664937788997828
+      WildPeteSheet103_65: 7869094129618319556
+      WildPeteSheet103_66: 4897769689809281051
+      WildPeteSheet103_67: -9190653794081115580
+      WildPeteSheet103_68: -1469541837781932022
+      WildPeteSheet103_69: -3760160743165656182
+      WildPeteSheet103_7: -3754234395482025564
+      WildPeteSheet103_70: 6681906992029072332
+      WildPeteSheet103_71: -1281517102285629611
+      WildPeteSheet103_72: -1899364826507753949
+      WildPeteSheet103_73: -7756057132229464650
+      WildPeteSheet103_74: 8966691497038345940
+      WildPeteSheet103_75: -3416777877534744127
+      WildPeteSheet103_76: 9010011885919073933
+      WildPeteSheet103_77: -4933924592716024152
+      WildPeteSheet103_78: 8312690032221160006
+      WildPeteSheet103_79: -3465457228894303683
+      WildPeteSheet103_8: -2516639467557507483
+      WildPeteSheet103_9: 1552571654901307284
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
