@@ -1,0 +1,29 @@
+using UnityEngine;
+
+public class AliceAnimRelayScript : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] AliceMovement2D movementScript;
+    [SerializeField] AliceAttackHitbox hitboxScript;
+    
+    public void CallEndAttack(){
+        movementScript.EndAttack();
+    }
+
+    public void CallRectHitbox(){
+        hitboxScript.ActivateBox();
+    }
+
+    public void CallCircHitbox(){
+        hitboxScript.ActivateCircle();
+    }
+
+    public void CallDisableHitbox(){
+        hitboxScript.DisableHitbox();
+    }
+
+    public void CallSpawnBullet(){
+        movementScript.InstBullet();
+    }
+
+}

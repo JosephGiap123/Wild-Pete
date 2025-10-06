@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Knife1Recovery
+  m_Name: Melee2
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 6205112118014343845, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+      value: {fileID: -2728245652801865053, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - time: 0.083333336
+      value: {fileID: -2014781957241491164, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - time: 0.16666667
+      value: {fileID: -5738334577118610462, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - time: 0.25
+      value: {fileID: -6891781799088201137, guid: c58daf269b27a4165bccf50c68756029, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,13 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 6205112118014343845, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: -2728245652801865053, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: -2014781957241491164, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: -5738334577118610462, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: -6891781799088201137, guid: c58daf269b27a4165bccf50c68756029, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.016666668
+    m_StopTime: 0.31666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -69,4 +78,25 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.083333336
+    functionName: CallRectHitbox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.25
+    functionName: CallDisableHitbox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.31666666
+    functionName: CallEndAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Knife1
+  m_Name: Hurt
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -9197092348533717011, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - time: 0.083333336
-      value: {fileID: -6612929435020590356, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - time: 0.16666667
-      value: {fileID: 7587563080883705582, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+      value: {fileID: -1109329108, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
     - time: 0.25
-      value: {fileID: -8858332191776907034, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+      value: {fileID: -738885183, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
+    - time: 0.5
+      value: {fileID: 1482929383, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -9197092348533717011, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: -6612929435020590356, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: 7587563080883705582, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: -8858332191776907034, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: -1109329108, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
+    - {fileID: -738885183, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
+    - {fileID: 1482929383, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.51666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,25 +75,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.083333336
-    functionName: CallCircHitbox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.25
-    functionName: CallDisableHitbox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.33333334
-    functionName: CallEndAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
