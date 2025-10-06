@@ -22,4 +22,8 @@ public class PlayerAnimRelayScript : MonoBehaviour
         hitboxScript.DisableHitbox();
     }
 
+    public void CallSpawnBullet(){
+        movementScript.InstBullet();
+    }
+
 }

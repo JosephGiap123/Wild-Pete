@@ -1,0 +1,33 @@
+using UnityEngine;
+
+public class Bullet : MonoBehaviour
+{
+    [SerializeField] private float bulletSpeed = 14f;
+    [SerializeField] private float bulletLifeTime = 3f;
+    [SerializeField] private LayerMask bulletDestroyMask;
+
+    private Rigidbody2D rb;
+    private void Start(){
+        rb = GetComponent<Rigidbody2D>();
+
+        SetStraightVelocity();
+        SetDestroyTime();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision){
+        if(((1 << collision.gameObject.layer) & bulletDestroyMask) != 0){
+            //potentially spawn fx if not an enemy.
+            //damage enemies
+            Destroy(gameObject);
+        }
+    }
+
+    // Update is called once per frame
+    private void SetStraightVelocity(){
+        rb.linearVelocity = transform.right * bulletSpeed;
+    }
+
+    private void SetDestroyTime(){
+        Destroy(gameObject, bulletLifeTime);
+    }
+}

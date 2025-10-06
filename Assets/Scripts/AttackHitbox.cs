@@ -10,8 +10,6 @@ public class AttackHitbox : MonoBehaviour
     private bool active = false;
     // private Transform playerTransform;
 
-
-
     // void Awake(){
     //     playerTransform = transform.parent;
     // }

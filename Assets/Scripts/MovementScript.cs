@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum playerStates {Idle, Run, Slide, Falling, Rising, Hurt, Gun1, WallSlide, Attack, AerialAttack, AttackRecovery, Throw, Crouch, IdleWep, RisingWep, FallingWep, RunWep, SlideWep, HurtWep, WallSlideWep, CrouchWep, Knife1, Knife2, Knife3, Knife1_Recovery, Knife2_Recovery, Knife3_Recovery, Dash, DashWep};
+public enum playerStates {Idle, Run, Slide, Falling, Rising, Hurt, WallSlide, Attack, AerialAttack, AttackRecovery, Throw, Crouch, IdleWep, RisingWep, FallingWep, RunWep, SlideWep, HurtWep, WallSlideWep, CrouchWep, Knife1, Knife2, Knife3, Knife1_Recovery, Knife2_Recovery, Knife3_Recovery, Dash, DashWep, RangedAttack};
 
 public class PlayerMovement2D : MonoBehaviour
 {
@@ -36,6 +36,10 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private PlayerAnimScript animatorScript;
     [SerializeField] private AttackHitbox hitboxManager;
     [SerializeField] private TrailRenderer trail;
+    [SerializeField] private Transform bulletOrigin; 
+    [SerializeField] private GameObject bullet;
+
+    private GameObject bulletInstance;
 
 
     void AnimationControl(){
@@ -81,7 +85,7 @@ public class PlayerMovement2D : MonoBehaviour
                 }
             }
         }
-        else{ //regular + gun
+        else{ //regular
             if(!isAttacking){
                 if(!isGrounded){    
                     if(rb.linearVelocity.y > 0.1f){
@@ -111,8 +115,11 @@ public class PlayerMovement2D : MonoBehaviour
         if(isDashing || isAttacking){
             return;
         }
-        if(Input.GetKeyDown(KeyCode.E) && weaponEquipped){
+        if(Input.GetKeyDown(KeyCode.E) && weaponEquipped){ //melee attack.
             Attack();
+        }
+        if(Input.GetKeyDown(KeyCode.R) && isGrounded){ //shoot gun
+            StartCoroutine(RangedAttack());
         }
         if(Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash){
             StartCoroutine(Dash());
@@ -201,6 +208,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     void FlipSprite()
     {
+        bulletOrigin.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 180 : 0);
         isFacingRight = !isFacingRight;
         // Multiply the player's X local scale by -1 to flip
         Vector3 scale = transform.localScale;
@@ -239,6 +247,16 @@ public class PlayerMovement2D : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, oldGravity);
         yield return new WaitForSeconds(aerialCooldown);
         canAerial = true;
+    }
+
+    private IEnumerator RangedAttack(){
+        animatorScript.ChangeAnimationState(playerStates.RangedAttack);
+        isAttacking = true;
+        yield return new WaitWhile(()=> isAttacking);
+    }
+
+    public void InstBullet(){
+        bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
 
 }
