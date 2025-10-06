@@ -99,13 +99,13 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
+        time: 0.9891139
         value: 0
-        inSlope: 0.27568924
-        outSlope: 0.27568924
+        inSlope: -0.31662533
+        outSlope: -0.31662533
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.3181818
+        inWeight: 0.13019398
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -269,7 +269,7 @@ MonoBehaviour:
   bulletLifeTime: 3
   bulletDestroyMask:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 2688
 --- !u!50 &592496376561069699
 Rigidbody2D:
   serializedVersion: 5

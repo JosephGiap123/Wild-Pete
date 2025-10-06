@@ -27,6 +27,12 @@ public class PlayerMovement2D : MonoBehaviour
     private float aerialCooldown = 1f;
     private bool canAerial = true;
 
+    [SerializeField] private Transform wallRay;
+    [SerializeField] private LayerMask wallMask;  // Layer for walls
+    [SerializeField] private float wallSlideSpeed = 1.5f;
+    private bool isTouchingWall;
+    private bool isWallSliding = false;
+    private float castDistance = 0.3f;
 
     //refs
     [SerializeField] private Rigidbody2D rb;
@@ -44,6 +50,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     void AnimationControl(){
         //inside func, has attackCount, maxAttackChain, and weaponEquipped.
+        if (isWallSliding)
+        {
+            if (weaponEquipped)
+                animatorScript.ChangeAnimationState(playerStates.WallSlideWep);
+            else
+                animatorScript.ChangeAnimationState(playerStates.WallSlide);
+            return;
+        }
         if(isDashing){ 
             if(isCrouching){
                 if(weaponEquipped){
@@ -115,13 +129,13 @@ public class PlayerMovement2D : MonoBehaviour
         if(isDashing || isAttacking){
             return;
         }
-        if(Input.GetKeyDown(KeyCode.E) && weaponEquipped){ //melee attack.
+        if(Input.GetKeyDown(KeyCode.E) && weaponEquipped && !isWallSliding){ //melee attack.
             Attack();
         }
         if(Input.GetKeyDown(KeyCode.R) && isGrounded){ //shoot gun
             StartCoroutine(RangedAttack());
         }
-        if(Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash){
+        if(Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding){
             StartCoroutine(Dash());
         }
         if(!isAttacking && isGrounded){ //unsheath/sheath weapon.
@@ -189,8 +203,10 @@ public class PlayerMovement2D : MonoBehaviour
     void FixedUpdate()
     {
         if(isDashing) return;
-        // Apply movement in FixedUpdate for physics-based movement
-        if(isAttacking && isGrounded)
+        if(isWallSliding){
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x ,Mathf.Clamp(-0.5f, rb.linearVelocity.y, -wallSlideSpeed));
+        }
+        else if(isAttacking && isGrounded)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
@@ -204,6 +220,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         //check if grounded.
         CheckGround();
+        CheckWall();
     }
 
     void FlipSprite()
@@ -219,6 +236,25 @@ public class PlayerMovement2D : MonoBehaviour
     void CheckGround(){
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
     }
+
+    void CheckWall()
+    {
+        Vector2 direction = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+        RaycastHit2D wallHit = Physics2D.Raycast(wallRay.position, direction, castDistance, wallMask);
+
+        isTouchingWall = wallHit.collider != null;
+
+        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && horizontalInput != 0 && !isAttacking)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+    }
+
+
 
     private IEnumerator Dash(){
         bool slide = isCrouching ? true : false;
