@@ -24,6 +24,9 @@ public class PlayerMovement2D : MonoBehaviour
     public float dashingTime = 0.3f;
     public float dashingCooldown = 3f;
 
+    private float aerialCooldown = 1f;
+    private bool canAerial = true;
+
 
     //refs
     [SerializeField] private Rigidbody2D rb;
@@ -31,6 +34,7 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private BoxCollider2D groundCheck;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private PlayerAnimScript animatorScript;
+    [SerializeField] private AttackHitbox hitboxManager;
     [SerializeField] private TrailRenderer trail;
 
 
@@ -107,7 +111,7 @@ public class PlayerMovement2D : MonoBehaviour
         if(isDashing || isAttacking){
             return;
         }
-        if(Input.GetKeyDown(KeyCode.E)){
+        if(Input.GetKeyDown(KeyCode.E) && weaponEquipped){
             Attack();
         }
         if(Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash){
@@ -148,12 +152,15 @@ public class PlayerMovement2D : MonoBehaviour
             if(attackCount >= maxAttackChain || attackCount < 0) attackCount = 0;
             switch(attackCount){
                 case 0:
+                    hitboxManager.ChangeHitboxCircle(new Vector2(0.3f, 0f), 0.5f);
                     animatorScript.ChangeAnimationState(playerStates.Knife1);
                     break;
                 case 1:
+                    hitboxManager.ChangeHitboxBox(new Vector2(0f, 0f), new Vector2(1.2f, 0.6f));
                     animatorScript.ChangeAnimationState(playerStates.Knife2);
                     break;
                 case 2:
+                    hitboxManager.ChangeHitboxBox(new Vector2(0.7f, 0f), new Vector2(1.75f, 0.6f));
                     animatorScript.ChangeAnimationState(playerStates.Knife3);
                     break;
                 default:
@@ -163,9 +170,8 @@ public class PlayerMovement2D : MonoBehaviour
             isAttacking = true;
         }
         else{
-            animatorScript.ChangeAnimationState(playerStates.AerialAttack);
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-            isAttacking = true;
+            if(canAerial)
+                StartCoroutine(AerialAttack());
         }
     }
 
@@ -181,9 +187,9 @@ public class PlayerMovement2D : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
-        else if (isAttacking && isGrounded)
+        else if (isAttacking && !isGrounded)
         {
-            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.3f), rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.3f), 0);
         }
         else{
             rb.linearVelocity = new Vector2(isCrouching ? horizontalInput * moveSpeed *0.2f: horizontalInput * moveSpeed, rb.linearVelocity.y);
@@ -222,4 +228,17 @@ public class PlayerMovement2D : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
+    private IEnumerator AerialAttack(){
+        canAerial = false;
+        hitboxManager.ChangeHitboxCircle(new Vector2(0f, 0f), 0.8f);
+        animatorScript.ChangeAnimationState(playerStates.AerialAttack);
+        isAttacking = true;
+        float oldGravity = rb.linearVelocity.y > 0 ? -1f : rb.linearVelocity.y;
+        yield return new WaitWhile(()=> isAttacking);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, oldGravity);
+        yield return new WaitForSeconds(aerialCooldown);
+        canAerial = true;
+    }
+
 }
