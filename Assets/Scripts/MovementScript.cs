@@ -17,6 +17,8 @@ public class PlayerMovement2D : MonoBehaviour
     private bool isCrouching = false;
     public int maxAttackChain = 3; //Wild Pete has 3 attacks in his melee frames
     private int attackCount = 0; //current attack frame
+    public float comboResetTime = 3f;
+    private Coroutine attackResetCoroutine;
 
     private bool canDash = true;
     private bool isDashing;
@@ -189,6 +191,9 @@ public class PlayerMovement2D : MonoBehaviour
             }
             attackCount++;
             isAttacking = true;
+            if (attackResetCoroutine != null)
+                StopCoroutine(attackResetCoroutine);
+            attackResetCoroutine = StartCoroutine(ResetAttackCountAfterDelay());
         }
         else{
             if(canAerial)
@@ -254,8 +259,6 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator Dash(){
         bool slide = isCrouching ? true : false;
         canDash = false;
@@ -293,6 +296,12 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void InstBullet(){
         bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+    }
+
+    private IEnumerator ResetAttackCountAfterDelay()
+    {
+        yield return new WaitForSeconds(comboResetTime);
+        attackCount = 0;
     }
 
 }
