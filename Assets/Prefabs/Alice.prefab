@@ -299,7 +299,7 @@ MonoBehaviour:
   hitboxManager: {fileID: 2599902317028416662}
   trail: {fileID: 2179199224452851584}
   bulletOrigin: {fileID: 5187375710118761005}
-  bullet: {fileID: 3894457638182702494}
+  bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5
@@ -417,7 +417,7 @@ Transform:
   m_GameObject: {fileID: 5758053744859746233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.44, z: 0}
+  m_LocalPosition: {x: 0, y: -0.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
