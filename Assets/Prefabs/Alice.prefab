@@ -279,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4.5
   jumpPower: 12
-  maxAttackChain: 3
+  maxAttackChain: 2
   comboResetTime: 3
   dashingPower: 10
   dashingTime: 0.3

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement2D : MonoBehaviour
 {
-    private const float CHAR_WIDTH = 0.6f;
+    private const float CHAR_WIDTH = 0.61f;
     public float moveSpeed = 5f; // Adjustable movement speed
     public float jumpPower = 6f; // Adjustable jump height
     float horizontalInput; // x-movement
@@ -135,7 +135,7 @@ public class PlayerMovement2D : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F) && isGrounded){
             StartCoroutine(ThrowAttack());
         }
-        if(Input.GetKeyDown(KeyCode.R) && isGrounded){ //shoot gun
+        if(Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking){ //shoot gun
             StartCoroutine(RangedAttack());
         }
         if(Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding){
@@ -186,8 +186,12 @@ public class PlayerMovement2D : MonoBehaviour
                     animatorScript.ChangeAnimationState(playerStates.Melee1);
                     break;
                 case 1:
-                    hitboxManager.ChangeHitboxCircle(new Vector2(0.3f, 0f), 1f);
+                    hitboxManager.ChangeHitboxBox(new Vector2(0f, 0f), new Vector2(1f, 0.55f));
                     animatorScript.ChangeAnimationState(playerStates.Melee2);
+                    break;
+                case 2:
+                    hitboxManager.ChangeHitboxBox(new Vector2(0.5f, 0f), new Vector2(1.75f, 0.55f));
+                    animatorScript.ChangeAnimationState(playerStates.Melee3);
                     break;
                 default:
                     return;
@@ -312,5 +316,4 @@ public class PlayerMovement2D : MonoBehaviour
         yield return new WaitForSeconds(comboResetTime);
         attackCount = 0;
     }
-
 }

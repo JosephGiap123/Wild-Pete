@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum playerStates { Idle, Run, Slide, Falling, Rising, Hurt, WallSlide, Attack, AerialAttack, AttackRecovery, Throw, Crouch, IdleWep, RisingWep, FallingWep, RunWep, SlideWep, HurtWep, WallSlideWep, CrouchWep, Melee1, Melee2, Dash, DashWep, RangedAttack, CrouchAttack };
-
 public class AliceMovement2D : MonoBehaviour
 {
     private const float CHAR_WIDTH = 0.6f;
@@ -166,7 +164,7 @@ public class AliceMovement2D : MonoBehaviour
         {
             StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking)
         { //shoot gun
             StartCoroutine(RangedAttack());
         }
@@ -365,9 +363,10 @@ public class AliceMovement2D : MonoBehaviour
         yield return new WaitWhile(() => isAttacking);
     }
 
-    public void InstBullet()
+    public void InstBullet(int num)
     {
-        bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+        for(int i = 0; i < num; i++)
+            bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
 
     private IEnumerator ResetAttackCountAfterDelay()

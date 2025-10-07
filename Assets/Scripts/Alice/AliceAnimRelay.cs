@@ -22,8 +22,8 @@ public class AliceAnimRelayScript : MonoBehaviour
         hitboxScript.DisableHitbox();
     }
 
-    public void CallSpawnBullet(){
-        movementScript.InstBullet();
+    public void CallSpawnBullet(int num){
+        movementScript.InstBullet(num);
     }
 
 }
