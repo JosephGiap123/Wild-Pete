@@ -325,7 +325,7 @@ public class AliceMovement2D : MonoBehaviour
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
+        if(!slide)rb.gravityScale = 0f;
         rb.linearVelocity = slide ? new Vector2(Mathf.Sign(transform.localScale.x) * dashingPower / 1.5f, 0f) : rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * dashingPower, 0f); //if sliding, if not, etc.
         if (!slide) trail.emitting = true;
         AnimationControl();
