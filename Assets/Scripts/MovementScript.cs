@@ -182,7 +182,7 @@ public class PlayerMovement2D : MonoBehaviour
             if(attackCount >= maxAttackChain || attackCount < 0) attackCount = 0;
             switch(attackCount){
                 case 0:
-                    hitboxManager.ChangeHitboxCircle(new Vector2(0.3f, 0f), 1f);
+                    hitboxManager.ChangeHitboxBox(new Vector2(0.2f, 0f), new Vector2(0.7f, 0.55f));
                     animatorScript.ChangeAnimationState(playerStates.Melee1);
                     break;
                 case 1:
@@ -271,7 +271,7 @@ public class PlayerMovement2D : MonoBehaviour
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
+        if(!slide)rb.gravityScale = 0f;
         rb.linearVelocity = slide ? new Vector2(Mathf.Sign(transform.localScale.x) * dashingPower/1.5f, 0f) : rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * dashingPower, 0f); //if sliding, if not, etc.
         if(!slide) trail.emitting = true;
         AnimationControl();
