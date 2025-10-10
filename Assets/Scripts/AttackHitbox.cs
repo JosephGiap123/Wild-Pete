@@ -8,21 +8,6 @@ public class AttackHitbox : MonoBehaviour
     [SerializeField] CircleCollider2D circleCol;
     [SerializeField] BoxCollider2D boxCol;
     private bool active = false;
-    // private Transform playerTransform;
-
-    // void Awake(){
-    //     playerTransform = transform.parent;
-    // }
-
-    // public void ActivateHitbox(float time){
-    //     active = true;
-    //     StartCoroutine(Deactivate(time));
-    // }
-
-    // private IEnumerator Deactivate(float time){
-    //     yield return new WaitForSeconds(time);
-    //     active = false;
-    //}
 
     private void DisableAll(){
         if(circleCol != null) circleCol.enabled = false;

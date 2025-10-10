@@ -4,7 +4,7 @@ public class AliceAnimRelayScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] AliceMovement2D movementScript;
-    [SerializeField] AliceAttackHitbox hitboxScript;
+    [SerializeField] AttackHitbox hitboxScript;
     
     public void CallEndAttack(){
         movementScript.EndAttack();

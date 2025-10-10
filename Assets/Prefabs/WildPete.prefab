@@ -236,8 +236,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3214691480717692999}
   - component: {fileID: 781829894381207796}
-  - component: {fileID: 4759771619772669503}
   - component: {fileID: 2803381632177467573}
+  - component: {fileID: 3065023052435475213}
   m_Layer: 6
   m_Name: AttackHitbox
   m_TagString: Untagged
@@ -296,23 +296,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.8
---- !u!114 &4759771619772669503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635048306840537600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03795939897954323889ce328abde5c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 512
-  circleCol: {fileID: 781829894381207796}
-  boxCol: {fileID: 2803381632177467573}
 --- !u!61 &2803381632177467573
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -359,6 +342,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 0.55}
   m_EdgeRadius: 0
+--- !u!114 &3065023052435475213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635048306840537600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922f4bd8eecbb417fa8fd3e6e380f9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 512
+  circleCol: {fileID: 781829894381207796}
+  boxCol: {fileID: 2803381632177467573}
 --- !u!1 &4503669628502716467
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,11 +570,11 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  animatorScript: {fileID: 3734397879935123007}
-  hitboxManager: {fileID: 4759771619772669503}
   trail: {fileID: 3613643447242516594}
   bulletOrigin: {fileID: 6009581206254739397}
   bullet: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}
+  hitboxManager: {fileID: 3065023052435475213}
+  animatorScript: {fileID: 3734397879935123007}
 --- !u!114 &3734397879935123007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,4 +739,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 8956506828643496704}
-  hitboxScript: {fileID: 4759771619772669503}
+  hitboxScript: {fileID: 3065023052435475213}

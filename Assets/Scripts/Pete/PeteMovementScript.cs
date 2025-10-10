@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class AliceMovement2D : BasePlayerMovement2D
+public class PlayerMovement2D : BasePlayerMovement2D
 {
-    [SerializeField] private AliceAnimScript animatorScript;
+    [SerializeField] private PlayerAnimScript animatorScript;
 
-    protected override float CharWidth => 0.6f;
+    protected override float CharWidth => 0.61f;
     protected override Vector2 CrouchOffset => new Vector2(0, -0.1238286f);
     protected override Vector2 CrouchSize => new Vector2(CharWidth, 0.7002138f);
     protected override Vector2 StandOffset => new Vector2(0, 0.1042647f);
@@ -81,19 +81,23 @@ public class AliceMovement2D : BasePlayerMovement2D
         switch (attackIndex)
         {
             case 0:
-                hitboxManager.ChangeHitboxCircle(new Vector2(0.5f, 0f), 0.8f);
+                hitboxManager.ChangeHitboxBox(new Vector2(0.2f, 0f), new Vector2(0.7f, 0.55f));
                 animatorScript.ChangeAnimationState(playerStates.Melee1);
                 break;
             case 1:
-                hitboxManager.ChangeHitboxCircle(new Vector2(0.5f, 0f), 0.8f);
+                hitboxManager.ChangeHitboxBox(new Vector2(0f, 0f), new Vector2(1f, 0.55f));
                 animatorScript.ChangeAnimationState(playerStates.Melee2);
+                break;
+            case 2:
+                hitboxManager.ChangeHitboxBox(new Vector2(0.5f, 0f), new Vector2(1.75f, 0.55f));
+                animatorScript.ChangeAnimationState(playerStates.Melee3);
                 break;
         }
     }
 
     protected override void SetupCrouchAttack()
     {
-        hitboxManager.ChangeHitboxBox(new Vector2(0.3f, -0.25f), new Vector2(1f, 0.55f));
+        hitboxManager.ChangeHitboxBox(new Vector2(0.4f, -0.25f), new Vector2(1.35f, 0.55f));
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
     }
 
@@ -103,23 +107,21 @@ public class AliceMovement2D : BasePlayerMovement2D
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
     }
 
-    protected override void CheckGround()
+    protected override void HandleAerialAttackMovement()
     {
-        bool wasGrounded = isGrounded;
-        base.CheckGround();
-
-        if (!wasGrounded && isGrounded && isAttacking && animatorScript.returnCurrentState() == playerStates.AerialAttack)
-        {
-            CancelAerialAttack();
-        }
+        rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.3f), 0);
     }
 
-    private void CancelAerialAttack()
+    protected override IEnumerator AerialAttack()
     {
-        StopCoroutine("AerialAttack");
-        hitboxManager.DisableHitbox();
-        isAttacking = false;
-        AnimationControl();
+        canAerial = false;
+        SetupAerialAttack();
+        isAttacking = true;
+        float oldGravity = rb.linearVelocity.y > 0 ? -1f : rb.linearVelocity.y;
+        yield return new WaitWhile(() => isAttacking);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, oldGravity);
+        yield return new WaitForSeconds(aerialCooldown);
+        canAerial = true;
     }
 
     protected override IEnumerator ThrowAttack()
@@ -134,9 +136,8 @@ public class AliceMovement2D : BasePlayerMovement2D
         return base.RangedAttack();
     }
 
-    public void InstBullet(int num)
+    public void InstBullet()
     {
-        for (int i = 0; i < num; i++)
-            bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+        bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
 }
