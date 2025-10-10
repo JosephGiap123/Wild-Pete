@@ -270,6 +270,9 @@ MonoBehaviour:
   bulletDestroyMask:
     serializedVersion: 2
     m_Bits: 2688
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &592496376561069699
 Rigidbody2D:
   serializedVersion: 5

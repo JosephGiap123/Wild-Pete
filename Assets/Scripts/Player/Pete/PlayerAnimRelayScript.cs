@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerAnimRelayScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] PlayerMovement2D movementScript;
+
+    [SerializeField] PeteMovement2D movementScript;
     [SerializeField] AttackHitbox hitboxScript;
     
     public void CallEndAttack(){

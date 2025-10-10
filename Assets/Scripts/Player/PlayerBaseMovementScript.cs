@@ -7,12 +7,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpPower = 6f;
+    public float minJumpPower = 3f; // Minimum jump height if button is tapped
     protected float horizontalInput;
     protected bool isFacingRight = true;
     protected bool weaponEquipped = true;
     protected bool isGrounded;
     protected bool isAttacking = false;
     protected bool isCrouching = false;
+    protected bool isJumping = false;
+    protected float jumpTimeCounter;
 
     [Header("Combat Settings")]
     public int maxAttackChain = 3;
@@ -48,6 +51,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected AttackHitbox hitboxManager;
+    [SerializeField] protected AnimScript animatorScript;
 
     protected GameObject bulletInstance;
 
@@ -58,6 +62,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected abstract Vector2 StandOffset { get; }
     protected abstract Vector2 StandSize { get; }
 
+    protected virtual void Awake()
+    {
+        // Make ground check slightly smaller than character width
+        if (groundCheck != null)
+        {
+            groundCheck.size = new Vector2(CharWidth * 0.9f, groundCheck.size.y);
+        }
+    }
+
     // Abstract methods for character-specific behavior
     protected abstract void AnimationControl();
     protected abstract void SetupGroundAttack(int attackIndex);
@@ -66,6 +79,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Update()
     {
+        // Check ground state first before processing inputs
+        CheckGround();
+        
         if (isDashing || isAttacking)
         {
             return;
@@ -105,9 +121,22 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetAxisRaw("Vertical") == 1 && isGrounded && !isCrouching)
+        // Jump initiation
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded && !isCrouching)
         {
+            isJumping = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+        }
+
+        // Release jump button early for shorter jump
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            isJumping = false;
+            // Apply minimum jump power if released early
+            if (rb.linearVelocity.y > minJumpPower)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, minJumpPower);
+            }
         }
 
         if (Input.GetAxisRaw("Vertical") == -1 && isGrounded)
@@ -180,7 +209,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
         }
 
-        CheckGround();
         CheckWall();
     }
 
@@ -208,7 +236,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void CheckGround()
     {
+        bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+        
+        // Reset jump state when landing
+        if (!wasGrounded && isGrounded)
+        {
+            isJumping = false;
+        }
     }
 
     protected virtual void CheckWall()

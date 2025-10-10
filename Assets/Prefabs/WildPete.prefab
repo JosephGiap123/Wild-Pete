@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 781829894381207796}
   - component: {fileID: 2803381632177467573}
   - component: {fileID: 3065023052435475213}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.4, y: -0.25}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -340,7 +340,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5, y: 0.55}
+  m_Size: {x: 1.9, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &3065023052435475213
 MonoBehaviour:
@@ -508,8 +508,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5995900776780897598}
-  - component: {fileID: 8956506828643496704}
-  - component: {fileID: 3734397879935123007}
+  - component: {fileID: 8139471980475301415}
+  - component: {fileID: 675986149054274358}
   - component: {fileID: 2942441695391280840}
   m_Layer: 6
   m_Name: WildPete
@@ -540,7 +540,20 @@ Transform:
   - {fileID: 1896967197796685413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8956506828643496704
+--- !u!114 &8139471980475301415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d293c22d8a346819538f9b6922a4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2275127635874104794}
+--- !u!114 &675986149054274358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,11 +565,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085d289bd9ed84cef91498854469cc36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 6
   jumpPower: 10
   maxAttackChain: 3
-  comboResetTime: 3
-  dashingPower: 10
+  comboResetTime: 2
+  dashingPower: 12
   dashingTime: 0.3
   dashingCooldown: 3
   wallRay: {fileID: 1896967197796685413}
@@ -574,20 +587,7 @@ MonoBehaviour:
   bulletOrigin: {fileID: 6009581206254739397}
   bullet: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}
   hitboxManager: {fileID: 3065023052435475213}
-  animatorScript: {fileID: 3734397879935123007}
---- !u!114 &3734397879935123007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8045371504318166606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ead7e19bd3784970bf47295bf071d70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 2275127635874104794}
+  animatorScript: {fileID: 8139471980475301415}
 --- !u!50 &2942441695391280840
 Rigidbody2D:
   serializedVersion: 5
@@ -693,7 +693,7 @@ SpriteRenderer:
   m_SortingLayerID: 1709080651
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 532826246962441857, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+  m_Sprite: {fileID: -8622908150634400682, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -738,5 +738,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0f88a3d9f0a457a9db33c616cd9758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementScript: {fileID: 8956506828643496704}
+  movementScript: {fileID: 675986149054274358}
   hitboxScript: {fileID: 3065023052435475213}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimScript : MonoBehaviour
+public class AnimScript : MonoBehaviour
 {
 
     [SerializeField] Animator animator;
@@ -11,5 +11,9 @@ public class PlayerAnimScript : MonoBehaviour
         if(newState == currentState) return;
         animator.Play(newState.ToString());
         currentState = newState;
+    }
+
+    public playerStates returnCurrentState(){
+        return currentState;
     }
 }

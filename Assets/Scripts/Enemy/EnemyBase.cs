@@ -1,13 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
     [Header("Enemy Info")]
-    [SerializeField] protected float maxHealth = 10f;
-    protected float health;
+    [SerializeField] protected int maxHealth = 10;
+    protected int health;
 
     [Header("References")]
-    // Add common references here if needed
     // [SerializeField] protected Animator animator;
     [SerializeField] protected Rigidbody2D rb;
 
@@ -15,9 +16,11 @@ public class EnemyBase : MonoBehaviour
     {
         health = maxHealth;
     }
-    public virtual void Hurt(float dmg)
+    
+    public virtual void Hurt(int dmg)
     {
         health -= dmg;
+        Debug.Log(health);
         if (health <= 0)
         {
             Die();
@@ -26,13 +29,12 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
-        // Override in derived classes for death animations, drops, etc.
         Destroy(gameObject);
     }
 
     public float GetHealthPercentage()
     {
-        return health / maxHealth;
+        return (float)health / maxHealth;
     }
 
     public bool IsAlive()

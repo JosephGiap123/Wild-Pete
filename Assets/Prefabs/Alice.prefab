@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5102368542197912802}
   - component: {fileID: 2599902317028416662}
   - component: {fileID: 6182104108368122417}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,11 +295,11 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  animatorScript: {fileID: 8862283075697551678}
-  hitboxManager: {fileID: 2599902317028416662}
   trail: {fileID: 2179199224452851584}
   bulletOrigin: {fileID: 5187375710118761005}
   bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}
+  hitboxManager: {fileID: 2599902317028416662}
+  animatorScript: {fileID: 8862283075697551678}
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5

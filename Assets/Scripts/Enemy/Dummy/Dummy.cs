@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Dummy : EnemyBase
+{
+    [SerializeField] Animator anim;
+    private bool hurtStun = false;
+    Coroutine hurtCoroutine;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    public override void Hurt(int dmg)
+    {
+        health -= dmg;
+        Debug.Log(health);
+        
+        if (hurtCoroutine != null)
+            StopCoroutine(hurtCoroutine);
+            
+        hurtCoroutine = StartCoroutine(HurtAnim());
+        
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private IEnumerator HurtAnim()
+    {
+        hurtStun = true;
+        anim.Play("Hurt");
+        yield return new WaitWhile(() => hurtStun);
+        anim.Play("Idle");
+    }
+
+    public void EndHurtState()
+    {
+        hurtStun = false;
+    }
+}

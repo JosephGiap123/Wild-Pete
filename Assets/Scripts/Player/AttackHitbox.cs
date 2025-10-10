@@ -8,6 +8,7 @@ public class AttackHitbox : MonoBehaviour
     [SerializeField] CircleCollider2D circleCol;
     [SerializeField] BoxCollider2D boxCol;
     private bool active = false;
+    private int damage = 1;
 
     private void DisableAll(){
         if(circleCol != null) circleCol.enabled = false;
@@ -20,7 +21,11 @@ public class AttackHitbox : MonoBehaviour
 
         if (((1 << other.gameObject.layer) & enemyMask) != 0) //bitshifting to find if sometihng is in said layer
         {
-            Debug.Log($"Hit enemy");
+            //guaranteed to be an enemy.
+            if(other.gameObject != null){
+                Debug.Log("Hit enemy");
+                other.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(damage);
+            }
         }
     }
 

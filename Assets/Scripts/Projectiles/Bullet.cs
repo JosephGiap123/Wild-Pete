@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float bulletSpeed = 14f;
     [SerializeField] private float bulletLifeTime = 3f;
     [SerializeField] private LayerMask bulletDestroyMask;
+    [SerializeField] private LayerMask enemyMask;
 
     private Rigidbody2D rb;
     private void Start(){
@@ -18,6 +19,13 @@ public class Bullet : MonoBehaviour
         if(((1 << collision.gameObject.layer) & bulletDestroyMask) != 0){
             //potentially spawn fx if not an enemy.
             //damage enemies
+            if (((1 << collision.gameObject.layer) & enemyMask) != 0) 
+            {
+                if(collision.gameObject != null){
+                    Debug.Log("Hit enemy");
+                    collision.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(2);
+            }
+        }
             Destroy(gameObject);
         }
     }

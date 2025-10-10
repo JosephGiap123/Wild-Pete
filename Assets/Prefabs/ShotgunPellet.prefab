@@ -107,6 +107,9 @@ MonoBehaviour:
   bulletDestroyMask:
     serializedVersion: 2
     m_Bits: 2688
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 512
   shotgunCone: 20
   maxSpeedVariation: 3
 --- !u!58 &5253907090477036926
