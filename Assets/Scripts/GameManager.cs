@@ -6,11 +6,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Pete;
     [SerializeField] private GameObject Alice;
     [SerializeField] private CinemachineCamera cinemachineCam;
-    private int selectedCharacter = 1;
+    public int selectedCharacter = 1;
     private GameObject player;
     void Start()
     {
+
         selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
+        selectedCharacter = 1;
         switch(selectedCharacter){
             case 1:
                 player = Instantiate(Pete, transform.position, Quaternion.identity);

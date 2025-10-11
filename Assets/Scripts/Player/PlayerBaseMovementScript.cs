@@ -28,7 +28,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected bool isDashing;
     public float dashingPower = 12f;
     public float dashingTime = 0.3f;
+    public float slidePower = 6f;
     public float dashingCooldown = 3f;
+    public float slidingCooldown = 0.75f;
+    protected Coroutine slideCoroutine;
+    protected Coroutine dashCooldownCoroutine;
 
     [Header("Aerial Settings")]
     protected float aerialCooldown = 1f;
@@ -72,7 +76,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     }
 
     // Abstract methods for character-specific behavior
-    protected abstract void AnimationControl();
     protected abstract void SetupGroundAttack(int attackIndex);
     protected abstract void SetupCrouchAttack();
     protected abstract void SetupAerialAttack();
@@ -82,14 +85,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Check ground state first before processing inputs
         CheckGround();
         
-        if (isDashing || isAttacking)
+        if (isAttacking)
         {
             return;
         }
-
-        HandleInput();
         HandleMovement();
-        HandleFlip();
+        if(!isDashing){
+            HandleInput();
+            HandleFlip();
+        }
         AnimationControl();
     }
 
@@ -109,7 +113,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
         {
-            StartCoroutine(Dash());
+            isDashing = true;
+            if(!isCrouching)
+            {
+                slideCoroutine = StartCoroutine(Dash());
+                dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+            }
+            else
+            {
+                StartCoroutine(Slide());
+                dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+            }
+            
         }
         if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
@@ -122,11 +137,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         // Jump initiation
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded && !isCrouching)
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
             isJumping = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            if(isDashing && isCrouching){
+                if(slideCoroutine != null)
+                    StopCoroutine(slideCoroutine);
+                if(dashCooldownCoroutine != null)
+                    StopCoroutine(dashCooldownCoroutine);
+                isDashing = false;
+                StartCoroutine(DashCooldown(slidingCooldown));
+            }
         }
+
+        if(isDashing) return;
 
         // Release jump button early for shorter jump
         if (Input.GetKeyUp(KeyCode.W))
@@ -150,6 +175,57 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             isCrouching = false;
             boxCol.offset = StandOffset;
             boxCol.size = StandSize;
+        }
+    }
+
+    protected virtual void AnimationControl(){
+        if (isWallSliding)
+        {
+            animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.WallSlideWep : playerStates.WallSlide);
+            return;
+        }
+        if (isDashing)
+        {
+            if (isCrouching)
+            {
+                animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.SlideWep : playerStates.Slide);
+                return;
+            }
+            else
+            {
+                animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.DashWep : playerStates.Dash);
+                return;
+            }
+        }
+        if (!isAttacking)
+        {
+            if (!isGrounded)
+            {
+                if (rb.linearVelocity.y > 0.1f){
+                    animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.RisingWep : playerStates.Rising);
+                    return;
+                }
+                else if (rb.linearVelocity.y < -0.1f){
+                    animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.FallingWep : playerStates.Falling);
+                    return;
+                }
+            }
+            else
+            {
+                if (isCrouching){
+                    animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.CrouchWep : playerStates.Crouch);
+                    return;
+                }
+                else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f){
+                    animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.RunWep : playerStates.Run);
+                    return;
+                }
+                else{
+                    animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.IdleWep : playerStates.Idle);
+                    return;
+                }
+
+            }
         }
     }
 
@@ -189,32 +265,72 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (isDashing) return;
-
-        if (isWallSliding)
+        // Dashes override normal movement
+        if (isDashing)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(-0.5f, rb.linearVelocity.y, -wallSlideSpeed));
-        }
-        else if (isAttacking && isGrounded)
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        }
-        else if (isAttacking && !isGrounded)
-        {
-            HandleAerialAttackMovement();
-        }
-        else
-        {
-            float speed = isCrouching ? horizontalInput * moveSpeed * 0.2f : horizontalInput * moveSpeed;
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            if(isCrouching){
+                rb.linearVelocity = new Vector2(
+                Mathf.Lerp(rb.linearVelocity.x, 0, 0.05f),
+                rb.linearVelocity.y);
+            }
+            return;
         }
 
         CheckWall();
+
+        // Wall slide behavior
+        if (isWallSliding)
+        {
+            rb.linearVelocity = new Vector2(
+                rb.linearVelocity.x,
+                Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue)
+            );
+            return;
+        }
+
+        // Grounded attack locks horizontal movement
+        if (isAttacking && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
+
+        // Aerial attack dampens horizontal movement gradually
+        if (isAttacking && !isGrounded)
+        {
+            HandleAerialAttackMovement();
+            return;
+        }
+
+        // Read horizontal input (updated in Update())
+        float targetSpeed = horizontalInput * moveSpeed;
+        
+        if (isCrouching)
+            targetSpeed *= 0.4f;
+
+        if(!isDashing){
+            float speedDiff = targetSpeed - rb.linearVelocity.x;
+            float accelRate = isGrounded ? 15f : 8f;
+            float movementForce = speedDiff * accelRate;
+
+            rb.AddForce(Vector2.right * movementForce);
+        }
+
+
+        // Smooth deceleration when no input
+        if (horizontalInput == 0 && isGrounded || isDashing)
+        {
+            rb.linearVelocity = new Vector2(
+                Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
+                rb.linearVelocity.y
+            );
+        }
     }
+
 
     protected virtual void HandleAerialAttackMovement()
     {
-        rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.3f), rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
     }
 
     protected virtual void HandleFlip()
@@ -265,30 +381,38 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual IEnumerator Dash()
     {
-        bool slide = isCrouching;
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
 
-        if (!slide)
-            rb.gravityScale = 0f;
-
-        float power = slide ? dashingPower / 1.5f : dashingPower;
+        float power = dashingPower;
         rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * power, 0f);
 
-        if (!slide)
-            trail.emitting = true;
+        trail.emitting = true;
 
-        AnimationControl();
-        yield return new WaitForSeconds(slide ? dashingTime * 2 : dashingTime);
+        yield return new WaitForSeconds(dashingTime);
 
-        if (!slide)
-            trail.emitting = false;
-
+        trail.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
+    }
+
+    protected virtual IEnumerator DashCooldown(float cooldown){
+        yield return new WaitWhile(() => isDashing);
+        canDash = false;
+        yield return new WaitForSeconds(cooldown);
         canDash = true;
+    }
+
+    protected virtual IEnumerator Slide(){
+        canDash = false;
+        isDashing = true;
+
+        rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * slidePower, 0f);
+
+        yield return new WaitForSeconds(slidingCooldown);
+        isDashing = false;
     }
 
     protected virtual IEnumerator AerialAttack()

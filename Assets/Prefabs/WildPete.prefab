@@ -567,11 +567,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   jumpPower: 10
+  minJumpPower: 3
   maxAttackChain: 3
   comboResetTime: 2
   dashingPower: 12
   dashingTime: 0.3
+  slidePower: 15
   dashingCooldown: 3
+  slidingCooldown: 0.75
   wallRay: {fileID: 1896967197796685413}
   wallMask:
     serializedVersion: 2
