@@ -50,12 +50,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected BoxCollider2D boxCol;
     [SerializeField] protected BoxCollider2D groundCheck;
+    [SerializeField] protected BoxCollider2D roofCheck; //check if u can uncrouch
     [SerializeField] protected LayerMask groundMask;
     [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected AttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
+    [SerializeField] protected InteractionDetection interactor;
 
     protected GameObject bulletInstance;
 
@@ -99,6 +101,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void HandleInput()
     {
+        if(Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded){
+            interactor.OnInteract();
+        }
         if (Input.GetKeyDown(KeyCode.E) && weaponEquipped && !isWallSliding)
         {
             Attack();
@@ -170,11 +175,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             boxCol.offset = CrouchOffset;
             boxCol.size = CrouchSize;
         }
-        else
+        else if(Input.GetAxisRaw("Vertical") != - 1 && isCrouching)
         {
-            isCrouching = false;
-            boxCol.offset = StandOffset;
-            boxCol.size = StandSize;
+            //check if there is roof above.
+            if((Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, groundMask).Length + Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, wallMask).Length) == 0){ //essentially, check if either wall or floor above player.
+                isCrouching = false;
+                boxCol.offset = StandOffset;
+                boxCol.size = StandSize;
+            }
         }
     }
 
