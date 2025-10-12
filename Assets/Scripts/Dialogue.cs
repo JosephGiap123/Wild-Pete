@@ -1,62 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class Dialogue : MonoBehaviour
+[CreateAssetMenu(fileName = "NewDialogue", menuName = "Dialogue")]
+
+public class Dialogue : ScriptableObject
 {
-    public TextMeshProUGUI textComponent;
-    public string[] lines;
-    float textSpeed = 0.5f;
+    public string npcName;
+    public Sprite portrait;
+    public string[] dialogueLines;
+    public bool[] autoProgressLines;
+    public float typingSpeed = 0.05f;
+    //can include audio after.
+    public float autoProgressDelay = 1.5f;
 
-    private int index;
-
-    void Start()
-    {
-        lines = new string[] {
-            "blah blah blah blah lorem ipsum soreawdoawd ndwinadawnd anwid nwiad nawd mblah",
-            "yeah yeah yrajiwdaijdwaji blah blah blah odwgrahhhh",
-            "yousif saieb yousif saieb yousif saeib kwdwaojdawnd iawd aiwdn"
-        };
-
-        textComponent.text= string.Empty;
-        StartDialogue();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0)){
-            if(textComponent.text == lines[index]){
-                NextLine();
-            }
-            else{
-                StopAllCoroutines();
-                textComponent.text = lines[index];
-            }
-        }
-    }
-
-    void StartDialogue(){
-        index = 0;
-        StartCoroutine(TypeLine());
-    }
-
-    IEnumerator TypeLine(){
-        foreach(char c in lines[index].ToCharArray()){
-            textComponent.text+=c;
-            yield return new WaitForSeconds(textSpeed);
-        }
-    }
-
-    void NextLine(){
-        if(index < lines.Length - 1){
-            index++;
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-        }
-        else{
-            gameObject.SetActive(false);
-        }
-    }
+    
 }

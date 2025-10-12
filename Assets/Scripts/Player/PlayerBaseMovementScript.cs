@@ -84,9 +84,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Update()
     {
-        // Check ground state first before processing inputs
-        CheckGround();
-        
+        if(PauseController.IsGamePaused){
+            if(Input.GetKeyDown(KeyCode.I)){
+                interactor.OnInteract();
+            }
+            return;
+        }
         if (isAttacking)
         {
             return;
@@ -145,6 +148,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
             isJumping = true;
+            isGrounded = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             if(isDashing && isCrouching){
                 if(slideCoroutine != null)
@@ -241,6 +245,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         if (isGrounded)
         {
+            if(isJumping) return; //frame perfect check.
             if (isCrouching)
             {
                 SetupCrouchAttack();
@@ -285,6 +290,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
 
         CheckWall();
+        CheckGround();
 
         // Wall slide behavior
         if (isWallSliding)
@@ -360,6 +366,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void CheckGround()
     {
+        if (isJumping && rb.linearVelocity.y > 0)
+        {
+            isGrounded = false;
+            return;  // Don't run the physics check
+        }
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
         
