@@ -851,6 +851,10 @@ MonoBehaviour:
   moveSpeed: 6
   jumpPower: 10
   minJumpPower: 3
+  maxHealth: 20
+  health: 20
+  ammoCount: 10
+  maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
   dashingPower: 12

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public abstract class BasePlayerMovement2D : MonoBehaviour
@@ -18,6 +19,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected float jumpTimeCounter;
 
     [Header("Combat Settings")]
+    public int maxHealth = 20;
+    public int health = 20;
+    [SerializeField] public int ammoCount = 5;
+    [SerializeField] public int maxAmmo = 5;
     public int maxAttackChain = 3;
     protected int attackCount = 0;
     public float comboResetTime = 3f;
@@ -68,6 +73,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected abstract Vector2 StandOffset { get; }
     protected abstract Vector2 StandSize { get; }
 
+    //events
+    public event Action<int, int> OnAmmoChanged;
+
     protected virtual void Awake()
     {
         // Make ground check slightly smaller than character width
@@ -75,6 +83,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             groundCheck.size = new Vector2(CharWidth * 0.9f, groundCheck.size.y);
         }
+        health = maxHealth;
     }
 
     // Abstract methods for character-specific behavior
@@ -115,7 +124,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
         {
             StartCoroutine(RangedAttack());
         }
@@ -453,7 +462,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator RangedAttack()
     {
         isAttacking = true;
+        ammoCount--;
+        OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
         yield return new WaitWhile(() => isAttacking);
+    }
+
+    public virtual void AddAmmo(int amount)
+    {
+        ammoCount = Mathf.Min(ammoCount + amount, maxAmmo);
+        OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+    }
+
+    public virtual void ReloadAmmo()
+    {
+        ammoCount = maxAmmo;
+        OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
     }
 
     protected virtual IEnumerator ResetAttackCountAfterDelay()
@@ -461,4 +484,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         yield return new WaitForSeconds(comboResetTime);
         attackCount = 0;
     }
+
+    protected virtual float GetHealthPercentage(){
+        return (float)health/maxHealth;
+    }
+
+
+
 }
