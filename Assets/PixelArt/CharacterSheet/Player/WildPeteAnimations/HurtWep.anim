@@ -21,13 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1013592802008669929, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - time: 0.083333336
-      value: {fileID: 4697280694342325436, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - time: 0.23333333
-      value: {fileID: -526146655750904646, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - time: 0.33333334
-      value: {fileID: 4697280694342325436, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+      value: {fileID: 8288529361039005447, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
+    - time: 0.25
+      value: {fileID: -7167286678834420418, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
+    - time: 0.5
+      value: {fileID: 6067579522267474776, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1013592802008669929, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: 4697280694342325436, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: -526146655750904646, guid: c58daf269b27a4165bccf50c68756029, type: 3}
-    - {fileID: 4697280694342325436, guid: c58daf269b27a4165bccf50c68756029, type: 3}
+    - {fileID: 8288529361039005447, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
+    - {fileID: -7167286678834420418, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
+    - {fileID: 6067579522267474776, guid: b36468f5a9b934cc0955163ae4f3003c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.35000002
+    m_StopTime: 0.51666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,4 +75,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.5
+    functionName: CallEndHurt
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

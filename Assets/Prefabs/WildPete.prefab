@@ -857,6 +857,10 @@ MonoBehaviour:
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
+  hurtDuration: 0.5
+  knockbackForce: 5
+  knockbackUpForce: 1
+  invincibilityTime: 1
   dashingPower: 12
   dashingTime: 0.3
   slidePower: 15
