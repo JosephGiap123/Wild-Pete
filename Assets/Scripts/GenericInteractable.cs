@@ -5,7 +5,6 @@ using UnityEngine;
 public class GenericInteractable : MonoBehaviour, IInteractable
 {
     
-
     public bool CanInteract(){
         //change conditions to interact here.
         return true;
