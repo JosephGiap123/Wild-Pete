@@ -10,7 +10,7 @@ public class AttackHitbox : MonoBehaviour
     private bool active = false;
     private int damage = 1;
 
-    private void DisableAll(){
+    public void DisableAll(){
         if(circleCol != null) circleCol.enabled = false;
         if(boxCol != null) boxCol.enabled = false;
     } 

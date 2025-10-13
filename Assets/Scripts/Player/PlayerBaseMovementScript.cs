@@ -27,6 +27,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected int attackCount = 0;
     public float comboResetTime = 3f;
     protected Coroutine attackResetCoroutine;
+   
+   [Header("Hurt Settings")] //clauded code here
+    [SerializeField] protected float hurtDuration = 0.5f; // How long hurt animation lasts
+    [SerializeField] protected float knockbackForce = 5f; // Horizontal knockback
+    [SerializeField] protected float knockbackUpForce = 1f; // Vertical knockback
+    [SerializeField] protected float invincibilityTime = 1f; // I-frames after hurt
+    protected bool isHurt = false;
+    protected bool isInvincible = false;
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -75,6 +83,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     //events
     public event Action<int, int> OnAmmoChanged;
+    public event Action<int, int> OnHealthChanged; // current, max
+    public event Action<int> OnMaxHealthChanged;
 
     protected virtual void Awake()
     {
@@ -93,22 +103,28 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Update()
     {
+        //test
+        if(Input.GetKeyDown(KeyCode.K)){
+            HurtPlayer(5, -1f);
+        }
+        if(Input.GetKeyDown(KeyCode.J)){
+            HealPlayer(1);
+        }
         if(PauseController.IsGamePaused){
             if(Input.GetKeyDown(KeyCode.I)){
                 interactor.OnInteract();
             }
             return;
         }
-        if (isAttacking)
-        {
-            return;
-        }
+
+        if (isAttacking) return;
+        AnimationControl();
+        if(isHurt) return;
         HandleMovement();
         if(!isDashing){
             HandleInput();
             HandleFlip();
         }
-        AnimationControl();
     }
 
     protected virtual void HandleInput()
@@ -200,6 +216,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     }
 
     protected virtual void AnimationControl(){
+        if (isHurt)
+        {
+            animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.HurtWep : playerStates.Hurt);
+            return;
+        }
         if (isWallSliding)
         {
             animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.WallSlideWep : playerStates.WallSlide);
@@ -287,6 +308,13 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if(isHurt){
+            rb.linearVelocity = new Vector2(
+                Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
+                rb.linearVelocity.y
+            );
+            return;
+        };
         // Dashes override normal movement
         if (isDashing)
         {
@@ -473,6 +501,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
     }
 
+    public virtual void SetHealth(int newHealth){
+        health = Mathf.Clamp(newHealth, 0, maxHealth); //ensure it cant go below 0 or over maxhp.
+        OnHealthChanged?.Invoke(health, maxHealth);
+    }
+
+    public virtual void SetMaxHealth(int newMaxHealth){
+        maxHealth = newMaxHealth;
+        OnMaxHealthChanged?.Invoke(maxHealth);
+        OnHealthChanged?.Invoke(health, maxHealth);
+    }
+
     public virtual void ReloadAmmo()
     {
         ammoCount = maxAmmo;
@@ -489,6 +528,111 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         return (float)health/maxHealth;
     }
 
+    protected virtual void DamagePlayer(int damage){
+        SetHealth(health-damage);
+    }
+    protected virtual void HealPlayer(int healBy){
+        SetHealth(health+healBy);
+    }
 
+    protected virtual void HurtPlayer(int damage, float knockbackDirection)
+    {
+        // Don't get hurt if invincible
+        if (isInvincible) return;
+        
+        isHurt = true;
+        // Cancel all active states
+        CancelAllActions();
+        DamagePlayer(damage);
+        ApplyKnockback(knockbackDirection);
+        StartCoroutine(InvincibilityFrames());
+    }
+
+    protected virtual void CancelAllActions()
+    {
+        // Cancel attacks
+        isAttacking = false;
+        if (attackResetCoroutine != null)
+        {
+            StopCoroutine(attackResetCoroutine);
+            attackResetCoroutine = null;
+        }
+        
+        // Cancel dash/slide
+        isDashing = false;
+        if (slideCoroutine != null)
+        {
+            StopCoroutine(slideCoroutine);
+            slideCoroutine = null;
+        }
+        if (dashCooldownCoroutine != null)
+        {
+            StopCoroutine(dashCooldownCoroutine);
+            dashCooldownCoroutine = null;
+        }
+        canDash = true;
+        
+        // Reset gravity if was dashing
+        rb.gravityScale = 3f; //change, hardcoded so far.
+        
+        if (trail != null)
+            trail.emitting = false;
+        
+        if (hitboxManager != null)
+            hitboxManager.DisableAll();
+        
+        // Reset wall slide
+        isWallSliding = false;
+    }
+
+    // Overload for knockback based on enemy position
+    protected virtual void HurtPlayer(int damage, Vector2 enemyPosition)
+    {
+        float knockbackDir = Mathf.Sign(transform.position.x - enemyPosition.x);
+        if (knockbackDir == 0) knockbackDir = isFacingRight ? -1 : 1; // Fallback
+        HurtPlayer(damage, knockbackDir);
+    }
+
+        protected virtual void ApplyKnockback(float direction)
+    {
+        rb.linearVelocity = new Vector2(direction * knockbackForce, knockbackUpForce);
+    }
+
+    public virtual void EndHurt()
+    {
+        isHurt = false;
+    }
+
+    // Invincibility frames
+    protected virtual IEnumerator InvincibilityFrames()
+    {
+        isInvincible = true;
+        
+        // Optional: Flash sprite to show invincibility
+        // if (TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
+        // {
+        //     StartCoroutine(FlashSprite(spriteRenderer));
+        // }
+        
+        yield return new WaitForSeconds(invincibilityTime);
+        
+        isInvincible = false;
+    }
+
+    // Visual feedback for invincibility
+    protected virtual IEnumerator FlashSprite(SpriteRenderer spriteRenderer)
+    {
+        float flashInterval = 0.1f;
+        float elapsed = 0f;
+        
+        while (elapsed < invincibilityTime)
+        {
+            // spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(flashInterval);
+            elapsed += flashInterval;
+        }
+        
+        // spriteRenderer.enabled = true; // Make sure it's visible at end
+    }
 
 }

@@ -26,4 +26,8 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.InstBullet(num);
     }
 
+    public void CallEndHurt(){
+        movementScript.EndHurt();
+    }
+
 }

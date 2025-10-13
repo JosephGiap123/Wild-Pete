@@ -26,4 +26,8 @@ public class PlayerAnimRelayScript : MonoBehaviour
         movementScript.InstBullet();
     }
 
+    public void CallEndHurt(){
+        movementScript.EndHurt();
+    }
+
 }
