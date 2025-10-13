@@ -98,6 +98,7 @@ MonoBehaviour:
   needle: {fileID: 8330391049214043236}
   keyText: {fileID: 2013060219262592168}
   roundText: {fileID: 517150546744375080}
+  missText: {fileID: 0}
   hitKey: 101
   cancelKey: 27
   roundsRequired: 5
@@ -668,14 +669,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9858491, b: 0.9858491, a: 0.45490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7344397554909851659, guid: 441920a1e8b59c74f840e3095ae636e2, type: 3}
+  m_Sprite: {fileID: -487323513925358312, guid: 0f7df503f7a004aeab9a0703b5316104, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

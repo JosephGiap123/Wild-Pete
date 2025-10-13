@@ -282,8 +282,17 @@ MonoBehaviour:
   moveSpeed: 4.5
   jumpPower: 12
   minJumpPower: 5
+  isFacingRight: 1
+  maxHealth: 20
+  health: 20
+  ammoCount: 5
+  maxAmmo: 5
   maxAttackChain: 2
   comboResetTime: 3
+  hurtDuration: 0.5
+  knockbackForce: 5
+  knockbackUpForce: 1
+  invincibilityTime: 1
   dashingPower: 10
   dashingTime: 0.3
   slidePower: 15
@@ -914,8 +923,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1778098357
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 3344895713379779979, guid: 5a0448f1d4ab94e01b10ff12a7d37117, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
