@@ -10,7 +10,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public float jumpPower = 6f;
     public float minJumpPower = 3f; // Minimum jump height if button is tapped
     protected float horizontalInput;
-    protected bool isFacingRight = true;
+    public bool isFacingRight = true;
     protected bool weaponEquipped = true;
     protected bool isGrounded;
     protected bool isAttacking = false;
@@ -129,7 +129,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void HandleInput()
     {
-        if(Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded){
+        if(Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        {
             interactor.OnInteract();
         }
         if (Input.GetKeyDown(KeyCode.E) && weaponEquipped && !isWallSliding)
@@ -371,10 +372,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Smooth deceleration when no input
         if (horizontalInput == 0 && isGrounded || isDashing)
         {
-            rb.linearVelocity = new Vector2(
-                Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
-                rb.linearVelocity.y
-            );
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
         }
     }
 
@@ -387,12 +385,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual void HandleFlip()
     {
         if ((horizontalInput > 0 && !isFacingRight) || (horizontalInput < 0 && isFacingRight))
-        {
             FlipSprite();
-        }
     }
 
-    protected virtual void FlipSprite()
+    public virtual void FlipSprite()
     {
         bulletOrigin.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 180 : 0);
         isFacingRight = !isFacingRight;
@@ -634,5 +630,4 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         
         // spriteRenderer.enabled = true; // Make sure it's visible at end
     }
-
 }
