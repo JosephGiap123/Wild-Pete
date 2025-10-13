@@ -33,7 +33,7 @@ public class LockpickFiveInARow : MonoBehaviour
 
     void Awake()
     {
-        Time.timeScale = 0f; // pause world
+        PauseController.SetPause(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
@@ -43,8 +43,8 @@ public class LockpickFiveInARow : MonoBehaviour
 
     void OnDestroy()
     {
-        if (Mathf.Approximately(Time.timeScale, 0f))
-            Time.timeScale = 1f;
+        if (PauseController.IsGamePaused)
+            PauseController.SetPause(false);
     }
 
     void Update()
@@ -139,7 +139,7 @@ public class LockpickFiveInARow : MonoBehaviour
     void Finish(bool success)
     {
         playing = false;
-        Time.timeScale = 1f;
+        PauseController.SetPause(false);
         OnComplete?.Invoke(success);
         Destroy(gameObject);
     }
