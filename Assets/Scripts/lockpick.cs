@@ -10,12 +10,14 @@ public class LockPick : MonoBehaviour, IInteractable
 
     [Header("Door to unlock (optional)")]
     [SerializeField] private InteractableDoor door;              // Assign if you want the door to open on success
+    bool active = true;
 
     private LockpickFiveInARow activeGame;
 
     public bool CanInteract()
     {
         // Keep your existing logic; block re-opening while active
+        if(!active) return false;
         return activeGame == null;
     }
 
@@ -39,6 +41,7 @@ public class LockPick : MonoBehaviour, IInteractable
             {
                 Debug.Log("Lock successfully picked!");
                 if (door != null) door.Open();
+                active = false;
             }
             else
             {

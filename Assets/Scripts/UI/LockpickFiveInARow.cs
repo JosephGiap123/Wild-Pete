@@ -18,7 +18,7 @@ public class LockpickFiveInARow : MonoBehaviour
 
     [Header("Rounds")]
     [SerializeField] private int roundsRequired = 5;
-    [SerializeField] private float[] sliceSizesDeg   = { 70f, 55f, 42f, 30f, 20f };   // smaller each round
+    [SerializeField] private float[] sliceSizesDeg   = { 180f, 130f, 100f, 70f, 50f };   // smaller each round
     [SerializeField] private float[] speedsDegPerSec = { 180f, 240f, 300f, 360f, 440f }; // faster each round
 
     public System.Action<bool> OnComplete; // true = success
