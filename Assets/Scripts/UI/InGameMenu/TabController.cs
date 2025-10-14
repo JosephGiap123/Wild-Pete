@@ -12,7 +12,6 @@ public class TabController : MonoBehaviour
         ActivateTab(0); //inventory always active first.
     }
 
-    // Update is called once per frame
     public void ActivateTab(int tabNumber){
         for(int i = 0; i < pages.Length; i++){
             pages[i].SetActive(false);

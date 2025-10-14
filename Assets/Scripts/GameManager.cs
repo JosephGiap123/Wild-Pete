@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public void SetPlayer()
     {
         selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
-        selectedCharacter = 2;
+        // selectedCharacter = 2;
         switch(selectedCharacter){
             case 1:
                 player = Instantiate(Pete, transform.position, Quaternion.identity);
