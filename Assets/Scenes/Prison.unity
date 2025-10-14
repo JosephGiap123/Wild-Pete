@@ -229,6 +229,17 @@ MonoBehaviour:
   Alice: {fileID: 3172980308799934302, guid: ac8071ac360bc4469a4807cca43db5a6, type: 3}
   cinemachineCam: {fileID: 606041107}
   selectedCharacter: 1
+--- !u!114 &137884418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2887383959168148989, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1109755427}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3bef54c7f35e46d696abd43bb7599fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &195763736
 GameObject:
   m_ObjectHideFlags: 0
@@ -41710,6 +41721,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2317014120042046903, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 137884418}
+    - target: {fileID: 2317014120042046903, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ActivateTab
+      objectReference: {fileID: 0}
     - target: {fileID: 6579684422749410431, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -41718,6 +41737,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6610495634096996061, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8007983031255102289, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -41725,6 +41748,14 @@ PrefabInstance:
     - target: {fileID: 8007983031255102289, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653923573897699867, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 137884418}
+    - target: {fileID: 8653923573897699867, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ActivateTab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

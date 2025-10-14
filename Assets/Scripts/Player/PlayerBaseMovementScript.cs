@@ -176,7 +176,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             isJumping = true;
             isGrounded = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
-            if(isDashing && isCrouching){
+            if(isDashing && isCrouching){ //dash cancel
                 if(slideCoroutine != null)
                     StopCoroutine(slideCoroutine);
                 if(dashCooldownCoroutine != null)
@@ -317,6 +317,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             return;
         };
         // Dashes override normal movement
+
+        CheckWall();
+        CheckGround();
+
         if (isDashing)
         {
             if(isCrouching){
@@ -326,9 +330,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             }
             return;
         }
-
-        CheckWall();
-        CheckGround();
 
         // Wall slide behavior
         if (isWallSliding)
@@ -399,7 +400,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void CheckGround()
     {
-        if (isJumping && rb.linearVelocity.y > 0)
+        if (isJumping && rb.linearVelocity.y > 0.1f)
         {
             isGrounded = false;
             return;  // Don't run the physics check

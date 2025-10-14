@@ -1,0 +1,3269 @@
+fileFormatVersion: 2
+guid: ef24bf1c05ebd46b58db19336545f9ce
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5239590895724646505
+    second: WildPete_0
+  - first:
+      213: -745042829300352286
+    second: WildPete_1
+  - first:
+      213: -2185417192065217693
+    second: WildPete_2
+  - first:
+      213: -5905515837866715273
+    second: WildPete_3
+  - first:
+      213: -441253879637591618
+    second: WildPete_4
+  - first:
+      213: 2749788573090798476
+    second: WildPete_5
+  - first:
+      213: -5462284179518394330
+    second: WildPete_6
+  - first:
+      213: 6913858836020313527
+    second: WildPete_7
+  - first:
+      213: -8249351762012577160
+    second: WildPete_8
+  - first:
+      213: -861198674887778315
+    second: WildPete_9
+  - first:
+      213: -487680828328163715
+    second: WildPete_10
+  - first:
+      213: -118120632682775997
+    second: WildPete_11
+  - first:
+      213: -6946314855255793013
+    second: WildPete_12
+  - first:
+      213: -8466238541583020688
+    second: WildPete_13
+  - first:
+      213: -5381809575271688642
+    second: WildPete_14
+  - first:
+      213: -2129134575428606066
+    second: WildPete_15
+  - first:
+      213: 3324259975465698577
+    second: WildPete_16
+  - first:
+      213: -6230607425440791492
+    second: WildPete_17
+  - first:
+      213: 3532926684870207306
+    second: WildPete_18
+  - first:
+      213: 5892757625771058625
+    second: WildPete_19
+  - first:
+      213: -3738865556812983153
+    second: WildPete_20
+  - first:
+      213: 3950347622747540414
+    second: WildPete_21
+  - first:
+      213: -9081180705734659067
+    second: WildPete_22
+  - first:
+      213: 2513690265750063966
+    second: WildPete_23
+  - first:
+      213: -8153483282431178612
+    second: WildPete_24
+  - first:
+      213: 8528278768576861928
+    second: WildPete_25
+  - first:
+      213: 8787686178187054588
+    second: WildPete_26
+  - first:
+      213: 4382671831919734842
+    second: WildPete_27
+  - first:
+      213: -9031711476145702740
+    second: WildPete_28
+  - first:
+      213: 2300575030058544796
+    second: WildPete_29
+  - first:
+      213: -8385369527874083405
+    second: WildPete_30
+  - first:
+      213: 8633938103233975109
+    second: WildPete_31
+  - first:
+      213: -8480026024594688208
+    second: WildPete_32
+  - first:
+      213: -5880451712875477427
+    second: WildPete_33
+  - first:
+      213: -1311462640153490560
+    second: WildPete_34
+  - first:
+      213: 6873933193606347293
+    second: WildPete_35
+  - first:
+      213: 6269194148085322462
+    second: WildPete_36
+  - first:
+      213: 4129623854546954817
+    second: WildPete_37
+  - first:
+      213: 6576484709346068911
+    second: WildPete_38
+  - first:
+      213: -8853667690976311869
+    second: WildPete_39
+  - first:
+      213: -7090327780018644342
+    second: WildPete_40
+  - first:
+      213: -349532615829549011
+    second: WildPete_41
+  - first:
+      213: 6051091203295442344
+    second: WildPete_42
+  - first:
+      213: -7891570465732721843
+    second: WildPete_43
+  - first:
+      213: -7624476492380955143
+    second: WildPete_44
+  - first:
+      213: 4701077494594410213
+    second: WildPete_45
+  - first:
+      213: 7676952506682604953
+    second: WildPete_46
+  - first:
+      213: 6488916586527609467
+    second: WildPete_47
+  - first:
+      213: -718501672368783352
+    second: WildPete_48
+  - first:
+      213: -7224133841589434872
+    second: WildPete_49
+  - first:
+      213: 813346999923583219
+    second: WildPete_50
+  - first:
+      213: -4399072281716309595
+    second: WildPete_51
+  - first:
+      213: -5069409600388881642
+    second: WildPete_52
+  - first:
+      213: 3223716331266595500
+    second: WildPete_53
+  - first:
+      213: 3110381606040938996
+    second: WildPete_54
+  - first:
+      213: -8131758755816850439
+    second: WildPete_55
+  - first:
+      213: 1291697818380528315
+    second: WildPete_56
+  - first:
+      213: -7258789775950007696
+    second: WildPete_57
+  - first:
+      213: -7939868518107098632
+    second: WildPete_58
+  - first:
+      213: -5260982702508930966
+    second: WildPete_59
+  - first:
+      213: -2500440403160629853
+    second: WildPete_60
+  - first:
+      213: 91284151013646078
+    second: WildPete_61
+  - first:
+      213: -5207305267076265386
+    second: WildPete_62
+  - first:
+      213: 5119886077504290298
+    second: WildPete_63
+  - first:
+      213: 6510651552205252286
+    second: WildPete_64
+  - first:
+      213: 5280064174885588845
+    second: WildPete_65
+  - first:
+      213: -2988258590281504373
+    second: WildPete_66
+  - first:
+      213: -7456148185677555989
+    second: WildPete_67
+  - first:
+      213: -7221853300172099009
+    second: WildPete_68
+  - first:
+      213: 3246997145113387754
+    second: WildPete_69
+  - first:
+      213: -654227466768436873
+    second: WildPete_70
+  - first:
+      213: 8183567542106075205
+    second: WildPete_71
+  - first:
+      213: -145218930514352822
+    second: WildPete_72
+  - first:
+      213: 7827016710310951791
+    second: WildPete_73
+  - first:
+      213: 6252269824376356225
+    second: WildPete_74
+  - first:
+      213: 2480530240828387347
+    second: WildPete_75
+  - first:
+      213: 5515504864907575904
+    second: WildPete_76
+  - first:
+      213: -4073130814081233098
+    second: WildPete_77
+  - first:
+      213: -367399939381178621
+    second: WildPete_78
+  - first:
+      213: -3245208375719768607
+    second: WildPete_79
+  - first:
+      213: 2786619395854366667
+    second: WildPete_80
+  - first:
+      213: -8313115698544410793
+    second: WildPete_81
+  - first:
+      213: 1889653882353161689
+    second: WildPete_82
+  - first:
+      213: 872681828618567160
+    second: WildPete_83
+  - first:
+      213: 3468844747581621284
+    second: WildPete_84
+  - first:
+      213: 91213246074388705
+    second: WildPete_85
+  - first:
+      213: 2150848497185724492
+    second: WildPete_86
+  - first:
+      213: 6235520898455752602
+    second: WildPete_87
+  - first:
+      213: 5691827804764300877
+    second: WildPete_88
+  - first:
+      213: 3280703391072836036
+    second: WildPete_89
+  - first:
+      213: -6440195280592334920
+    second: WildPete_90
+  - first:
+      213: 8499041598720988597
+    second: WildPete_91
+  - first:
+      213: 3440626980963502799
+    second: WildPete_92
+  - first:
+      213: 3847645306849559521
+    second: WildPete_93
+  - first:
+      213: 1838668588426255295
+    second: WildPete_94
+  - first:
+      213: 393047355654086131
+    second: WildPete_95
+  - first:
+      213: 7508738639914441333
+    second: WildPete_96
+  - first:
+      213: -720932747855130687
+    second: WildPete_97
+  - first:
+      213: -6394783956991004610
+    second: WildPete_98
+  - first:
+      213: 8845000364985179492
+    second: WildPete_99
+  - first:
+      213: 6614558571531752986
+    second: WildPete_100
+  - first:
+      213: -7727589995788463572
+    second: WildPete_101
+  - first:
+      213: -7210535715777102534
+    second: WildPete_102
+  - first:
+      213: 8549327495597049966
+    second: WildPete_103
+  - first:
+      213: 7506652664294600438
+    second: WildPete_104
+  - first:
+      213: 295998963224016318
+    second: WildPete_105
+  - first:
+      213: -7733005697699975539
+    second: WildPete_106
+  - first:
+      213: -2771130523052519846
+    second: WildPete_107
+  - first:
+      213: -60423703350090700
+    second: WildPete_108
+  - first:
+      213: -1287768094030439784
+    second: WildPete_109
+  - first:
+      213: -779713793164302637
+    second: WildPete_110
+  - first:
+      213: -2829327436548794253
+    second: WildPete_111
+  - first:
+      213: 7470836102962639766
+    second: WildPete_112
+  - first:
+      213: -5115589948143192673
+    second: WildPete_113
+  - first:
+      213: -8631745367325451714
+    second: WildPete_114
+  - first:
+      213: -8091263601446614162
+    second: WildPete_115
+  - first:
+      213: 3295516101247313015
+    second: WildPete_116
+  - first:
+      213: 5203177440793454176
+    second: WildPete_117
+  - first:
+      213: -4156912881867953715
+    second: WildPete_118
+  - first:
+      213: -7850760416348334595
+    second: WildPete_119
+  - first:
+      213: -7030140061568232730
+    second: WildPete_120
+  - first:
+      213: 1156042579539446792
+    second: WildPete_121
+  - first:
+      213: -9151158251203381471
+    second: WildPete_122
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UpdatedWildPete_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f734c46fe770444eadfb80a49399a95
+      internalID: 1866567157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b51ea6238cf704b8484c218817e9822a
+      internalID: 888679122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f950965a17c2436fb3b2895b9469484
+      internalID: 2118550027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57c63fb38d6eb4f6d8a559012cc45e46
+      internalID: 2132530810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.335, y: 0.31}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8de5035105bd44ea08048729fe07f495
+      internalID: 830494599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.335, y: 0.31}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ecb4041e35484fc2b432f7133242ce8
+      internalID: 394823997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_6
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.335, y: 0.31}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 807718f71fff94b7d867357b17e8d2e6
+      internalID: -1411411111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.335, y: 0.31}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa6d74bc942ca4e0c945ac62e02c0c76
+      internalID: -127527768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 386b79d8759bc433ea9b25ed9d702e39
+      internalID: -278461089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_9
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f74769dafedcf4fed86e41473f7ee017
+      internalID: 1128372510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_10
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27e9daeacabae4f6eaa1e2571f193c62
+      internalID: 594673265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_11
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e01143e9285454f8ca09f17ad6d6cb83
+      internalID: 404518405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_12
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 241fce28206d3444fa9cbef07914989a
+      internalID: 1643478268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_13
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c214ba4b4ef048bf94e795ddf52efe7
+      internalID: 1190082136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_14
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 151a34385a1894b948d6c092aaaf5c55
+      internalID: -1054561274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_15
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4144276815d334670ad3503f7171941b
+      internalID: -2083269590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_16
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02ac4ff7069da45bfab15dcde8dd4e1d
+      internalID: 777380269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_17
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d89af898c34470eb8f1b27b9766623
+      internalID: -1915540511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_18
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10961a92adee842bfa5e936831c00d4a
+      internalID: 1759601767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_19
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac13d76db365d48fb8d88c3883921026
+      internalID: -1929425810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_20
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 886eb10d7cc1a494f983f70150e30214
+      internalID: -1134665143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_21
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78e233dc84cea4143ade91a4f6ae590b
+      internalID: -784777301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_22
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e990f59be2bb548699de16a355750ee3
+      internalID: -366687864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_23
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c43cf7c4ab4fa434e997ad35d98c2542
+      internalID: 1681337197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_24
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4845805e2b0e9458795afeac27038db7
+      internalID: 538447095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_25
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 130cc7a1f7e3341cd9e47fec5ec03048
+      internalID: -1158143426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_26
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c5745eee055247d1b906a6694d33618
+      internalID: -1065532567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_27
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2aa26865da7744a77989a3ce2b5f510e
+      internalID: -1969941954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_28
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec837e3655a3648dfaf6359cbcff959e
+      internalID: -717731837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_29
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ced72f88a1ad4e46981a584dd11b283
+      internalID: -822225798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_30
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50e35ffe377694e51ba9451585e9de17
+      internalID: 587490215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_31
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34e0f26b905914b7694f4b88cc8a653d
+      internalID: -1936480436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_32
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45f12382a69784d4ca1e8c890f079ac8
+      internalID: 973458754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_33
+      rect:
+        serializedVersion: 2
+        x: 1584
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97cfcae30ea2c4545b004b8b24a60ba0
+      internalID: 1877430630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_34
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4275092f39e184dbb8de3d98983630bd
+      internalID: -718181927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_35
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00042d8ecb64a44b6a3eef24651dde66
+      internalID: -395543948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_36
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6402c031d943d40b7a21a2566cfbda94
+      internalID: 285196886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_37
+      rect:
+        serializedVersion: 2
+        x: 1776
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7f609d42d6494371ad4fd142a06bffd
+      internalID: -392545420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_38
+      rect:
+        serializedVersion: 2
+        x: 1824
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e429bc6dfd7d4e1c93f91f0da1ee38f
+      internalID: -1154587932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_39
+      rect:
+        serializedVersion: 2
+        x: 1872
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 690e44cf76ebb429ca63d589f6e8914f
+      internalID: 1885477914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_40
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 555dc19b18f9d4afba82b5934cd2f7e1
+      internalID: 1280705851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_41
+      rect:
+        serializedVersion: 2
+        x: 1968
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56c9af750bff142b6bfba8c41d3253ef
+      internalID: 1859493310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_42
+      rect:
+        serializedVersion: 2
+        x: 2016
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f27aad98ce354fdbbc44261d67cf2ac
+      internalID: -151377873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_43
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d09aee17bd0c447f2ac8789b542fc512
+      internalID: -732342899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_44
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3f49166685ed44ddbae6984953e7d4f
+      internalID: 1828665180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_45
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dff48323fff5c409ca67ec5dc056cd61
+      internalID: -1776474410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_46
+      rect:
+        serializedVersion: 2
+        x: 2208
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94a059b9130ec479085ba8d387dfe648
+      internalID: -943668644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_47
+      rect:
+        serializedVersion: 2
+        x: 2256
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed19eb41661584b129eb59f6197b4e0a
+      internalID: -1860224229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_48
+      rect:
+        serializedVersion: 2
+        x: 2304
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8fbc670c924d453fb1f7319d8f036ce
+      internalID: -1489840731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_49
+      rect:
+        serializedVersion: 2
+        x: 2352
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa5d0a49fd30f4164873e6efe9cf46e7
+      internalID: -722204761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_50
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f69fa1ee4c114a58a6dd10b4cd0da64
+      internalID: -1721413167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_51
+      rect:
+        serializedVersion: 2
+        x: 2448
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54fb984fa93d24071ad52d0f28a6df81
+      internalID: -122562716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_52
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4913f755dcf2405aac3ee1dcaee48d8
+      internalID: -753557580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_53
+      rect:
+        serializedVersion: 2
+        x: 2544
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 453ebcd3d19b445c592167c628bac2c8
+      internalID: 1103563986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_54
+      rect:
+        serializedVersion: 2
+        x: 2592
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ac240f73de254df6a7f2d7867da0611
+      internalID: -1854384202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_55
+      rect:
+        serializedVersion: 2
+        x: 2640
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c03cc8f9a1fee4237be4e6083da453f4
+      internalID: -1950660490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_56
+      rect:
+        serializedVersion: 2
+        x: 2688
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b03a4cb2a27c479da4e6791d6b44130
+      internalID: 805250794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_57
+      rect:
+        serializedVersion: 2
+        x: 2736
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f1d13c098f854722a7526bbea114a47
+      internalID: 455544950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_58
+      rect:
+        serializedVersion: 2
+        x: 2784
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19af4c7b774b7446e93351db4cfcbf36
+      internalID: -1182161720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_59
+      rect:
+        serializedVersion: 2
+        x: 2832
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 380d3f4e30b86438baa213403c161e4f
+      internalID: -1818088400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_60
+      rect:
+        serializedVersion: 2
+        x: 2880
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb51a971bb42b4ac085d2cb9be8b784a
+      internalID: 1726585999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_61
+      rect:
+        serializedVersion: 2
+        x: 2928
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d8630aeb8b8a42a88e2b3dbb70206a9
+      internalID: -1501356400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_62
+      rect:
+        serializedVersion: 2
+        x: 2976
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab69c876d3ccd480ea2d37288aef758e
+      internalID: -648209055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_63
+      rect:
+        serializedVersion: 2
+        x: 3024
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85edf5922f3694e0c9dd808acc60abe8
+      internalID: 642435530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_64
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec82e52b82f2e4d04bf48442cf3cf743
+      internalID: -1153528522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_65
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67aa3d83264a34ef0b9a88d819c0c09c
+      internalID: 1177722429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_66
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c9b3eabff4cd4602929d89e977e3d0d
+      internalID: -440805548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_67
+      rect:
+        serializedVersion: 2
+        x: 3216
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b15ff4bb0666846f1a219dbde4d3b2ec
+      internalID: 1163603236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_68
+      rect:
+        serializedVersion: 2
+        x: 3264
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37bbe5023093949e8ba932b8780fcbf5
+      internalID: -1216330165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_69
+      rect:
+        serializedVersion: 2
+        x: 3312
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96f8905e9a1f44697ba877432d1a3164
+      internalID: 1971149549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_70
+      rect:
+        serializedVersion: 2
+        x: 3360
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 194ea7f8630b8463795b424182e32e3a
+      internalID: 1309863856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_71
+      rect:
+        serializedVersion: 2
+        x: 3408
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32b2ae61a644b4681be58ff453a1a321
+      internalID: -2019202003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_72
+      rect:
+        serializedVersion: 2
+        x: 3456
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f3503058181c4895acf14b28e3b0c3f
+      internalID: 1269462631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_73
+      rect:
+        serializedVersion: 2
+        x: 3504
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 119d42e053be342cf81f433fd2590c1d
+      internalID: -1911255626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_74
+      rect:
+        serializedVersion: 2
+        x: 3552
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b18d1b1c4ad49748261d72a401a04a
+      internalID: -1850476776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_75
+      rect:
+        serializedVersion: 2
+        x: 3600
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da51bff1342274413aaab5efb341cbcd
+      internalID: -1606160618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_76
+      rect:
+        serializedVersion: 2
+        x: 3648
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b518b233bd0274e368fc1435e5c2189c
+      internalID: 381315732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_77
+      rect:
+        serializedVersion: 2
+        x: 3696
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6566b7e14570e48ada4fdda939ee1af3
+      internalID: 625610096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_78
+      rect:
+        serializedVersion: 2
+        x: 3744
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00678160300d64bc59756cc4300109a0
+      internalID: -728144247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_79
+      rect:
+        serializedVersion: 2
+        x: 3792
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d64a3aba6f624d64bde1387b15e1abf
+      internalID: -261828865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_80
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 316a11728d3bf40fdb8a332ad585df15
+      internalID: -500464869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_81
+      rect:
+        serializedVersion: 2
+        x: 3888
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b3270d884202439fb3891bc12517405
+      internalID: 2099480157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_82
+      rect:
+        serializedVersion: 2
+        x: 3936
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6db466eeb52d4506b56b944d4b76ab6
+      internalID: -120335311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_83
+      rect:
+        serializedVersion: 2
+        x: 3984
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43db3a082da5c4f1885bbb1a2417792f
+      internalID: -219562052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_84
+      rect:
+        serializedVersion: 2
+        x: 4032
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8e1b1488389948e694e069f47f0d6b4
+      internalID: 13856571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_85
+      rect:
+        serializedVersion: 2
+        x: 4080
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aae6d0b1ce29543d3ac34d39bd06c40f
+      internalID: 1497218570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_86
+      rect:
+        serializedVersion: 2
+        x: 4128
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bfe7ee94e3084668a89e73af3002244
+      internalID: 955989879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_87
+      rect:
+        serializedVersion: 2
+        x: 4176
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 113090a007c9d4720ba22c4f754d65a9
+      internalID: 1020668914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_88
+      rect:
+        serializedVersion: 2
+        x: 4224
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46cc95d31bdc14cfeb5c764c4c53bd79
+      internalID: -47119721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_89
+      rect:
+        serializedVersion: 2
+        x: 4272
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d16620c279fd8420298468374744b39e
+      internalID: -936408768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_90
+      rect:
+        serializedVersion: 2
+        x: 4320
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e59ac9d530e93494ca387b4c86967106
+      internalID: -1597559135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_91
+      rect:
+        serializedVersion: 2
+        x: 4368
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a55ba1ff3f2ca4a8a84d5738c24fac32
+      internalID: 1762990615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_92
+      rect:
+        serializedVersion: 2
+        x: 4416
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 314d9e3526f004eb5983dfa58f678492
+      internalID: -473380148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_93
+      rect:
+        serializedVersion: 2
+        x: 4464
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a904823ef888a4bf08c7f36a5b06f71a
+      internalID: -14297008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_94
+      rect:
+        serializedVersion: 2
+        x: 4512
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 956c8e00542074d4d91b619bf8d30e50
+      internalID: -1338558666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_95
+      rect:
+        serializedVersion: 2
+        x: 4560
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97780f5464b5f4ceba464fbe52b68043
+      internalID: 1872115865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_96
+      rect:
+        serializedVersion: 2
+        x: 4608
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cb5d1ef0f2e94b0980c05bab25170f6
+      internalID: -401570808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_97
+      rect:
+        serializedVersion: 2
+        x: 4656
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6cdbc3b2a0f14cbca633faea0f29249
+      internalID: -2137042712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_98
+      rect:
+        serializedVersion: 2
+        x: 4704
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 882af72b3c81c412ab54b2826a85bebd
+      internalID: -200892617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_99
+      rect:
+        serializedVersion: 2
+        x: 4752
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8e79725d5a24779800bf0b24d786d9
+      internalID: -559206183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_100
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c94176f4bce394faf8f4913503763787
+      internalID: -2073392812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_101
+      rect:
+        serializedVersion: 2
+        x: 4848
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1110264e683fc4c279e4e4a04134d38f
+      internalID: -1569860996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_102
+      rect:
+        serializedVersion: 2
+        x: 4896
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 045b0751bfc7944649b1e71c16e1f266
+      internalID: 1819439502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_103
+      rect:
+        serializedVersion: 2
+        x: 4944
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2eb1467eb2d943d88e43eaeb7b9bc26
+      internalID: -1719582934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_104
+      rect:
+        serializedVersion: 2
+        x: 4992
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79e14d1d4244943dfb1a16cf02b94c7e
+      internalID: -785103892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_105
+      rect:
+        serializedVersion: 2
+        x: 5040
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c80467c001f5941a6ba88e4d6a17cebe
+      internalID: -1779166588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_106
+      rect:
+        serializedVersion: 2
+        x: 5088
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51cca5613e057470d9bafd7ab047429a
+      internalID: -1179068960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_107
+      rect:
+        serializedVersion: 2
+        x: 5136
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1733f77b129343a5bd1a45dbf609caf
+      internalID: -532022307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_108
+      rect:
+        serializedVersion: 2
+        x: 5184
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e71afa4c030b44f7893eb325094e2063
+      internalID: 1539589534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_109
+      rect:
+        serializedVersion: 2
+        x: 5232
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fe556290377a45bfac3f2e053df29b6
+      internalID: 853026894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_110
+      rect:
+        serializedVersion: 2
+        x: 5280
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc8561b7dc1eb4991a3e6a0d9caea524
+      internalID: -221787082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_111
+      rect:
+        serializedVersion: 2
+        x: 5328
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 952a9ab1a8b0042ba8275dae1701f30a
+      internalID: -592852156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_112
+      rect:
+        serializedVersion: 2
+        x: 5376
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1827d1ef03659460180e964bae4280f6
+      internalID: 1339165650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_113
+      rect:
+        serializedVersion: 2
+        x: 5424
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90dda8f1a86f04199b510e38329fa477
+      internalID: 602957537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_114
+      rect:
+        serializedVersion: 2
+        x: 5472
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d856e86c45f074d2090a49ad5c186757
+      internalID: 1508905584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_115
+      rect:
+        serializedVersion: 2
+        x: 5520
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51dadde997ceb4aedb09023c637ca686
+      internalID: 1087523399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_116
+      rect:
+        serializedVersion: 2
+        x: 5568
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b08c554fbd894b959afe877b3ba046f
+      internalID: -2107661246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_117
+      rect:
+        serializedVersion: 2
+        x: 5616
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab14afb65ac954ab1a922bd23a0e2d4a
+      internalID: -1013653279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_118
+      rect:
+        serializedVersion: 2
+        x: 5664
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55c82875c664b4abbbc5445970aa7d17
+      internalID: 290509629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_119
+      rect:
+        serializedVersion: 2
+        x: 5712
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 694d44730903c43e494fb89ee4600de0
+      internalID: -595581964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpdatedWildPete_120
+      rect:
+        serializedVersion: 2
+        x: 5760
+        y: 0
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.36, y: 0.29}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acf90628672014ab9a2b310c53e4580b
+      internalID: -2102610404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d7e4d9f52cd1c4f4bbe1afbd605a5e08
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      UpdatedWildPete_0: 1866567157
+      UpdatedWildPete_1: 888679122
+      UpdatedWildPete_10: 594673265
+      UpdatedWildPete_100: -2073392812
+      UpdatedWildPete_101: -1569860996
+      UpdatedWildPete_102: 1819439502
+      UpdatedWildPete_103: -1719582934
+      UpdatedWildPete_104: -785103892
+      UpdatedWildPete_105: -1779166588
+      UpdatedWildPete_106: -1179068960
+      UpdatedWildPete_107: -532022307
+      UpdatedWildPete_108: 1539589534
+      UpdatedWildPete_109: 853026894
+      UpdatedWildPete_11: 404518405
+      UpdatedWildPete_110: -221787082
+      UpdatedWildPete_111: -592852156
+      UpdatedWildPete_112: 1339165650
+      UpdatedWildPete_113: 602957537
+      UpdatedWildPete_114: 1508905584
+      UpdatedWildPete_115: 1087523399
+      UpdatedWildPete_116: -2107661246
+      UpdatedWildPete_117: -1013653279
+      UpdatedWildPete_118: 290509629
+      UpdatedWildPete_119: -595581964
+      UpdatedWildPete_12: 1643478268
+      UpdatedWildPete_120: -2102610404
+      UpdatedWildPete_13: 1190082136
+      UpdatedWildPete_14: -1054561274
+      UpdatedWildPete_15: -2083269590
+      UpdatedWildPete_16: 777380269
+      UpdatedWildPete_17: -1915540511
+      UpdatedWildPete_18: 1759601767
+      UpdatedWildPete_19: -1929425810
+      UpdatedWildPete_2: 2118550027
+      UpdatedWildPete_20: -1134665143
+      UpdatedWildPete_21: -784777301
+      UpdatedWildPete_22: -366687864
+      UpdatedWildPete_23: 1681337197
+      UpdatedWildPete_24: 538447095
+      UpdatedWildPete_25: -1158143426
+      UpdatedWildPete_26: -1065532567
+      UpdatedWildPete_27: -1969941954
+      UpdatedWildPete_28: -717731837
+      UpdatedWildPete_29: -822225798
+      UpdatedWildPete_3: 2132530810
+      UpdatedWildPete_30: 587490215
+      UpdatedWildPete_31: -1936480436
+      UpdatedWildPete_32: 973458754
+      UpdatedWildPete_33: 1877430630
+      UpdatedWildPete_34: -718181927
+      UpdatedWildPete_35: -395543948
+      UpdatedWildPete_36: 285196886
+      UpdatedWildPete_37: -392545420
+      UpdatedWildPete_38: -1154587932
+      UpdatedWildPete_39: 1885477914
+      UpdatedWildPete_4: 830494599
+      UpdatedWildPete_40: 1280705851
+      UpdatedWildPete_41: 1859493310
+      UpdatedWildPete_42: -151377873
+      UpdatedWildPete_43: -732342899
+      UpdatedWildPete_44: 1828665180
+      UpdatedWildPete_45: -1776474410
+      UpdatedWildPete_46: -943668644
+      UpdatedWildPete_47: -1860224229
+      UpdatedWildPete_48: -1489840731
+      UpdatedWildPete_49: -722204761
+      UpdatedWildPete_5: 394823997
+      UpdatedWildPete_50: -1721413167
+      UpdatedWildPete_51: -122562716
+      UpdatedWildPete_52: -753557580
+      UpdatedWildPete_53: 1103563986
+      UpdatedWildPete_54: -1854384202
+      UpdatedWildPete_55: -1950660490
+      UpdatedWildPete_56: 805250794
+      UpdatedWildPete_57: 455544950
+      UpdatedWildPete_58: -1182161720
+      UpdatedWildPete_59: -1818088400
+      UpdatedWildPete_6: -1411411111
+      UpdatedWildPete_60: 1726585999
+      UpdatedWildPete_61: -1501356400
+      UpdatedWildPete_62: -648209055
+      UpdatedWildPete_63: 642435530
+      UpdatedWildPete_64: -1153528522
+      UpdatedWildPete_65: 1177722429
+      UpdatedWildPete_66: -440805548
+      UpdatedWildPete_67: 1163603236
+      UpdatedWildPete_68: -1216330165
+      UpdatedWildPete_69: 1971149549
+      UpdatedWildPete_7: -127527768
+      UpdatedWildPete_70: 1309863856
+      UpdatedWildPete_71: -2019202003
+      UpdatedWildPete_72: 1269462631
+      UpdatedWildPete_73: -1911255626
+      UpdatedWildPete_74: -1850476776
+      UpdatedWildPete_75: -1606160618
+      UpdatedWildPete_76: 381315732
+      UpdatedWildPete_77: 625610096
+      UpdatedWildPete_78: -728144247
+      UpdatedWildPete_79: -261828865
+      UpdatedWildPete_8: -278461089
+      UpdatedWildPete_80: -500464869
+      UpdatedWildPete_81: 2099480157
+      UpdatedWildPete_82: -120335311
+      UpdatedWildPete_83: -219562052
+      UpdatedWildPete_84: 13856571
+      UpdatedWildPete_85: 1497218570
+      UpdatedWildPete_86: 955989879
+      UpdatedWildPete_87: 1020668914
+      UpdatedWildPete_88: -47119721
+      UpdatedWildPete_89: -936408768
+      UpdatedWildPete_9: 1128372510
+      UpdatedWildPete_90: -1597559135
+      UpdatedWildPete_91: 1762990615
+      UpdatedWildPete_92: -473380148
+      UpdatedWildPete_93: -14297008
+      UpdatedWildPete_94: -1338558666
+      UpdatedWildPete_95: 1872115865
+      UpdatedWildPete_96: -401570808
+      UpdatedWildPete_97: -2137042712
+      UpdatedWildPete_98: -200892617
+      UpdatedWildPete_99: -559206183
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
