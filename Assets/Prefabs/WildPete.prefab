@@ -858,10 +858,12 @@ MonoBehaviour:
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
+  reloadDuration: 1.5
   hurtDuration: 0.5
   knockbackForce: 5
   knockbackUpForce: 1
   invincibilityTime: 1
+  deathAnimationDuration: 2
   dashingPower: 12
   dashingTime: 0.3
   slidePower: 15
@@ -990,7 +992,7 @@ SpriteRenderer:
   m_SortingLayerID: 1709080651
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1866567157, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
+  m_Sprite: {fileID: 955989879, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
