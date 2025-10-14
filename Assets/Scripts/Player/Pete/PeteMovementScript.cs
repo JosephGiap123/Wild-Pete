@@ -65,7 +65,13 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override IEnumerator RangedAttack()
     {
-        animatorScript.ChangeAnimationState(playerStates.RangedAttack);
+        if(isCrouching){
+            bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, -0.12f, 0f);
+            animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
+        }else{
+            bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
+            animatorScript.ChangeAnimationState(playerStates.RangedAttack);
+        }
         return base.RangedAttack();
     }
 
