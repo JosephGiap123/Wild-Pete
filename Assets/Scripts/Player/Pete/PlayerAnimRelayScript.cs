@@ -30,4 +30,7 @@ public class PlayerAnimRelayScript : MonoBehaviour
         movementScript.EndHurt();
     }
 
+    public void CallEndReload(){
+        movementScript.EndReload();
+    }
 }

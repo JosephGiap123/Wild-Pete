@@ -30,4 +30,7 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.EndHurt();
     }
 
+    public void CallEndReload(){
+        movementScript.EndReload();
+    }
 }

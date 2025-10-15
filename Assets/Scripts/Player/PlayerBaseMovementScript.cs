@@ -28,7 +28,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public float comboResetTime = 3f;
     protected Coroutine attackResetCoroutine;
     protected bool isReloading = false;
-    public float reloadDuration = 1.5f;
+    protected Coroutine reloadCoroutine;
    
    [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float hurtDuration = 0.5f; // How long hurt animation lasts
@@ -152,7 +152,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo)
         {
-            StartCoroutine(Reload());
+            reloadCoroutine = StartCoroutine(Reload());
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
         {
@@ -336,6 +336,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public virtual void EndAttack()
     {
         isAttacking = false;
+    }
+
+    public virtual void EndReload(){
+        isReloading = false;
     }
 
     protected virtual void FixedUpdate()
@@ -530,10 +534,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator Reload()
     {
         isReloading = true;
-        yield return new WaitForSeconds(reloadDuration);
+        yield return new WaitWhile(() => isReloading);
         ammoCount = maxAmmo;
         OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
-        isReloading = false;
     }
 
     public virtual void AddAmmo(int amount)
@@ -609,6 +612,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             StopCoroutine(attackResetCoroutine);
             attackResetCoroutine = null;
         }
+
+        isReloading = false;
+        if(reloadCoroutine != null){
+            StopCoroutine(reloadCoroutine);
+            reloadCoroutine = null;
+        }
         
         // Cancel dash/slide
         isDashing = false;
@@ -645,7 +654,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         HurtPlayer(damage, knockbackDir);
     }
 
-        protected virtual void ApplyKnockback(float direction)
+    protected virtual void ApplyKnockback(float direction)
     {
         rb.linearVelocity = new Vector2(direction * knockbackForce, knockbackUpForce);
     }
@@ -674,7 +683,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual IEnumerator DeathSequence()
     {
-        // Wait for death animation to finish
         yield return new WaitForSeconds(deathAnimationDuration);
         
         // Additional death logic can go here (e.g., respawn, game over screen, etc.)
