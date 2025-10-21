@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
+
     [Header("Enemy Info")]
     [SerializeField] protected int maxHealth = 10;
     protected int health;
@@ -12,11 +13,15 @@ public class EnemyBase : MonoBehaviour
     // [SerializeField] protected Animator animator;
     [SerializeField] protected Rigidbody2D rb;
 
+    [SerializeField] protected SpriteRenderer sr;
+
     protected virtual void Awake()
     {
         health = maxHealth;
+        sr = GetComponentInChildren<SpriteRenderer>();
+        sr.material = new Material(sr.sharedMaterial); // duplicate the base material
     }
-    
+
     public virtual void Hurt(int dmg)
     {
         health -= dmg;
@@ -40,5 +45,12 @@ public class EnemyBase : MonoBehaviour
     public bool IsAlive()
     {
         return health > 0;
+    }
+
+    public virtual IEnumerator DamageFlash(float duration)
+    {
+        sr.material.SetFloat("_FlashAmount", 1f);
+        yield return new WaitForSeconds(duration);
+        sr.material.SetFloat("_FlashAmount", 0f);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Dummy : EnemyBase
 {
@@ -17,12 +18,12 @@ public class Dummy : EnemyBase
     {
         health -= dmg;
         Debug.Log(health);
-        
+
         if (hurtCoroutine != null)
             StopCoroutine(hurtCoroutine);
-            
+
         hurtCoroutine = StartCoroutine(HurtAnim());
-        
+
         if (health <= 0)
         {
             Die();
@@ -33,6 +34,7 @@ public class Dummy : EnemyBase
     {
         hurtStun = true;
         anim.Play("Hurt");
+        StartCoroutine(DamageFlash(0.2f));
         yield return new WaitWhile(() => hurtStun);
         anim.Play("Idle");
     }
@@ -41,4 +43,5 @@ public class Dummy : EnemyBase
     {
         hurtStun = false;
     }
+
 }

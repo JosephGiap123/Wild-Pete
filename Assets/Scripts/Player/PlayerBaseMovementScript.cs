@@ -27,6 +27,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected int attackCount = 0;
     public float comboResetTime = 3f;
     protected Coroutine attackResetCoroutine;
+    protected bool isReloading = false;
+    protected Coroutine reloadCoroutine;
    
    [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float hurtDuration = 0.5f; // How long hurt animation lasts
@@ -35,6 +37,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected float invincibilityTime = 1f; // I-frames after hurt
     protected bool isHurt = false;
     protected bool isInvincible = false;
+    protected bool isDead = false;
+    [SerializeField] protected float deathAnimationDuration = 2f; // How long death animation plays
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -85,6 +89,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public event Action<int, int> OnAmmoChanged;
     public event Action<int, int> OnHealthChanged; // current, max
     public event Action<int> OnMaxHealthChanged;
+    public event Action OnPlayerDeath; // Triggered when player dies
 
     protected virtual void Awake()
     {
@@ -119,7 +124,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         if (isAttacking) return;
         AnimationControl();
-        if(isHurt) return;
+        if(isHurt || isReloading) return;
         HandleMovement();
         if(!isDashing){
             HandleInput();
@@ -133,7 +138,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             interactor.OnInteract();
         }
-        if (Input.GetKeyDown(KeyCode.E) && weaponEquipped && !isWallSliding)
+        if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
         {
             Attack();
         }
@@ -144,6 +149,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
         {
             StartCoroutine(RangedAttack());
+        }
+        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo)
+        {
+            reloadCoroutine = StartCoroutine(Reload());
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
         {
@@ -217,9 +226,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     }
 
     protected virtual void AnimationControl(){
+        if (isDead)
+        {
+            animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.DeathWep : playerStates.Death);
+            return;
+        }
         if (isHurt)
         {
             animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.HurtWep : playerStates.Hurt);
+            return;
+        }
+        if (isReloading)
+        {
+            animatorScript.ChangeAnimationState(playerStates.Reload);
             return;
         }
         if (isWallSliding)
@@ -274,6 +293,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Attack()
     {
+        if(!weaponEquipped){
+            if(isCrouching || isJumping || !isGrounded) return;
+            if (attackCount >= 3 || attackCount < 0)
+                attackCount = 0;
+            SetUpPunchAttack(attackCount);
+            attackCount++;
+            isAttacking = true;
+            if (attackResetCoroutine != null)
+                StopCoroutine(attackResetCoroutine);
+            attackResetCoroutine = StartCoroutine(ResetAttackCountAfterDelay());
+            return;
+        }
         if (isGrounded)
         {
             if(isJumping) return; //frame perfect check.
@@ -307,8 +338,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isAttacking = false;
     }
 
+    public virtual void EndReload(){
+        isReloading = false;
+    }
+
     protected virtual void FixedUpdate()
     {
+        if(isDead){
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
         if(isHurt){
             rb.linearVelocity = new Vector2(
                 Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
@@ -342,7 +381,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
 
         // Grounded attack locks horizontal movement
-        if (isAttacking && isGrounded)
+        if (isAttacking && isGrounded || isReloading)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
@@ -492,6 +531,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         yield return new WaitWhile(() => isAttacking);
     }
 
+    protected virtual IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitWhile(() => isReloading);
+        ammoCount = maxAmmo;
+        OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+    }
+
     public virtual void AddAmmo(int amount)
     {
         ammoCount = Mathf.Min(ammoCount + amount, maxAmmo);
@@ -501,6 +548,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public virtual void SetHealth(int newHealth){
         health = Mathf.Clamp(newHealth, 0, maxHealth); //ensure it cant go below 0 or over maxhp.
         OnHealthChanged?.Invoke(health, maxHealth);
+        
+        // Check for death
+        if (health <= 0 && !isDead)
+        {
+            Die();
+        }
     }
 
     public virtual void SetMaxHealth(int newMaxHealth){
@@ -534,15 +587,20 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void HurtPlayer(int damage, float knockbackDirection)
     {
-        // Don't get hurt if invincible
-        if (isInvincible) return;
+        // Don't get hurt if invincible or dead
+        if (isInvincible || isDead) return;
         
         isHurt = true;
         // Cancel all active states
         CancelAllActions();
         DamagePlayer(damage);
-        ApplyKnockback(knockbackDirection);
-        StartCoroutine(InvincibilityFrames());
+        
+        // Only apply knockback if player didn't die
+        if (!isDead)
+        {
+            ApplyKnockback(knockbackDirection);
+            StartCoroutine(InvincibilityFrames());
+        }
     }
 
     protected virtual void CancelAllActions()
@@ -553,6 +611,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             StopCoroutine(attackResetCoroutine);
             attackResetCoroutine = null;
+        }
+
+        isReloading = false;
+        if(reloadCoroutine != null){
+            StopCoroutine(reloadCoroutine);
+            reloadCoroutine = null;
         }
         
         // Cancel dash/slide
@@ -590,7 +654,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         HurtPlayer(damage, knockbackDir);
     }
 
-        protected virtual void ApplyKnockback(float direction)
+    protected virtual void ApplyKnockback(float direction)
     {
         rb.linearVelocity = new Vector2(direction * knockbackForce, knockbackUpForce);
     }
@@ -598,6 +662,39 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public virtual void EndHurt()
     {
         isHurt = false;
+    }
+
+    protected virtual void Die()
+    {
+        isDead = true;
+        
+        // Cancel all active actions
+        CancelAllActions();
+        
+        // Stop all movement
+        rb.linearVelocity = Vector2.zero;
+        
+        // Trigger death event
+        OnPlayerDeath?.Invoke();
+        
+        // Start death sequence
+        StartCoroutine(DeathSequence());
+    }
+
+    protected virtual IEnumerator DeathSequence()
+    {
+        yield return new WaitForSeconds(deathAnimationDuration);
+        
+        // Additional death logic can go here (e.g., respawn, game over screen, etc.)
+        // For now, we just disable the player
+        OnDeathAnimationComplete();
+    }
+
+    protected virtual void OnDeathAnimationComplete()
+    {
+        // Override this method in child classes to handle what happens after death
+        // For example: respawn, show game over, reload scene, etc.
+        gameObject.SetActive(false);
     }
 
     // Invincibility frames
@@ -630,5 +727,22 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         
         // spriteRenderer.enabled = true; // Make sure it's visible at end
+    }
+
+    protected virtual void SetUpPunchAttack(int attackIndex)
+    {
+        attackIndex = Mathf.Clamp(attackIndex, 0, 2);
+        switch (attackIndex)
+        {
+            case 0:
+            case 1:
+                hitboxManager.ChangeHitboxBox(new Vector2(0.4f, 0f), new Vector2(1.3f, 0.55f));
+                animatorScript.ChangeAnimationState(playerStates.Punch1);
+                break;
+            case 2:
+                hitboxManager.ChangeHitboxBox(new Vector2(0.4f, 0f), new Vector2(1.3f, 0.55f));
+                animatorScript.ChangeAnimationState(playerStates.Punch2);
+                break;
+        }
     }
 }
