@@ -2,9 +2,32 @@ using UnityEngine;
 
 public class DummyAnimRelay : MonoBehaviour
 {
-    [SerializeField] Dummy dummyScript;
+    private GenEnemy enemy;   // reference to GenEnemy script
 
-    public void CallEndHurtState(){
-        dummyScript.EndHurtState();
+    private void Awake()
+    {
+        // This will automatically find the GenEnemy on the parent object
+        enemy = GetComponentInParent<GenEnemy>();
+    }
+
+    // Animation Events (call these from your Animator clips)
+    public void EndHurt()
+    {
+        enemy.EndHurtState();
+    }
+
+    public void EndAttack()
+    {
+        enemy.EndAttackState();
+    }
+
+    public void DoAttackDamage()
+    {
+        enemy.DoAttackDamage();
+    }
+
+    public void OnDeathAnimationComplete()
+    {
+        enemy.OnDeathAnimationComplete();
     }
 }
