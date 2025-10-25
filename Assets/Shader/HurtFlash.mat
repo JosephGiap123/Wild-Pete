@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DamageFlashMat
+  m_Name: HurtFlash
   m_Shader: {fileID: -6465566751694194690, guid: c1be7d01b108d4b8fb8e278d3dfe072d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
