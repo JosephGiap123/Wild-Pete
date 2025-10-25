@@ -247,8 +247,8 @@ Transform:
   m_GameObject: {fileID: 115418177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6446, y: -2.9727, z: 0}
-  m_LocalScale: {x: 21.040071, y: 2.920651, z: 1}
+  m_LocalPosition: {x: 1.0403, y: -2.9933, z: 0}
+  m_LocalScale: {x: 24.248684, y: 2.961832, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -300,7 +300,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &271439733
 Animator:
   serializedVersion: 7
@@ -460,12 +460,14 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 1
   patrolPoints:
-  - {fileID: 2118362966}
-  - {fileID: 1686561742}
+  - {x: -5, y: -1}
+  - {x: 10, y: -1}
+  - {x: -10, y: -1}
   visionMask:
     serializedVersion: 2
     m_Bits: 192
   viewAngle: 90
+  chaseMemoryTime: 3
 --- !u!1 &484911995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,39 +1143,8 @@ Transform:
   m_GameObject: {fileID: 1564279365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.32, y: -5.93, z: 0}
+  m_LocalPosition: {x: -9.44, y: -10.08, z: 0}
   m_LocalScale: {x: 3.0627017, y: 8.69906, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1686561741
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1686561742}
-  m_Layer: 0
-  m_Name: ponitB
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1686561742
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686561741}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.52, y: -1, z: 0.018509537}
-  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1348,37 +1319,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4283538, y: 1.2142574, z: -18.201782}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2118362965
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2118362966}
-  m_Layer: 0
-  m_Name: pointA
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2118362966
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2118362965}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.53, y: -0.95, z: 0.018509537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1574,5 +1514,3 @@ SceneRoots:
   - {fileID: 1292828515}
   - {fileID: 4160899383649131726}
   - {fileID: 271439735}
-  - {fileID: 2118362966}
-  - {fileID: 1686561742}

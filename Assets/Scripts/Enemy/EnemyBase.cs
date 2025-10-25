@@ -22,6 +22,11 @@ public class EnemyBase : MonoBehaviour
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
     }
 
+    public virtual void EndHurtState()
+    {
+        return;
+    }
+
     public virtual void Hurt(int dmg)
     {
         health -= dmg;

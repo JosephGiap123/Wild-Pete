@@ -11,7 +11,7 @@ public class GenEnemy : EnemyBase
     [SerializeField] private float chaseSpeed = 4f;
     [SerializeField] private float detectionRange = 5f;
     [SerializeField] private float attackRange = 1f;
-    [SerializeField] private Transform[] patrolPoints;
+    [SerializeField] private Vector2[] patrolPoints;
     [SerializeField] private LayerMask visionMask;
     [SerializeField] private float viewAngle = 90f; // field of view cone width
     [SerializeField] private float chaseMemoryTime = 3f; // seconds to keep chasing after losing sight
@@ -180,8 +180,8 @@ public class GenEnemy : EnemyBase
 
         anim.Play("Walk");
 
-        Transform targetPoint = patrolPoints[currentPatrolIndex];
-        Vector2 targetPosition = new Vector2(targetPoint.position.x, transform.position.y);
+        Vector2 targetPoint = patrolPoints[currentPatrolIndex];
+        Vector2 targetPosition = new Vector2(targetPoint.x, transform.position.y);
 
         transform.position = Vector2.MoveTowards(
             transform.position,

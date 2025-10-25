@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Alice;
     [SerializeField] private CinemachineCamera cinemachineCam;
     public int selectedCharacter = 1;
-    public GameObject player {get; private set;}
+    public GameObject player { get; private set; }
 
     public static event Action<GameObject> OnPlayerSet;
 
@@ -29,8 +29,9 @@ public class GameManager : MonoBehaviour
     public void SetPlayer()
     {
         selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
-        // selectedCharacter = 2;
-        switch(selectedCharacter){
+        // selectedCharacter = 1;
+        switch (selectedCharacter)
+        {
             case 1:
                 player = Instantiate(Pete, transform.position, Quaternion.identity);
                 break;

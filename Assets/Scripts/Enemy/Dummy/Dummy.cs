@@ -39,7 +39,7 @@ public class Dummy : EnemyBase
         anim.Play("Idle");
     }
 
-    public void EndHurtState()
+    public override void EndHurtState()
     {
         hurtStun = false;
     }
