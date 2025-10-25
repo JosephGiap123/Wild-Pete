@@ -5,15 +5,17 @@ using UnityEngine;
 public class AttackHitbox : MonoBehaviour
 {
     [SerializeField] LayerMask enemyMask;
+    [SerializeField] LayerMask staticMask;
     [SerializeField] CircleCollider2D circleCol;
     [SerializeField] BoxCollider2D boxCol;
     private bool active = false;
     private int damage = 1;
 
-    public void DisableAll(){
-        if(circleCol != null) circleCol.enabled = false;
-        if(boxCol != null) boxCol.enabled = false;
-    } 
+    public void DisableAll()
+    {
+        if (circleCol != null) circleCol.enabled = false;
+        if (boxCol != null) boxCol.enabled = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -22,36 +24,50 @@ public class AttackHitbox : MonoBehaviour
         if (((1 << other.gameObject.layer) & enemyMask) != 0) //bitshifting to find if sometihng is in said layer
         {
             //guaranteed to be an enemy.
-            if(other.gameObject != null){
+            if (other.gameObject != null)
+            {
                 Debug.Log("Hit enemy");
                 other.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(damage);
             }
         }
+        else if (((1 << other.gameObject.layer) & staticMask) != 0)
+        {
+            if (other.gameObject != null)
+            {
+                Debug.Log("Hit static");
+                other.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(damage);
+            }
+        }
     }
 
-    public void ChangeHitboxCircle(Vector2 localOffset, float radius){
+    public void ChangeHitboxCircle(Vector2 localOffset, float radius)
+    {
         DisableAll();
         circleCol.offset = new Vector2(localOffset.x, localOffset.y);
         circleCol.radius = radius;
     }
 
-    public void ChangeHitboxBox(Vector2 localOffset, Vector2 size){
+    public void ChangeHitboxBox(Vector2 localOffset, Vector2 size)
+    {
         DisableAll();
         boxCol.offset = new Vector2(localOffset.x, localOffset.y);
         boxCol.size = size;
     }
 
-    public void ActivateCircle(){
+    public void ActivateCircle()
+    {
         active = true;
         circleCol.enabled = true;
     }
 
-    public void ActivateBox(){
+    public void ActivateBox()
+    {
         active = true;
         boxCol.enabled = true;
     }
 
-    public void DisableHitbox(){
+    public void DisableHitbox()
+    {
         DisableAll();
         active = false;
     }

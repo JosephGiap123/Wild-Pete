@@ -467,6 +467,9 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
   circleCol: {fileID: 781829894381207796}
   boxCol: {fileID: 2803381632177467573}
 --- !u!1 &3949179700763203121
@@ -837,6 +840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2275127635874104794}
+  sprite: {fileID: 5790001502036111594}
 --- !u!114 &675986149054274358
 MonoBehaviour:
   m_ObjectHideFlags: 0

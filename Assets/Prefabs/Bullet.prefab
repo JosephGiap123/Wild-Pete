@@ -269,10 +269,13 @@ MonoBehaviour:
   bulletLifeTime: 3
   bulletDestroyMask:
     serializedVersion: 2
-    m_Bits: 2688
+    m_Bits: 19072
   enemyMask:
     serializedVersion: 2
     m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!50 &592496376561069699
 Rigidbody2D:
   serializedVersion: 5

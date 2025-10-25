@@ -106,10 +106,13 @@ MonoBehaviour:
   bulletLifeTime: 2.5
   bulletDestroyMask:
     serializedVersion: 2
-    m_Bits: 2688
+    m_Bits: 19072
   enemyMask:
     serializedVersion: 2
     m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
   shotgunCone: 20
   maxSpeedVariation: 3
 --- !u!58 &5253907090477036926

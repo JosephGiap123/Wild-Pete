@@ -85,6 +85,9 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
   circleCol: {fileID: 5102368542197912802}
   boxCol: {fileID: 6182104108368122417}
 --- !u!61 &6182104108368122417
@@ -121,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.4, y: -0.25}
+  m_Offset: {x: 0.7, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -131,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5, y: 0.55}
+  m_Size: {x: 0.8, y: 0.4}
   m_EdgeRadius: 0
 --- !u!1 &2536724497271655194
 GameObject:
@@ -267,6 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1601049201458241287}
+  sprite: {fileID: 4187117937373275561}
 --- !u!114 &2802167836047707247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +297,7 @@ MonoBehaviour:
   knockbackForce: 5
   knockbackUpForce: 1
   invincibilityTime: 1
+  deathAnimationDuration: 2
   dashingPower: 10
   dashingTime: 0.3
   slidePower: 15
@@ -555,7 +560,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bfcb835f7f30143be938b3e41a56923a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -576,7 +581,7 @@ SpriteRenderer:
   m_SortingLayerID: -1778098357
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1109329108, guid: ff1f2c10043154a96b2f2ba25567f849, type: 3}
+  m_Sprite: {fileID: -1768527633, guid: 5c5fb65aeeca44c0ebe102b5903d93ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

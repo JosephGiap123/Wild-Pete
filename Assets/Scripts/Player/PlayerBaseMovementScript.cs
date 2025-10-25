@@ -29,8 +29,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected Coroutine attackResetCoroutine;
     protected bool isReloading = false;
     protected Coroutine reloadCoroutine;
-   
-   [Header("Hurt Settings")] //clauded code here
+
+    [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float hurtDuration = 0.5f; // How long hurt animation lasts
     [SerializeField] protected float knockbackForce = 5f; // Horizontal knockback
     [SerializeField] protected float knockbackUpForce = 1f; // Vertical knockback
@@ -76,6 +76,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
 
+
+
     protected GameObject bulletInstance;
 
     // Abstract properties for character-specific values
@@ -109,14 +111,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual void Update()
     {
         //test
-        if(Input.GetKeyDown(KeyCode.K)){
+        if (Input.GetKeyDown(KeyCode.K))
+        {
             HurtPlayer(5, -1f);
         }
-        if(Input.GetKeyDown(KeyCode.J)){
+        if (Input.GetKeyDown(KeyCode.J))
+        {
             HealPlayer(1);
         }
-        if(PauseController.IsGamePaused){
-            if(Input.GetKeyDown(KeyCode.I)){
+        if (PauseController.IsGamePaused)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
                 interactor.OnInteract();
             }
             return;
@@ -124,9 +130,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         if (isAttacking) return;
         AnimationControl();
-        if(isHurt || isReloading) return;
+        if (isHurt || isReloading) return;
         HandleMovement();
-        if(!isDashing){
+        if (!isDashing)
+        {
             HandleInput();
             HandleFlip();
         }
@@ -134,7 +141,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void HandleInput()
     {
-        if(Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
         }
@@ -150,14 +157,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             StartCoroutine(RangedAttack());
         }
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo)
+        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
         if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
-            if(!isCrouching)
+            if (!isCrouching)
             {
                 slideCoroutine = StartCoroutine(Dash());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
@@ -167,7 +174,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
                 StartCoroutine(Slide());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
-            
+
         }
         if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
@@ -185,17 +192,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             isJumping = true;
             isGrounded = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
-            if(isDashing && isCrouching){ //dash cancel
-                if(slideCoroutine != null)
+            if (isDashing && isCrouching)
+            { //dash cancel
+                if (slideCoroutine != null)
                     StopCoroutine(slideCoroutine);
-                if(dashCooldownCoroutine != null)
+                if (dashCooldownCoroutine != null)
                     StopCoroutine(dashCooldownCoroutine);
                 isDashing = false;
                 StartCoroutine(DashCooldown(slidingCooldown));
             }
         }
 
-        if(isDashing) return;
+        if (isDashing) return;
 
         // Release jump button early for shorter jump
         if (Input.GetKeyUp(KeyCode.W))
@@ -214,10 +222,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             boxCol.offset = CrouchOffset;
             boxCol.size = CrouchSize;
         }
-        else if(Input.GetAxisRaw("Vertical") != - 1 && isCrouching)
+        else if (Input.GetAxisRaw("Vertical") != -1 && isCrouching)
         {
             //check if there is roof above.
-            if((Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, groundMask).Length + Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, wallMask).Length) == 0){ //essentially, check if either wall or floor above player.
+            if ((Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, groundMask).Length + Physics2D.OverlapAreaAll(roofCheck.bounds.min, roofCheck.bounds.max, wallMask).Length) == 0)
+            { //essentially, check if either wall or floor above player.
                 isCrouching = false;
                 boxCol.offset = StandOffset;
                 boxCol.size = StandSize;
@@ -225,7 +234,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
     }
 
-    protected virtual void AnimationControl(){
+    protected virtual void AnimationControl()
+    {
         if (isDead)
         {
             animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.DeathWep : playerStates.Death);
@@ -263,26 +273,31 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             if (!isGrounded)
             {
-                if (rb.linearVelocity.y > 0.1f){
+                if (rb.linearVelocity.y > 0.1f)
+                {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.RisingWep : playerStates.Rising);
                     return;
                 }
-                else if (rb.linearVelocity.y < -0.1f){
+                else if (rb.linearVelocity.y < -0.1f)
+                {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.FallingWep : playerStates.Falling);
                     return;
                 }
             }
             else
             {
-                if (isCrouching){
+                if (isCrouching)
+                {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.CrouchWep : playerStates.Crouch);
                     return;
                 }
-                else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f){
+                else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f)
+                {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.RunWep : playerStates.Run);
                     return;
                 }
-                else{
+                else
+                {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.IdleWep : playerStates.Idle);
                     return;
                 }
@@ -293,8 +308,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Attack()
     {
-        if(!weaponEquipped){
-            if(isCrouching || isJumping || !isGrounded) return;
+        if (!weaponEquipped)
+        {
+            if (isCrouching || isJumping || !isGrounded) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
             SetUpPunchAttack(attackCount);
@@ -307,7 +323,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         if (isGrounded)
         {
-            if(isJumping) return; //frame perfect check.
+            if (isJumping) return; //frame perfect check.
             if (isCrouching)
             {
                 SetupCrouchAttack();
@@ -338,23 +354,27 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isAttacking = false;
     }
 
-    public virtual void EndReload(){
+    public virtual void EndReload()
+    {
         isReloading = false;
     }
 
     protected virtual void FixedUpdate()
     {
-        if(isDead){
+        if (isDead)
+        {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
         }
-        if(isHurt){
+        if (isHurt)
+        {
             rb.linearVelocity = new Vector2(
                 Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
                 rb.linearVelocity.y
             );
             return;
-        };
+        }
+        ;
         // Dashes override normal movement
 
         CheckWall();
@@ -362,7 +382,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         if (isDashing)
         {
-            if(isCrouching){
+            if (isCrouching)
+            {
                 rb.linearVelocity = new Vector2(
                 Mathf.Lerp(rb.linearVelocity.x, 0, 0.05f),
                 rb.linearVelocity.y);
@@ -396,11 +417,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         // Read horizontal input (updated in Update())
         float targetSpeed = horizontalInput * moveSpeed;
-        
+
         if (isCrouching)
             targetSpeed *= 0.4f;
 
-        if(!isDashing){
+        if (!isDashing)
+        {
             float speedDiff = targetSpeed - rb.linearVelocity.x;
             float accelRate = isGrounded ? 15f : 8f;
             float movementForce = speedDiff * accelRate;
@@ -446,7 +468,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
-        
+
         // Reset jump state when landing
         if (!wasGrounded && isGrounded)
         {
@@ -490,14 +512,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isDashing = false;
     }
 
-    protected virtual IEnumerator DashCooldown(float cooldown){
+    protected virtual IEnumerator DashCooldown(float cooldown)
+    {
         yield return new WaitWhile(() => isDashing);
         canDash = false;
         yield return new WaitForSeconds(cooldown);
         canDash = true;
     }
 
-    protected virtual IEnumerator Slide(){
+    protected virtual IEnumerator Slide()
+    {
         canDash = false;
         isDashing = true;
 
@@ -545,10 +569,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
     }
 
-    public virtual void SetHealth(int newHealth){
+    public virtual void SetHealth(int newHealth)
+    {
         health = Mathf.Clamp(newHealth, 0, maxHealth); //ensure it cant go below 0 or over maxhp.
         OnHealthChanged?.Invoke(health, maxHealth);
-        
+
         // Check for death
         if (health <= 0 && !isDead)
         {
@@ -556,7 +581,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
     }
 
-    public virtual void SetMaxHealth(int newMaxHealth){
+    public virtual void SetMaxHealth(int newMaxHealth)
+    {
         maxHealth = newMaxHealth;
         OnMaxHealthChanged?.Invoke(maxHealth);
         OnHealthChanged?.Invoke(health, maxHealth);
@@ -574,27 +600,31 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         attackCount = 0;
     }
 
-    protected virtual float GetHealthPercentage(){
-        return (float)health/maxHealth;
+    protected virtual float GetHealthPercentage()
+    {
+        return (float)health / maxHealth;
     }
 
-    protected virtual void DamagePlayer(int damage){
-        SetHealth(health-damage);
+    protected virtual void DamagePlayer(int damage)
+    {
+        SetHealth(health - damage);
     }
-    protected virtual void HealPlayer(int healBy){
-        SetHealth(health+healBy);
+    protected virtual void HealPlayer(int healBy)
+    {
+        SetHealth(health + healBy);
     }
 
     protected virtual void HurtPlayer(int damage, float knockbackDirection)
     {
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
-        
+
         isHurt = true;
         // Cancel all active states
         CancelAllActions();
+        StartCoroutine(animatorScript.HurtFlash(0.2f));
         DamagePlayer(damage);
-        
+
         // Only apply knockback if player didn't die
         if (!isDead)
         {
@@ -614,11 +644,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
 
         isReloading = false;
-        if(reloadCoroutine != null){
+        if (reloadCoroutine != null)
+        {
             StopCoroutine(reloadCoroutine);
             reloadCoroutine = null;
         }
-        
+
         // Cancel dash/slide
         isDashing = false;
         if (slideCoroutine != null)
@@ -632,16 +663,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             dashCooldownCoroutine = null;
         }
         canDash = true;
-        
+
         // Reset gravity if was dashing
         rb.gravityScale = 3f; //change, hardcoded so far.
-        
+
         if (trail != null)
             trail.emitting = false;
-        
+
         if (hitboxManager != null)
             hitboxManager.DisableAll();
-        
+
         // Reset wall slide
         isWallSliding = false;
     }
@@ -667,16 +698,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual void Die()
     {
         isDead = true;
-        
+
         // Cancel all active actions
         CancelAllActions();
-        
+
         // Stop all movement
         rb.linearVelocity = Vector2.zero;
-        
+
         // Trigger death event
         OnPlayerDeath?.Invoke();
-        
+
         // Start death sequence
         StartCoroutine(DeathSequence());
     }
@@ -684,7 +715,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator DeathSequence()
     {
         yield return new WaitForSeconds(deathAnimationDuration);
-        
+
         // Additional death logic can go here (e.g., respawn, game over screen, etc.)
         // For now, we just disable the player
         OnDeathAnimationComplete();
@@ -701,15 +732,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator InvincibilityFrames()
     {
         isInvincible = true;
-        
+
         // Optional: Flash sprite to show invincibility
         // if (TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
         // {
         //     StartCoroutine(FlashSprite(spriteRenderer));
         // }
-        
+
         yield return new WaitForSeconds(invincibilityTime);
-        
+
         isInvincible = false;
     }
 
@@ -718,14 +749,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         float flashInterval = 0.1f;
         float elapsed = 0f;
-        
+
         while (elapsed < invincibilityTime)
         {
             // spriteRenderer.enabled = !spriteRenderer.enabled;
             yield return new WaitForSeconds(flashInterval);
             elapsed += flashInterval;
         }
-        
+
         // spriteRenderer.enabled = true; // Make sure it's visible at end
     }
 
@@ -736,11 +767,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             case 0:
             case 1:
-                hitboxManager.ChangeHitboxBox(new Vector2(0.4f, 0f), new Vector2(1.3f, 0.55f));
+                hitboxManager.ChangeHitboxBox(new Vector2(0.6f, 0f), new Vector2(0.6f, 0.4f));
                 animatorScript.ChangeAnimationState(playerStates.Punch1);
                 break;
             case 2:
-                hitboxManager.ChangeHitboxBox(new Vector2(0.4f, 0f), new Vector2(1.3f, 0.55f));
+                hitboxManager.ChangeHitboxBox(new Vector2(0.7f, 0f), new Vector2(0.8f, 0.4f));
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
                 break;
         }
