@@ -41,4 +41,14 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.EndReload();
     }
 
+    public void CallStartHyperArmor()
+    {
+        movementScript.StartHyperArmor();
+    }
+
+    public void CallEndHyperArmor()
+    {
+        movementScript.EndHyperArmor();
+    }
+
 }

@@ -558,7 +558,7 @@ MonoBehaviour:
   Pete: {fileID: 8045371504318166606, guid: 4059668e691054cfc9e3e573a48c55e7, type: 3}
   Alice: {fileID: 3172980308799934302, guid: ac8071ac360bc4469a4807cca43db5a6, type: 3}
   cinemachineCam: {fileID: 1380064350}
-  selectedCharacter: 1
+  selectedCharacter: 2
 --- !u!4 &1003101526
 Transform:
   m_ObjectHideFlags: 0
@@ -1376,11 +1376,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: dashRange
-      value: 3
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: maxHealth
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: meleeRange
-      value: 0.5
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: rangedDamage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: bulletLifeTime
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: dashAttackSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: dashAttackDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: rangedAttackCooldown
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: obstructionLayer.m_Bits
+      value: 18560
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.data[0].x
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.data[0].y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.data[1].x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.data[1].y
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

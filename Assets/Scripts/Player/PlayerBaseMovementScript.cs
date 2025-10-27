@@ -29,6 +29,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected Coroutine attackResetCoroutine;
     protected bool isReloading = false;
     protected Coroutine reloadCoroutine;
+    bool hyperArmor = false;
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
@@ -616,9 +617,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
 
-        isHurt = true;
         // Cancel all active states
-        CancelAllActions();
+        if (!hyperArmor)
+        { //hyper armor can ignore.
+            isHurt = true;
+            CancelAllActions();
+        }
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         DamagePlayer(damage);
 
@@ -739,6 +743,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isInvincible = false;
     }
 
+    public virtual void StartHyperArmor()
+    {
+        hyperArmor = true;
+    }
+
+    public virtual void EndHyperArmor()
+    {
+        hyperArmor = false;
+    }
+
     protected virtual void SetUpPunchAttack(int attackIndex)
     {
         attackIndex = Mathf.Clamp(attackIndex, 0, 2);
@@ -755,4 +769,5 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
                 break;
         }
     }
+
 }

@@ -11,14 +11,21 @@ public class GuardAI : EnemyBase
         Patrol,
         Alert,
         Attack,
-        Dead
+        Return
     }
+
+    [SerializeField] private GuardState guardCurrentState = GuardState.Idle;
+
+    [Header("Debug Settings")]
+    [SerializeField] private bool debugMode = false; // Toggle this to see debug logs
+
     [Header("Animations")]
     [SerializeField] private Animator anim;
     private string currentState = "Idle";
 
     [Header("Guard Movement Settings")]
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float alertSpeed = 4f; // Faster movement when chasing player
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
@@ -36,21 +43,21 @@ public class GuardAI : EnemyBase
 
     [Header("Attack Settings")]
     [SerializeField] private int melee1Damage = 2;
-    [SerializeField] private Vector2 melee1HitboxSize = new Vector2(1f, 1f);
-    [SerializeField] private Vector2 melee1HitboxOffset = new Vector2(0.5f, 0f);
-    [SerializeField] private Vector2 melee1Knockback = new Vector2(2f, 1f);
+    [SerializeField] private Vector2 melee1HitboxSize = new(1f, 1f);
+    [SerializeField] private Vector2 melee1HitboxOffset = new(0.5f, 0f);
+    [SerializeField] private Vector2 melee1Knockback = new(2f, 1f);
     [SerializeField] private int melee2Damage = 3;
-    [SerializeField] private Vector2 melee2HitboxSize = new Vector2(1.2f, 1f);
-    [SerializeField] private Vector2 melee2HitboxOffset = new Vector2(0.6f, 0f);
-    [SerializeField] private Vector2 melee2Knockback = new Vector2(3f, 1f);
+    [SerializeField] private Vector2 melee2HitboxSize = new(1.2f, 1f);
+    [SerializeField] private Vector2 melee2HitboxOffset = new(0.6f, 0f);
+    [SerializeField] private Vector2 melee2Knockback = new(3f, 1f);
     [SerializeField] private int rangedDamage = 2;
     [SerializeField] private float rangedAttackCooldown = 5f;
     [SerializeField] private float bulletSpeed = 14f;
     [SerializeField] private float bulletLifeTime = 3f;
     [SerializeField] private int dashAttackDamage = 4;
-    [SerializeField] private Vector2 dashAttackHitboxSize = new Vector2(1.5f, 1f);
-    [SerializeField] private Vector2 dashAttackHitboxOffset = new Vector2(0.75f, 0f);
-    [SerializeField] private Vector2 dashAttackKnockback = new Vector2(4f, 1f);
+    [SerializeField] private Vector2 dashAttackHitboxSize = new(1.5f, 1f);
+    [SerializeField] private Vector2 dashAttackHitboxOffset = new(0.75f, 0f);
+    [SerializeField] private Vector2 dashAttackKnockback = new(4f, 1f);
     [SerializeField] private float dashAttackSpeed = 8f;
 
     [Header("Combat References")]
@@ -59,43 +66,373 @@ public class GuardAI : EnemyBase
     [SerializeField] private BoxCollider2D boxAttackHitbox;
     [SerializeField] private AttackHitBoxGuard attackHitboxScript;
 
+    [Header("Patrol Settings")]
+    [SerializeField] private Vector2[] patrolPoints;
+    private int currentPatrolIndex = 0;
+    [SerializeField] private float patrolWaitTime = 2f;
+    private float patrolWaitTimer = 0f;
+
+    [Header("Detection Settings")]
+    [SerializeField] private float detectionRange = 8f;
+    [SerializeField] private float loseSightTime = 3f;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask obstructionLayer;
+    private Transform player;
+    private float loseSightTimer = 0f;
+
+    [Header("Attack Settings")]
+    [SerializeField] private float attackCooldown = 2f; // seconds between attacks
+    private float attackTimer = 0f;
+    private float rangedTimer = 0f;
+
+
+
     protected override void Awake()
     {
         base.Awake();
         // Additional initialization if needed
     }
 
+    private void Start()
+    {
+        // Try to find player immediately if it exists
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            if (debugMode) Debug.Log($"GuardAI: Player found at start: {player.name}");
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnPlayerSet += HandlePlayerSet;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnPlayerSet -= HandlePlayerSet;
+    }
+
+    private void HandlePlayerSet(GameObject playerObj)
+    {
+        if (playerObj != null)
+        {
+            this.player = playerObj.transform;
+            if (debugMode) Debug.Log($"GuardAI: Player set via GameManager: {player.name}");
+        }
+    }
+
+    private bool CanSeePlayer()
+    {
+        if (player == null)
+        {
+            // Try to find player again
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        Vector2 directionToPlayer = player.position - transform.position;
+        float distanceToPlayer = directionToPlayer.magnitude;
+
+        // Check if player is in detection range
+        if (distanceToPlayer > detectionRange)
+            return false;
+
+        // Only check in facing direction
+        if ((isFacingRight && directionToPlayer.x < 0) || (!isFacingRight && directionToPlayer.x > 0))
+            return false;
+
+        // Raycast ONLY for obstructions - if we hit something that's NOT the player, line of sight is blocked
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer.normalized, distanceToPlayer, obstructionLayer);
+
+        // Draw debug ray to visualize detection
+        Debug.DrawRay(transform.position, directionToPlayer.normalized * distanceToPlayer, hit.collider != null ? Color.red : Color.green);
+
+        // If we hit an obstruction before reaching the player, we can't see them
+        if (hit.collider != null)
+        {
+            if (debugMode) Debug.Log($"GuardAI: Line of sight blocked by {hit.collider.name}");
+            return false;
+        }
+
+        // No obstruction and player is in range and direction - we can see them!
+        if (debugMode) Debug.Log("GuardAI: Can see player!");
+        return true;
+    }
+
+    private void MoveTowards(Vector2 target, float speed = -1f)
+    {
+        // Use default moveSpeed if no speed specified
+        if (speed < 0) speed = moveSpeed;
+
+        float deltaX = target.x - transform.position.x;
+
+        // Higher tolerance for movement to prevent micro-adjustments
+        if (Mathf.Abs(deltaX) > 0.5f)
+        {
+            float direction = Mathf.Sign(deltaX);
+            rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+
+            if ((direction > 0 && !isFacingRight) || (direction < 0 && isFacingRight))
+                FlipSprite();
+        }
+        else
+        {
+            StopMoving();
+        }
+    }
+
+
+
+    public void StopMoving()
+    {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+
+
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y) && isAttacking == 0 && !isDead && !isHurt)
+        // Always call AnimationControl, even when dead or hurt (for death/hurt animations)
+        AnimationControl();
+
+        // Stop processing AI logic if dead or hurt
+        if (isDead || isHurt) return;
+
+        IsGroundedCheck();
+
+        rangedTimer -= Time.deltaTime;
+        attackTimer -= Time.deltaTime;
+
+        bool canSee = CanSeePlayer();
+
+        // Debug current state (only if debug mode enabled)
+        if (debugMode)
         {
-            SetUpAttackHitbox(1);
+            Debug.Log($"GuardAI State: {guardCurrentState}, CanSeePlayer: {canSee}, Player: {(player != null ? player.name : "NULL")}, Attacking: {isAttacking}");
         }
-        else if (Input.GetKeyDown(KeyCode.U) && isAttacking == 0 && !isDead && !isHurt)
+
+        switch (guardCurrentState)
         {
-            SetUpAttackHitbox(2);
+            case GuardState.Idle: HandleIdle(canSee); break;
+            case GuardState.Patrol: HandlePatrol(canSee); break;
+            case GuardState.Alert: HandleAlert(canSee); break;
+            case GuardState.Attack: HandleAttack(); break;
+            case GuardState.Return: HandleReturn(); break;
         }
-        else if (Input.GetKeyDown(KeyCode.I) && isAttacking == 0 && !isDead && !isHurt)
+    }
+
+
+    private void HandleIdle(bool canSee)
+    {
+        StopMoving();
+
+        if (canSee)
         {
-            SetUpAttackHitbox(4);
+            if (debugMode) Debug.Log("GuardAI Idle: Spotted player! Entering Alert state.");
+            guardCurrentState = GuardState.Alert;
+            loseSightTimer = 0f;
+            return;
         }
-        else if (Input.GetKeyDown(KeyCode.O) && isAttacking == 0 && !isDead && !isHurt)
+
+        patrolWaitTimer += Time.deltaTime;
+
+        if (patrolWaitTimer >= patrolWaitTime)
         {
+            patrolWaitTimer = 0f;
+            guardCurrentState = GuardState.Patrol;
+            if (debugMode) Debug.Log("GuardAI Idle: Finished waiting, starting patrol.");
+        }
+    }
+
+    private void HandlePatrol(bool canSee)
+    {
+        if (patrolPoints == null || patrolPoints.Length == 0)
+        {
+            Debug.LogWarning("GuardAI: No patrol points set! Switching to Idle.");
+            guardCurrentState = GuardState.Idle;
+            return;
+        }
+
+        if (canSee)
+        {
+            if (debugMode) Debug.Log("GuardAI: Spotted player during patrol! Switching to Alert.");
+            guardCurrentState = GuardState.Alert;
+            loseSightTimer = 0f;
+            return;
+        }
+
+        Vector2 patrolTarget = patrolPoints[currentPatrolIndex];
+        float distanceToTarget = Vector2.Distance(transform.position, patrolTarget);
+
+        MoveTowards(patrolTarget);
+
+        // Much higher tolerance to prevent getting stuck
+        if (distanceToTarget < 1.0f)
+        {
+            StopMoving();
+            patrolWaitTimer += Time.deltaTime;
+
+            if (patrolWaitTimer >= patrolWaitTime)
+            {
+                patrolWaitTimer = 0f;
+                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+                if (debugMode) Debug.Log($"GuardAI Patrol: Moving to next patrol point: {currentPatrolIndex}");
+            }
+        }
+    }
+
+    private void HandleAlert(bool canSee)
+    {
+        // Don't move if currently attacking!
+        if (isAttacking != 0)
+        {
+            StopMoving();
+            return;
+        }
+
+        if (!canSee)
+        {
+            loseSightTimer += Time.deltaTime;
+
+            // While searching, try to turn around to find player
+            if (player != null && loseSightTimer < loseSightTime)
+            {
+                // Check if player is behind us
+                Vector2 directionToPlayer = player.position - transform.position;
+                bool playerIsBehind = (isFacingRight && directionToPlayer.x < 0) || (!isFacingRight && directionToPlayer.x > 0);
+
+                if (playerIsBehind)
+                {
+                    // Turn around to look for player
+                    FlipSprite();
+                    if (debugMode) Debug.Log("GuardAI Alert: Player might be behind, turning around!");
+                }
+            }
+
+            if (loseSightTimer >= loseSightTime)
+            {
+                loseSightTimer = 0f;
+                StopMoving();
+                guardCurrentState = GuardState.Return;
+                if (debugMode) Debug.Log("GuardAI Alert: Giving up search, returning to patrol.");
+                return;
+            }
+        }
+        else
+        {
+            loseSightTimer = 0f;
+        }
+
+        if (player == null) return;
+
+        float distanceToPlayer = Vector2.Distance(player.position, transform.position);
+
+        // Try ranged attack while chasing (if in range and off cooldown)
+        float rangedAttackMinRange = dashRange; // Start ranged attacks beyond dash range
+        float rangedAttackMaxRange = dashRange * 3.5f; // Maximum range for ranged attacks
+
+        if (distanceToPlayer >= rangedAttackMinRange && distanceToPlayer <= rangedAttackMaxRange && rangedTimer <= 0f)
+        {
+            // In ranged attack range and ready to fire - shoot while chasing!
+            if (debugMode) Debug.Log("GuardAI Alert: Firing ranged attack while chasing!");
             RangedAttack();
+            rangedTimer = rangedAttackCooldown;
         }
-        else if (Input.GetKeyDown(KeyCode.P) && !isInAir && !isDead && !isHurt && isAttacking == 0)
+
+        // Movement logic
+        if (distanceToPlayer > meleeRange * 1.2f)
+        {
+            // Not in melee range - keep chasing
+            MoveTowards(player.position, alertSpeed);
+        }
+        else
+        {
+            // In melee/dash range - stop and enter Attack state for close combat
+            StopMoving();
+            guardCurrentState = GuardState.Attack;
+            if (debugMode) Debug.Log($"GuardAI Alert: In melee/dash range ({distanceToPlayer:F2} units)! Switching to Attack state.");
+        }
+    }
+
+    private void HandleAttack()
+    {
+        // Always stop movement in attack state
+        if (isAttacking == 0)
+        {
+            StopMoving();
+        }
+
+        // Only decide to attack if not currently attacking
+        if (isAttacking == 0 && attackTimer <= 0f)
         {
             DoAttack();
         }
-        IsGroundedCheck();
-        if (moving)
-            HandleFlip();
-        AnimationControl();
+
+        // Don't change states while actively attacking
+        if (isAttacking != 0)
+        {
+            return;
+        }
+
+        // After attacking finishes, always return to Alert state to search for player
+        // Don't immediately give up if we can't see them (they might be behind us)
+        guardCurrentState = GuardState.Alert;
+        loseSightTimer = 0f; // Reset timer so guard searches for a while
+        if (debugMode) Debug.Log("GuardAI Attack: Attack finished, entering Alert state to search for player.");
     }
+
+
+    private void HandleReturn()
+    {
+        // Check if we can see player again while returning
+        if (CanSeePlayer())
+        {
+            if (debugMode) Debug.Log("GuardAI Return: Spotted player again! Re-entering Alert state.");
+            guardCurrentState = GuardState.Alert;
+            loseSightTimer = 0f;
+            return;
+        }
+
+        if (patrolPoints == null || patrolPoints.Length == 0)
+        {
+            if (debugMode) Debug.LogWarning("GuardAI Return: No patrol points, switching to Idle.");
+            guardCurrentState = GuardState.Idle;
+            return;
+        }
+
+        Vector2 patrolTarget = patrolPoints[currentPatrolIndex];
+        float distanceToTarget = Vector2.Distance(transform.position, patrolTarget);
+
+        MoveTowards(patrolTarget); // Use normal patrol speed
+
+        if (distanceToTarget < 1.0f) // Same tolerance as patrol for consistency
+        {
+            if (debugMode) Debug.Log("GuardAI Return: Reached patrol point, idling before resuming patrol.");
+            guardCurrentState = GuardState.Idle;
+            patrolWaitTimer = 0f; // Reset wait timer for idle period
+        }
+    }
+
+
     protected IEnumerator Death()
     {
         isDead = true;
+        StopMoving(); // Stop all movement
+        if (debugMode) Debug.Log("GuardAI: Death coroutine started, playing death animation...");
+
         yield return new WaitForSeconds(2f); //wait for death animation to finish
+
+        if (debugMode) Debug.Log("GuardAI: Death animation finished, destroying object.");
         base.Die();
     }
 
@@ -110,6 +447,8 @@ public class GuardAI : EnemyBase
     public void EndAttack()
     {
         isAttacking = 0;
+        StopMoving(); // Ensure movement is stopped when attack ends
+        if (debugMode) Debug.Log("GuardAI: Attack ended, returning to normal behavior.");
     }
 
     public void InstBullet()
@@ -124,12 +463,31 @@ public class GuardAI : EnemyBase
         if (isDead) return;
 
         health -= dmg;
-        Debug.Log(health);
+        if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}");
         rb.linearVelocity += knockbackForce;
 
         StartHurtAnim(dmg);
 
-        if (!IsAlive())
+        // Enter Alert state and try to find attacker
+        if (IsAlive())
+        {
+            guardCurrentState = GuardState.Alert;
+            loseSightTimer = 0f;
+
+            // Try to find player if we don't have reference
+            if (player == null)
+            {
+                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null)
+                {
+                    player = playerObj.transform;
+                    if (debugMode) Debug.Log("GuardAI: Found player after being attacked!");
+                }
+            }
+
+            if (debugMode) Debug.Log("GuardAI: Hurt! Entering Alert state!");
+        }
+        else
         {
             StartCoroutine(Death());
         }
@@ -235,62 +593,52 @@ public class GuardAI : EnemyBase
         transform.localScale = scale;
     }
 
-    //Attacks
+    //Attacks - Only called in Attack state for close-range combat (melee/dash)
     public void DoAttack()
     {
         //Choose an attack based on what is done.
         //1 = melee1, 2 =melee2, 3 = ranged, 4 = dash
         //melee2 MUST be called after melee1.
+        // NOTE: Ranged attacks are now handled in Alert state while chasing
+
         Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         if (!playerTransform || isDead || isHurt) return;
         float distanceToPlayer = Vector2.Distance(playerTransform.position, transform.position);
-        Debug.Log(distanceToPlayer);
-        if (distanceToPlayer <= dashRange * 3f)
+
+        //flip towards player if not facing them.
+        if ((playerTransform.position.x > transform.position.x && !isFacingRight) || (playerTransform.position.x < transform.position.x && isFacingRight))
         {
-            //Decide between melee or dash attack
-            //flip towards player if not facing them.
-            if ((playerTransform.position.x > transform.position.x && !isFacingRight) || (playerTransform.position.x < transform.position.x && isFacingRight))
+            FlipSprite();
+        }
+
+        // Only handle melee/dash attacks here (ranged is handled in Alert state)
+        if (distanceToPlayer <= meleeRange)
+        {
+            // Close range: Melee attacks (with chance of dash)
+            int meleeChoice = Random.Range(1, 5); //1-3 = melee, 4 = dash
+            if (meleeChoice == 4)
             {
-                Debug.Log("Flip");
-                FlipSprite();
-            }
-            if (distanceToPlayer <= meleeRange)
-            {
-                int attackChoice = Random.Range(0, 2); //0 = nothing ,1 = melee, 2 = dash
-                if (attackChoice < 2)
-                {
-                    int meleeChoice = Random.Range(1, 5); //1 = melee1, 2 = dash.
-                    Debug.Log(meleeChoice);
-                    if (meleeChoice == 4)
-                    {
-                        Debug.Log("Random Dash");
-                        SetUpAttackHitbox(4);
-                        //choose to dash
-                    }
-                    else
-                    {
-                        Debug.Log("Melee");
-                        //choose to melee attack
-                        MeleeAttack();
-                    }
-                }
-            }
-            else if (distanceToPlayer <= dashRange)
-            {
-                //Dash attack
-                Debug.Log("Forced Dash");
+                if (debugMode) Debug.Log("GuardAI DoAttack: Random Dash from melee range");
                 SetUpAttackHitbox(4);
+                attackTimer = attackCooldown;
             }
-            else if (distanceToPlayer <= dashRange * 3.5f)
+            else
             {
-                Debug.Log("Ranged");
-                //Ranged attack if player is far but not too far
-                RangedAttack();
+                if (debugMode) Debug.Log("GuardAI DoAttack: Melee attack");
+                MeleeAttack();
             }
+        }
+        else if (distanceToPlayer <= dashRange)
+        {
+            // Medium range: Dash attack
+            if (debugMode) Debug.Log("GuardAI DoAttack: Dash range - performing dash attack");
+            SetUpAttackHitbox(4);
+            attackTimer = attackCooldown;
         }
         else
         {
-            //Out of range, do nothing or move closer
+            // Player moved out of close combat range - return to Alert to chase
+            if (debugMode) Debug.Log("GuardAI DoAttack: Player out of close combat range, returning to Alert.");
         }
     }
 
@@ -307,6 +655,7 @@ public class GuardAI : EnemyBase
             isAttacking = 2;
             SetUpAttackHitbox(2);
             attackChain = 0;
+            attackTimer = attackCooldown / 2;
         }
     }
 
@@ -346,8 +695,20 @@ public class GuardAI : EnemyBase
         rb.linearVelocity = new Vector2(dashSpeed, rb.linearVelocity.y);
     }
 
-    public void EndDash()
+    private void OnDrawGizmosSelected()
     {
-        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + (isFacingRight ? Vector3.right : Vector3.left) * detectionRange);
+
+        Gizmos.color = Color.yellow;
+        if (patrolPoints != null)
+        {
+            foreach (var p in patrolPoints)
+            {
+                if (p != null)
+                    Gizmos.DrawWireSphere(p, 0.2f);
+            }
+        }
     }
+
 }

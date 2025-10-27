@@ -35,6 +35,6 @@ public class GuardAnimRelay : MonoBehaviour
 
     public void CallEndDash()
     {
-        guardAI.EndDash();
+        guardAI.StopMoving();
     }
 }
