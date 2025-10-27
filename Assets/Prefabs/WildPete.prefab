@@ -795,7 +795,6 @@ GameObject:
   - component: {fileID: 8139471980475301415}
   - component: {fileID: 675986149054274358}
   - component: {fileID: 2942441695391280840}
-  - component: {fileID: 2808650896071919105}
   m_Layer: 6
   m_Name: WildPete
   m_TagString: Player
@@ -853,9 +852,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085d289bd9ed84cef91498854469cc36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  jumpPower: 10
-  minJumpPower: 3
+  moveSpeed: 4.5
+  jumpPower: 9
+  minJumpPower: 4
   isFacingRight: 1
   maxHealth: 20
   health: 20
@@ -863,15 +862,12 @@ MonoBehaviour:
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
-  hurtDuration: 0.5
-  knockbackForce: 5
-  knockbackUpForce: 1
-  invincibilityTime: 1
+  invincibilityTime: 0.2
   deathAnimationDuration: 2
-  dashingPower: 12
+  dashingPower: 10
   dashingTime: 0.3
-  slidePower: 15
-  dashingCooldown: 3
+  slidePower: 13
+  dashingCooldown: 3.5
   slidingCooldown: 0.75
   wallRay: {fileID: 1896967197796685413}
   wallMask:
@@ -891,6 +887,26 @@ MonoBehaviour:
   hitboxManager: {fileID: 3065023052435475213}
   animatorScript: {fileID: 8139471980475301415}
   interactor: {fileID: 936485352055800519}
+  melee1Damage: 2
+  melee1Size: {x: 1.3, y: 0.55}
+  melee1Offset: {x: 0.4, y: 0}
+  melee1Knockback: {x: 1, y: 0}
+  melee2Damage: 2
+  melee2Size: {x: 1.3, y: 0.55}
+  melee2Offset: {x: 0.25, y: 0}
+  melee2Knockback: {x: -2, y: 0}
+  melee3Damage: 3
+  melee3Size: {x: 1.75, y: 0.55}
+  melee3Offset: {x: 0.5, y: 0}
+  melee3Knockback: {x: 5, y: 0}
+  crouchAttackDamage: 3
+  crouchAttackSize: {x: 1.35, y: 0.55}
+  crouchAttackOffset: {x: 0.4, y: -0.25}
+  crouchAttackKnockback: {x: 2, y: 1}
+  aerialAttackDamage: 4
+  aerialAttackSize: {x: 1.9, y: 1}
+  aerialAttackOffset: {x: 0, y: 0}
+  aerialAttackKnockback: {x: 0, y: 0}
 --- !u!50 &2942441695391280840
 Rigidbody2D:
   serializedVersion: 5
@@ -918,52 +934,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &2808650896071919105
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8045371504318166606}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &8113746080852306424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,7 +991,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: bfcb835f7f30143be938b3e41a56923a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -31,10 +31,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected Coroutine reloadCoroutine;
 
     [Header("Hurt Settings")] //clauded code here
-    [SerializeField] protected float hurtDuration = 0.5f; // How long hurt animation lasts
-    [SerializeField] protected float knockbackForce = 5f; // Horizontal knockback
-    [SerializeField] protected float knockbackUpForce = 1f; // Vertical knockback
-    [SerializeField] protected float invincibilityTime = 1f; // I-frames after hurt
+    [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
@@ -98,7 +95,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Make ground check slightly smaller than character width
         if (groundCheck != null)
         {
-            groundCheck.size = new Vector2(CharWidth * 0.9f, groundCheck.size.y);
+            groundCheck.size = new(CharWidth * 0.9f, groundCheck.size.y);
         }
         health = maxHealth;
     }
@@ -113,7 +110,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         //test
         if (Input.GetKeyDown(KeyCode.K))
         {
-            HurtPlayer(5, -1f);
+            HurtPlayer(5, -1f, new(5f, 2f));
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
@@ -212,7 +209,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             // Apply minimum jump power if released early
             if (rb.linearVelocity.y > minJumpPower)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, minJumpPower);
+                rb.linearVelocity = new(rb.linearVelocity.x, minJumpPower);
             }
         }
 
@@ -363,12 +360,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         if (isDead)
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            rb.linearVelocity = new(0, rb.linearVelocity.y);
             return;
         }
         if (isHurt)
         {
-            rb.linearVelocity = new Vector2(
+            rb.linearVelocity = new(
                 Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f),
                 rb.linearVelocity.y
             );
@@ -384,7 +381,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             if (isCrouching)
             {
-                rb.linearVelocity = new Vector2(
+                rb.linearVelocity = new(
                 Mathf.Lerp(rb.linearVelocity.x, 0, 0.05f),
                 rb.linearVelocity.y);
             }
@@ -394,7 +391,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Wall slide behavior
         if (isWallSliding)
         {
-            rb.linearVelocity = new Vector2(
+            rb.linearVelocity = new(
                 rb.linearVelocity.x,
                 Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue)
             );
@@ -404,7 +401,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Grounded attack locks horizontal movement
         if (isAttacking && isGrounded || isReloading)
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            rb.linearVelocity = new(0, rb.linearVelocity.y);
             return;
         }
 
@@ -434,14 +431,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Smooth deceleration when no input
         if (horizontalInput == 0 && isGrounded || isDashing)
         {
-            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
+            rb.linearVelocity = new(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
         }
     }
 
 
     protected virtual void HandleAerialAttackMovement()
     {
-        rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
+        rb.linearVelocity = new(Mathf.Lerp(rb.linearVelocity.x, 0, 0.1f), rb.linearVelocity.y);
     }
 
     protected virtual void HandleFlip()
@@ -501,7 +498,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         rb.gravityScale = 0f;
 
         float power = dashingPower;
-        rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * power, 0f);
+        rb.linearVelocity = new(Mathf.Sign(transform.localScale.x) * power, 0f);
 
         trail.emitting = true;
 
@@ -525,7 +522,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         canDash = false;
         isDashing = true;
 
-        rb.linearVelocity = new Vector2(Mathf.Sign(transform.localScale.x) * slidePower, 0f);
+        rb.linearVelocity = new(Mathf.Sign(transform.localScale.x) * slidePower, 0f);
 
         yield return new WaitForSeconds(slidingCooldown);
         isDashing = false;
@@ -614,7 +611,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         SetHealth(health + healBy);
     }
 
-    protected virtual void HurtPlayer(int damage, float knockbackDirection)
+    public virtual void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
     {
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
@@ -628,7 +625,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Only apply knockback if player didn't die
         if (!isDead)
         {
-            ApplyKnockback(knockbackDirection);
+            ApplyKnockback(knockbackDirection, knockbackForce);
             StartCoroutine(InvincibilityFrames());
         }
     }
@@ -677,17 +674,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isWallSliding = false;
     }
 
-    // Overload for knockback based on enemy position
-    protected virtual void HurtPlayer(int damage, Vector2 enemyPosition)
+    // Overload for knockback based on hitbox position
+    public virtual void HurtPlayer(int damage, Vector2 hitboxCenter, Vector2 knockbackForce)
     {
-        float knockbackDir = Mathf.Sign(transform.position.x - enemyPosition.x);
+        float knockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.x);
         if (knockbackDir == 0) knockbackDir = isFacingRight ? -1 : 1; // Fallback
-        HurtPlayer(damage, knockbackDir);
+        HurtPlayer(damage, knockbackDir, knockbackForce);
     }
 
-    protected virtual void ApplyKnockback(float direction)
+    protected virtual void ApplyKnockback(float direction, Vector2 knockbackForce)
     {
-        rb.linearVelocity = new Vector2(direction * knockbackForce, knockbackUpForce);
+        if (direction != (isFacingRight ? -1f : 1f))
+        {
+            FlipSprite();
+        }
+        rb.linearVelocity = new(direction * knockbackForce.x, knockbackForce.y);
     }
 
     public virtual void EndHurt()
@@ -733,31 +734,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         isInvincible = true;
 
-        // Optional: Flash sprite to show invincibility
-        // if (TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
-        // {
-        //     StartCoroutine(FlashSprite(spriteRenderer));
-        // }
-
         yield return new WaitForSeconds(invincibilityTime);
 
         isInvincible = false;
-    }
-
-    // Visual feedback for invincibility
-    protected virtual IEnumerator FlashSprite(SpriteRenderer spriteRenderer)
-    {
-        float flashInterval = 0.1f;
-        float elapsed = 0f;
-
-        while (elapsed < invincibilityTime)
-        {
-            // spriteRenderer.enabled = !spriteRenderer.enabled;
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
-        }
-
-        // spriteRenderer.enabled = true; // Make sure it's visible at end
     }
 
     protected virtual void SetUpPunchAttack(int attackIndex)
@@ -767,11 +746,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             case 0:
             case 1:
-                hitboxManager.ChangeHitboxBox(new Vector2(0.6f, 0f), new Vector2(0.6f, 0.4f));
+                hitboxManager.ChangeHitboxBox(new(0.6f, 0f), new(0.6f, 0.4f), new(1f, 0f), 1);
                 animatorScript.ChangeAnimationState(playerStates.Punch1);
                 break;
             case 2:
-                hitboxManager.ChangeHitboxBox(new Vector2(0.7f, 0f), new Vector2(0.8f, 0.4f));
+                hitboxManager.ChangeHitboxBox(new(0.7f, 0f), new(0.8f, 0.4f), new(3f, 0f), 3);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
                 break;
         }

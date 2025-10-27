@@ -283,9 +283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3137ff4a0bac94e84ad5fdcdf88b4ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  jumpPower: 12
-  minJumpPower: 5
+  moveSpeed: 4
+  jumpPower: 9
+  minJumpPower: 4
   isFacingRight: 1
   maxHealth: 20
   health: 20
@@ -293,15 +293,12 @@ MonoBehaviour:
   maxAmmo: 5
   maxAttackChain: 2
   comboResetTime: 3
-  hurtDuration: 0.5
-  knockbackForce: 5
-  knockbackUpForce: 1
-  invincibilityTime: 1
+  invincibilityTime: 0.2
   deathAnimationDuration: 2
-  dashingPower: 10
+  dashingPower: 9
   dashingTime: 0.3
-  slidePower: 15
-  dashingCooldown: 3
+  slidePower: 12
+  dashingCooldown: 3.5
   slidingCooldown: 0.75
   wallRay: {fileID: 4137327256938815234}
   wallMask:
@@ -321,6 +318,22 @@ MonoBehaviour:
   hitboxManager: {fileID: 2599902317028416662}
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
+  melee1Damage: 4
+  melee1Size: 0.8
+  melee1Offset: {x: 0.5, y: 0}
+  melee1Knockback: {x: 0.5, y: 8}
+  melee2Damage: 5
+  melee2Size: 0.8
+  melee2Offset: {x: 0.5, y: 0}
+  melee2Knockback: {x: 0.5, y: -4}
+  crouchAttackDamage: 2
+  crouchAttackSize: {x: 1, y: 0.55}
+  crouchAttackOffset: {x: 0.3, y: -0.25}
+  crouchAttackKnockback: {x: 2, y: 1}
+  aerialAttackDamage: 4
+  aerialAttackSize: 1
+  aerialAttackOffset: {x: 0, y: 0}
+  aerialAttackKnockback: {x: 3, y: 0}
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5

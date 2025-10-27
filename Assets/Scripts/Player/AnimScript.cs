@@ -15,7 +15,7 @@ public class AnimScript : MonoBehaviour
         currentState = newState;
     }
 
-    public playerStates returnCurrentState()
+    public playerStates ReturnCurrentState()
     {
         return currentState;
     }

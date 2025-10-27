@@ -28,8 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayer()
     {
-        selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
-        // selectedCharacter = 1;
+        // selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
         switch (selectedCharacter)
         {
             case 1:
