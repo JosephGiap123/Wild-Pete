@@ -8,8 +8,11 @@ public class AttackHitbox : MonoBehaviour
     [SerializeField] LayerMask staticMask;
     [SerializeField] CircleCollider2D circleCol;
     [SerializeField] BoxCollider2D boxCol;
+    private Vector2 knockbackForce = Vector2.zero;
     private bool active = false;
     private int damage = 1;
+
+    private BasePlayerMovement2D parent;
 
     public void DisableAll()
     {
@@ -27,7 +30,7 @@ public class AttackHitbox : MonoBehaviour
             if (other.gameObject != null)
             {
                 Debug.Log("Hit enemy");
-                other.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(damage);
+                other.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(damage, knockbackForce);
             }
         }
         else if (((1 << other.gameObject.layer) & staticMask) != 0)
@@ -35,23 +38,27 @@ public class AttackHitbox : MonoBehaviour
             if (other.gameObject != null)
             {
                 Debug.Log("Hit static");
-                other.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(damage);
+                other.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(damage, knockbackForce);
             }
         }
     }
 
-    public void ChangeHitboxCircle(Vector2 localOffset, float radius)
+    public void ChangeHitboxCircle(Vector2 localOffset, float radius, Vector2 knockback, int dmg)
     {
+        knockbackForce = new Vector2(knockback.x * (parent.isFacingRight ? 1f : -1f), knockback.y);
         DisableAll();
         circleCol.offset = new Vector2(localOffset.x, localOffset.y);
         circleCol.radius = radius;
+        damage = dmg;
     }
 
-    public void ChangeHitboxBox(Vector2 localOffset, Vector2 size)
+    public void ChangeHitboxBox(Vector2 localOffset, Vector2 size, Vector2 knockback, int dmg)
     {
+        knockbackForce = new Vector2(knockback.x * (parent.isFacingRight ? 1f : -1f), knockback.y);
         DisableAll();
         boxCol.offset = new Vector2(localOffset.x, localOffset.y);
         boxCol.size = size;
+        damage = dmg;
     }
 
     public void ActivateCircle()
@@ -70,5 +77,10 @@ public class AttackHitbox : MonoBehaviour
     {
         DisableAll();
         active = false;
+    }
+
+    private void Awake()
+    {
+        parent = transform.parent.GetComponent<BasePlayerMovement2D>();
     }
 }

@@ -1,18 +1,20 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class ShotgunBullet : MonoBehaviour
 {
-    [SerializeField] private float bulletSpeed = 14f;
+    [SerializeField] private float bulletSpeed = 8f;
     [SerializeField] private float bulletLifeTime = 3f;
     [SerializeField] private LayerMask bulletDestroyMask;
     [SerializeField] private LayerMask enemyMask;
-
     [SerializeField] private LayerMask staticMask;
+    [SerializeField] private float shotgunCone = 20f;
+    [SerializeField] private float maxSpeedVariation = 3f;
+    private float randomizeAngle;
     private Rigidbody2D rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        randomizeAngle = Random.Range(-shotgunCone, shotgunCone);
         SetStraightVelocity();
         SetDestroyTime();
     }
@@ -28,7 +30,7 @@ public class Bullet : MonoBehaviour
                 if (collision.gameObject != null)
                 {
                     Debug.Log("Hit enemy");
-                    collision.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(2);
+                    collision.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(1, Vector2.zero);
                 }
             }
             else if (((1 << collision.gameObject.layer) & staticMask) != 0)
@@ -36,7 +38,7 @@ public class Bullet : MonoBehaviour
                 if (collision.gameObject != null)
                 {
                     Debug.Log("Hit enemy");
-                    collision.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(1);
+                    collision.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(1, Vector2.zero);
                 }
             }
             Destroy(gameObject);
@@ -46,7 +48,8 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     private void SetStraightVelocity()
     {
-        rb.linearVelocity = transform.right * bulletSpeed;
+        transform.Rotate(0, 0, randomizeAngle);
+        rb.linearVelocity = transform.right * Random.Range(bulletSpeed - maxSpeedVariation, bulletSpeed + maxSpeedVariation);
     }
 
     private void SetDestroyTime()

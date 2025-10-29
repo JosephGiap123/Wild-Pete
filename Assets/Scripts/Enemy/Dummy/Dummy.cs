@@ -14,7 +14,7 @@ public class Dummy : EnemyBase
         base.Awake();
     }
 
-    public override void Hurt(int dmg)
+    public override void Hurt(int dmg, Vector2 knockback)
     {
         health -= dmg;
         Debug.Log(health);

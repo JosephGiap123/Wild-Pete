@@ -27,7 +27,7 @@ public class EnemyBase : MonoBehaviour
         return;
     }
 
-    public virtual void Hurt(int dmg)
+    public virtual void Hurt(int dmg, Vector2 knockbackForce)
     {
         health -= dmg;
         Debug.Log(health);

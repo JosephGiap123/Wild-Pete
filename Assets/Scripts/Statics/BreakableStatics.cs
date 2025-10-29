@@ -20,7 +20,7 @@ public class BreakableStatics : MonoBehaviour
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
     }
 
-    public virtual void Damage(int dmg)
+    public virtual void Damage(int dmg, Vector2 knockbackForce)
     {
         health -= dmg;
         Debug.Log(health);
