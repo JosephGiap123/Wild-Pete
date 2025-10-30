@@ -472,6 +472,7 @@ MonoBehaviour:
     m_Bits: 16384
   circleCol: {fileID: 781829894381207796}
   boxCol: {fileID: 2803381632177467573}
+  disableAfterFirstHit: 0
 --- !u!1 &3949179700763203121
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,6 +863,7 @@ MonoBehaviour:
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
+  attackCooldown: 1.4
   invincibilityTime: 0.2
   deathAnimationDuration: 2
   dashingPower: 10
@@ -869,6 +871,8 @@ MonoBehaviour:
   slidePower: 13
   dashingCooldown: 3.5
   slidingCooldown: 0.75
+  aerialCooldown: 1
+  maxAttackDuration: 0.9
   wallRay: {fileID: 1896967197796685413}
   wallMask:
     serializedVersion: 2
@@ -887,6 +891,7 @@ MonoBehaviour:
   hitboxManager: {fileID: 3065023052435475213}
   animatorScript: {fileID: 8139471980475301415}
   interactor: {fileID: 936485352055800519}
+  damageText: {fileID: 2934180614917296999, guid: 97c3956fc07ef4de3b92b30962218e25, type: 3}
   melee1Damage: 2
   melee1Size: {x: 1.3, y: 0.55}
   melee1Offset: {x: 0.4, y: 0}

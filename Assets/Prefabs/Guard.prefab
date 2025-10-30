@@ -54,22 +54,26 @@ MonoBehaviour:
   maxHealth: 25
   rb: {fileID: 3298042167039764757}
   sr: {fileID: 3463634147269906014}
+  damageText: {fileID: 2934180614917296999, guid: 21f99a33b552c4e0e9ee9886af9d1162, type: 3}
+  guardCurrentState: 0
+  debugMode: 0
   anim: {fileID: 9170543586394422277}
   moveSpeed: 2
-  jumpForce: 5
+  alertSpeed: 4
+  jumpForce: 7
   groundCheckBox: {fileID: 5536802147246610399}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
   isFacingRight: 1
   isInAir: 0
-  meleeRange: 1.5
-  dashRange: 3
-  melee1Damage: 2
+  meleeRange: 1.6
+  dashRange: 4
+  melee1Damage: 3
   melee1HitboxSize: {x: 1.35, y: 0.75}
   melee1HitboxOffset: {x: 0.37, y: 0.37}
   melee1Knockback: {x: 3, y: 1}
-  melee2Damage: 3
+  melee2Damage: 4
   melee2HitboxSize: {x: 1.35, y: 0.75}
   melee2HitboxOffset: {x: 0.37, y: 0.37}
   melee2Knockback: {x: -3, y: 1}
@@ -81,11 +85,24 @@ MonoBehaviour:
   dashAttackHitboxSize: {x: 1.5, y: 0.45}
   dashAttackHitboxOffset: {x: 0.45, y: 0.5}
   dashAttackKnockback: {x: 6, y: 1}
-  dashAttackSpeed: 8
+  dashAttackSpeed: 12
   projectilePrefab: {fileID: 2277310032840431590, guid: 036e079026c4a4deda59856274a5f7c1, type: 3}
   projectileSpawnPoint: {fileID: 3091188603775906058}
   boxAttackHitbox: {fileID: 2253911895311882820}
   attackHitboxScript: {fileID: 9027351714032163200}
+  patrolPoints:
+  - {x: -7, y: -1}
+  - {x: 3, y: -1}
+  patrolWaitTime: 5
+  detectionRange: 8
+  loseSightTime: 3
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 18560
+  attackCooldown: 2
 --- !u!114 &9027351714032163200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +123,7 @@ MonoBehaviour:
     m_Bits: 16384
   boxCol: {fileID: 2253911895311882820}
   parent: {fileID: 4778260064776062145}
+  disableAfterFirstHit: 0
 --- !u!50 &3298042167039764757
 Rigidbody2D:
   serializedVersion: 5
@@ -317,8 +335,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1778098357
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1156690779020452156, guid: 7701c4678c3c846dc9290be3cc847917, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

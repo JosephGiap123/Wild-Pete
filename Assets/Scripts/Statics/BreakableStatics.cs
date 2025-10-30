@@ -10,12 +10,13 @@ public class BreakableStatics : MonoBehaviour
 
     [Header("References")]
     // [SerializeField] protected Animator animator;
-    [SerializeField] protected Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
 
     protected virtual void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
     }

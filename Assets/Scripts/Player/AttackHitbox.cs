@@ -11,6 +11,9 @@ public class AttackHitbox : MonoBehaviour
     private Vector2 knockbackForce = Vector2.zero;
     private bool active = false;
     private int damage = 1;
+    [Header("Hit Behavior")]
+    [SerializeField] private bool disableAfterFirstHit = false; // optional single-hit behavior
+    private readonly HashSet<GameObject> alreadyHit = new HashSet<GameObject>();
 
     private BasePlayerMovement2D parent;
 
@@ -29,16 +32,24 @@ public class AttackHitbox : MonoBehaviour
             //guaranteed to be an enemy.
             if (other.gameObject != null)
             {
+                GameObject targetRoot = other.transform.root.gameObject;
+                if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
+                alreadyHit.Add(targetRoot);
                 Debug.Log("Hit enemy");
-                other.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>().Hurt(damage, knockbackForce);
+                targetRoot.GetComponent<EnemyBase>().Hurt(damage, knockbackForce);
+                if (disableAfterFirstHit) DisableHitbox();
             }
         }
         else if (((1 << other.gameObject.layer) & staticMask) != 0)
         {
             if (other.gameObject != null)
             {
+                GameObject targetRoot = other.transform.root.gameObject;
+                if (alreadyHit.Contains(targetRoot)) return;
+                alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");
-                other.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(damage, knockbackForce);
+                targetRoot.GetComponent<BreakableStatics>().Damage(damage, knockbackForce);
+                if (disableAfterFirstHit) DisableHitbox();
             }
         }
     }
@@ -64,12 +75,14 @@ public class AttackHitbox : MonoBehaviour
     public void ActivateCircle()
     {
         active = true;
+        alreadyHit.Clear();
         circleCol.enabled = true;
     }
 
     public void ActivateBox()
     {
         active = true;
+        alreadyHit.Clear();
         boxCol.enabled = true;
     }
 
@@ -77,6 +90,7 @@ public class AttackHitbox : MonoBehaviour
     {
         DisableAll();
         active = false;
+        alreadyHit.Clear();
     }
 
     private void Awake()

@@ -40,6 +40,7 @@ public class AliceMovement2D : BasePlayerMovement2D
             case 1:
                 hitboxManager.ChangeHitboxCircle(melee2Offset, melee2Size, melee2Knockback, melee2Damage);
                 animatorScript.ChangeAnimationState(playerStates.Melee2);
+                attackTimer = attackCooldown;
                 break;
         }
     }
@@ -48,12 +49,14 @@ public class AliceMovement2D : BasePlayerMovement2D
     {
         hitboxManager.ChangeHitboxBox(crouchAttackOffset, crouchAttackSize, crouchAttackKnockback, crouchAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
+        attackTimer = attackCooldown / 3;
     }
 
     protected override void SetupAerialAttack()
     {
         hitboxManager.ChangeHitboxCircle(aerialAttackOffset, aerialAttackSize, aerialAttackKnockback, aerialAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
+        aerialTimer = aerialCooldown;
     }
 
     protected override void CheckGround()
