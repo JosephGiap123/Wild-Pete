@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
-
+    [SerializeField] protected GameObject damageText;
     protected virtual void Awake()
     {
         health = maxHealth;
@@ -31,6 +31,12 @@ public class EnemyBase : MonoBehaviour
     {
         health -= dmg;
         Debug.Log(health);
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
+        }
+
         if (health <= 0)
         {
             Die();

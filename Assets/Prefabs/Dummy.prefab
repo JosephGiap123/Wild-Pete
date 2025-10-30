@@ -253,6 +253,7 @@ MonoBehaviour:
   rb: {fileID: 3790401683846676111}
   sr: {fileID: 3867330889039103112}
   anim: {fileID: 2830214064189392872}
+  damageText: {fileID: 2934180614917296999, guid: 21f99a33b552c4e0e9ee9886af9d1162, type: 3}
 --- !u!50 &3790401683846676111
 Rigidbody2D:
   serializedVersion: 5

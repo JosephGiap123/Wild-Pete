@@ -30,6 +30,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected bool isReloading = false;
     protected Coroutine reloadCoroutine;
     bool hyperArmor = false;
+    [SerializeField] protected float attackCooldown = 1.2f;
+    protected float attackTimer = 0f;
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
@@ -48,10 +50,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public float slidingCooldown = 0.75f;
     protected Coroutine slideCoroutine;
     protected Coroutine dashCooldownCoroutine;
+    protected Coroutine attackCoroutine;
+    protected Coroutine attackTimeoutCoroutine;
 
     [Header("Aerial Settings")]
-    protected float aerialCooldown = 1f;
-    protected bool canAerial = true;
+    [SerializeField] protected float aerialCooldown = 1f;
+    protected float aerialTimer = 0f;
+
+    [Header("Attack Safety")]
+    [SerializeField] protected float maxAttackDuration = 0.9f; // watchdog timeout for attacks
 
     [Header("Wall Slide Settings")]
     [SerializeField] protected Transform wallRay;
@@ -73,6 +80,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected AttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
+    [SerializeField] protected GameObject damageText;
 
 
 
@@ -108,15 +116,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual void Update()
     {
-        //test
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            HurtPlayer(5, -1f, new(5f, 2f));
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            HealPlayer(1);
-        }
         if (PauseController.IsGamePaused)
         {
             if (Input.GetKeyDown(KeyCode.I))
@@ -125,6 +124,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             }
             return;
         }
+        attackTimer -= Time.deltaTime;
+        aerialTimer -= Time.deltaTime;
 
         if (isAttacking) return;
         AnimationControl();
@@ -149,11 +150,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F) && isGrounded)
         {
-            StartCoroutine(ThrowAttack());
+            attackCoroutine = StartCoroutine(ThrowAttack());
         }
         if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
         {
-            StartCoroutine(RangedAttack());
+            attackCoroutine = StartCoroutine(RangedAttack());
         }
         if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo)
         {
@@ -308,7 +309,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         if (!weaponEquipped)
         {
-            if (isCrouching || isJumping || !isGrounded) return;
+            if (isCrouching || isJumping || !isGrounded || attackTimer > 0f) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
             SetUpPunchAttack(attackCount);
@@ -317,15 +318,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             if (attackResetCoroutine != null)
                 StopCoroutine(attackResetCoroutine);
             attackResetCoroutine = StartCoroutine(ResetAttackCountAfterDelay());
+            StartAttackWatchdog(maxAttackDuration);
             return;
         }
         if (isGrounded)
         {
-            if (isJumping) return; //frame perfect check.
+            if (isJumping || attackTimer > 0f) return; //frame perfect check.
             if (isCrouching)
             {
                 SetupCrouchAttack();
                 isAttacking = true;
+                StartAttackWatchdog(maxAttackDuration);
                 return;
             }
 
@@ -339,17 +342,25 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             if (attackResetCoroutine != null)
                 StopCoroutine(attackResetCoroutine);
             attackResetCoroutine = StartCoroutine(ResetAttackCountAfterDelay());
+            StartAttackWatchdog(maxAttackDuration);
         }
         else
         {
-            if (canAerial)
-                StartCoroutine(AerialAttack());
+            if (aerialTimer <= 0f)
+                attackCoroutine = StartCoroutine(AerialAttack());
         }
     }
 
     public virtual void EndAttack()
     {
         isAttacking = false;
+        if (attackTimeoutCoroutine != null)
+        {
+            StopCoroutine(attackTimeoutCoroutine);
+            attackTimeoutCoroutine = null;
+        }
+        if (hitboxManager != null)
+            hitboxManager.DisableHitbox();
     }
 
     public virtual void EndReload()
@@ -531,17 +542,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual IEnumerator AerialAttack()
     {
-        canAerial = false;
+        aerialTimer = aerialCooldown;
         SetupAerialAttack();
         isAttacking = true;
+        StartAttackWatchdog(maxAttackDuration);
         yield return new WaitWhile(() => isAttacking);
-        yield return new WaitForSeconds(aerialCooldown);
-        canAerial = true;
     }
 
     protected virtual IEnumerator ThrowAttack()
     {
         isAttacking = true;
+        StartAttackWatchdog(maxAttackDuration);
         yield return new WaitWhile(() => isAttacking);
     }
 
@@ -550,6 +561,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         isAttacking = true;
         ammoCount--;
         OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+        StartAttackWatchdog(maxAttackDuration);
         yield return new WaitWhile(() => isAttacking);
     }
 
@@ -623,6 +635,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             isHurt = true;
             CancelAllActions();
         }
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x * knockbackDirection, 5f), damage, Color.red, Color.black);
+        }
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         DamagePlayer(damage);
 
@@ -637,6 +654,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual void CancelAllActions()
     {
         // Cancel attacks
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
+        if (attackTimeoutCoroutine != null)
+        {
+            StopCoroutine(attackTimeoutCoroutine);
+            attackTimeoutCoroutine = null;
+        }
         isAttacking = false;
         if (attackResetCoroutine != null)
         {
@@ -650,6 +677,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             StopCoroutine(reloadCoroutine);
             reloadCoroutine = null;
         }
+
 
         // Cancel dash/slide
         isDashing = false;
@@ -753,6 +781,26 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         hyperArmor = false;
     }
 
+    protected void StartAttackWatchdog(float duration)
+    {
+        if (attackTimeoutCoroutine != null)
+        {
+            StopCoroutine(attackTimeoutCoroutine);
+        }
+        attackTimeoutCoroutine = StartCoroutine(AttackTimeout(duration));
+    }
+
+    protected IEnumerator AttackTimeout(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        if (isAttacking)
+        {
+            // Force end attack if animation event failed
+            EndAttack();
+        }
+        attackTimeoutCoroutine = null;
+    }
+
     protected virtual void SetUpPunchAttack(int attackIndex)
     {
         attackIndex = Mathf.Clamp(attackIndex, 0, 2);
@@ -766,6 +814,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             case 2:
                 hitboxManager.ChangeHitboxBox(new(0.7f, 0f), new(0.8f, 0.4f), new(3f, 0f), 3);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
+                attackTimer = attackCooldown;
                 break;
         }
     }

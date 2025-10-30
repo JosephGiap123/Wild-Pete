@@ -47,6 +47,7 @@ public class PeteMovement2D : BasePlayerMovement2D
             case 2:
                 hitboxManager.ChangeHitboxBox(melee3Offset, melee3Size, melee3Knockback, melee3Damage);
                 animatorScript.ChangeAnimationState(playerStates.Melee3);
+                attackTimer = attackCooldown;
                 break;
         }
     }
@@ -55,12 +56,14 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         hitboxManager.ChangeHitboxBox(crouchAttackOffset, crouchAttackSize, crouchAttackKnockback, crouchAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
+        attackTimer = attackCooldown / 2;
     }
 
     protected override void SetupAerialAttack()
     {
         hitboxManager.ChangeHitboxBox(aerialAttackOffset, aerialAttackSize, aerialAttackKnockback, aerialAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
+        aerialTimer = aerialCooldown;
     }
 
     protected override void HandleAerialAttackMovement()
@@ -70,14 +73,12 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override IEnumerator AerialAttack()
     {
-        canAerial = false;
+        aerialTimer = aerialCooldown;
         SetupAerialAttack();
         isAttacking = true;
         float oldGravity = rb.linearVelocity.y > 0 ? -1f : rb.linearVelocity.y;
         yield return new WaitWhile(() => isAttacking);
         rb.linearVelocity = new(rb.linearVelocity.x, oldGravity);
-        yield return new WaitForSeconds(aerialCooldown);
-        canAerial = true;
     }
 
     protected override IEnumerator ThrowAttack()

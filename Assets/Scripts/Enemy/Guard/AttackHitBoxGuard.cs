@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AttackHitBoxGuard : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class AttackHitBoxGuard : MonoBehaviour
     private bool active = false;
     protected int damage = 1;
     protected Vector2 knockbackForce = new Vector2(0f, 0f);
+    [Header("Hit Behavior")]
+    [SerializeField] private bool disableAfterFirstHit = false; // optional single-hit behavior
+    private readonly HashSet<GameObject> alreadyHit = new HashSet<GameObject>();
 
     public void Disable()
     {
@@ -24,17 +28,25 @@ public class AttackHitBoxGuard : MonoBehaviour
             //guaranteed to be an enemy.
             if (other.gameObject != null)
             {
+                GameObject targetRoot = other.transform.root.gameObject;
+                if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
+                alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
-                other.gameObject.transform.parent.gameObject.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, parent.isFacingRight ? 1f : -1f, knockbackForce);
+                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, parent.isFacingRight ? 1f : -1f, knockbackForce);
                 Debug.Log($"{(parent.isFacingRight ? 1f : -1f)} {knockbackForce}");
+                if (disableAfterFirstHit) DisableHitbox();
             }
         }
         else if (((1 << other.gameObject.layer) & staticMask) != 0)
         {
             if (other.gameObject != null)
             {
+                GameObject targetRoot = other.transform.root.gameObject;
+                if (alreadyHit.Contains(targetRoot)) return;
+                alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");
-                other.gameObject.transform.parent.gameObject.GetComponent<BreakableStatics>().Damage(damage, new Vector2((parent.isFacingRight ? 1f : -1f) * knockbackForce.x, knockbackForce.y));
+                targetRoot.GetComponent<BreakableStatics>().Damage(damage, new Vector2((parent.isFacingRight ? 1f : -1f) * knockbackForce.x, knockbackForce.y));
+                if (disableAfterFirstHit) DisableHitbox();
             }
         }
     }
@@ -51,6 +63,7 @@ public class AttackHitBoxGuard : MonoBehaviour
     public void ActivateBox()
     {
         active = true;
+        alreadyHit.Clear();
         boxCol.enabled = true;
     }
 
@@ -58,5 +71,6 @@ public class AttackHitBoxGuard : MonoBehaviour
     {
         Disable();
         active = false;
+        alreadyHit.Clear();
     }
 }

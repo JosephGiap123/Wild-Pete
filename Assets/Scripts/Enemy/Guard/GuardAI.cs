@@ -31,7 +31,6 @@ public class GuardAI : EnemyBase
     [SerializeField] private LayerMask groundLayer;
     public bool isFacingRight = true;
     public bool isInAir = false;
-    private bool moving = false;
 
     [Header("Combat Settings")]
     private int isAttacking = 0; // 0 = no attack, 1 = melee1, 2 = melee2, 3 = ranged, 4 = dash attack
@@ -81,7 +80,7 @@ public class GuardAI : EnemyBase
     private float loseSightTimer = 0f;
 
     [Header("Attack Settings")]
-    [SerializeField] private float attackCooldown = 2f; // seconds between attacks
+    [SerializeField] private float attackCooldown = 1f; // seconds between attacks
     private float attackTimer = 0f;
     private float rangedTimer = 0f;
 
@@ -464,8 +463,21 @@ public class GuardAI : EnemyBase
 
         health -= dmg;
         if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}");
+        // Immediately stop current movement, then apply knockback so stun halts momentum
+        StopMoving();
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         rb.linearVelocity += knockbackForce;
 
+        // Clear ongoing/combo attack intent so we don't spam the same attack after stun
+        isAttacking = 0;
+        attackChain = 0;
+        attackTimer = attackCooldown / 2; // small delay before next decision
+
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
+        }
         StartHurtAnim(dmg);
 
         // Enter Alert state and try to find attacker
@@ -504,6 +516,7 @@ public class GuardAI : EnemyBase
         isHurt = true;
         ChangeAnimationState("Hurt");
         StartCoroutine(DamageFlash(damageFlashTime));
+
     }
 
     void IsGroundedCheck()
