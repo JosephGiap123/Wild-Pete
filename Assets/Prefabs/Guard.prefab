@@ -54,7 +54,7 @@ MonoBehaviour:
   maxHealth: 25
   rb: {fileID: 3298042167039764757}
   sr: {fileID: 3463634147269906014}
-  damageText: {fileID: 2934180614917296999, guid: 21f99a33b552c4e0e9ee9886af9d1162, type: 3}
+  damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
   guardCurrentState: 0
   debugMode: 0
   anim: {fileID: 9170543586394422277}

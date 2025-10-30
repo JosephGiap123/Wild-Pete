@@ -16,7 +16,7 @@ public class DamageText : MonoBehaviour
         GetComponent<TMP_Text>().outlineColor = outline;
         damage = dmg;
         curVelocity = initVel;
-        rb = transform.parent.gameObject.GetComponent<Rigidbody2D>();
+        rb = transform.parent.gameObject.transform.parent.gameObject.GetComponent<Rigidbody2D>();
         GetComponent<TMP_Text>().text = '-' + dmg.ToString();
         anim = GetComponent<Animator>();
         rb.linearVelocity = new(Mathf.Clamp(curVelocity.x, -4f, 4f), curVelocity.y);
