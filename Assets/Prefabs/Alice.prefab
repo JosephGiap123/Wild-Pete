@@ -133,6 +133,66 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 0.55}
   m_EdgeRadius: 0
+--- !u!1 &2056831625984915761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8062228015536724679}
+  - component: {fileID: 2581573120976467173}
+  m_Layer: 0
+  m_Name: AliceAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8062228015536724679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056831625984915761}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.45000005, y: 0.6875, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8134312220912395196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2581573120976467173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056831625984915761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69a3e4c2db414244903fbfa5feab3f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  shotgun: {fileID: 8300000, guid: 762ab552bea646145907f2fe13b03ea6, type: 3}
+  reload: {fileID: 8300000, guid: e5190d5a1b132d64289be31b5d7a2dfa, type: 3}
+  hammerClips:
+  - {fileID: 8300000, guid: 6b828dcd7dcacab459ca7756cb8f81fd, type: 3}
+  - {fileID: 8300000, guid: 2f4dcbb0811e28e41b18fdcf909f5767, type: 3}
+  sweep: {fileID: 8300000, guid: 1c767fe236b376741aba525508d58984, type: 3}
+  dash: {fileID: 8300000, guid: dce3b5f87955b60478b59dc73cbbc9d1, type: 3}
+  jump: {fileID: 8300000, guid: f98fe272dbf13a54bbc28f87c8adfa95, type: 3}
+  hurt: {fileID: 8300000, guid: 3d45abdebc993ef46854be6e0664781f, type: 3}
+  death: {fileID: 8300000, guid: fba76680eab6cc94fae38eb86a13ebd2, type: 3}
+  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 20
 --- !u!1 &2536724497271655194
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +312,7 @@ Transform:
   - {fileID: 5187375710118761005}
   - {fileID: 4137327256938815234}
   - {fileID: 8726525024870943855}
+  - {fileID: 8062228015536724679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8862283075697551678
@@ -293,6 +354,7 @@ MonoBehaviour:
   knockbackForce: 5
   knockbackUpForce: 1
   invincibilityTime: 1
+  deathAnimationDuration: 2
   dashingPower: 10
   dashingTime: 0.3
   slidePower: 15
@@ -316,6 +378,8 @@ MonoBehaviour:
   hitboxManager: {fileID: 2599902317028416662}
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
+  runMinSpeed: 0.2
+  throwDuration: 0.5
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5
