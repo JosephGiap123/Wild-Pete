@@ -566,6 +566,64 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6, y: 1.25}
   m_EdgeRadius: 0
+--- !u!1 &4066573818289775833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1973967770327943744}
+  - component: {fileID: 6832124629652602160}
+  m_Layer: 0
+  m_Name: PeteAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1973967770327943744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4066573818289775833}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.1300067, y: 0.50625, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5995900776780897598}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6832124629652602160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4066573818289775833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b158c14d32fcae4ca448a511e8be807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  revolver: {fileID: 8300000, guid: 09bd97b164bed324a994252b205239b1, type: 3}
+  reload: {fileID: 8300000, guid: 3f588b5f228414c4fbf60ec82a393eb4, type: 3}
+  meleeSwing1: {fileID: 8300000, guid: b2ca5d0c075d8ce40b144dac5eb76d61, type: 3}
+  meleeSwing2: {fileID: 8300000, guid: 3b0b893db7ee57247a7b2dd25c03d70b, type: 3}
+  dash: {fileID: 8300000, guid: dce3b5f87955b60478b59dc73cbbc9d1, type: 3}
+  jump: {fileID: 8300000, guid: f98fe272dbf13a54bbc28f87c8adfa95, type: 3}
+  hurt: {fileID: 8300000, guid: 3d45abdebc993ef46854be6e0664781f, type: 3}
+  death: {fileID: 8300000, guid: fba76680eab6cc94fae38eb86a13ebd2, type: 3}
+  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 20
 --- !u!1 &4503669628502716467
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,6 +883,7 @@ Transform:
   - {fileID: 6009581206254739397}
   - {fileID: 1896967197796685413}
   - {fileID: 5472695338924372274}
+  - {fileID: 1973967770327943744}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8139471980475301415
