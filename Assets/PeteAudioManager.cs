@@ -9,9 +9,9 @@ public class PeteAudioManager : MonoBehaviour
 
     [Header("Clips")]
     [SerializeField] private AudioClip revolver;
-    [SerializeField] private AudioClip reload;   
-    [SerializeField] private AudioClip meleeSwing1; 
-    [SerializeField] private AudioClip meleeSwing2; 
+    [SerializeField] private AudioClip reload;
+    [SerializeField] private AudioClip meleeSwing1;
+    [SerializeField] private AudioClip meleeSwing2;
     [SerializeField] private AudioClip dash;
     [SerializeField] private AudioClip jump;
     [SerializeField] private AudioClip hurt;
@@ -27,7 +27,7 @@ public class PeteAudioManager : MonoBehaviour
     public float max3dDistance = 20f;
 
     private AudioSource loopSource;
-    private Coroutine pitchResetCo;  
+    private Coroutine pitchResetCo;
     private int lastMeleeIndex = -1; // avoid back-to-back repeats
 
     void Awake()
@@ -50,11 +50,11 @@ public class PeteAudioManager : MonoBehaviour
 
     // -------- public hooks ----------
     public void PlayRevolver() => PlayOneShot(revolver);
-    public void PlayMelee()    => PlayRandomMelee();  // now randomized between two swings
-    public void PlayDash()     => PlayOneShot(dash);
-    public void PlayJump()     => PlayOneShot(jump);
-    public void PlayHurt()     => PlayOneShot(hurt);
-    public void PlayDeath()    => PlayOneShot(death);
+    public void PlayMelee() => PlayRandomMelee();  // now randomized between two swings
+    public void PlayDash() => PlayOneShot(dash);
+    public void PlayJump() => PlayOneShot(jump);
+    public void PlayHurt() => PlayOneShot(hurt);
+    public void PlayDeath() => PlayOneShot(death);
 
     public void PlayReload()
     {
@@ -62,13 +62,13 @@ public class PeteAudioManager : MonoBehaviour
 
         if (pitchResetCo != null) StopCoroutine(pitchResetCo);
 
-        sfxSource.Stop();                  
+        sfxSource.Stop();
         float oldPitch = sfxSource.pitch;
         var oldClip = sfxSource.clip;
 
         // Keep your 3x speed; adjust reset time accordingly
-        sfxSource.pitch = 3f;             
-        sfxSource.clip  = reload;
+        sfxSource.pitch = 3f;
+        sfxSource.clip = reload;
         sfxSource.volume = sfxVolume;
         sfxSource.Play();
 
