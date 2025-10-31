@@ -5,32 +5,50 @@ public class AliceAnimRelayScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] AliceMovement2D movementScript;
     [SerializeField] AttackHitbox hitboxScript;
-    
-    public void CallEndAttack(){
+
+    public void CallEndAttack()
+    {
         movementScript.EndAttack();
     }
 
-    public void CallRectHitbox(){
+    public void CallRectHitbox()
+    {
         hitboxScript.ActivateBox();
     }
 
-    public void CallCircHitbox(){
+    public void CallCircHitbox()
+    {
         hitboxScript.ActivateCircle();
     }
 
-    public void CallDisableHitbox(){
+    public void CallDisableHitbox()
+    {
         hitboxScript.DisableHitbox();
     }
 
-    public void CallSpawnBullet(int num){
+    public void CallSpawnBullet(int num)
+    {
         movementScript.InstBullet(num);
     }
 
-    public void CallEndHurt(){
+    public void CallEndHurt()
+    {
         movementScript.EndHurt();
     }
 
-    public void CallEndReload(){
+    public void CallEndReload()
+    {
         movementScript.EndReload();
     }
+
+    public void CallStartHyperArmor()
+    {
+        movementScript.StartHyperArmor();
+    }
+
+    public void CallEndHyperArmor()
+    {
+        movementScript.EndHyperArmor();
+    }
+
 }

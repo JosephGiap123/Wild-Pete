@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d29a68788bae407da47ca7c46232ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyScript: {fileID: 8258591038370586864}
+  enemy: {fileID: 8258591038370586864}
 --- !u!1 &5849011737020671678
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +253,7 @@ MonoBehaviour:
   rb: {fileID: 3790401683846676111}
   sr: {fileID: 3867330889039103112}
   anim: {fileID: 2830214064189392872}
+  damageText: {fileID: 2934180614917296999, guid: 21f99a33b552c4e0e9ee9886af9d1162, type: 3}
 --- !u!50 &3790401683846676111
 Rigidbody2D:
   serializedVersion: 5
@@ -268,7 +269,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

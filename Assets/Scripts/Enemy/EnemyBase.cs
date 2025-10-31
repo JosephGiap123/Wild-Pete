@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
-
+    [SerializeField] protected GameObject damageText;
     protected virtual void Awake()
     {
         health = maxHealth;
@@ -22,10 +22,21 @@ public class EnemyBase : MonoBehaviour
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
     }
 
-    public virtual void Hurt(int dmg)
+    public virtual void EndHurtState()
+    {
+        return;
+    }
+
+    public virtual void Hurt(int dmg, Vector2 knockbackForce)
     {
         health -= dmg;
         Debug.Log(health);
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
+        }
+
         if (health <= 0)
         {
             Die();
