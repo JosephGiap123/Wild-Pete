@@ -38,7 +38,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
-    [SerializeField] protected float deathAnimationDuration = 2f; // How long death animation plays
+    [SerializeField] protected float deathAnimationDuration = 8f; // How long death animation plays
 
     [Header("Dash Settings")]
     protected bool canDash = true;

@@ -357,7 +357,7 @@ MonoBehaviour:
   comboResetTime: 3
   attackCooldown: 2
   invincibilityTime: 0.2
-  deathAnimationDuration: 2
+  deathAnimationDuration: 8
   dashingPower: 9
   dashingTime: 0.3
   slidePower: 12
@@ -384,6 +384,8 @@ MonoBehaviour:
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
+  runMinSpeed: 0.2
+  throwDuration: 0.5
   melee1Damage: 4
   melee1Size: 0.8
   melee1Offset: {x: 0.5, y: 0}
