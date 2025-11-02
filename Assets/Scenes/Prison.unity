@@ -229,7 +229,7 @@ MonoBehaviour:
   Pete: {fileID: 8045371504318166606, guid: 4059668e691054cfc9e3e573a48c55e7, type: 3}
   Alice: {fileID: 3172980308799934302, guid: ac8071ac360bc4469a4807cca43db5a6, type: 3}
   cinemachineCam: {fileID: 606041107}
-  selectedCharacter: 2
+  selectedCharacter: 1
 --- !u!82 &6985702
 AudioSource:
   m_ObjectHideFlags: 0
