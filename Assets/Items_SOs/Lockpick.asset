@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lockpick
   icon: {fileID: -1272935549967278349, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropIcon: {fileID: 4810966858928486070, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
   maxStackSize: 1
   quantity: 1
   itemDesc: A basic steel needle. Could be useful into getting into places.

@@ -9,19 +9,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public string itemName = null;
     public int quantity = 0;
     public Sprite itemSprite = null;
-    [TextArea] public string itemDesc = null;
+    public Sprite dropSprite = null;
+    [TextArea] public string itemDesc = "";
     public int maxStackSize = 1;
 
     // UI References
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI quantityText;
+    [SerializeField] private Sprite defaultIcon;
     public GameObject selectedShader;
     public bool thisItemSelected = false;
-
-    //item desc
-    public Image itemDescriptionIcon;
-    public TMP_Text ItemDescriptionNameText;
-    public TMP_Text ItemDescriptionText;
 
     // Call UpdateUI() when the script starts to ensure the UI matches the data.
     void Start()
@@ -29,10 +26,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // This ensures the icon and text are correctly hidden when the game starts.
         UpdateUI();
     }
-
-    /// <summary>
-    /// Checks if the slot is completely empty (no item name or quantity).
-    /// </summary>
     public bool IsEmpty()
     {
         // Use string.IsNullOrEmpty for the most robust check for an empty/null name.
@@ -66,26 +59,26 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     private void UpdateUI()
     {
+        // Safety check for UI references
+        if (itemIcon == null || quantityText == null)
+        {
+            Debug.LogWarning("ItemSlot: itemIcon or quantityText is not assigned! Cannot update UI.");
+            return;
+        }
+
         // Check if the slot is empty based on quantity or name
         if (quantity <= 0 || IsEmpty())
         {
             // Reset ALL data and UI elements to empty state
-            itemName = null;
-            itemSprite = null;
-            itemIcon.enabled = false;
-            quantityText.enabled = false;
-            itemDesc = null;
+            ClearSlot();
         }
-        else
-        {
-            // Slot has items
-            itemIcon.sprite = itemSprite;
-            itemIcon.enabled = true;
+        // Slot has items
+        itemIcon.sprite = itemSprite;
+        itemIcon.enabled = true;
 
-            quantityText.text = quantity.ToString();
-            // The text is enabled ONLY if the quantity is greater than 1 (a stack)
-            quantityText.enabled = quantity > 1;
-        }
+        quantityText.text = quantity.ToString();
+        // The text is enabled ONLY if the quantity is greater than 1 (a stack)
+        quantityText.enabled = quantity > 1;
     }
 
 
@@ -116,10 +109,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public void ClearSlot()
     {
         itemName = null;
+        maxStackSize = 1;
         quantity = 0;
-        itemSprite = null;
+        itemSprite = defaultIcon;
         itemDesc = null;
-        UpdateUI();
+        dropSprite = defaultIcon;
     }
 
     public bool DecreaseQuantity(int amount)
@@ -139,25 +133,49 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnLeftClick()
     {
-        if (thisItemSelected)
+        if (PlayerInventory.instance == null)
         {
-            PlayerInventory.instance.UseConsumable(itemName, 1);
+            Debug.LogError("ItemSlot: PlayerInventory.instance is null! Cannot process click.");
             return;
         }
-        PlayerInventory.instance.DeselectAllSlots();
-        selectedShader.SetActive(true);
-        thisItemSelected = true;
-        ItemDescriptionNameText.text = itemName;
-        ItemDescriptionText.text = itemDesc;
-        itemDescriptionIcon.sprite = itemSprite;
-        if (itemSprite == null)
+
+        if (thisItemSelected)
         {
-            itemDescriptionIcon.enabled = false;
+            // Find this slot's index in the inventory array
+            int slotIndex = -1;
+            for (int i = 0; i < PlayerInventory.instance.itemSlots.Length; i++)
+            {
+                if (PlayerInventory.instance.itemSlots[i] == this)
+                {
+                    slotIndex = i;
+                    break;
+                }
+            }
+
+            if (slotIndex >= 0)
+            {
+                PlayerInventory.instance.UseConsumable(itemName, slotIndex);
+            }
+            else
+            {
+                Debug.LogWarning("ItemSlot: Could not find this slot in PlayerInventory.itemSlots array!");
+            }
+            return;
+        }
+
+        PlayerInventory.instance.DeselectAllSlots();
+
+        if (selectedShader != null)
+        {
+            selectedShader.SetActive(true);
         }
         else
         {
-            itemDescriptionIcon.enabled = true;
+            Debug.LogWarning("ItemSlot: selectedShader is not assigned!");
         }
+
+        thisItemSelected = true;
+        PlayerInventory.instance.FillDescriptionUI(itemName, itemDesc, itemSprite);
     }
 
     public void OnRightClick()

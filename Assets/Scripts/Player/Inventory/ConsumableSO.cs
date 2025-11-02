@@ -12,13 +12,15 @@ public class ConsumableSO : ItemSO
 	public ConsumableType consumableType;
 	public int restoreAmount;
 
-	public void ConsumeItem()
+	public bool ConsumeItem()
 	{
-		if (consumableType == ConsumableType.Health)
+		if (consumableType == ConsumableType.Health && !HealthManager.instance.IsHealthFull())
 		{
 			HealthManager.instance.Heal(restoreAmount);
+			Debug.Log("Consumed item: " + itemName);
+			return true;
 		}
-		Debug.Log("Consumed item: " + itemName);
+		return false;
 	}
 
 }

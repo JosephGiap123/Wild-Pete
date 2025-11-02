@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Medkit
   icon: {fileID: 5715293679607749390, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropIcon: {fileID: 3870007440393223046, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
   maxStackSize: 1
   quantity: 1
   itemDesc: A complex medkit, fitted with bandages, bandaids, sanitizing agents and
