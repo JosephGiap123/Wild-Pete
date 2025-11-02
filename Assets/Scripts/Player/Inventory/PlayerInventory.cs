@@ -176,4 +176,18 @@ public class PlayerInventory : MonoBehaviour
             itemDescriptionIcon.enabled = true;
         }
     }
+
+    public int HasItem(string itemName) //return 0 if none found lol.
+    {
+        int count = 0;
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] != null && itemSlots[i].itemName == itemName)
+            {
+                count += itemSlots[i].quantity;
+            }
+        }
+        Debug.Log("PlayerInventory: HasItem found " + count + " of item: " + itemName);
+        return count;
+    }
 }

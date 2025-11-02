@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518c6cfbfef7a48ccaeadff3f4e54cc9, type: 3}
+  m_Name: Ammo
+  m_EditorClassIdentifier: 
+  itemName: Ammo
+  icon: {fileID: -8957234621110228925, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropIcon: {fileID: -4487801012766214874, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
+  maxStackSize: 5
+  quantity: 1
+  itemDesc: Basic ammo for ranged weaponry.

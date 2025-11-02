@@ -428,7 +428,7 @@ public class GuardAI : EnemyBase
         isDead = true;
         StopMoving(); // Stop all movement
         if (debugMode) Debug.Log("GuardAI: Death coroutine started, playing death animation...");
-
+        dropItemsOnDeath.DropItems();
         yield return new WaitForSeconds(2f); //wait for death animation to finish
 
         if (debugMode) Debug.Log("GuardAI: Death animation finished, destroying object.");

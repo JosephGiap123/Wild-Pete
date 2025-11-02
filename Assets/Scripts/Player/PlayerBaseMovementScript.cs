@@ -155,7 +155,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             attackCoroutine = StartCoroutine(RangedAttack());
         }
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo)
+        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
@@ -574,6 +574,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual IEnumerator Reload()
     {
+        PlayerInventory.instance.UseItem("Ammo", 1);
         isReloading = true;
         yield return new WaitWhile(() => isReloading);
         ammoCount = maxAmmo;
