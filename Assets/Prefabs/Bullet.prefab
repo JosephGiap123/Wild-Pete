@@ -269,7 +269,7 @@ MonoBehaviour:
   bulletLifeTime: 3
   bulletDestroyMask:
     serializedVersion: 2
-    m_Bits: 19072
+    m_Bits: 1589760
   enemyMask:
     serializedVersion: 2
     m_Bits: 512

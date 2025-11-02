@@ -12,20 +12,20 @@ TagManager:
   - Water
   - UI
   - Player
-  - Ground
+  - 
   - PlayerTrail
   - Enemy
   - PlayerBullet
-  - Wall
+  - 
   - Background
   - PlayerAtkHBox
   - Statics
+  - Item
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Wall
+  - Ground
   - 
   - 
   - 

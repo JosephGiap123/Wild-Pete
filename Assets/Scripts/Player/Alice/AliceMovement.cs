@@ -108,7 +108,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         }
 
         // T = RELOAD (play reload SFX at start)
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo)
+        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             audioMgr?.PlayReload();
             reloadCoroutine = StartCoroutine(Reload());

@@ -15,6 +15,7 @@ public class EnemyBase : MonoBehaviour
 
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected GameObject damageText;
+    [SerializeField] protected DropItemsOnDeath dropItemsOnDeath;
     protected virtual void Awake()
     {
         health = maxHealth;

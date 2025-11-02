@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 6528279183396595597}
   m_Layer: 6
   m_Name: BodyCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 3065023052435475213}
   m_Layer: 13
   m_Name: AttackHitbox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 1050609727464449330}
   m_Layer: 6
   m_Name: GroundCheck
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 8462912563472778152}
   m_Layer: 6
   m_Name: CeilingCheck
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -917,7 +917,6 @@ MonoBehaviour:
   minJumpPower: 4
   isFacingRight: 1
   maxHealth: 20
-  health: 20
   ammoCount: 10
   maxAmmo: 10
   maxAttackChain: 3
@@ -935,7 +934,7 @@ MonoBehaviour:
   wallRay: {fileID: 1896967197796685413}
   wallMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 524288
   wallSlideSpeed: 1.5
   rb: {fileID: 2942441695391280840}
   boxCol: {fileID: 6528279183396595597}
@@ -943,7 +942,7 @@ MonoBehaviour:
   roofCheck: {fileID: 8462912563472778152}
   groundMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1048576
   trail: {fileID: 3613643447242516594}
   bulletOrigin: {fileID: 6009581206254739397}
   bullet: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}
@@ -1014,7 +1013,7 @@ GameObject:
   - component: {fileID: 6599196787385644411}
   m_Layer: 6
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -110,7 +110,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         }
 
         // T = RELOAD
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo)
+        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             audioMgr?.PlayReload();
             reloadCoroutine = StartCoroutine(Reload());

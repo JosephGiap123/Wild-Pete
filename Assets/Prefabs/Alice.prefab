@@ -350,7 +350,6 @@ MonoBehaviour:
   minJumpPower: 4
   isFacingRight: 1
   maxHealth: 20
-  health: 20
   ammoCount: 5
   maxAmmo: 5
   maxAttackChain: 2
@@ -368,7 +367,7 @@ MonoBehaviour:
   wallRay: {fileID: 4137327256938815234}
   wallMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 524288
   wallSlideSpeed: 1.7
   rb: {fileID: 8607775664743977173}
   boxCol: {fileID: 8169233198180431905}
@@ -376,7 +375,7 @@ MonoBehaviour:
   roofCheck: {fileID: 3481565198068845709}
   groundMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1048576
   trail: {fileID: 2179199224452851584}
   bulletOrigin: {fileID: 5187375710118761005}
   bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}

@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 518c6cfbfef7a48ccaeadff3f4e54cc9, type: 3}
-  m_Name: Master Key
+  m_Name: Ammo
   m_EditorClassIdentifier: 
-  itemName: Prison Master Key
-  icon: {fileID: 7210205562745777949, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
-  dropIcon: {fileID: -3055818710702447310, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
-  maxStackSize: 1
+  itemName: Ammo
+  icon: {fileID: -8957234621110228925, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropIcon: {fileID: -4487801012766214874, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
+  maxStackSize: 5
   quantity: 1
-  itemDesc: A master key, which can open any door in the prison. Perhaps you can
-    escape with this key.
+  itemDesc: Basic ammo for ranged weaponry.

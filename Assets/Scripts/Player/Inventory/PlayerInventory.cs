@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -10,6 +12,12 @@ public class PlayerInventory : MonoBehaviour
 
     // Static instance setup (Singleton pattern)
     public static PlayerInventory instance;
+
+    [Header("Item Description UI")]
+
+    public Image itemDescriptionIcon;
+    public TMP_Text ItemDescriptionNameText;
+    public TMP_Text ItemDescriptionText;
 
     private void Awake()
     {
@@ -29,12 +37,38 @@ public class PlayerInventory : MonoBehaviour
 
     public void UseConsumable(string itemName, int inventoryLocation)
     {
+        if (itemSlots == null)
+        {
+            Debug.LogError("PlayerInventory: itemSlots array is null!");
+            return;
+        }
+
+        if (inventoryLocation < 0 || inventoryLocation >= itemSlots.Length)
+        {
+            Debug.LogError($"PlayerInventory: inventoryLocation {inventoryLocation} is out of bounds! Array length is {itemSlots.Length}");
+            return;
+        }
+
+        if (itemSlots[inventoryLocation] == null)
+        {
+            Debug.LogError($"PlayerInventory: itemSlots[{inventoryLocation}] is null!");
+            return;
+        }
+
+        if (consumableSOs == null)
+        {
+            Debug.LogWarning("PlayerInventory: consumableSOs array is null!");
+            return;
+        }
+
         for (int i = 0; i < consumableSOs.Length; i++)
         {
-            if (consumableSOs[i].itemName == itemName)
+            if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
             {
-                consumableSOs[i].ConsumeItem();
-                itemSlots[inventoryLocation].DecreaseQuantity(1);
+                if (consumableSOs[i].ConsumeItem())
+                {
+                    itemSlots[inventoryLocation].DecreaseQuantity(1);
+                }
                 return;
             }
         }
@@ -102,5 +136,58 @@ public class PlayerInventory : MonoBehaviour
                 slot.thisItemSelected = false;
             }
         }
+    }
+
+    public void ClearDescriptionPanel()
+    {
+        if (ItemDescriptionNameText != null) ItemDescriptionNameText.text = "";
+        if (ItemDescriptionText != null) ItemDescriptionText.text = "";
+        if (itemDescriptionIcon != null) itemDescriptionIcon.enabled = false;
+    }
+
+    public void ClearInventory()
+    {
+        foreach (ItemSlot slot in itemSlots)
+        {
+            if (slot != null)
+            {
+                slot.ClearSlot();
+            }
+        }
+    }
+
+    public void FillDescriptionUI(string descName, string descText, Sprite descIcon)
+    {
+        if (ItemDescriptionNameText == null || ItemDescriptionText == null || itemDescriptionIcon == null)
+        {
+            Debug.LogWarning("PlayerInventory: Description UI elements are not assigned!");
+            return;
+        }
+
+        ItemDescriptionNameText.text = descName ?? "";
+        ItemDescriptionText.text = descText ?? "";
+        itemDescriptionIcon.sprite = descIcon;
+        if (descIcon == null)
+        {
+            itemDescriptionIcon.enabled = false;
+        }
+        else
+        {
+            itemDescriptionIcon.enabled = true;
+        }
+    }
+
+    public int HasItem(string itemName) //return 0 if none found lol.
+    {
+        int count = 0;
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] != null && itemSlots[i].itemName == itemName)
+            {
+                count += itemSlots[i].quantity;
+            }
+        }
+        Debug.Log("PlayerInventory: HasItem found " + count + " of item: " + itemName);
+        return count;
     }
 }

@@ -76,6 +76,10 @@ public class HealthManager : MonoBehaviour
     {
         return (float)health / maxHealth;
     }
+    public virtual bool IsHealthFull()
+    {
+        return health >= maxHealth;
+    }
 
     protected virtual void ChangeHealth(int change)
     {
