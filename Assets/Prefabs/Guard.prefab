@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4778260064776062145}
   - component: {fileID: 9027351714032163200}
   - component: {fileID: 3298042167039764757}
+  - component: {fileID: 4379795698551743372}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MonoBehaviour:
   rb: {fileID: 3298042167039764757}
   sr: {fileID: 3463634147269906014}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
+  dropItemsOnDeath: {fileID: 4379795698551743372}
   guardCurrentState: 0
   debugMode: 0
   anim: {fileID: 9170543586394422277}
@@ -64,7 +66,7 @@ MonoBehaviour:
   groundCheckBox: {fileID: 5536802147246610399}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1048576
   isFacingRight: 1
   isInAir: 0
   meleeRange: 1.6
@@ -101,7 +103,7 @@ MonoBehaviour:
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 18560
+    m_Bits: 16384
   attackCooldown: 2
 --- !u!114 &9027351714032163200
 MonoBehaviour:
@@ -151,6 +153,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4379795698551743372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24671869360854881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662f1b00516f94510b77d0acaed1e919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
+  items:
+  - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
+  - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
+  itemDropChances:
+  - 100
+  - 60
 --- !u!1 &1396458341714469533
 GameObject:
   m_ObjectHideFlags: 0

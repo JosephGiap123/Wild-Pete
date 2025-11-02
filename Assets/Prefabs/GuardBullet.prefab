@@ -294,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDestroyMask:
     serializedVersion: 2
-    m_Bits: 18624
+    m_Bits: 1589312
   playerMask:
     serializedVersion: 2
     m_Bits: 64

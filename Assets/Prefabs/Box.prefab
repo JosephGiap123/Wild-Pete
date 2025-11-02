@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 593048168170755302}
   - component: {fileID: 9148129982099558404}
-  m_Layer: 7
+  m_Layer: 20
   m_Name: StandCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,5 +319,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 15
-  rb: {fileID: 6205037191656057997}
   sr: {fileID: 4341665324301111070}

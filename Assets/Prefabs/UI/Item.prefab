@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6320637143387632940}
   - component: {fileID: 5932826598214060873}
   - component: {fileID: 2161682432459868204}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ MonoBehaviour:
   maxStackSize: 0
   quantity: 0
   itemDesc: 
-  itemSO: {fileID: 11400000, guid: 90f83fff8c7634eaa845757bff46a396, type: 2}
+  itemSO: {fileID: 11400000, guid: 2815730c64b6a4e27bc30baedf34cc96, type: 2}
 --- !u!58 &2161682432459868204
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 7582080882759547785}
   - component: {fileID: 2802572747605541944}
   - component: {fileID: 1773661024647272996}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,9 +252,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1778098357
+  m_SortingLayer: 4
+  m_SortingOrder: 30
   m_Sprite: {fileID: 40028045, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
