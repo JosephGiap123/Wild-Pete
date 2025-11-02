@@ -17,6 +17,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI quantityText;
     [SerializeField] private Sprite defaultIcon;
+    [SerializeField] private GameObject itemPrefab;
+
+    private ItemSO itemSO;
     public GameObject selectedShader;
     public bool thisItemSelected = false;
 
@@ -39,6 +42,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // 1. If empty slot, initialize it with the new item's data
         if (IsEmpty())
         {
+            itemSO = item.itemSO;
             itemName = item.itemName;
             itemSprite = item.icon;
             maxStackSize = item.maxStackSize;
@@ -71,10 +75,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             // Reset ALL data and UI elements to empty state
             ClearSlot();
+            itemIcon.sprite = defaultIcon;
+            itemIcon.enabled = false;
+
         }
-        // Slot has items
-        itemIcon.sprite = itemSprite;
-        itemIcon.enabled = true;
+        else
+        {
+            itemIcon.sprite = itemSprite;
+            itemIcon.enabled = true;
+        }
 
         quantityText.text = quantity.ToString();
         // The text is enabled ONLY if the quantity is greater than 1 (a stack)
@@ -108,17 +117,19 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void ClearSlot()
     {
+        itemSO = null;
         itemName = null;
         maxStackSize = 1;
         quantity = 0;
         itemSprite = defaultIcon;
         itemDesc = null;
         dropSprite = defaultIcon;
+        PlayerInventory.instance.ClearDescriptionPanel();
     }
 
     public bool DecreaseQuantity(int amount)
     {
-        if (quantity - amount < 0)
+        if (quantity <= 0)
         {
             return false;
         }
@@ -180,6 +191,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnRightClick()
     {
+        if (IsEmpty())
+        {
+            return;
+        }
+        PlayerOrientationPosition playerOrPos = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>().GetPlayerOrientPosition();
+        Transform playerPos = playerOrPos.position;
+        bool facingRight = playerOrPos.isFacingRight;
+        Vector3 newPosition = new(playerPos.position.x, playerPos.position.y, 0f);
+        GameObject itemToDrop = Instantiate(itemPrefab, newPosition, facingRight ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0));
+
+        itemToDrop.GetComponent<Item>().Initialize(new(3f * (facingRight ? 1f : -1f), 4f), itemSO);
+        DecreaseQuantity(1);
+        // itemToDrop.GetComponent<PhysicalItemModel>().Load();
+        PlayerInventory.instance.DeselectAllSlots();
+        PlayerInventory.instance.ClearDescriptionPanel();
         return;
     }
 }

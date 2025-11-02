@@ -94,11 +94,13 @@ MonoBehaviour:
   itemName: 
   quantity: 0
   itemSprite: {fileID: 167463820, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropSprite: {fileID: 0}
   itemDesc: 
   maxStackSize: 0
   itemIcon: {fileID: 1011507343713159145}
   quantityText: {fileID: 8261217942568589917}
   defaultIcon: {fileID: 167463820, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
   selectedShader: {fileID: 3142913550237151866}
   thisItemSelected: 0
 --- !u!1 &1315442211158140927

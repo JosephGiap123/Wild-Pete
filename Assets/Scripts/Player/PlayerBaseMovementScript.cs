@@ -180,6 +180,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
     }
 
+    public PlayerOrientationPosition GetPlayerOrientPosition()
+    {
+        PlayerOrientationPosition pos;
+        pos.position = transform;
+        pos.isFacingRight = isFacingRight;
+        return pos;
+    }
+
     protected virtual void HandleMovement()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");

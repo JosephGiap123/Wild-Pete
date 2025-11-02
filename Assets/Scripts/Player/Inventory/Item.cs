@@ -12,9 +12,16 @@ public class Item : MonoBehaviour
 	public int quantity;
 	public string itemDesc;
 
-	[SerializeField] public ItemSO itemSO;
+	public ItemSO itemSO;
 	private PlayerInventory inventoryManager;
+	private Rigidbody2D rb;
+	PhysicalItemModel physicalItemModel;
 
+	void Awake()
+	{
+		physicalItemModel = GetComponent<PhysicalItemModel>();
+		rb = GetComponent<Rigidbody2D>();
+	}
 	void Start()
 	{
 		inventoryManager = PlayerInventory.instance;
@@ -26,8 +33,22 @@ public class Item : MonoBehaviour
 			itemDesc = itemSO.itemDesc;
 			quantity = itemSO.quantity;
 			dropIcon = itemSO.dropIcon;
+			physicalItemModel.Load();
 		}
 		StartCoroutine(WaitToEnablePickable(5.0f));
+	}
+
+	public void Initialize(Vector2 beginningVelocity, ItemSO itemData)
+	{
+		rb.linearVelocity = beginningVelocity;
+		itemSO = itemData;
+		itemName = itemSO.itemName;
+		icon = itemSO.icon;
+		maxStackSize = itemSO.maxStackSize;
+		itemDesc = itemSO.itemDesc;
+		quantity = itemSO.quantity;
+		dropIcon = itemSO.dropIcon;
+		physicalItemModel.Load();
 	}
 
 	protected IEnumerator WaitToEnablePickable(float timeToPickUp)
@@ -36,10 +57,11 @@ public class Item : MonoBehaviour
 		isPickable = true;
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	public void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.CompareTag("Player") && isPickable)
 		{
+			Debug.Log("picking item up");
 			inventoryManager.AddItem(this);
 			Destroy(gameObject);
 		}

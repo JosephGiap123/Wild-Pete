@@ -6,14 +6,12 @@ public class PhysicalItemModel : MonoBehaviour
 
     private Item itemComponent;
 
-    void Start()
+    public void Load()
     {
         itemComponent = GetComponent<Item>();
-        if (itemComponent != null)
-        {
-            itemSO = itemComponent.itemSO;
-        }
+        itemSO = itemComponent.itemSO;
         GetComponentInChildren<SpriteRenderer>().sprite = itemSO.dropIcon;
+        Debug.Log(itemSO.dropIcon);
     }
 
 }
