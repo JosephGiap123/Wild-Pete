@@ -20,7 +20,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     [Header("Combat Settings")]
     public int maxHealth = 20;
-    public int health = 20;
     [SerializeField] public int ammoCount = 5;
     [SerializeField] public int maxAmmo = 5;
     public int maxAttackChain = 3;
@@ -95,9 +94,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     //events
     public event Action<int, int> OnAmmoChanged;
-    public event Action<int, int> OnHealthChanged; // current, max
-    public event Action<int> OnMaxHealthChanged;
-    public event Action OnPlayerDeath; // Triggered when player dies
 
     protected virtual void Awake()
     {
@@ -106,7 +102,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             groundCheck.size = new(CharWidth * 0.9f, groundCheck.size.y);
         }
-        health = maxHealth;
     }
 
     // Abstract methods for character-specific behavior
@@ -114,6 +109,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected abstract void SetupCrouchAttack();
     protected abstract void SetupAerialAttack();
 
+    private void OnEnable()
+    {
+        HealthManager.instance.OnPlayerDeath += Die;
+    }
     protected virtual void Update()
     {
         if (PauseController.IsGamePaused)
@@ -290,7 +289,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.CrouchWep : playerStates.Crouch);
                     return;
                 }
-                else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f)
+                else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f && horizontalInput != 0)
                 {
                     animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.RunWep : playerStates.Run);
                     return;
@@ -579,23 +578,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
     }
 
-    public virtual void SetHealth(int newHealth)
-    {
-        health = Mathf.Clamp(newHealth, 0, maxHealth); //ensure it cant go below 0 or over maxhp.
-        OnHealthChanged?.Invoke(health, maxHealth);
-
-        // Check for death
-        if (health <= 0 && !isDead)
-        {
-            Die();
-        }
-    }
-
     public virtual void SetMaxHealth(int newMaxHealth)
     {
         maxHealth = newMaxHealth;
-        OnMaxHealthChanged?.Invoke(maxHealth);
-        OnHealthChanged?.Invoke(health, maxHealth);
+        HealthManager.instance.SetMaxHealth(maxHealth);
     }
 
     public virtual void ReloadAmmo()
@@ -610,19 +596,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         attackCount = 0;
     }
 
-    protected virtual float GetHealthPercentage()
-    {
-        return (float)health / maxHealth;
-    }
-
-    protected virtual void DamagePlayer(int damage)
-    {
-        SetHealth(health - damage);
-    }
-    protected virtual void HealPlayer(int healBy)
-    {
-        SetHealth(health + healBy);
-    }
 
     public virtual void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
     {
@@ -641,8 +614,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x * knockbackDirection, 5f), damage, Color.red, Color.black);
         }
         StartCoroutine(animatorScript.HurtFlash(0.2f));
-        DamagePlayer(damage);
-
+        HealthManager.instance.TakeDamage(damage);
+        isDead = HealthManager.instance.IsDead();
         // Only apply knockback if player didn't die
         if (!isDead)
         {
@@ -737,9 +710,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         // Stop all movement
         rb.linearVelocity = Vector2.zero;
-
-        // Trigger death event
-        OnPlayerDeath?.Invoke();
 
         // Start death sequence
         StartCoroutine(DeathSequence());

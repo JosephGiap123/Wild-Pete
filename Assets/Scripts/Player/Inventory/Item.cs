@@ -1,14 +1,26 @@
 using UnityEngine;
 
-public class Item : ScriptableObject
+public class Item : MonoBehaviour
 {
-	public string itemName;
-	public Sprite icon;
-	public int maxStackSize = 1;
+	[SerializeField] public string itemName;
+	[SerializeField] public Sprite icon;
+	[SerializeField] public int maxStackSize;
+	[SerializeField] public int quantity;
+	[TextArea] public string itemDesc;
 
-	public virtual void Use()
+	private PlayerInventory inventoryManager;
+
+	void Start()
 	{
-		Debug.Log("Using item: " + itemName);
+		inventoryManager = PlayerInventory.instance;
 	}
 
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Player"))
+		{
+			inventoryManager.AddItem(this);
+			Destroy(gameObject);
+		}
+	}
 }

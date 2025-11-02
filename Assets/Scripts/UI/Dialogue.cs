@@ -14,5 +14,5 @@ public class Dialogue : ScriptableObject
     //can include audio after.
     public float autoProgressDelay = 1.5f;
 
-    
+
 }
