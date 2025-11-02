@@ -74,6 +74,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             itemSprite = null;
             itemIcon.enabled = false;
             quantityText.enabled = false;
+            itemDesc = null;
         }
         else
         {
@@ -138,6 +139,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnLeftClick()
     {
+        if (thisItemSelected)
+        {
+            PlayerInventory.instance.UseConsumable(itemName, 1);
+            return;
+        }
         PlayerInventory.instance.DeselectAllSlots();
         selectedShader.SetActive(true);
         thisItemSelected = true;
