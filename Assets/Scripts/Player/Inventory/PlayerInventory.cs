@@ -4,6 +4,9 @@ public class PlayerInventory : MonoBehaviour
 {
     // Make public so you can drag and drop your UI ItemSlot components here in the Inspector
     public ItemSlot[] itemSlots;
+    //contains ALL item SOs in game.
+    public ItemSO[] itemSOs;
+    public ConsumableSO[] consumableSOs;
 
     // Static instance setup (Singleton pattern)
     public static PlayerInventory instance;
@@ -24,6 +27,19 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void UseConsumable(string itemName, int inventoryLocation)
+    {
+        for (int i = 0; i < consumableSOs.Length; i++)
+        {
+            if (consumableSOs[i].itemName == itemName)
+            {
+                consumableSOs[i].ConsumeItem();
+                itemSlots[inventoryLocation].DecreaseQuantity(1);
+                return;
+            }
+        }
+        Debug.LogWarning("Item is not a consumable: " + itemName);
+    }
     public void AddItem(Item item)
     {
         if (item == null || itemSlots == null || item.quantity <= 0) return;

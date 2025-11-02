@@ -2,17 +2,27 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-	[SerializeField] public string itemName;
-	[SerializeField] public Sprite icon;
-	[SerializeField] public int maxStackSize;
-	[SerializeField] public int quantity;
-	[TextArea] public string itemDesc;
+	public string itemName;
+	public Sprite defaultIcon;
+	public Sprite icon = null;
+	public int maxStackSize;
+	public int quantity;
+	public string itemDesc;
 
+	[SerializeField] public ItemSO itemSO;
 	private PlayerInventory inventoryManager;
 
 	void Start()
 	{
 		inventoryManager = PlayerInventory.instance;
+		if (itemSO != null)
+		{
+			itemName = itemSO.itemName;
+			icon = itemSO.icon;
+			maxStackSize = itemSO.maxStackSize;
+			itemDesc = itemSO.itemDesc;
+			quantity = itemSO.quantity;
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
