@@ -41,13 +41,15 @@ public class GameManager : MonoBehaviour
                 break;
         }
         OnPlayerSet?.Invoke(player); // Notify listeners
+        cinecamerainstance.instance.gameObject.GetComponent<CinemachineCamera>().Follow = player.transform;
+        cinecamerainstance.instance.gameObject.GetComponent<CinemachineCamera>().LookAt = player.transform;
+        Debug.Log(cinecamerainstance.instance);
     }
 
     void Start()
     {
 
         SetPlayer();
-        cinemachineCam.Follow = player.transform;
-        cinemachineCam.LookAt = player.transform; // optional, but often useful
+        
     }
 }

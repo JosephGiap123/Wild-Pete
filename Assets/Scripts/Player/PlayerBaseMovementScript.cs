@@ -39,6 +39,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected bool isDead = false;
     [SerializeField] protected float deathAnimationDuration = 8f; // How long death animation plays
 
+
     [Header("Dash Settings")]
     protected bool canDash = true;
     protected bool isDashing;
@@ -634,59 +635,39 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     }
 
     protected virtual void CancelAllActions()
+{
+    // ✅ Stop all coroutines safely
+    if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+    if (attackTimeoutCoroutine != null) StopCoroutine(attackTimeoutCoroutine);
+    if (attackResetCoroutine != null) StopCoroutine(attackResetCoroutine);
+    if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);
+    if (slideCoroutine != null) StopCoroutine(slideCoroutine);
+    if (dashCooldownCoroutine != null) StopCoroutine(dashCooldownCoroutine);
+
+    attackCoroutine = null;
+    attackTimeoutCoroutine = null;
+    attackResetCoroutine = null;
+    reloadCoroutine = null;
+    slideCoroutine = null;
+    dashCooldownCoroutine = null;
+
+    isAttacking = false;
+    isReloading = false;
+    isDashing = false;
+    canDash = true;
+
+    // ✅ Prevent crash if Rigidbody2D was destroyed OR GameObject disabled
+    if (rb != null)
     {
-        // Cancel attacks
-        if (attackCoroutine != null)
-        {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-        }
-        if (attackTimeoutCoroutine != null)
-        {
-            StopCoroutine(attackTimeoutCoroutine);
-            attackTimeoutCoroutine = null;
-        }
-        isAttacking = false;
-        if (attackResetCoroutine != null)
-        {
-            StopCoroutine(attackResetCoroutine);
-            attackResetCoroutine = null;
-        }
-
-        isReloading = false;
-        if (reloadCoroutine != null)
-        {
-            StopCoroutine(reloadCoroutine);
-            reloadCoroutine = null;
-        }
-
-
-        // Cancel dash/slide
-        isDashing = false;
-        if (slideCoroutine != null)
-        {
-            StopCoroutine(slideCoroutine);
-            slideCoroutine = null;
-        }
-        if (dashCooldownCoroutine != null)
-        {
-            StopCoroutine(dashCooldownCoroutine);
-            dashCooldownCoroutine = null;
-        }
-        canDash = true;
-
-        // Reset gravity if was dashing
-        rb.gravityScale = 3f; //change, hardcoded so far.
-
-        if (trail != null)
-            trail.emitting = false;
-
-        if (hitboxManager != null)
-            hitboxManager.DisableAll();
-
-        // Reset wall slide
-        isWallSliding = false;
+        rb.gravityScale = 3f;
+        rb.linearVelocity = Vector2.zero;
     }
+
+    if (trail != null) trail.emitting = false;
+    if (hitboxManager != null) hitboxManager.DisableAll();
+
+    isWallSliding = false;
+}
 
     // Overload for knockback based on hitbox position
     public virtual void HurtPlayer(int damage, Vector2 hitboxCenter, Vector2 knockbackForce)
@@ -718,7 +699,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         CancelAllActions();
 
         // Stop all movement
-        rb.linearVelocity = Vector2.zero;
+        if (rb != null && rb.gameObject != null)   // ✅ works for destroyed components
+            rb.linearVelocity = Vector2.zero;
 
         // Start death sequence
         StartCoroutine(DeathSequence());
@@ -738,6 +720,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         // Override this method in child classes to handle what happens after death
         // For example: respawn, show game over, reload scene, etc.
         gameObject.SetActive(false);
+        RespawnHiddenPopup.instance.Show();
+        
     }
 
     // Invincibility frames

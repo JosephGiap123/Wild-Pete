@@ -20,4 +20,10 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Quit Game"); // Works in editor only
         Application.Quit();     // Works in a built game
     }
+    public void LoadMainMenu()
+    {
+        Debug.Log("✅ LoadMainMenu() was called!");
+        PauseController.SetPause(false);
+        SceneManager.LoadScene("Main Menu");
+    }
 }

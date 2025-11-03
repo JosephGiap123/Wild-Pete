@@ -3,6 +3,7 @@ using UnityEngine;
 public class MenuController : MonoBehaviour
 {
     public GameObject menuCanvas;
+    public static MenuController instance; 
 
     void Start()
     {
@@ -30,5 +31,16 @@ public class MenuController : MonoBehaviour
             if (!menuCanvas.activeSelf && PauseController.IsGamePaused) return;
             menuCanvas.SetActive(!menuCanvas.activeSelf);
         }
+    }
+ 
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // ✅ prevents duplicates
+            return;
+        }
+        instance = this;
     }
 }
