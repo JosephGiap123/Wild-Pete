@@ -575,11 +575,11 @@ public class GuardAI : EnemyBase
         }
         else
         {
-            if (Mathf.Abs(rb.linearVelocity.x) > moveSpeed)
+            if (Mathf.Abs(rb.linearVelocity.x) > moveSpeed + 0.2f)
             {
                 ChangeAnimationState("Run");
             }
-            else if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
+            else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f)
             {
                 ChangeAnimationState("Walk");
             }
