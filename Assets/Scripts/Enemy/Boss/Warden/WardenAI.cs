@@ -77,6 +77,7 @@ public class WardenAI : EnemyBase
     private int ult1ChainCount = 0;
     protected float distanceToPlayer = 100f;
 
+    [SerializeField] BossHPBarInteractor hpBarInteractor;
     private Transform player;
     private void OnEnable()
     {
@@ -112,6 +113,7 @@ public class WardenAI : EnemyBase
     {
         yield return new WaitWhile(() => distanceToPlayer > 3f);
         ChangeAnimationState("Entrance");
+        hpBarInteractor.ShowHealthBar(true);
     }
 
     public void ChangeAnimationState(string newState)
@@ -188,7 +190,7 @@ public class WardenAI : EnemyBase
     {
         StartCoroutine(base.DamageFlash(0.2f));
         health -= dmg;
-        Debug.Log(health);
+        hpBarInteractor.UpdateHealthVisual();
         if (damageText != null)
         {
             GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
@@ -225,6 +227,7 @@ public class WardenAI : EnemyBase
         ZeroVelocity(); // Stop all movement
         dropItemsOnDeath.DropItems();
         yield return new WaitForSeconds(2f); //wait for death animation to finish
+        hpBarInteractor.ShowHealthBar(false);
         base.Die();
     }
 

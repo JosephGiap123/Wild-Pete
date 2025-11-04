@@ -65,4 +65,13 @@ public class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(duration);
         sr.material.SetFloat("_FlashAmount", 0f);
     }
+    public virtual int GetHealth()
+    {
+        return health;
+    }
+
+    public virtual int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

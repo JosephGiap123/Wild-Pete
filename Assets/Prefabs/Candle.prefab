@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3018649044765980260}
   - component: {fileID: 884810579603241811}
   - component: {fileID: 8390532257854602920}
-  - component: {fileID: 2521090715974846010}
   m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
@@ -52,7 +51,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.45
   m_Color: {r: 0.99753773, g: 1, b: 0.48113203, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.7
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 000000004b8b42d04d5fd3f84b80de654b5f0496
@@ -152,6 +151,23 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1317456925426661469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000181303157484612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f32c5513acac24eb6d5999d6c7b844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseIntensity: 0.7
+  flickerAmount: 0.1
+  flickerSpeed: 5
+  baseOuterRadius: 3
+  radiusVariation: 0.3
 --- !u!114 &8390532257854602920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,23 +191,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!114 &2521090715974846010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3000181303157484612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f32c5513acac24eb6d5999d6c7b844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseIntensity: 0.5
-  flickerAmount: 0.15
-  flickerSpeed: 10
-  baseOuterRadius: 3
-  radiusVariation: 0.3
 --- !u!1 &4449091167895243145
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +269,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -120365235
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 8724906649512049868, guid: 5f405967be7ab421e973877f98072670, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
