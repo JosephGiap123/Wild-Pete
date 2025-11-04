@@ -105,7 +105,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6
 --- !u!1 &6316244119220291252
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 3145487442633610447}
   - component: {fileID: 911910527814956797}
   - component: {fileID: 3948733506490930313}
+  - component: {fileID: 4464331270996330574}
   m_Layer: 0
   m_Name: LaserSprite
   m_TagString: Untagged
@@ -263,3 +264,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5195066, y: 0.24992186}
   m_EdgeRadius: 0
+--- !u!114 &4464331270996330574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316244119220291252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfaf5a5cfd9143cb91c16449a70e462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserScript: {fileID: 7237169467012508795}

@@ -58,4 +58,27 @@ public class WardenAnimRelay : MonoBehaviour
     {
         wardenAI.ZeroVelocity();
     }
+
+    public void CallSpawnUlt2Lasers()
+    {
+        StartCoroutine(wardenAI.Ult2LaserSpawn());
+    }
+
+    public void CallTeleportAftermath()
+    {
+        StartCoroutine(wardenAI.Ult1Teleport());
+    }
+
+    public void CallResetUltimateTimer()
+    {
+        wardenAI.ResetUltimateTimer();
+    }
+    public void CallResetAttackTimer()
+    {
+        wardenAI.ResetAttackTimer();
+    }
+    public void CallResetRangedTimer()
+    {
+        wardenAI.ResetRangedTimer();
+    }
 }
