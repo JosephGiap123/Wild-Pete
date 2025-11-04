@@ -193,6 +193,8 @@ MonoBehaviour:
   hurt: {fileID: 8300000, guid: 3d45abdebc993ef46854be6e0664781f, type: 3}
   death: {fileID: 8300000, guid: fba76680eab6cc94fae38eb86a13ebd2, type: 3}
   runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  punch: {fileID: 8300000, guid: 6469ddbf37c36b448aa917f3dd11a2ce, type: 3}
+  slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.05

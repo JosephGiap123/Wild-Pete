@@ -17,6 +17,9 @@ public class PeteAudioManager : MonoBehaviour
     [SerializeField] private AudioClip hurt;
     [SerializeField] private AudioClip death;
     [SerializeField] private AudioClip runLoop;
+    [SerializeField] private AudioClip throwSound;
+    [SerializeField] private AudioClip punch;
+    [SerializeField] private AudioClip slide;
 
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -33,10 +36,10 @@ public class PeteAudioManager : MonoBehaviour
     void Awake()
     {
         if (!sfxSource) sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.spatialBlend = 1f;
+        sfxSource.spatialBlend = 1f; // 3D
         sfxSource.rolloffMode = AudioRolloffMode.Linear;
         sfxSource.maxDistance = max3dDistance;
-        sfxSource.outputAudioMixerGroup = sfxMixerGroup;
+        sfxSource.outputAudioMixerGroup = sfxMixerGroup; 
 
         loopSource = gameObject.AddComponent<AudioSource>();
         loopSource.loop = true;
@@ -55,6 +58,9 @@ public class PeteAudioManager : MonoBehaviour
     public void PlayJump() => PlayOneShot(jump);
     public void PlayHurt() => PlayOneShot(hurt);
     public void PlayDeath() => PlayOneShot(death);
+    public void PlayThrow() => PlayOneShot(throwSound);
+    public void PlayPunch() => PlayOneShot(punch);
+    public void PlaySlide() => PlayOneShot(slide);
 
     public void PlayReload()
     {

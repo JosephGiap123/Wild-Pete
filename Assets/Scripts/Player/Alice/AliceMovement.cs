@@ -120,15 +120,17 @@ public class AliceMovement2D : BasePlayerMovement2D
 
             // stop run loop and play dash SFX immediately
             audioMgr?.StopRunLoop();
-            audioMgr?.PlayDash();
+            
 
             if (!isCrouching)
             {
                 slideCoroutine = StartCoroutine(Dash());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                audioMgr?.PlayDash();
             }
             else
             {
+                audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
