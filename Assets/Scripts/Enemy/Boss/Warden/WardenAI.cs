@@ -22,7 +22,7 @@ public class WardenAI : EnemyBase
     public int phaseNum = 1;
     protected bool isDead = false;
     protected bool isInAir = false;
-    protected bool inAttackState = false;
+    protected bool inAttackState = true;
     protected int isAttacking = 0;
 
     [Header("Combat Stats")]
@@ -74,6 +74,7 @@ public class WardenAI : EnemyBase
     [SerializeField] private WardenAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject slamParticlePrefab;
     private int ult1ChainCount = 0;
+    protected float distanceToPlayer = 100f;
 
     private Transform player;
     private void OnEnable()
@@ -91,6 +92,7 @@ public class WardenAI : EnemyBase
 
     public void Update()
     {
+        distanceToPlayer = Vector2.Distance(player.position, transform.position);
         ultimateTimer -= Time.deltaTime;
         regularTimer -= Time.deltaTime;
         rangedTimer -= Time.deltaTime;
@@ -99,6 +101,16 @@ public class WardenAI : EnemyBase
         if (inAttackState || isDead) return;
         //testing inputs;
         DecideAttack();
+    }
+
+    public void Start()
+    {
+        StartCoroutine(WaitForNearbyPlayer());
+    }
+    public IEnumerator WaitForNearbyPlayer()
+    {
+        yield return new WaitWhile(() => distanceToPlayer > 3f);
+        ChangeAnimationState("Entrance");
     }
 
     public void ChangeAnimationState(string newState)
@@ -266,7 +278,6 @@ public class WardenAI : EnemyBase
 
     public void DecideAttack()
     {
-        float distanceToPlayer = Vector2.Distance(player.position, transform.position); // Use Vector2.Distance for better accuracy
 
         // --- PHASE 3 ULTIMATE CHAIN PRIORITY ---
         if (phaseNum == 3 && ult1ChainCount < 3 && ult1ChainCount != 0)
