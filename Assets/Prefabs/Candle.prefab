@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3018649044765980260}
   - component: {fileID: 884810579603241811}
   - component: {fileID: 8390532257854602920}
+  - component: {fileID: 1089327698668997540}
   m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
@@ -151,23 +152,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1317456925426661469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3000181303157484612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f32c5513acac24eb6d5999d6c7b844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseIntensity: 0.7
-  flickerAmount: 0.1
-  flickerSpeed: 5
-  baseOuterRadius: 3
-  radiusVariation: 0.3
 --- !u!114 &8390532257854602920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +175,23 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1089327698668997540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000181303157484612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f32c5513acac24eb6d5999d6c7b844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseIntensity: 0.7
+  flickerAmount: 0.2
+  flickerSpeed: 10
+  baseOuterRadius: 5
+  radiusVariation: 0.3
 --- !u!1 &4449091167895243145
 GameObject:
   m_ObjectHideFlags: 0
