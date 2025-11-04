@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum playerStates {Idle, Run, Slide, Falling, Rising, Hurt, Gun1, WallSlide, Attack, AerialAttack, AttackRecovery, Throw, Crouch, IdleWep, RisingWep, FallingWep, RunWep, SlideWep, HurtWep, WallSlideWep, CrouchWep, Knife1, Knife2, Knife3, Knife1_Recovery, Knife2_Recovery, Knife3_Recovery};
+// playerStates enum moved to Assets/Scripts/Player/PlayerStates.cs to avoid duplication
 
 public class PlayerMovement2D : MonoBehaviour
 {
