@@ -196,9 +196,6 @@ public class GuardAI : EnemyBase
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
-
-
-
     private void Update()
     {
         // Always call AnimationControl, even when dead or hurt (for death/hurt animations)
