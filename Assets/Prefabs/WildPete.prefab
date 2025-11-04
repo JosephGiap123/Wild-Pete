@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8308173776896760361}
   - component: {fileID: 188134232818702089}
-  - component: {fileID: 7544642231447546388}
   m_Layer: 6
   m_Name: ImpulseEmitter
   m_TagString: Untagged
@@ -86,20 +85,6 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
---- !u!114 &7544642231447546388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121004912143073257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1fb5dca8f2e5b243b24169419468aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  key: 117
 --- !u!1 &410439048829482216
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +160,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 3344895713379779979, guid: 5a0448f1d4ab94e01b10ff12a7d37117, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -363,7 +348,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 1
   m_PreviewTimeScale: 1
@@ -1020,7 +1005,7 @@ MonoBehaviour:
   jumpPower: 9
   minJumpPower: 4
   isFacingRight: 1
-  maxHealth: 20
+  maxHealth: 50
   ammoCount: 10
   maxAmmo: 10
   maxAttackChain: 3
@@ -1179,7 +1164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1709080651
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 955989879, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

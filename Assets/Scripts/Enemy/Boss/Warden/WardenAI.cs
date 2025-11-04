@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -467,6 +468,7 @@ public class WardenAI : EnemyBase
         SetUpAttackHitboxes(5);
         rb.gravityScale = 3f;
         SpawnLandingCloudParticle();
+        GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         Ult1LaserSpawn();
 
         // --- NEW CHAIN LOGIC ---
