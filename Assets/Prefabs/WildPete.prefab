@@ -622,7 +622,7 @@ MonoBehaviour:
   runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
   throwSound: {fileID: 0}
   punch: {fileID: 8300000, guid: 6469ddbf37c36b448aa917f3dd11a2ce, type: 3}
-  slide: {fileID: 8300000, guid: 09bd97b164bed324a994252b205239b1, type: 3}
+  slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.05
@@ -1152,7 +1152,7 @@ MonoBehaviour:
   runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
   throwSound: {fileID: 0}
   punch: {fileID: 0}
-  slide: {fileID: 0}
+  slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.05
