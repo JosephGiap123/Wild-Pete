@@ -95829,6 +95829,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2028452633450342295, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028452633450342295, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1561489482}
+    - target: {fileID: 2028452633450342295, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Toggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028452633450342295, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SettingsOpener, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2317014120042046903, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
