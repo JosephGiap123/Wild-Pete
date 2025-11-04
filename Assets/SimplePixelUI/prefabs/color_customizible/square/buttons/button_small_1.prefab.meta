@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: baf8abacef080a54687653ee61582d8f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 165012
+  packageName: Simple Free Pixel art styled UI pack
+  packageVersion: 1.15
+  assetPath: Assets/SimplePixelUI/prefabs/color_customizible/square/buttons/button_small_1.prefab
+  uploadId: 362088

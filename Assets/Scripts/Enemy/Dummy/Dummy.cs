@@ -14,7 +14,7 @@ public class Dummy : EnemyBase
         base.Awake();
     }
 
-    public override void Hurt(int dmg)
+    public override void Hurt(int dmg, Vector2 knockback)
     {
         health -= dmg;
         Debug.Log(health);
@@ -22,6 +22,11 @@ public class Dummy : EnemyBase
         if (hurtCoroutine != null)
             StopCoroutine(hurtCoroutine);
 
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockback.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
+        }
         hurtCoroutine = StartCoroutine(HurtAnim());
 
         if (health <= 0)

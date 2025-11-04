@@ -240,7 +240,7 @@ public class GenEnemy : EnemyBase
         }
     }
 
-    public override void Hurt(int dmg)
+    public override void Hurt(int dmg, Vector2 knockback)
     {
         health -= dmg;
         Debug.Log($"Enemy HP: {health}");

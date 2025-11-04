@@ -1,5 +1,90 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &269772955403009036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6923331283735645932}
+  - component: {fileID: 8453157193428454103}
+  m_Layer: 6
+  m_Name: ImpulseEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6923331283735645932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269772955403009036}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8134312220912395196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8453157193428454103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269772955403009036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 0
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 3
+    DissipationRate: 0
+    RawSignal: {fileID: 11400000, guid: 91fe06f3aea038647a5d6eaa012f06f6, type: 2}
+    AmplitudeGain: 3
+    FrequencyGain: 2
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &807643912824950603
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +175,7 @@ MonoBehaviour:
     m_Bits: 16384
   circleCol: {fileID: 5102368542197912802}
   boxCol: {fileID: 6182104108368122417}
+  disableAfterFirstHit: 0
 --- !u!61 &6182104108368122417
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -136,6 +222,68 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.8, y: 0.4}
   m_EdgeRadius: 0
+--- !u!1 &2056831625984915761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8062228015536724679}
+  - component: {fileID: 2581573120976467173}
+  m_Layer: 0
+  m_Name: AliceAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8062228015536724679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056831625984915761}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.45000005, y: 0.6875, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8134312220912395196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2581573120976467173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056831625984915761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69a3e4c2db414244903fbfa5feab3f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  shotgun: {fileID: 8300000, guid: 762ab552bea646145907f2fe13b03ea6, type: 3}
+  reload: {fileID: 8300000, guid: e5190d5a1b132d64289be31b5d7a2dfa, type: 3}
+  hammerClips:
+  - {fileID: 8300000, guid: 6b828dcd7dcacab459ca7756cb8f81fd, type: 3}
+  - {fileID: 8300000, guid: 2f4dcbb0811e28e41b18fdcf909f5767, type: 3}
+  sweep: {fileID: 8300000, guid: 1c767fe236b376741aba525508d58984, type: 3}
+  dash: {fileID: 8300000, guid: dce3b5f87955b60478b59dc73cbbc9d1, type: 3}
+  jump: {fileID: 8300000, guid: f98fe272dbf13a54bbc28f87c8adfa95, type: 3}
+  hurt: {fileID: 8300000, guid: 3d45abdebc993ef46854be6e0664781f, type: 3}
+  death: {fileID: 8300000, guid: fba76680eab6cc94fae38eb86a13ebd2, type: 3}
+  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  punch: {fileID: 8300000, guid: 6469ddbf37c36b448aa917f3dd11a2ce, type: 3}
+  slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 20
 --- !u!1 &2536724497271655194
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +403,8 @@ Transform:
   - {fileID: 5187375710118761005}
   - {fileID: 4137327256938815234}
   - {fileID: 8726525024870943855}
+  - {fileID: 8062228015536724679}
+  - {fileID: 6923331283735645932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8862283075697551678
@@ -283,30 +433,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3137ff4a0bac94e84ad5fdcdf88b4ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  jumpPower: 12
-  minJumpPower: 5
+  moveSpeed: 4
+  jumpPower: 9
+  minJumpPower: 4
   isFacingRight: 1
-  maxHealth: 20
-  health: 20
+  maxHealth: 50
   ammoCount: 5
   maxAmmo: 5
   maxAttackChain: 2
   comboResetTime: 3
-  hurtDuration: 0.5
-  knockbackForce: 5
-  knockbackUpForce: 1
-  invincibilityTime: 1
-  deathAnimationDuration: 2
-  dashingPower: 10
+  attackCooldown: 2
+  invincibilityTime: 0.2
+  deathAnimationDuration: 8
+  dashingPower: 9
   dashingTime: 0.3
-  slidePower: 15
-  dashingCooldown: 3
+  slidePower: 12
+  dashingCooldown: 3.5
   slidingCooldown: 0.75
+  aerialCooldown: 1.5
+  maxAttackDuration: 0.9
   wallRay: {fileID: 4137327256938815234}
   wallMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 524288
   wallSlideSpeed: 1.7
   rb: {fileID: 8607775664743977173}
   boxCol: {fileID: 8169233198180431905}
@@ -314,13 +463,32 @@ MonoBehaviour:
   roofCheck: {fileID: 3481565198068845709}
   groundMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1048576
   trail: {fileID: 2179199224452851584}
   bulletOrigin: {fileID: 5187375710118761005}
   bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}
   hitboxManager: {fileID: 2599902317028416662}
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
+  damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
+  runMinSpeed: 0.2
+  throwDuration: 0.5
+  melee1Damage: 4
+  melee1Size: 0.8
+  melee1Offset: {x: 0.5, y: 0}
+  melee1Knockback: {x: 0.5, y: 10}
+  melee2Damage: 5
+  melee2Size: 0.8
+  melee2Offset: {x: 0.5, y: 0}
+  melee2Knockback: {x: 4, y: -6}
+  crouchAttackDamage: 2
+  crouchAttackSize: {x: 1, y: 0.55}
+  crouchAttackOffset: {x: 0.3, y: -0.25}
+  crouchAttackKnockback: {x: 2, y: 1}
+  aerialAttackDamage: 5
+  aerialAttackSize: 1
+  aerialAttackOffset: {x: 0, y: 0}
+  aerialAttackKnockback: {x: 6, y: 0}
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5
@@ -579,7 +747,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1768527633, guid: 5c5fb65aeeca44c0ebe102b5903d93ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -606,6 +774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementScript: {fileID: 2802167836047707247}
   hitboxScript: {fileID: 2599902317028416662}
+  audioMgr: {fileID: 2581573120976467173}
 --- !u!95 &1601049201458241287
 Animator:
   serializedVersion: 7
@@ -781,7 +950,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 1
   m_PreviewTimeScale: 1
@@ -929,7 +1098,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 3344895713379779979, guid: 5a0448f1d4ab94e01b10ff12a7d37117, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

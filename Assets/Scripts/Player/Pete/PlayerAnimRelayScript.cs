@@ -5,32 +5,59 @@ public class PlayerAnimRelayScript : MonoBehaviour
 
     [SerializeField] PeteMovement2D movementScript;
     [SerializeField] AttackHitbox hitboxScript;
-    
-    public void CallEndAttack(){
+    [SerializeField] PeteAudioManager audioMgr;
+
+    public void CallEndAttack()
+    {
         movementScript.EndAttack();
     }
 
-    public void CallRectHitbox(){
+    public void CallRectHitbox()
+    {
         hitboxScript.ActivateBox();
     }
 
-    public void CallCircHitbox(){
+    public void CallCircHitbox()
+    {
         hitboxScript.ActivateCircle();
     }
 
-    public void CallDisableHitbox(){
+    public void CallDisableHitbox()
+    {
         hitboxScript.DisableHitbox();
     }
 
-    public void CallSpawnBullet(){
+    public void CallSpawnBullet()
+    {
         movementScript.InstBullet();
     }
 
-    public void CallEndHurt(){
+    public void CallEndHurt()
+    {
         movementScript.EndHurt();
     }
 
-    public void CallEndReload(){
+    public void CallEndReload()
+    {
         movementScript.EndReload();
+    }
+
+    public void CallKnifeSound()
+    {
+        audioMgr.PlayMelee();
+    }
+    public void CallPunchSound()
+    {
+        audioMgr.PlayPunch();
+    }
+
+    public void CallGunSound()
+    {
+        audioMgr.PlayRevolver();
+    }
+
+    public void CallReloadSound()
+    {
+        audioMgr.PlayReload();
     }
 }
