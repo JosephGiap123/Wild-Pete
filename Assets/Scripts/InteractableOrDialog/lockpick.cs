@@ -17,8 +17,8 @@ public class LockPick : MonoBehaviour, IInteractable
     public bool CanInteract()
     {
         // Keep your existing logic; block re-opening while active
-        if(!active) return false;
-        return activeGame == null;
+        if (!active) return false;
+        return activeGame == null && PlayerInventory.instance.HasItem("Lockpick") > 0;
     }
 
     public void Interact()

@@ -21,7 +21,7 @@ TagManager:
   - PlayerAtkHBox
   - Statics
   - Item
-  - 
+  - UnlitVFX
   - 
   - 
   - Wall
@@ -47,14 +47,14 @@ TagManager:
   - name: Decor
     uniqueID: 4174602061
     locked: 0
-  - name: Foreground
-    uniqueID: 1709080651
-    locked: 0
   - name: Entities
     uniqueID: 2516868939
     locked: 0
   - name: FX Layer
     uniqueID: 3305992881
+    locked: 0
+  - name: Foreground
+    uniqueID: 1709080651
     locked: 0
   - name: UI Layer
     uniqueID: 3905234451
