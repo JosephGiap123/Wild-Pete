@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1a938b7e862a85849b0f745eb0bb9f4b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218050
+  packageName: 2D Simple UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/OArielG/2DSimpleUIPack/Examples/Animations/BlackQuitButton/BlackQuitButton.controller
+  uploadId: 493490

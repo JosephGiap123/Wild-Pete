@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public abstract class BasePlayerMovement2D : MonoBehaviour
 {
@@ -627,6 +628,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         HealthManager.instance.TakeDamage(damage);
+        GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         isDead = HealthManager.instance.IsDead();
         // Only apply knockback if player didn't die
         if (!isDead)

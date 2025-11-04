@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4b7807c5c47345a4b82698b8bcdd3334
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218050
+  packageName: 2D Simple UI Pack
+  packageVersion: 1.0
+  assetPath: Assets/OArielG/2DSimpleUIPack/Examples/Prefabs/HorizontalButtons/BlackQuitButton.prefab
+  uploadId: 493490
