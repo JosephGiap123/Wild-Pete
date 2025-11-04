@@ -28,7 +28,7 @@ public class AttackHitBoxGuard : MonoBehaviour
             //guaranteed to be an enemy.
             if (other.gameObject != null)
             {
-                GameObject targetRoot = other.transform.root.gameObject;
+                GameObject targetRoot = other.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
@@ -41,7 +41,7 @@ public class AttackHitBoxGuard : MonoBehaviour
         {
             if (other.gameObject != null)
             {
-                GameObject targetRoot = other.transform.root.gameObject;
+                GameObject targetRoot = other.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return;
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");

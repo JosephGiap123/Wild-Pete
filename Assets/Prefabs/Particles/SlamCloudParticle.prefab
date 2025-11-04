@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2756098317898457116}
   - component: {fileID: 5514546548205211555}
   - component: {fileID: 2036426094489957994}
+  - component: {fileID: 937045897026676313}
   m_Layer: 0
   m_Name: SlamCloudParticle
   m_TagString: Untagged
@@ -57,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -988974415
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -1952053322943909887, guid: a08363a5d6fe2490fb129a8dcdeed5ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123,3 +124,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0004a6662072e44c5ac3f1ba99d7e70c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &937045897026676313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792127021393328816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.38
+  m_Color: {r: 0, g: 0.98869824, b: 1, a: 1}
+  m_Intensity: 3
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 000000004b8b42d04d5fd3f84b5f0496b1720dc54b80de65
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 180
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.9173453, y: 0.07191801, z: 0}
+  - {x: 0.76277304, y: 0.087375164, z: 0}
+  - {x: 1.2422546, y: 0.6387882, z: 0.00000017881393}
+  - {x: 1.1646612, y: 1.2728618, z: 0}
+  - {x: 0.7785375, y: 1.7826235, z: 0.00000017881393}
+  - {x: -0.025238752, y: 1.8908243, z: 0.00000017881393}
+  - {x: -0.7053571, y: 1.7053374, z: 0.00000017881393}
+  - {x: -1.0873752, y: 1.272862, z: 0}
+  - {x: -1.1999888, y: 0.8088176, z: 0.00000017881393}
