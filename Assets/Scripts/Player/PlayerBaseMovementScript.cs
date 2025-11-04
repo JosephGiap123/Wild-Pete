@@ -511,6 +511,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     protected virtual IEnumerator Dash()
     {
+        isInvincible = true;
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
@@ -523,6 +524,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         yield return new WaitForSeconds(dashingTime);
 
+        isInvincible = false;
         trail.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
@@ -675,6 +677,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             dashCooldownCoroutine = null;
         }
         canDash = true;
+        isInvincible = false;
 
         // Reset gravity if was dashing
         rb.gravityScale = 3f; //change, hardcoded so far.

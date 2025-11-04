@@ -2,6 +2,7 @@
 *.cs diff=csharp text
 *.cginc text
 *.shader text
+*.shadergraph text
 *.mat merge=unityyamlmerge eol=lf
 *.anim merge=unityyamlmerge eol=lf
 *.unity merge=unityyamlmerge eol=lf
@@ -12,6 +13,8 @@
 *.meta merge=unityyamlmerge eol=lf
 *.controller merge=unityyamlmerge eol=lf
 UserSettings/*.dwlt merge=ours
+# Font assets - always accept incoming changes to avoid conflicts
+Assets/Font/*.asset merge=font-asset-theirs eol=lf
 ## git-lfs ##
 #Image
 *.jpg filter=lfs diff=lfs merge=lfs -text
@@ -43,6 +46,9 @@ UserSettings/*.dwlt merge=ours
 *.unitypackage filter=lfs diff=lfs merge=lfs -text
 *.aif filter=lfs diff=lfs merge=lfs -text
 *.ttf filter=lfs diff=lfs merge=lfs -text
+*.otf filter=lfs diff=lfs merge=lfs -text
+*.woff filter=lfs diff=lfs merge=lfs -text
+*.woff2 filter=lfs diff=lfs merge=lfs -text
 *.rns filter=lfs diff=lfs merge=lfs -text
 *.reason filter=lfs diff=lfs merge=lfs -text
 *.lxo filter=lfs diff=lfs merge=lfs -text

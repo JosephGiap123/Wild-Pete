@@ -35,7 +35,7 @@ public class Item : MonoBehaviour
 			dropIcon = itemSO.dropIcon;
 			physicalItemModel.Load();
 		}
-		StartCoroutine(WaitToEnablePickable(5.0f));
+		StartCoroutine(WaitToEnablePickable(1.0f));
 	}
 
 	public void Initialize(Vector2 beginningVelocity, ItemSO itemData)

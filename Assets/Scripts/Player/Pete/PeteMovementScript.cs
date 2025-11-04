@@ -148,8 +148,11 @@ public class PeteMovement2D : BasePlayerMovement2D
     // ---------- SFX for hurt & death ----------
     public override void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
     {
-        audioMgr?.StopRunLoop();
-        audioMgr?.PlayHurt();
+        if (!isInvincible)
+        {
+            audioMgr?.StopRunLoop();
+            audioMgr?.PlayHurt();
+        }
         base.HurtPlayer(damage, knockbackDirection, knockbackForce);
     }
 
