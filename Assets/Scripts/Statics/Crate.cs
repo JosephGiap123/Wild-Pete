@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class Crate : BreakableStatics
 {
+    [SerializeField] GameObject particleEmitter;
+    [SerializeField] DropItemsOnDeath dropItemsOnDeath;
     protected override void Awake()
     {
         base.Awake();
@@ -20,6 +23,8 @@ public class Crate : BreakableStatics
         if (health <= 0)
         {
             //run some code
+            Instantiate(particleEmitter, transform.position, Quaternion.identity);
+            dropItemsOnDeath.DropItems();
             Break();
         }
     }
