@@ -40,14 +40,17 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+        GameObject camFollowTarget = new GameObject("CameraFollowTarget");
+        camFollowTarget.transform.SetParent(player.transform);
+        camFollowTarget.transform.localPosition = new Vector3(0, 2f, 0);
         OnPlayerSet?.Invoke(player); // Notify listeners
+        cinemachineCam.Follow = camFollowTarget.transform;
+        cinemachineCam.LookAt = camFollowTarget.transform;
     }
 
     void Start()
     {
 
         SetPlayer();
-        cinemachineCam.Follow = player.transform;
-        cinemachineCam.LookAt = player.transform; // optional, but often useful
     }
 }

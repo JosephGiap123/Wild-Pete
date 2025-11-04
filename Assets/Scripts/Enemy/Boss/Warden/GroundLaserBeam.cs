@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,9 +27,7 @@ public class GroundLaserBeam : MonoBehaviour
 
     public IEnumerator WaitCoRoutine(float time)
     {
-        Debug.Log("Waiting");
         yield return new WaitForSeconds(time);
-        Debug.Log("bruh");
         anim.Play("LaserBeamRise", 0, 0f);
     }
 
@@ -61,6 +60,12 @@ public class GroundLaserBeam : MonoBehaviour
         }
     }
 
+
+    public void DestroyLaser()
+    {
+        Debug.Log("Destroyed");
+        Destroy(gameObject);
+    }
     void DisableHitbox()
     {
         laserHitbox.enabled = false;
