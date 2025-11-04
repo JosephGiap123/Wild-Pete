@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ef109908df19c184caf39a26b22e4d57
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 165012
+  packageName: Simple Free Pixel art styled UI pack
+  packageVersion: 1.15
+  assetPath: Assets/SimplePixelUI/prefabs/color_customizible/rounded/backgroundCustom.prefab
+  uploadId: 362088

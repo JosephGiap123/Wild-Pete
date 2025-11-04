@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fb1fbcdad467ab94a80d1ded96a23d21
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 165012
+  packageName: Simple Free Pixel art styled UI pack
+  packageVersion: 1.15
+  assetPath: Assets/SimplePixelUI/prefabs/Half_color_customizible/square/ScrollBar/ScrollbarLR.prefab
+  uploadId: 362088

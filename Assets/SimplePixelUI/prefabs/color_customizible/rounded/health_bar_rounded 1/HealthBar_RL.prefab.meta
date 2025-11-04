@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 21081b1a91bd06f41ba626b23bdefcbf
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 165012
+  packageName: Simple Free Pixel art styled UI pack
+  packageVersion: 1.15
+  assetPath: Assets/SimplePixelUI/prefabs/color_customizible/rounded/health_bar_rounded
+    1/HealthBar_RL.prefab
+  uploadId: 362088
