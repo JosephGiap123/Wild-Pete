@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6117118338616177240}
   - component: {fileID: 3018649044765980260}
   - component: {fileID: 884810579603241811}
-  - component: {fileID: 1317456925426661469}
   - component: {fileID: 8390532257854602920}
   m_Layer: 0
   m_Name: Light 2D
