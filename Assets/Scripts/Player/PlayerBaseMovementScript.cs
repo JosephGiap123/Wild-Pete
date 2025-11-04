@@ -35,6 +35,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
+    [SerializeField] protected float hurtStateTimeout = 1.0f; // Max time to stay in hurt state (safety fallback)
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
@@ -52,6 +53,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected Coroutine dashCooldownCoroutine;
     protected Coroutine attackCoroutine;
     protected Coroutine attackTimeoutCoroutine;
+    protected Coroutine hurtTimeoutCoroutine;
 
     [Header("Aerial Settings")]
     [SerializeField] protected float aerialCooldown = 1f;
@@ -548,7 +550,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         yield return new WaitForSeconds(slidingCooldown);
         isDashing = false;
-        
+
     }
 
     protected virtual IEnumerator AerialAttack()
@@ -620,6 +622,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         { //hyper armor can ignore.
             isHurt = true;
             CancelAllActions();
+            // Start timeout coroutine as safety fallback
+            if (hurtTimeoutCoroutine != null)
+            {
+                StopCoroutine(hurtTimeoutCoroutine);
+            }
+            hurtTimeoutCoroutine = StartCoroutine(HurtStateTimeout());
         }
         if (damageText != null)
         {
@@ -692,6 +700,13 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         // Reset wall slide
         isWallSliding = false;
+
+        // Clear hurt state timeout
+        if (hurtTimeoutCoroutine != null)
+        {
+            StopCoroutine(hurtTimeoutCoroutine);
+            hurtTimeoutCoroutine = null;
+        }
     }
 
     // Overload for knockback based on hitbox position
@@ -714,6 +729,23 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public virtual void EndHurt()
     {
         isHurt = false;
+        // Stop timeout coroutine if it's still running
+        if (hurtTimeoutCoroutine != null)
+        {
+            StopCoroutine(hurtTimeoutCoroutine);
+            hurtTimeoutCoroutine = null;
+        }
+    }
+
+    protected virtual IEnumerator HurtStateTimeout()
+    {
+        yield return new WaitForSeconds(hurtStateTimeout);
+        // Safety fallback: automatically clear hurt state if animation event didn't fire
+        if (isHurt)
+        {
+            Debug.LogWarning("Hurt state timeout reached - clearing hurt state automatically");
+            EndHurt();
+        }
     }
 
     protected virtual void Die()
