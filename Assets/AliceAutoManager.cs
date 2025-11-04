@@ -11,7 +11,7 @@ public class AliceAudioManager : MonoBehaviour
     [SerializeField] private AudioClip shotgun;      // primary fire
     [SerializeField] private AudioClip reload;       // will play at 2x speed
     [SerializeField] private AudioClip[] hammerClips; // <-- assign 2+ swing sounds here
-    [SerializeField] private AudioClip sweep;  
+    [SerializeField] private AudioClip sweep;
     [SerializeField] private AudioClip dash;
     [SerializeField] private AudioClip jump;
     [SerializeField] private AudioClip hurt;
@@ -93,10 +93,10 @@ public class AliceAudioManager : MonoBehaviour
         PlayOneShot(clip);
     }
 
-    public void PlayDash()  => PlayOneShot(dash);
+    public void PlayDash() => PlayOneShot(dash);
     public void PlaySweep() => PlayOneShot(sweep);
-    public void PlayJump()  => PlayOneShot(jump);
-    public void PlayHurt()  => PlayOneShot(hurt);
+    public void PlayJump() => PlayOneShot(jump);
+    public void PlayHurt() => PlayOneShot(hurt);
     public void PlayDeath() => PlayOneShot(death);
     public void PlaySlide() => PlayOneShot(slide);
 
@@ -109,10 +109,10 @@ public class AliceAudioManager : MonoBehaviour
 
         sfxSource.Stop();                 // clean start
         float oldPitch = sfxSource.pitch;
-        var oldClip   = sfxSource.clip;
+        var oldClip = sfxSource.clip;
 
-        sfxSource.pitch  = 2f;            // 2× speed (and pitch)
-        sfxSource.clip   = reload;
+        sfxSource.pitch = 2f;            // 2× speed (and pitch)
+        sfxSource.clip = reload;
         sfxSource.volume = sfxVolume;
         sfxSource.Play();
 

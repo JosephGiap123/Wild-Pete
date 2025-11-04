@@ -688,6 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementScript: {fileID: 2802167836047707247}
   hitboxScript: {fileID: 2599902317028416662}
+  audioMgr: {fileID: 2581573120976467173}
 --- !u!95 &1601049201458241287
 Animator:
   serializedVersion: 7

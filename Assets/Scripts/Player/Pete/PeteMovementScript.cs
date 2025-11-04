@@ -113,7 +113,6 @@ public class PeteMovement2D : BasePlayerMovement2D
         // T = RELOAD
         if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
-            audioMgr?.PlayReload();
             reloadCoroutine = StartCoroutine(Reload());
         }
 
@@ -123,7 +122,7 @@ public class PeteMovement2D : BasePlayerMovement2D
             isDashing = true;
 
             // stop run loop and play dash SFX immediately
-            audioMgr?.StopRunLoop(); 
+            audioMgr?.StopRunLoop();
 
             if (!isCrouching)
             {
@@ -182,14 +181,12 @@ public class PeteMovement2D : BasePlayerMovement2D
                 attackTimer = attackCooldown;
                 break;
         }
-        audioMgr?.PlayMelee();
     }
 
     protected override void SetupCrouchAttack()
     {
         hitboxManager.ChangeHitboxBox(crouchAttackOffset, crouchAttackSize, crouchAttackKnockback, crouchAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
-        audioMgr?.PlayMelee();
         attackTimer = attackCooldown / 2;
     }
 
@@ -197,7 +194,6 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         hitboxManager.ChangeHitboxBox(aerialAttackOffset, aerialAttackSize, aerialAttackKnockback, aerialAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
-        audioMgr?.PlayMelee();
         aerialTimer = aerialCooldown;
     }
 
@@ -236,7 +232,6 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         // ammo already decremented by base.RangedAttack()
         bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
-        audioMgr?.PlayRevolver(); // gunshot timed to muzzle flash / bullet spawn
     }
 
     // ---------- Throw (fix: end by time so it never freezes) ----------

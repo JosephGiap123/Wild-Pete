@@ -705,19 +705,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1048576
   phaseNum: 1
-  melee1Dmg: 5
+  melee1Dmg: 3
   melee1Offset: {x: 0, y: 0}
   melee1Size: {x: 0, y: 0}
   melee1Knockback: {x: 5, y: 2}
   melee2Offset: {x: 0, y: 0}
   melee2Size: {x: 0, y: 0}
-  melee2Dmg: 8
-  melee2Knockback: {x: 7, y: 3}
-  rangedDmg: 6
+  melee2Dmg: 5
+  melee2Knockback: {x: 10, y: 3}
+  rangedDmg: 5
   rangedSpeed: 20
   rangedLifeSpan: 4
   rangedKnockback: {x: 4, y: 1}
-  ultimate1FallingDmg: 4
+  ultimate1FallingDmg: 3
   ultimate1LandingDmg: 4
   ultimate1FallingHitboxOffset: {x: 0, y: 0}
   ultimate1FallingHitboxSize: {x: 1, y: 2.5}
@@ -725,14 +725,14 @@ MonoBehaviour:
   ultimate1LandingHitboxOffset: {x: 0, y: 0}
   ultimate1LandingHitboxSize: {x: 2.5, y: 1}
   ultimate1LandingKnockback: {x: 4, y: 7}
-  ultimate2Dmg: 6
+  ultimate2Dmg: 5
   ultimate2Knockback: {x: 8, y: 4}
   ultimate3Dmg: 3
   ultimate3Knockback: {x: 1, y: 2}
   ultimate3HitboxOffset: {x: 3, y: 0.45}
   ultimate3HitboxSize: {x: 5.2, y: 0.7}
   laserKnockback: {x: 1, y: 6}
-  laserDmg: 4
+  laserDmg: 3
   ultimateCooldown: 8
   regularAttackCooldown: 0.5
   rangedAttackCooldown: 3
@@ -941,7 +941,7 @@ PrefabInstance:
       objectReference: {fileID: 1380064350}
     - target: {fileID: 6655991858760121315, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: selectedCharacter
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7829673183724783459, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: m_Name

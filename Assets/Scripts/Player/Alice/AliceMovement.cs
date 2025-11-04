@@ -110,7 +110,6 @@ public class AliceMovement2D : BasePlayerMovement2D
         // T = RELOAD (play reload SFX at start)
         if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
-            audioMgr?.PlayReload();
             reloadCoroutine = StartCoroutine(Reload());
         }
 
@@ -120,7 +119,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
             // stop run loop and play dash SFX immediately
             audioMgr?.StopRunLoop();
-            
+
 
             if (!isCrouching)
             {
@@ -178,7 +177,6 @@ public class AliceMovement2D : BasePlayerMovement2D
             default:
                 break;
         }
-        audioMgr?.PlayHammer(); // REQUIRED on every ground melee
     }
 
     protected override void SetupCrouchAttack()
@@ -193,7 +191,6 @@ public class AliceMovement2D : BasePlayerMovement2D
     {
         hitboxManager.ChangeHitboxCircle(aerialAttackOffset, aerialAttackSize, aerialAttackKnockback, aerialAttackDamage);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
-        audioMgr?.PlayHammer();
         aerialTimer = aerialCooldown;
     }
 
@@ -245,7 +242,6 @@ public class AliceMovement2D : BasePlayerMovement2D
     public void InstBullet(int num)
     {
         // Shotgun blast SFX (once)
-        audioMgr?.PlayShotgun();
 
         for (int i = 0; i < num; i++)
         {
