@@ -17,6 +17,8 @@ public class AliceAudioManager : MonoBehaviour
     [SerializeField] private AudioClip hurt;
     [SerializeField] private AudioClip death;
     [SerializeField] private AudioClip runLoop;      // continuous footsteps loop
+    [SerializeField] private AudioClip punch;
+    [SerializeField] private AudioClip slide;
 
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -96,6 +98,7 @@ public class AliceAudioManager : MonoBehaviour
     public void PlayJump()  => PlayOneShot(jump);
     public void PlayHurt()  => PlayOneShot(hurt);
     public void PlayDeath() => PlayOneShot(death);
+    public void PlaySlide() => PlayOneShot(slide);
 
     // Reload at exactly 2x speed (pitch up). Robust against OneShot pitch quirks.
     public void PlayReload()

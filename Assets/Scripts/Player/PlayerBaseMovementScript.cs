@@ -545,6 +545,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         yield return new WaitForSeconds(slidingCooldown);
         isDashing = false;
+        
     }
 
     protected virtual IEnumerator AerialAttack()

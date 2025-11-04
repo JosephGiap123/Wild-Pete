@@ -87,6 +87,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         else audioMgr.StopRunLoop();
     }
 
+
     // ---------- Input (R = shoot, T = reload) ----------
     protected override void HandleInput()
     {
@@ -116,21 +117,23 @@ public class PeteMovement2D : BasePlayerMovement2D
             reloadCoroutine = StartCoroutine(Reload());
         }
 
+
         if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
 
             // stop run loop and play dash SFX immediately
-            audioMgr?.StopRunLoop();
-            audioMgr?.PlayDash();
+            audioMgr?.StopRunLoop(); 
 
             if (!isCrouching)
             {
                 slideCoroutine = StartCoroutine(Dash());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                audioMgr?.PlayDash();
             }
             else
             {
+                audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
