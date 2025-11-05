@@ -1097,6 +1097,7 @@ MonoBehaviour:
   comboResetTime: 2
   attackCooldown: 1.4
   invincibilityTime: 0.2
+  hurtStateTimeout: 1
   deathAnimationDuration: 8
   dashingPower: 10
   dashingTime: 0.3
@@ -1124,6 +1125,7 @@ MonoBehaviour:
   animatorScript: {fileID: 8139471980475301415}
   interactor: {fileID: 936485352055800519}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
+  dynamitePrefab: {fileID: 5763358536492206197, guid: 2ff69534917ef48c49d5c1f86262b09a, type: 3}
   runMinSpeed: 0.2
   throwDuration: 0.5
   melee1Damage: 2

@@ -9,9 +9,6 @@ public class AliceMovement2D : BasePlayerMovement2D
     [Header("Audio – Run Loop")]
     [SerializeField] private float runMinSpeed = 0.2f; // min horiz speed to count as running
 
-    [Header("Throw Settings")]
-    [SerializeField] private float throwDuration = 0.5f; // safety timer so throw never freezes
-
     protected override void Awake()
     {
         base.Awake();
@@ -96,9 +93,10 @@ public class AliceMovement2D : BasePlayerMovement2D
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
-            StartCoroutine(ThrowAttack());
+            ThrowAttack();
+            PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
         // R = SHOOT (use base method so ammo is decremented there, like Pete)
@@ -248,21 +246,11 @@ public class AliceMovement2D : BasePlayerMovement2D
             bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
         }
     }
-
-    // ---------- Throw (match Pete: avoid freeze with timer) ----------
-    protected override IEnumerator ThrowAttack()
+    protected void ThrowAttack()
     {
-        isAttacking = true;
-
-        animatorScript.ChangeAnimationState(playerStates.Throw);
-
-        // Stop run loop while throwing (optional, keeps footsteps clean)
-        audioMgr?.StopRunLoop();
-
-        // Safety timer in case the animation doesn't call EndAttack()
-        yield return new WaitForSeconds(throwDuration);
-
-        EndAttack();
+        // audioMgr.PlayThrow();
+        StartCoroutine(base.ThrowAttack());
+        // audioMgr?.StopRunLoop();
     }
 
     // safety: stop loop if object disables/destroys

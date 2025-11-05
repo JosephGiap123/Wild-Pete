@@ -1,15 +1,14 @@
 using UnityEngine;
 
-public class SlamCloudRelay : MonoBehaviour
+public class ExplosionCloud : MonoBehaviour
 {
     public void Start()
     {
-        GetComponent<Animator>().Play("SlamCloudPlay");
+        GetComponent<Animator>().Play("explosion");
     }
     public void DeleteParticle()
     {
         Destroy(gameObject);
     }
-
-
 }
+

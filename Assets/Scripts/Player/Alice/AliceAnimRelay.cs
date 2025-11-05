@@ -71,4 +71,9 @@ public class AliceAnimRelayScript : MonoBehaviour
         audioMgr.PlayReload();
     }
 
+    public void InitDynamite()
+    {
+        movementScript.InitDynamite();
+    }
+
 }
