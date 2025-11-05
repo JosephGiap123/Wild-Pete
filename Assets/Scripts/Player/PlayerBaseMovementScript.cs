@@ -83,8 +83,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
     [SerializeField] protected GameObject damageText;
-
-
+    [SerializeField] protected GameObject dynamitePrefab;
 
     protected GameObject bulletInstance;
 
@@ -150,7 +149,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.F) && isGrounded && false)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
@@ -565,8 +564,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator ThrowAttack()
     {
         isAttacking = true;
+        animatorScript.ChangeAnimationState(playerStates.Throw);
         StartAttackWatchdog(maxAttackDuration);
         yield return new WaitWhile(() => isAttacking);
+    }
+
+    public void InitDynamite()
+    {
+        GameObject thrownDynamite = Instantiate(dynamitePrefab, transform.position, Quaternion.Euler(0, 0, isFacingRight ? 180 : 0));
+        thrownDynamite.GetComponent<Dynamite>().Initialize(new(6f * (isFacingRight ? 1f : -1f), 8f));
     }
 
     protected virtual IEnumerator RangedAttack()
@@ -712,9 +718,45 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     // Overload for knockback based on hitbox position
     public virtual void HurtPlayer(int damage, Vector2 hitboxCenter, Vector2 knockbackForce)
     {
-        float knockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.x);
+        // For explosion/radial knockback, use the Vector2 directly
+        // Extract direction sign from the knockback force itself for sprite flipping
+        float knockbackDir = Mathf.Sign(knockbackForce.x);
+        if (knockbackDir == 0) knockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.x);
         if (knockbackDir == 0) knockbackDir = isFacingRight ? -1 : 1; // Fallback
-        HurtPlayer(damage, knockbackDir, knockbackForce);
+
+        // Use the full Vector2 knockback force, preserving both X and Y components
+        // Pass a flag to indicate this is radial knockback
+        ApplyKnockbackRadial(knockbackDir, knockbackForce);
+
+        // Handle damage and other effects
+        if (isInvincible || isDead) return;
+
+        // Cancel all active states
+        if (!hyperArmor)
+        {
+            isHurt = true;
+            CancelAllActions();
+            // Start timeout coroutine as safety fallback
+            if (hurtTimeoutCoroutine != null)
+            {
+                StopCoroutine(hurtTimeoutCoroutine);
+            }
+            hurtTimeoutCoroutine = StartCoroutine(HurtStateTimeout());
+        }
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), damage, Color.red, Color.black);
+        }
+        StartCoroutine(animatorScript.HurtFlash(0.2f));
+        HealthManager.instance.TakeDamage(damage);
+        GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
+        isDead = HealthManager.instance.IsDead();
+        // Only apply invincibility if player didn't die
+        if (!isDead)
+        {
+            StartCoroutine(InvincibilityFrames());
+        }
     }
 
     protected virtual void ApplyKnockback(float direction, Vector2 knockbackForce)
@@ -724,6 +766,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             FlipSprite();
         }
         rb.linearVelocity = new(direction * knockbackForce.x, knockbackForce.y);
+    }
+
+    protected virtual void ApplyKnockbackRadial(float direction, Vector2 knockbackForce)
+    {
+        // For radial/explosion knockback, use the force vector directly
+        // Direction is only used for sprite flipping
+        if (direction != (isFacingRight ? -1f : 1f))
+        {
+            FlipSprite();
+        }
+        rb.linearVelocity = knockbackForce;
     }
 
     public virtual void EndHurt()

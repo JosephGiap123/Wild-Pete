@@ -9,8 +9,6 @@ public class PeteMovement2D : BasePlayerMovement2D
     [Header("Audio – Run Loop")]
     [SerializeField] private float runMinSpeed = 0.2f; // min horiz speed to count as running
 
-    [Header("Throw Settings")]
-    [SerializeField] private float throwDuration = 0.5f; // how long throw locks movement if no anim event
 
     protected override void Awake()
     {
@@ -99,9 +97,10 @@ public class PeteMovement2D : BasePlayerMovement2D
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
-            StartCoroutine(ThrowAttack());
+            ThrowAttack();
+            PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
         // R = SHOOT (use base method so ammo is decremented there)
@@ -230,26 +229,16 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     public void InstBullet()
     {
-        // ammo already decremented by base.RangedAttack()
         bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
-
-    // ---------- Throw (fix: end by time so it never freezes) ----------
-    protected override IEnumerator ThrowAttack()
+    protected void ThrowAttack()
     {
-        isAttacking = true;
-
         // Play Throw animation
-        animatorScript.ChangeAnimationState(playerStates.Throw);
+        audioMgr.PlayThrow();
+        StartCoroutine(base.ThrowAttack());
 
         // Stop run loop while throwing (optional)
         audioMgr?.StopRunLoop();
-
-        // If you also spawn a thrown object, call it via an Animation Event (e.g., InstThrow())
-        // Then end after a fixed duration (if you also add an EndAttack() event, this is just a backup)
-        yield return new WaitForSeconds(throwDuration);
-
-        EndAttack();
     }
 
     // safety: stop loop if object disables/destroys

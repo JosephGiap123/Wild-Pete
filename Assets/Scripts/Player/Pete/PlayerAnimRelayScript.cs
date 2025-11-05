@@ -60,4 +60,10 @@ public class PlayerAnimRelayScript : MonoBehaviour
     {
         audioMgr.PlayReload();
     }
+
+    public void InitDynamite()
+    {
+        movementScript.InitDynamite();
+    }
+
 }
