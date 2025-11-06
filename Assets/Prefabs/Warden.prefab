@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 8446106769678175166}
   - component: {fileID: 9188152940024170008}
   - component: {fileID: 4983157678869263840}
+  - component: {fileID: 1190115757944002534}
   m_Layer: 9
   m_Name: Warden
   m_TagString: Untagged
@@ -747,6 +748,8 @@ MonoBehaviour:
   boxAttackHitbox: {fileID: 2138805635904659562}
   attackHitboxScript: {fileID: 9188152940024170008}
   slamParticlePrefab: {fileID: 6792127021393328816, guid: 80c0ce31cefeb4d9e8bd4bb9295c3c64, type: 3}
+  phaseChangeParticles: {fileID: 142381578256920333, guid: 4024ccd309fc3492d9c784f04e30e0f9, type: 3}
+  hpBarInteractor: {fileID: 1190115757944002534}
 --- !u!114 &9188152940024170008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,3 +794,17 @@ MonoBehaviour:
   - 100
   - 100
   - 100
+--- !u!114 &1190115757944002534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9044181392038691299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5c8d2ab630749a6895616dd8e82da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar: {fileID: 0}
+  wardenAI: {fileID: 8446106769678175166}
