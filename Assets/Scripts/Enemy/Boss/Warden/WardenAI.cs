@@ -74,6 +74,7 @@ public class WardenAI : EnemyBase
     [SerializeField] private BoxCollider2D boxAttackHitbox;
     [SerializeField] private WardenAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject slamParticlePrefab;
+    [SerializeField] private GameObject phaseChangeParticles;
     private int ult1ChainCount = 0;
     protected float distanceToPlayer = 100f;
 
@@ -203,10 +204,12 @@ public class WardenAI : EnemyBase
         else if (health <= maxHealth * 0.66f && phaseNum < 2) //swap phases
         {
             phaseNum = 2;
+            Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
         }
         else if (health <= maxHealth * 0.33f && phaseNum < 3)
         {
             phaseNum = 3;
+            Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
         }
     }
     public void FaceTowardsPlayer()
