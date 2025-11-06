@@ -66,6 +66,7 @@ public class WardenAI : EnemyBase
     [SerializeField] protected float meleeDistance = 1.5f;
     [SerializeField] protected float laserDistance = 4f;
     [SerializeField] protected float rangedDistance = 15f;
+    private bool isInvincible = true;
 
     [Header("Combat References")]
     [SerializeField] private GameObject projectilePrefab;
@@ -114,6 +115,7 @@ public class WardenAI : EnemyBase
     {
         yield return new WaitWhile(() => distanceToPlayer > 3f);
         ChangeAnimationState("Entrance");
+        isInvincible = false;
         hpBarInteractor.ShowHealthBar(true);
     }
 
@@ -189,6 +191,7 @@ public class WardenAI : EnemyBase
 
     public override void Hurt(int dmg, Vector2 knockbackForce)
     {
+        if (isInvincible) return;
         StartCoroutine(base.DamageFlash(0.2f));
         health -= dmg;
         hpBarInteractor.UpdateHealthVisual();
