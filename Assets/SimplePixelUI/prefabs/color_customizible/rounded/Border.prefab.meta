@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8abe7aadf2728b3488d16ca4e6257979
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 165012
+  packageName: Simple Free Pixel art styled UI pack
+  packageVersion: 1.15
+  assetPath: Assets/SimplePixelUI/prefabs/color_customizible/rounded/Border.prefab
+  uploadId: 362088

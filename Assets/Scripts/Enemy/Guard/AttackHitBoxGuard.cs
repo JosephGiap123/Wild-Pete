@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class AttackHitBoxGuard : MonoBehaviour
 {
+    private GuardAudioManager audioManager;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private LayerMask staticMask;
     [SerializeField] private BoxCollider2D boxCol;
@@ -28,11 +29,12 @@ public class AttackHitBoxGuard : MonoBehaviour
             //guaranteed to be an enemy.
             if (other.gameObject != null)
             {
-                GameObject targetRoot = other.transform.root.gameObject;
+                GameObject targetRoot = other.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
                 targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, parent.isFacingRight ? 1f : -1f, knockbackForce);
+                if (audioManager != null) audioManager.PlayHit();
                 Debug.Log($"{(parent.isFacingRight ? 1f : -1f)} {knockbackForce}");
                 if (disableAfterFirstHit) DisableHitbox();
             }
@@ -41,11 +43,12 @@ public class AttackHitBoxGuard : MonoBehaviour
         {
             if (other.gameObject != null)
             {
-                GameObject targetRoot = other.transform.root.gameObject;
+                GameObject targetRoot = other.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return;
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");
                 targetRoot.GetComponent<BreakableStatics>().Damage(damage, new Vector2((parent.isFacingRight ? 1f : -1f) * knockbackForce.x, knockbackForce.y));
+                if (audioManager != null) audioManager.PlayHit();
                 if (disableAfterFirstHit) DisableHitbox();
             }
         }

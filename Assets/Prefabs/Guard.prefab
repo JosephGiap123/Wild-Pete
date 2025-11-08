@@ -38,6 +38,7 @@ Transform:
   - {fileID: 2308433308511659126}
   - {fileID: 358205225501563246}
   - {fileID: 3091188603775906058}
+  - {fileID: 5662901311100634222}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4778260064776062145
@@ -92,6 +93,7 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 3091188603775906058}
   boxAttackHitbox: {fileID: 2253911895311882820}
   attackHitboxScript: {fileID: 9027351714032163200}
+  audioManager: {fileID: 0}
   patrolPoints:
   - {x: -7, y: -1}
   - {x: 3, y: -1}
@@ -125,6 +127,7 @@ MonoBehaviour:
     m_Bits: 16384
   boxCol: {fileID: 2253911895311882820}
   parent: {fileID: 4778260064776062145}
+  audioManager: {fileID: 0}
   disableAfterFirstHit: 0
 --- !u!50 &3298042167039764757
 Rigidbody2D:
@@ -281,6 +284,63 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5682544, y: 1.110046}
   m_EdgeRadius: 0
+--- !u!1 &5495760378943896204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5662901311100634222}
+  - component: {fileID: 2690034060553384546}
+  m_Layer: 0
+  m_Name: GuardAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5662901311100634222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495760378943896204}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.55999756, y: 0.97999996, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1297115642755967973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2690034060553384546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495760378943896204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e07a0b3387dc9947b9096042383c6e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  shot: {fileID: 8300000, guid: 1cb662ed37a7c0240a8633b9b2cd176a, type: 3}
+  meleeSwing1: {fileID: 8300000, guid: e830f5d7bcea005459428fdf55725f58, type: 3}
+  meleeSwing2: {fileID: 8300000, guid: 1e7bf98bdd28cda43a801d7292c2368e, type: 3}
+  dash: {fileID: 8300000, guid: f7c4e7f31f84714498f2c7c4a1079bc4, type: 3}
+  hurt: {fileID: 8300000, guid: 0e909b5347e732e45a9382795f623876, type: 3}
+  death: {fileID: 0}
+  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  hit: {fileID: 8300000, guid: 2eead974c39c6354f98f06036fb8adf5, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 20
 --- !u!1 &5577800389713426770
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +417,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1156690779020452156, guid: 7701c4678c3c846dc9290be3cc847917, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

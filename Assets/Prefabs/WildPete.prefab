@@ -1,5 +1,90 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &121004912143073257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8308173776896760361}
+  - component: {fileID: 188134232818702089}
+  m_Layer: 6
+  m_Name: ImpulseEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8308173776896760361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121004912143073257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5995900776780897598}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &188134232818702089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121004912143073257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 0
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 3
+    DissipationRate: 0
+    RawSignal: {fileID: 11400000, guid: 91fe06f3aea038647a5d6eaa012f06f6, type: 2}
+    AmplitudeGain: 3
+    FrequencyGain: 2
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &410439048829482216
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +160,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 3344895713379779979, guid: 5a0448f1d4ab94e01b10ff12a7d37117, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -263,7 +348,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 1
   m_PreviewTimeScale: 1
@@ -622,7 +707,7 @@ MonoBehaviour:
   runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
   throwSound: {fileID: 0}
   punch: {fileID: 8300000, guid: 6469ddbf37c36b448aa917f3dd11a2ce, type: 3}
-  slide: {fileID: 8300000, guid: 09bd97b164bed324a994252b205239b1, type: 3}
+  slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.05
@@ -887,6 +972,7 @@ Transform:
   - {fileID: 1896967197796685413}
   - {fileID: 5472695338924372274}
   - {fileID: 1973967770327943744}
+  - {fileID: 8308173776896760361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8139471980475301415
@@ -919,7 +1005,7 @@ MonoBehaviour:
   jumpPower: 9
   minJumpPower: 4
   isFacingRight: 1
-  maxHealth: 20
+  maxHealth: 50
   ammoCount: 10
   maxAmmo: 10
   maxAttackChain: 3
@@ -1014,7 +1100,6 @@ GameObject:
   - component: {fileID: 5790001502036111594}
   - component: {fileID: 2275127635874104794}
   - component: {fileID: 6599196787385644411}
-  - component: {fileID: 988714495926411354}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Player
@@ -1079,7 +1164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1709080651
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 955989879, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1128,32 +1213,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementScript: {fileID: 675986149054274358}
   hitboxScript: {fileID: 3065023052435475213}
---- !u!114 &988714495926411354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8113746080852306424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b158c14d32fcae4ca448a511e8be807, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sfxSource: {fileID: 0}
-  revolver: {fileID: 8300000, guid: 09bd97b164bed324a994252b205239b1, type: 3}
-  reload: {fileID: 8300000, guid: 3f588b5f228414c4fbf60ec82a393eb4, type: 3}
-  meleeSwing1: {fileID: 8300000, guid: 3b0b893db7ee57247a7b2dd25c03d70b, type: 3}
-  meleeSwing2: {fileID: 8300000, guid: b2ca5d0c075d8ce40b144dac5eb76d61, type: 3}
-  dash: {fileID: 8300000, guid: dce3b5f87955b60478b59dc73cbbc9d1, type: 3}
-  jump: {fileID: 8300000, guid: f98fe272dbf13a54bbc28f87c8adfa95, type: 3}
-  hurt: {fileID: 8300000, guid: 3d45abdebc993ef46854be6e0664781f, type: 3}
-  death: {fileID: 8300000, guid: fba76680eab6cc94fae38eb86a13ebd2, type: 3}
-  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
-  throwSound: {fileID: 0}
-  punch: {fileID: 0}
-  slide: {fileID: 0}
-  sfxMixerGroup: {fileID: 0}
-  sfxVolume: 1
-  pitchJitter: 0.05
-  max3dDistance: 20
+  audioMgr: {fileID: 6832124629652602160}

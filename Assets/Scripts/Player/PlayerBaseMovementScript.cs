@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public abstract class BasePlayerMovement2D : MonoBehaviour
 {
@@ -193,7 +194,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         // Jump initiation
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded || Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
         {
             isJumping = true;
             isGrounded = false;
@@ -212,7 +213,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         if (isDashing) return;
 
         // Release jump button early for shorter jump
-        if (Input.GetKeyUp(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             isJumping = false;
             // Apply minimum jump power if released early
@@ -627,6 +628,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         }
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         HealthManager.instance.TakeDamage(damage);
+        GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         isDead = HealthManager.instance.IsDead();
         // Only apply knockback if player didn't die
         if (!isDead)

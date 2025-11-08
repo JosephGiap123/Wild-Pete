@@ -5,6 +5,7 @@ public class AliceAnimRelayScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] AliceMovement2D movementScript;
     [SerializeField] AttackHitbox hitboxScript;
+    [SerializeField] AliceAudioManager audioMgr;
 
     public void CallEndAttack()
     {
@@ -49,6 +50,25 @@ public class AliceAnimRelayScript : MonoBehaviour
     public void CallEndHyperArmor()
     {
         movementScript.EndHyperArmor();
+    }
+
+    public void CallHammerSound()
+    {
+        audioMgr.PlayHammer();
+    }
+    public void CallCrouchAttackSound()
+    {
+        audioMgr.PlaySweep();
+    }
+
+    public void CallGunSound()
+    {
+        audioMgr.PlayShotgun();
+    }
+
+    public void CallReloadSound()
+    {
+        audioMgr.PlayReload();
     }
 
 }
