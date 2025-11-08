@@ -254,6 +254,12 @@ public class GenericAttackHitbox : MonoBehaviour
             BasePlayerMovement2D player = targetRoot.GetComponent<BasePlayerMovement2D>();
             if (player != null)
             {
+                // Don't attack if player is dead
+                if (HealthManager.instance != null && HealthManager.instance.IsDead())
+                {
+                    return;
+                }
+
                 alreadyHit.Add(targetRoot);
                 Debug.Log("GenericAttackHitbox: Hit player");
 
