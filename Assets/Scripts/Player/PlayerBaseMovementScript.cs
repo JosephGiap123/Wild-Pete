@@ -886,6 +886,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         PlayerDied?.Invoke();
         OnDeathAnimationComplete();
+        Debug.Log("Attempted to respawn at checkpoint");
+        // Respawn at checkpoint
+        if (GameRestartManager.Instance != null)
+        {
+            GameRestartManager.Instance.RespawnCharacter();
+        }
     }
 
     protected virtual void OnDeathAnimationComplete()
