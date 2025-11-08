@@ -14,7 +14,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
-        [Header("Audio")]
+    [Header("Audio")]
     [SerializeField] protected AudioClip hitSound;
     [SerializeField, Range(0f, 1f)] protected float hitVolume = 1f;
     [SerializeField] protected AudioClip breakSound;
@@ -28,17 +28,17 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
-        
+
         // Store max health
         maxHealth = health;
-        
+
         // Register with CheckpointManager (uses GameObject instance ID automatically)
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.RegisterStatic(this);
         }
     }
-    
+
     protected virtual void OnDestroy()
     {
         // Unregister from CheckpointManager
@@ -87,7 +87,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         yield return new WaitForSeconds(duration);
         sr.material.SetFloat("_FlashAmount", 0f);
     }
-    protected void PlayHitSound()
+    protected virtual void PlayHitSound()
     {
         PlaySound(hitSound, hitVolume);
     }

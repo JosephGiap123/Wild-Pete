@@ -64,8 +64,7 @@ public class GuardAI : EnemyBase
     [Header("Combat References")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
-    [SerializeField] private BoxCollider2D boxAttackHitbox;
-    [SerializeField] private AttackHitBoxGuard attackHitboxScript;
+    [SerializeField] private GenericAttackHitbox attackHitboxScript; // Uses GenericAttackHitbox system
 
     [Header("Patrol Settings")]
     [SerializeField] private Vector2[] patrolPoints;

@@ -493,13 +493,13 @@ MonoBehaviour:
   maxAttackChain: 2
   comboResetTime: 3
   attackCooldown: 2
-  invincibilityTime: 0.2
+  invincibilityTime: 0
   hurtStateTimeout: 1
   deathAnimationDuration: 8
-  dashingPower: 9
+  dashingPower: 1000
   dashingTime: 0.3
   slidePower: 12
-  dashingCooldown: 3.5
+  dashingCooldown: 0.1
   slidingCooldown: 0.75
   aerialCooldown: 1.5
   maxAttackDuration: 0.9

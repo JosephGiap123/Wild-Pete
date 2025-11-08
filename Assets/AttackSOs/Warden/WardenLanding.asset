@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Bits: 16384
   knockbackForce: {x: 8, y: 0}
   hitboxOffset: {x: 0, y: -0.25}
-  hitboxSize: {x: 3, y: 0}
+  hitboxSize: {x: 2.5, y: 0}
   damage: 5
   stunTime: 0
   constantKnockback: 0

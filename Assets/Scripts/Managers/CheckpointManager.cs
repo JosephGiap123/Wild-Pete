@@ -126,6 +126,16 @@ public class CheckpointManager : MonoBehaviour
         };
 
         // Capture enemy states, positions, and facing directions
+        // First, ensure all enemies in the scene are tracked
+        EnemyBase[] allEnemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+        foreach (EnemyBase enemy in allEnemies)
+        {
+            if (enemy != null && !trackedEnemies.ContainsKey(enemy.gameObject.GetInstanceID()))
+            {
+                RegisterEnemy(enemy);
+            }
+        }
+
         currentCheckpoint.enemyStates.Clear();
         currentCheckpoint.enemyPositions.Clear();
         currentCheckpoint.enemyFacing.Clear();
@@ -240,50 +250,86 @@ public class CheckpointManager : MonoBehaviour
         trackedItems.Clear();
 
         // Restore enemy states, positions, and facing directions
-        foreach (var kvp in trackedEnemies)
+        // First, try to find and register any enemies that might not be tracked yet (e.g., boss)
+        EnemyBase[] allEnemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+        foreach (EnemyBase enemy in allEnemies)
         {
-            if (kvp.Value != null && currentCheckpoint.enemyStates.ContainsKey(kvp.Key))
+            if (enemy != null && !trackedEnemies.ContainsKey(enemy.gameObject.GetInstanceID()))
             {
-                bool wasAlive = currentCheckpoint.enemyStates[kvp.Key];
+                RegisterEnemy(enemy);
+            }
+        }
+
+        // Create a copy of the dictionary keys to avoid modification during enumeration
+        List<int> enemyKeys = new List<int>(trackedEnemies.Keys);
+
+        foreach (int enemyID in enemyKeys)
+        {
+            if (!trackedEnemies.ContainsKey(enemyID) || trackedEnemies[enemyID] == null)
+            {
+                continue; // Enemy was removed or destroyed
+            }
+
+            EnemyBase enemy = trackedEnemies[enemyID];
+
+            if (currentCheckpoint.enemyStates.ContainsKey(enemyID))
+            {
+                bool wasAlive = currentCheckpoint.enemyStates[enemyID];
                 if (wasAlive)
                 {
                     // Enemy was alive at checkpoint - respawn it at saved position and facing direction
                     // This restores enemies that were alive when checkpoint was set,
                     // even if they died after the checkpoint but before player death
-                    Vector2 savedPosition = currentCheckpoint.enemyPositions.ContainsKey(kvp.Key)
-                        ? currentCheckpoint.enemyPositions[kvp.Key]
-                        : kvp.Value.transform.position; // Fallback to current position if not saved
-                    bool savedFacing = currentCheckpoint.enemyFacing.ContainsKey(kvp.Key)
-                        ? currentCheckpoint.enemyFacing[kvp.Key]
-                        : kvp.Value.IsFacingRight; // Fallback to current facing if not saved
-                    kvp.Value.Respawn(savedPosition, savedFacing);
+                    Vector2 savedPosition = currentCheckpoint.enemyPositions.ContainsKey(enemyID)
+                        ? currentCheckpoint.enemyPositions[enemyID]
+                        : enemy.transform.position; // Fallback to current position if not saved
+                    bool savedFacing = currentCheckpoint.enemyFacing.ContainsKey(enemyID)
+                        ? currentCheckpoint.enemyFacing[enemyID]
+                        : enemy.IsFacingRight; // Fallback to current facing if not saved
+                    enemy.Respawn(savedPosition, savedFacing);
                 }
                 else
                 {
                     // Enemy was dead at checkpoint - keep it dead
-                    kvp.Value.gameObject.SetActive(false);
+                    enemy.gameObject.SetActive(false);
                 }
+            }
+            else
+            {
+                // Enemy exists but wasn't in checkpoint (e.g., spawned after checkpoint)
+                // Keep it in its current state (don't restore it)
+                Debug.Log($"Enemy {enemy.gameObject.name} not found in checkpoint data, keeping current state");
             }
         }
 
         // Restore static states and positions
-        foreach (var kvp in trackedStatics)
+        // Create a copy of the dictionary keys to avoid modification during enumeration
+        List<int> staticKeys = new List<int>(trackedStatics.Keys);
+
+        foreach (int staticID in staticKeys)
         {
-            if (kvp.Value != null && currentCheckpoint.staticStates.ContainsKey(kvp.Key))
+            if (!trackedStatics.ContainsKey(staticID) || trackedStatics[staticID] == null)
             {
-                bool wasAlive = currentCheckpoint.staticStates[kvp.Key];
+                continue; // Static was removed or destroyed
+            }
+
+            BreakableStatics statics = trackedStatics[staticID];
+
+            if (currentCheckpoint.staticStates.ContainsKey(staticID))
+            {
+                bool wasAlive = currentCheckpoint.staticStates[staticID];
                 if (wasAlive)
                 {
                     // Static was alive at checkpoint - restore it at saved position
-                    Vector2 savedPosition = currentCheckpoint.staticPositions.ContainsKey(kvp.Key)
-                        ? currentCheckpoint.staticPositions[kvp.Key]
-                        : kvp.Value.transform.position; // Fallback to current position if not saved
-                    kvp.Value.Restore(savedPosition);
+                    Vector2 savedPosition = currentCheckpoint.staticPositions.ContainsKey(staticID)
+                        ? currentCheckpoint.staticPositions[staticID]
+                        : statics.transform.position; // Fallback to current position if not saved
+                    statics.Restore(savedPosition);
                 }
                 else
                 {
                     // Static was broken at checkpoint - keep it broken
-                    kvp.Value.gameObject.SetActive(false);
+                    statics.gameObject.SetActive(false);
                 }
             }
         }

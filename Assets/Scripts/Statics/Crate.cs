@@ -8,11 +8,6 @@ public class Crate : BreakableStatics
 {
     [SerializeField] GameObject particleEmitter;
     [SerializeField] DropItemsOnDeath dropItemsOnDeath;
-    [SerializeField] private AudioClip hitSound;
-    [SerializeField] private AudioClip breakSound;
-    [SerializeField] private AudioSource sfxSource;
-    [Range(0f, 1f)] [SerializeField] private float hitVolume = 1f;
-    [Range(0f, 1f)] [SerializeField] private float breakVolume = 1f;
     protected override void Awake()
     {
         base.Awake();
@@ -45,13 +40,13 @@ public class Crate : BreakableStatics
             Break();
         }
     }
-    private void PlayHitSound()
+    protected override void PlayHitSound()
     {
         if (!hitSound) return;
         if (!sfxSource) return;
         sfxSource.PlayOneShot(hitSound, hitVolume);
     }
-    private void PlayBreakSound()
+    protected void PlayBreakSound()
     {
         if (!breakSound) return;
         if (!sfxSource) return;
