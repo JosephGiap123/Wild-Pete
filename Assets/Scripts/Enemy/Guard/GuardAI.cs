@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardAI : EnemyBase
+public class GuardAI : EnemyBase, IHasFacing
 {
+    private enum GuardAttackType { None = 0, Melee = 1, Melee2 = 2, Ranged = 3, Dash = 4 }
     private GuardAudioManager audioManager;
 
     private enum GuardState
@@ -31,6 +32,7 @@ public class GuardAI : EnemyBase
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
     public bool isFacingRight = true;
+    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     public bool isInAir = false;
 
     [Header("Combat Settings")]
@@ -42,30 +44,30 @@ public class GuardAI : EnemyBase
     [SerializeField] private float dashRange = 5f;
 
     [Header("Attack Settings")]
-    [SerializeField] private int melee1Damage = 2;
-    [SerializeField] private Vector2 melee1HitboxSize = new(1f, 1f);
-    [SerializeField] private Vector2 melee1HitboxOffset = new(0.5f, 0f);
-    [SerializeField] private Vector2 melee1Knockback = new(2f, 1f);
-    [SerializeField] private int melee2Damage = 3;
-    [SerializeField] private Vector2 melee2HitboxSize = new(1.2f, 1f);
-    [SerializeField] private Vector2 melee2HitboxOffset = new(0.6f, 0f);
-    [SerializeField] private Vector2 melee2Knockback = new(3f, 1f);
     [SerializeField] private int rangedDamage = 2;
     [SerializeField] private float rangedAttackCooldown = 5f;
     [SerializeField] private float bulletSpeed = 14f;
     [SerializeField] private float bulletLifeTime = 3f;
-    [SerializeField] private int dashAttackDamage = 4;
-    [SerializeField] private Vector2 dashAttackHitboxSize = new(1.5f, 1f);
-    [SerializeField] private Vector2 dashAttackHitboxOffset = new(0.75f, 0f);
-    [SerializeField] private Vector2 dashAttackKnockback = new(4f, 1f);
     [SerializeField] private float dashAttackSpeed = 8f;
+
+    [Header("Attack Cooldowns (individual)")]
+    [SerializeField] private float melee1AttackCooldown = 1.0f;
+    [SerializeField] private float melee2AttackCooldown = 1.2f;
+    [SerializeField] private float dashAttackCooldown = 3.0f;
+
+    [Header("Attack Selection (weights/ranges)")]
+    [SerializeField] private float meleeWeight = 1.0f;
+    [SerializeField] private float dashWeight = 0.9f;
+    [SerializeField] private float rangedWeight = 1.1f;
+    [SerializeField] private float selectionInterval = 0.2f;
+    [SerializeField] private float repeatAttackPenalty = 0.35f; // penalty multiplier if repeating last attack
+    [SerializeField] private float idealRangedMultiplier = 1.0f; // extra boost when at ideal ranged distance
 
     [Header("Combat References")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private BoxCollider2D boxAttackHitbox;
     [SerializeField] private AttackHitBoxGuard attackHitboxScript;
-    
 
     [Header("Patrol Settings")]
     [SerializeField] private Vector2[] patrolPoints;
@@ -75,16 +77,24 @@ public class GuardAI : EnemyBase
 
     [Header("Detection Settings")]
     [SerializeField] private float detectionRange = 8f;
+    [SerializeField] private float nearDetectRadius = 1f; // detect player if extremely close, regardless of facing/LOS
     [SerializeField] private float loseSightTime = 3f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask obstructionLayer;
     private Transform player;
     private float loseSightTimer = 0f;
 
-    [Header("Attack Settings")]
+    [Header("Attack Settings (timers)")]
     [SerializeField] private float attackCooldown = 1f; // seconds between attacks
     private float attackTimer = 0f;
     private float rangedTimer = 0f;
+    private float melee1Timer = 0f;
+    private float melee2Timer = 0f;
+    private float dashTimer = 0f;
+    private float selectTimer = 0f;
+
+    private GuardAttackType lastAttack = GuardAttackType.None;
+    private bool chainMeleePending = false; // after melee1, force chaining into melee2
 
 
 
@@ -143,6 +153,10 @@ public class GuardAI : EnemyBase
 
         Vector2 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
+
+        // Immediate proximity detection (anti-hugging): if very close, detect regardless of facing/LOS
+        if (distanceToPlayer <= nearDetectRadius)
+            return true;
 
         // Check if player is in detection range
         if (distanceToPlayer > detectionRange)
@@ -209,8 +223,18 @@ public class GuardAI : EnemyBase
 
         IsGroundedCheck();
 
+        // While performing non-dash attacks, ensure no horizontal drift
+        if (isAttacking == 1 || isAttacking == 2 || isAttacking == 3)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+        }
+
         rangedTimer -= Time.deltaTime;
+        melee1Timer -= Time.deltaTime;
+        melee2Timer -= Time.deltaTime;
+        dashTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
+        selectTimer -= Time.deltaTime;
 
         bool canSee = CanSeePlayer();
 
@@ -292,10 +316,13 @@ public class GuardAI : EnemyBase
 
     private void HandleAlert(bool canSee)
     {
-        // Don't move if currently attacking!
+        // If currently attacking, only allow dash to control velocity; otherwise halt movement
         if (isAttacking != 0)
         {
-            StopMoving();
+            if (isAttacking != 4) // not dash
+            {
+                StopMoving();
+            }
             return;
         }
 
@@ -336,16 +363,10 @@ public class GuardAI : EnemyBase
 
         float distanceToPlayer = Vector2.Distance(player.position, transform.position);
 
-        // Try ranged attack while chasing (if in range and off cooldown)
-        float rangedAttackMinRange = dashRange; // Start ranged attacks beyond dash range
-        float rangedAttackMaxRange = dashRange * 3.5f; // Maximum range for ranged attacks
-
-        if (distanceToPlayer >= rangedAttackMinRange && distanceToPlayer <= rangedAttackMaxRange && rangedTimer <= 0f)
+        // Use selector to decide if we should attack now (including ranged while chasing)
+        if (isAttacking == 0 && attackTimer <= 0f)
         {
-            // In ranged attack range and ready to fire - shoot while chasing!
-            if (debugMode) Debug.Log("GuardAI Alert: Firing ranged attack while chasing!");
-            RangedAttack();
-            rangedTimer = rangedAttackCooldown;
+            TrySelectAndStartAttack(distanceToPlayer);
         }
 
         // Movement logic
@@ -374,7 +395,8 @@ public class GuardAI : EnemyBase
         // Only decide to attack if not currently attacking
         if (isAttacking == 0 && attackTimer <= 0f)
         {
-            DoAttack();
+            float distanceToPlayer = (player != null) ? Vector2.Distance(player.position, transform.position) : Mathf.Infinity;
+            TrySelectAndStartAttack(distanceToPlayer);
         }
 
         // Don't change states while actively attacking
@@ -449,6 +471,13 @@ public class GuardAI : EnemyBase
         isAttacking = 0;
         StopMoving(); // Ensure movement is stopped when attack ends
         if (debugMode) Debug.Log("GuardAI: Attack ended, returning to normal behavior.");
+
+        // If a melee chain is pending, slightly reduce selector delay to immediately pick melee2
+        if (chainMeleePending)
+        {
+            attackTimer = 0f; // allow immediate selection
+            selectTimer = 0f;
+        }
     }
 
     public void InstBullet()
@@ -556,28 +585,9 @@ public class GuardAI : EnemyBase
             ChangeAnimationState("Death");
             return;
         }
-        else if (isHurt)
+        else if (isAttacking != 0 || isHurt)
         {
-            //played outside of this controller.
             return;
-        }
-        else if (isAttacking != 0)
-        {
-            switch (isAttacking)
-            {
-                case 1:
-                    ChangeAnimationState("Attack1");
-                    break;
-                case 2:
-                    ChangeAnimationState("Attack2");
-                    break;
-                case 3:
-                    ChangeAnimationState("RangedAttack");
-                    break;
-                case 4:
-                    ChangeAnimationState("AttackDash");
-                    break;
-            }
         }
         else if (isInAir)
         {
@@ -627,74 +637,153 @@ public class GuardAI : EnemyBase
         transform.localScale = scale;
     }
 
-    //Attacks - Only called in Attack state for close-range combat (melee/dash)
-    public void DoAttack()
+    private void TrySelectAndStartAttack(float distanceToPlayer)
     {
-        //Choose an attack based on what is done.
-        //1 = melee1, 2 =melee2, 3 = ranged, 4 = dash
-        //melee2 MUST be called after melee1.
-        // NOTE: Ranged attacks are now handled in Alert state while chasing
+        if (player == null) return;
+        if (selectTimer > 0f) return;
 
-        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        if (!playerTransform || isDead || isHurt) return;
-        float distanceToPlayer = Vector2.Distance(playerTransform.position, transform.position);
-
-        //flip towards player if not facing them.
-        if ((playerTransform.position.x > transform.position.x && !isFacingRight) || (playerTransform.position.x < transform.position.x && isFacingRight))
+        // Turn toward player before deciding
+        if ((player.position.x > transform.position.x && !isFacingRight) || (player.position.x < transform.position.x && isFacingRight))
         {
             FlipSprite();
         }
 
-        // Only handle melee/dash attacks here (ranged is handled in Alert state)
-        if (distanceToPlayer <= meleeRange)
+        // Score each attack
+        GuardAttackType best = GuardAttackType.None;
+        float bestScore = 0f;
+
+        // Melee selection (close). If a chain is pending, force Melee2 selection.
+        if (distanceToPlayer <= meleeRange * 1.25f)
         {
-            // Close range: Melee attacks (with chance of dash)
-            int meleeChoice = Random.Range(1, 5); //1-3 = melee, 4 = dash
-            if (meleeChoice == 4)
+            if (chainMeleePending)
             {
-                if (debugMode) Debug.Log("GuardAI DoAttack: Random Dash from melee range");
-                SetUpAttackHitbox(4);
-                attackTimer = attackCooldown;
+                // Force melee2 next, ignoring cooldowns to guarantee chain feel
+                best = GuardAttackType.Melee2;
+                bestScore = float.MaxValue;
             }
             else
             {
-                if (debugMode) Debug.Log("GuardAI DoAttack: Melee attack");
-                MeleeAttack();
+                // Consider melee1 or melee2 depending on chain and individual cooldowns
+                float closeFactor = Mathf.InverseLerp(meleeRange * 1.5f, 0f, distanceToPlayer); // higher when very close
+                float score = meleeWeight * Mathf.Clamp01(closeFactor);
+                if (lastAttack == GuardAttackType.Melee || lastAttack == GuardAttackType.Melee2) score *= (1f - repeatAttackPenalty);
+                if (score > bestScore)
+                {
+                    if (attackChain == 0 && melee1Timer <= 0f)
+                    {
+                        bestScore = score;
+                        best = GuardAttackType.Melee;
+                    }
+                    else if (attackChain != 0 && melee2Timer <= 0f)
+                    {
+                        bestScore = score;
+                        best = GuardAttackType.Melee2;
+                    }
+                }
             }
         }
-        else if (distanceToPlayer <= dashRange)
+
+        // Dash (mid)
+        if (dashTimer <= 0f)
         {
-            // Medium range: Dash attack
-            if (debugMode) Debug.Log("GuardAI DoAttack: Dash range - performing dash attack");
-            SetUpAttackHitbox(4);
-            attackTimer = attackCooldown;
+            float midCenter = dashRange * 0.75f;
+            float midSpan = dashRange;
+            float midFactor = 1f - Mathf.Clamp01(Mathf.Abs(distanceToPlayer - midCenter) / midSpan);
+            float score = dashWeight * Mathf.Clamp01(midFactor);
+            if (lastAttack == GuardAttackType.Dash) score *= (1f - repeatAttackPenalty);
+            if (distanceToPlayer <= dashRange * 1.1f && distanceToPlayer > meleeRange * 0.8f && score > bestScore)
+            {
+                bestScore = score;
+                best = GuardAttackType.Dash;
+            }
         }
-        else
+
+        // Ranged (far) - requires LOS
+        if (rangedTimer <= 0f && CanSeePlayer())
         {
-            // Player moved out of close combat range - return to Alert to chase
-            if (debugMode) Debug.Log("GuardAI DoAttack: Player out of close combat range, returning to Alert.");
+            float rangedMin = dashRange; // prefer beyond dash range
+            float rangedMax = dashRange * 3.5f;
+            float ideal = (rangedMin + rangedMax) * 0.5f;
+            if (distanceToPlayer >= rangedMin && distanceToPlayer <= rangedMax)
+            {
+                float farFactor = 1f - Mathf.Clamp01(Mathf.Abs(distanceToPlayer - ideal) / (rangedMax - rangedMin));
+                float score = rangedWeight * farFactor * idealRangedMultiplier;
+                if (lastAttack == GuardAttackType.Ranged) score *= (1f - repeatAttackPenalty);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = GuardAttackType.Ranged;
+                }
+            }
         }
+
+        if (best == GuardAttackType.None)
+        {
+            // No viable attack; chase logic remains in state handlers
+            selectTimer = selectionInterval;
+            return;
+        }
+
+        // Start the chosen attack and apply cooldowns
+        switch (best)
+        {
+            case GuardAttackType.Melee:
+                MeleeAttack();
+                melee1Timer = melee1AttackCooldown;
+                attackTimer = attackCooldown;
+                lastAttack = GuardAttackType.Melee;
+                guardCurrentState = GuardState.Attack;
+                break;
+            case GuardAttackType.Melee2:
+                MeleeAttack();
+                melee2Timer = melee2AttackCooldown;
+                attackTimer = attackCooldown;
+                lastAttack = GuardAttackType.Melee2;
+                guardCurrentState = GuardState.Attack;
+                break;
+            case GuardAttackType.Dash:
+                SetUpAttackHitbox(4);
+                dashTimer = dashAttackCooldown;
+                attackTimer = attackCooldown;
+                lastAttack = GuardAttackType.Dash;
+                guardCurrentState = GuardState.Attack;
+                break;
+            case GuardAttackType.Ranged:
+                RangedAttack();
+                rangedTimer = rangedAttackCooldown;
+                attackTimer = attackCooldown * 0.75f;
+                lastAttack = GuardAttackType.Ranged;
+                // remain in Alert state for ranged while chasing
+                break;
+        }
+
+        selectTimer = selectionInterval;
     }
 
     public void MeleeAttack()
     {
         if (attackChain == 0) //first melee Attack
         {
+            StopMoving();
             isAttacking = 1;
             SetUpAttackHitbox(1);
             attackChain++;
+            chainMeleePending = true; // ensure we chain into the second attack
         }
         else
         { //second melee attack
+            StopMoving();
             isAttacking = 2;
             SetUpAttackHitbox(2);
             attackChain = 0;
             attackTimer = attackCooldown / 2;
+            chainMeleePending = false; // chain complete
         }
     }
 
     public void RangedAttack()
     {
+        StopMoving();
         isAttacking = 3;
         ChangeAnimationState("RangedAttack");
     }
@@ -705,19 +794,19 @@ public class GuardAI : EnemyBase
         {
             case 1:
                 isAttacking = 1;
-                attackHitboxScript.ChangeHitboxBox(melee1HitboxOffset, melee1HitboxSize, melee1Damage, melee1Knockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
                 if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 2:
                 isAttacking = 2;
-                attackHitboxScript.ChangeHitboxBox(melee2HitboxOffset, melee2HitboxSize, melee2Damage, melee2Knockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
                 if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 4:
                 isAttacking = 4;
-                attackHitboxScript.ChangeHitboxBox(dashAttackHitboxOffset, dashAttackHitboxSize, dashAttackDamage, dashAttackKnockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("AttackDash");
                 if (audioManager != null) audioManager?.PlayDash();
                 break;

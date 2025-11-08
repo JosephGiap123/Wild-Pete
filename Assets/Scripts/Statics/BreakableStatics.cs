@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakableStatics : MonoBehaviour
+public class BreakableStatics : MonoBehaviour, IHasFacing
 {
 
     [Header("Static Info")]
     [SerializeField] protected int health = 10;
+    public bool IsFacingRight => transform.lossyScale.x > 0; // IHasFacing implementation (statics use transform scale)
 
     [Header("References")]
     // [SerializeField] protected Animator animator;

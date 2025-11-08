@@ -15,12 +15,6 @@ public class WardenAnimRelay : MonoBehaviour
     {
         wardenAI.DisableHitbox();
     }
-
-    // public void CallSpawnProjectile()
-    // {
-    //     wardenAI.SpawnProjectile();
-    // }
-
     public void CallEndHurt()
     {
         wardenAI.EndHurtState();

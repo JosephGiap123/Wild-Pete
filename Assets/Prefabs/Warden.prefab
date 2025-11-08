@@ -298,6 +298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4596009983844948300}
   - component: {fileID: 2138805635904659562}
+  - component: {fileID: 7636965852475290023}
   m_Layer: 0
   m_Name: WardenAttackHitbox
   m_TagString: Untagged
@@ -366,6 +367,42 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.5, y: 1}
   m_EdgeRadius: 0
+--- !u!58 &7636965852475290023
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5490696707892813827}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &5644626977598544097
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,8 +661,9 @@ GameObject:
   - component: {fileID: 496036332245576225}
   - component: {fileID: 7337193208649306649}
   - component: {fileID: 8446106769678175166}
-  - component: {fileID: 9188152940024170008}
   - component: {fileID: 4983157678869263840}
+  - component: {fileID: 1190115757944002534}
+  - component: {fileID: 5913845750460254907}
   m_Layer: 9
   m_Name: Warden
   m_TagString: Untagged
@@ -670,7 +708,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.05
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: d224713fc8d724bbfb8d19080d8fec9c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -699,6 +737,12 @@ MonoBehaviour:
   sr: {fileID: 2998731447188189554}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
   dropItemsOnDeath: {fileID: 4983157678869263840}
+  attackHitboxes:
+  - {fileID: 11400000, guid: dea83a15a649f49d19ff949327e226c4, type: 2}
+  - {fileID: 11400000, guid: 9242d7b9d10ba479c8e3992a23b44d97, type: 2}
+  - {fileID: 11400000, guid: c16fc8456157a4ab89ed34c0aca7cdec, type: 2}
+  - {fileID: 11400000, guid: caf7ddf42b0cb43d9badecc999d389e4, type: 2}
+  - {fileID: 11400000, guid: 4d7de26c733d6401b902d239f41c9065, type: 2}
   anim: {fileID: 2727749289623250478}
   moveSpeed: 4
   isFacingRight: 1
@@ -707,32 +751,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1048576
   phaseNum: 1
-  melee1Dmg: 3
-  melee1Offset: {x: 0, y: 0}
-  melee1Size: {x: 0, y: 0}
-  melee1Knockback: {x: 5, y: 2}
-  melee2Offset: {x: 0, y: 0}
-  melee2Size: {x: 0, y: 0}
-  melee2Dmg: 5
-  melee2Knockback: {x: 10, y: 3}
   rangedDmg: 5
   rangedSpeed: 20
   rangedLifeSpan: 4
   rangedKnockback: {x: 4, y: 1}
-  ultimate1FallingDmg: 3
-  ultimate1LandingDmg: 4
-  ultimate1FallingHitboxOffset: {x: 0, y: 0}
-  ultimate1FallingHitboxSize: {x: 1, y: 2.5}
-  ultimate1FallingKnockback: {x: 0, y: -5}
-  ultimate1LandingHitboxOffset: {x: 0, y: 0}
-  ultimate1LandingHitboxSize: {x: 2.5, y: 1}
-  ultimate1LandingKnockback: {x: 4, y: 7}
-  ultimate2Dmg: 5
-  ultimate2Knockback: {x: 8, y: 4}
-  ultimate3Dmg: 3
-  ultimate3Knockback: {x: 1, y: 2}
-  ultimate3HitboxOffset: {x: 3, y: 0.45}
-  ultimate3HitboxSize: {x: 5.2, y: 0.7}
   laserKnockback: {x: 1, y: 6}
   laserDmg: 3
   ultimateCooldown: 8
@@ -745,29 +767,10 @@ MonoBehaviour:
   laserPrefab: {fileID: 5993126028485846578, guid: 6f0337676fe5940bd8d973ad99e473b3, type: 3}
   projectileSpawnPoint: {fileID: 6363672194708456821}
   boxAttackHitbox: {fileID: 2138805635904659562}
-  attackHitboxScript: {fileID: 9188152940024170008}
+  attackHitboxScript: {fileID: 5913845750460254907}
   slamParticlePrefab: {fileID: 6792127021393328816, guid: 80c0ce31cefeb4d9e8bd4bb9295c3c64, type: 3}
---- !u!114 &9188152940024170008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9044181392038691299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e743d6cb58b049879d72a4f6168c58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  staticMask:
-    serializedVersion: 2
-    m_Bits: 16384
-  boxCol: {fileID: 2138805635904659562}
-  parent: {fileID: 8446106769678175166}
-  disableAfterFirstHit: 0
+  phaseChangeParticles: {fileID: 142381578256920333, guid: 4024ccd309fc3492d9c784f04e30e0f9, type: 3}
+  hpBarInteractor: {fileID: 1190115757944002534}
 --- !u!114 &4983157678869263840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,3 +794,32 @@ MonoBehaviour:
   - 100
   - 100
   - 100
+--- !u!114 &1190115757944002534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9044181392038691299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5c8d2ab630749a6895616dd8e82da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar: {fileID: 0}
+  wardenAI: {fileID: 8446106769678175166}
+--- !u!114 &5913845750460254907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9044181392038691299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCol: {fileID: 2138805635904659562}
+  circleCol: {fileID: 7636965852475290023}
+  parentScript: {fileID: 8446106769678175166}

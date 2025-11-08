@@ -16,6 +16,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected GameObject damageText;
     [SerializeField] protected DropItemsOnDeath dropItemsOnDeath;
+    public AttackHitboxInfo[] attackHitboxes;
     protected virtual void Awake()
     {
         health = maxHealth;
@@ -64,5 +65,14 @@ public class EnemyBase : MonoBehaviour
         sr.material.SetFloat("_FlashAmount", 1f);
         yield return new WaitForSeconds(duration);
         sr.material.SetFloat("_FlashAmount", 0f);
+    }
+    public virtual int GetHealth()
+    {
+        return health;
+    }
+
+    public virtual int GetMaxHealth()
+    {
+        return maxHealth;
     }
 }
