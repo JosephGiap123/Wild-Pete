@@ -14,6 +14,12 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
+    [Header("Audio")]
+    [SerializeField] protected AudioClip hitSound;
+    [SerializeField, Range(0f, 1f)] protected float hitVolume = 1f;
+    [SerializeField] protected AudioClip breakSound;
+    [SerializeField] protected AudioSource sfxSource;
+    [SerializeField, Range(0f, 1f)] protected float breakVolume = 1f;
 
     protected virtual void Awake()
     {
@@ -26,6 +32,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     {
         health -= dmg;
         Debug.Log(health);
+        PlaySound(hitSound, hitVolume);
         StartCoroutine(DamageFlash(0.2f));
         if (health <= 0)
         {
@@ -36,6 +43,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     protected virtual void Break()
     {
+        PlaySound(breakSound, breakVolume, true);
         Destroy(gameObject);
     }
 
@@ -44,5 +52,35 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         sr.material.SetFloat("_FlashAmount", 1f);
         yield return new WaitForSeconds(duration);
         sr.material.SetFloat("_FlashAmount", 0f);
+    }
+    protected void PlayHitSound()
+    {
+        PlaySound(hitSound, hitVolume);
+    }
+
+    private void PlaySound(AudioClip clip, float volume = 1f, bool useDetachedSource = false)
+    {
+        if (!clip) return;
+        volume = Mathf.Clamp01(volume <= 0f ? 1f : volume);
+
+        if (useDetachedSource)
+        {
+            AudioSource.PlayClipAtPoint(clip, transform.position, volume);
+            return;
+        }
+
+        if (!sfxSource)
+        {
+            sfxSource = GetComponent<AudioSource>();
+            if (!sfxSource)
+            {
+                sfxSource = gameObject.AddComponent<AudioSource>();
+                sfxSource.playOnAwake = false;
+                sfxSource.loop = false;
+                sfxSource.spatialBlend = 1f;
+            }
+        }
+
+        sfxSource.PlayOneShot(clip, volume);
     }
 }

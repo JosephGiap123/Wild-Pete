@@ -28,6 +28,7 @@ public class LockPick : MonoBehaviour, IInteractable
 
         // Spawn popup under the UI Canvas
         activeGame = Instantiate(minigamePrefab, uiCanvas.transform);
+        StopPlayerRunLoops();
 
         // Optional: disable player movement here
         // PlayerController.Instance.enabled = false;
@@ -51,5 +52,18 @@ public class LockPick : MonoBehaviour, IInteractable
             Destroy(activeGame.gameObject);
             activeGame = null;
         };
+    }
+
+    private void StopPlayerRunLoops()
+    {
+#if UNITY_2022_1_OR_NEWER
+        var peteAudio = UnityEngine.Object.FindAnyObjectByType<PeteAudioManager>(FindObjectsInactive.Exclude);
+        var aliceAudio = UnityEngine.Object.FindAnyObjectByType<AliceAudioManager>(FindObjectsInactive.Exclude);
+#else
+        var peteAudio = UnityEngine.Object.FindObjectOfType<PeteAudioManager>();
+        var aliceAudio = UnityEngine.Object.FindObjectOfType<AliceAudioManager>();
+#endif
+        peteAudio?.StopRunLoop();
+        aliceAudio?.StopRunLoop();
     }
 }

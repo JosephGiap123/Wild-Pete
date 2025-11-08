@@ -46,6 +46,11 @@ public class AliceMovement2D : BasePlayerMovement2D
     private void UpdateRunLoopSound()
     {
         if (!audioMgr) return;
+        if (LockpickFiveInARow.IsLockpickActive)
+        {
+            audioMgr.StopRunLoop();
+            return;
+        }
 
         bool shouldRunLoop =
             !isDead &&
@@ -66,6 +71,7 @@ public class AliceMovement2D : BasePlayerMovement2D
     {
         if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
         {
+            audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
         if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
@@ -74,7 +80,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         }
         if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
-            ThrowAttack();
+            attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
@@ -220,11 +226,11 @@ public class AliceMovement2D : BasePlayerMovement2D
             bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
         }
     }
-    protected void ThrowAttack()
+    protected override IEnumerator ThrowAttack()
     {
         // audioMgr.PlayThrow();
-        StartCoroutine(base.ThrowAttack());
         // audioMgr?.StopRunLoop();
+        yield return base.ThrowAttack();
     }
 
     // safety: stop loop if object disables/destroys

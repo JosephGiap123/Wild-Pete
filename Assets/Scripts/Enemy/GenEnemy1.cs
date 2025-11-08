@@ -269,7 +269,7 @@ public class GenEnemy : EnemyBase, IHasFacing
         anim.Play("Idle");
     }
 
-    public void EndHurtState()
+    public override void EndHurtState()
     {
         hurtStun = false;
     }

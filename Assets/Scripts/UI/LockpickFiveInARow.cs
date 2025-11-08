@@ -4,12 +4,14 @@ using TMPro; // If you don't use TextMeshPro, remove this line and TMP fields.
 
 public class LockpickFiveInARow : MonoBehaviour
 {
+    public static bool IsLockpickActive { get; private set; }
     [Header("UI References")]
     [SerializeField] private Image targetArc;          // Image: Type=Filled, Method=Radial360
     [SerializeField] private RectTransform needle;     // Pivot=(0.5,0.0)
     [SerializeField] private TextMeshProUGUI keyText;  // Optional
     [SerializeField] private TextMeshProUGUI roundText;// Optional
     [SerializeField] private TextMeshProUGUI missText;
+    [SerializeField] private LockPickAudioManager audioManager;
 
 
     [Header("Input")]
@@ -33,9 +35,31 @@ public class LockpickFiveInARow : MonoBehaviour
 
     void Awake()
     {
+        IsLockpickActive = true;
         PauseController.SetPause(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (!audioManager)
+        {
+            audioManager = GetComponent<LockPickAudioManager>();
+        }
+        if (!audioManager)
+        {
+            audioManager = GetComponentInChildren<LockPickAudioManager>();
+        }
+        if (!audioManager)
+        {
+#if UNITY_2022_1_OR_NEWER
+            audioManager = FindAnyObjectByType<LockPickAudioManager>(FindObjectsInactive.Include);
+#else
+            audioManager = FindObjectOfType<LockPickAudioManager>(true);
+#endif
+        }
+        if (!audioManager)
+        {
+            Debug.LogWarning("LockpickFiveInARow: No LockPickAudioManager found in scene. Assign one in the prefab or scene to hear lockpick SFX.");
+        }
 
         StartRound(0);
         playing = true;
@@ -43,6 +67,7 @@ public class LockpickFiveInARow : MonoBehaviour
 
     void OnDestroy()
     {
+        IsLockpickActive = false;
         if (PauseController.IsGamePaused)
             PauseController.SetPause(false);
     }
@@ -101,6 +126,7 @@ public class LockpickFiveInARow : MonoBehaviour
     {
         if (InsideSlice(needleDeg, sliceCenterDeg, sliceSize))
         {
+            audioManager?.PlaySuccessSound();
             int next = roundIndex + 1;
             if (next >= roundsRequired)
                 Finish(true);
@@ -109,6 +135,7 @@ public class LockpickFiveInARow : MonoBehaviour
         }
         else
         {
+            audioManager?.PlayFailSound();
             StartRound(0);
             if (keyText)
                 keyText.text = "E"; // reset E text
@@ -140,7 +167,12 @@ public class LockpickFiveInARow : MonoBehaviour
     {
         playing = false;
         PauseController.SetPause(false);
+        if (success)
+            audioManager?.PlayCompletedSound(detach: true);
+        else
+            audioManager?.PlayFailSound(detach: true);
         OnComplete?.Invoke(success);
+        IsLockpickActive = false;
         Destroy(gameObject);
     }
     private void HideMissText()

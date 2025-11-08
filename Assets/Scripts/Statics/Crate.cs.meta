@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 209057c878c1b45deb052dba76f5c594
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sr: {instanceID: 0}
+  - hitSound: {fileID: 8300000, guid: f74703e2ee64dc74b896e92a5db2e585, type: 3}
+  - breakSound: {fileID: 8300000, guid: 42dd6a1babd4a4240b6240662a6de37b, type: 3}
+  - particleEmitter: {instanceID: 0}
+  - dropItemsOnDeath: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

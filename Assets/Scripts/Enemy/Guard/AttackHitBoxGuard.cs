@@ -63,6 +63,19 @@ public class AttackHitBoxGuard : MonoBehaviour
         knockbackForce = knockback;
     }
 
+    public void CustomizeHitbox(AttackHitboxInfo hitboxInfo)
+    {
+        if (hitboxInfo == null)
+        {
+            Debug.LogWarning("AttackHitBoxGuard: hitboxInfo is null.");
+            return;
+        }
+
+        playerMask = hitboxInfo.player;
+        staticMask = hitboxInfo.statics;
+        ChangeHitboxBox(hitboxInfo.hitboxOffset, hitboxInfo.hitboxSize, hitboxInfo.damage, hitboxInfo.knockbackForce);
+    }
+
     public void ActivateBox()
     {
         active = true;
