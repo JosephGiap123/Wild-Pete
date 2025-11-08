@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 6e6b8eba536c24155a63ffc5204aff03
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7366822972461615945
+    second: respawn-anchor_0
+  - first:
+      213: 8500331061005867581
+    second: respawn-anchor_1
+  - first:
+      213: -6741476669309307652
+    second: respawn-anchor_2
+  - first:
+      213: 7666100805571253641
+    second: respawn-anchor_3
+  - first:
+      213: 4921106290747229692
+    second: respawn-anchor_4
+  - first:
+      213: 7905060410084073744
+    second: respawn-anchor_5
+  - first:
+      213: -5595433000402239276
+    second: respawn-anchor_6
+  - first:
+      213: 431328458702118574
+    second: respawn-anchor_7
+  - first:
+      213: -3098629296260339165
+    second: respawn-anchor_8
+  - first:
+      213: -1617118869223675476
+    second: respawn-anchor_9
+  - first:
+      213: 401599857569375267
+    second: respawn-anchor_10
+  - first:
+      213: 2896210842551855378
+    second: respawn-anchor_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: respawn-anchor_0
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 24
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b4fc33a989c3c990800000000000000
+      internalID: -7366822972461615945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_1
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 27
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3a5974301e37f570800000000000000
+      internalID: 8500331061005867581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_2
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 33
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf43c38efa67172a0800000000000000
+      internalID: -6741476669309307652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_3
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 32
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9851960e016736a60800000000000000
+      internalID: 7666100805571253641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_4
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 28
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf5cde929184b4440800000000000000
+      internalID: 4921106290747229692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_5
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 24
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 011a0176f8a64bd60800000000000000
+      internalID: 7905060410084073744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_6
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d0c68ef4570952b0800000000000000
+      internalID: -5595433000402239276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_7
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaed47aa2f26cf500800000000000000
+      internalID: 431328458702118574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_8
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32aa8c182157ff4d0800000000000000
+      internalID: -3098629296260339165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_9
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca96750d4f6de89e0800000000000000
+      internalID: -1617118869223675476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_10
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 324254451f4c29500800000000000000
+      internalID: 401599857569375267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: respawn-anchor_11
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 14
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21920f0aa68613820800000000000000
+      internalID: 2896210842551855378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      respawn-anchor_0: -7366822972461615945
+      respawn-anchor_1: 8500331061005867581
+      respawn-anchor_10: 401599857569375267
+      respawn-anchor_11: 2896210842551855378
+      respawn-anchor_2: -6741476669309307652
+      respawn-anchor_3: 7666100805571253641
+      respawn-anchor_4: 4921106290747229692
+      respawn-anchor_5: 7905060410084073744
+      respawn-anchor_6: -5595433000402239276
+      respawn-anchor_7: 431328458702118574
+      respawn-anchor_8: -3098629296260339165
+      respawn-anchor_9: -1617118869223675476
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
