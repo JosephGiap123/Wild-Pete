@@ -38,6 +38,7 @@ Transform:
   - {fileID: 2308433308511659126}
   - {fileID: 358205225501563246}
   - {fileID: 3091188603775906058}
+  - {fileID: 1690431409669214063}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4778260064776062145
@@ -61,6 +62,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87dbcda76f9ff4aada56a9c2c12641a8, type: 2}
   - {fileID: 11400000, guid: 79ed0143a6e894d2085828bc70fbf34c, type: 2}
   - {fileID: 11400000, guid: f6cbae8ce15ab481bbfcabef4d173565, type: 2}
+  isFacingRight: 1
   guardCurrentState: 0
   debugMode: 0
   anim: {fileID: 9170543586394422277}
@@ -71,7 +73,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1048576
-  isFacingRight: 1
   isInAir: 0
   meleeRange: 1.2
   dashRange: 4
@@ -91,7 +92,6 @@ MonoBehaviour:
   idealRangedMultiplier: 1
   projectilePrefab: {fileID: 2277310032840431590, guid: 036e079026c4a4deda59856274a5f7c1, type: 3}
   projectileSpawnPoint: {fileID: 3091188603775906058}
-  boxAttackHitbox: {fileID: 2253911895311882820}
   attackHitboxScript: {fileID: 82760142225732343}
   patrolPoints: []
   patrolWaitTime: 5
@@ -197,6 +197,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1297115642755967973}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1445556461868592385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1690431409669214063}
+  - component: {fileID: 5362734516452545076}
+  m_Layer: 9
+  m_Name: GuardAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1690431409669214063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445556461868592385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1297115642755967973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5362734516452545076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445556461868592385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e07a0b3387dc9947b9096042383c6e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  shot: {fileID: 8300000, guid: 1cb662ed37a7c0240a8633b9b2cd176a, type: 3}
+  meleeSwing1: {fileID: 8300000, guid: e830f5d7bcea005459428fdf55725f58, type: 3}
+  meleeSwing2: {fileID: 8300000, guid: 1e7bf98bdd28cda43a801d7292c2368e, type: 3}
+  dash: {fileID: 8300000, guid: f7c4e7f31f84714498f2c7c4a1079bc4, type: 3}
+  hurt: {fileID: 8300000, guid: 0e909b5347e732e45a9382795f623876, type: 3}
+  death: {fileID: 0}
+  runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
+  hit: {fileID: 8300000, guid: 2eead974c39c6354f98f06036fb8adf5, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 20
 --- !u!1 &3678174710015949781
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardAI: {fileID: 4778260064776062145}
   hitboxScript: {fileID: 82760142225732343}
+  audioManager: {fileID: 5362734516452545076}
 --- !u!95 &9170543586394422277
 Animator:
   serializedVersion: 7

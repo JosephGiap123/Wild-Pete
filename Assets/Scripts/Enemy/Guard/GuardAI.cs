@@ -6,7 +6,6 @@ public class GuardAI : EnemyBase
 {
     private enum GuardAttackType { None = 0, Melee = 1, Melee2 = 2, Ranged = 3, Dash = 4 }
     private GuardAudioManager audioManager;
-
     private enum GuardState
     {
         Idle,
@@ -445,7 +444,7 @@ public class GuardAI : EnemyBase
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
         base.Respawn(position, facingRight);
-        
+
         // Reset all AI state variables
         isDead = false;
         isHurt = false;
@@ -453,7 +452,7 @@ public class GuardAI : EnemyBase
         attackChain = 0;
         chainMeleePending = false;
         guardCurrentState = GuardState.Idle;
-        
+
         // Reset all timers
         attackTimer = 0f;
         rangedTimer = 0f;
@@ -463,26 +462,26 @@ public class GuardAI : EnemyBase
         selectTimer = 0f;
         loseSightTimer = 0f;
         patrolWaitTimer = 0f;
-        
+
         // Reset movement
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
         }
-        
+
         // Stop any active coroutines
         StopAllCoroutines();
-        
+
         // Reset animation state
         currentState = "Idle";
         if (anim != null)
         {
             anim.Play("Idle");
         }
-        
+
         // Reset last attack
         lastAttack = GuardAttackType.None;
-        
+
         if (debugMode) Debug.Log("GuardAI: Respawned and state reset");
     }
 
@@ -526,7 +525,6 @@ public class GuardAI : EnemyBase
         GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
         projScript.Initialize(rangedDamage, bulletSpeed, bulletLifeTime);
-        audioManager?.PlayShot();
         return;
     }
     public override void Hurt(int dmg, Vector2 knockbackForce)
@@ -539,7 +537,7 @@ public class GuardAI : EnemyBase
         StopMoving();
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         rb.linearVelocity += knockbackForce;
-        
+
         if (audioManager != null)
         {
             if (health <= 0)
@@ -604,7 +602,7 @@ public class GuardAI : EnemyBase
         Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
         bool wasInAir = isInAir;
         isInAir = colliders.Length == 0;
-        
+
         // Play run loop sound when landing and moving
         if (wasInAir && !isInAir && Mathf.Abs(rb.linearVelocity.x) > 0.2f && audioManager != null)
         {
@@ -838,19 +836,16 @@ public class GuardAI : EnemyBase
                 isAttacking = 1;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
-                if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 2:
                 isAttacking = 2;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
-                if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 4:
                 isAttacking = 4;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("AttackDash");
-                if (audioManager != null) audioManager?.PlayDash();
                 break;
             default:
                 break;

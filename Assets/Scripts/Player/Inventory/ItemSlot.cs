@@ -160,7 +160,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             quantity = 0;
         }
-        UpdateUI();
+        
+        // If quantity reaches 0, clear the slot completely
+        if (quantity <= 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            UpdateUI();
+        }
         return true;
     }
 
@@ -174,6 +183,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
         if (thisItemSelected)
         {
+            // Don't allow using items with quantity 0
+            if (quantity <= 0 || IsEmpty())
+            {
+                Debug.LogWarning("ItemSlot: Cannot use item - quantity is 0 or slot is empty!");
+                return;
+            }
+            
             // Find this slot's index in the inventory array
             int slotIndex = -1;
             for (int i = 0; i < PlayerInventory.instance.itemSlots.Length; i++)
