@@ -62,6 +62,13 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
+        // Check if the slot has any quantity left
+        if (itemSlots[inventoryLocation].quantity <= 0)
+        {
+            Debug.LogWarning($"PlayerInventory: Cannot use consumable {itemName} - quantity is 0!");
+            return;
+        }
+        
         for (int i = 0; i < consumableSOs.Length; i++)
         {
             if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
