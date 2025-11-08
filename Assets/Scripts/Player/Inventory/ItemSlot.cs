@@ -61,7 +61,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         // Safety check for UI references
         if (itemIcon == null || quantityText == null)
@@ -125,6 +125,28 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDesc = null;
         dropSprite = defaultIcon;
         PlayerInventory.instance.ClearDescriptionPanel();
+    }
+
+    /// <summary>
+    /// Directly restores slot data from checkpoint. Used for restoring saved inventory state.
+    /// </summary>
+    public void RestoreSlot(ItemSO itemData, int savedQuantity)
+    {
+        if (itemData == null || savedQuantity <= 0)
+        {
+            ClearSlot();
+            return;
+        }
+
+        itemSO = itemData;
+        itemName = itemData.itemName;
+        itemSprite = itemData.icon;
+        maxStackSize = itemData.maxStackSize;
+        itemDesc = itemData.itemDesc;
+        quantity = savedQuantity;
+        dropSprite = itemData.dropIcon;
+
+        UpdateUI();
     }
 
     public bool DecreaseQuantity(int amount)

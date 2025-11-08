@@ -61,9 +61,6 @@ public class PeteMovement2D : BasePlayerMovement2D
         if (shouldRunLoop) audioMgr.StartRunLoop();
         else audioMgr.StopRunLoop();
     }
-
-
-    // ---------- Input (R = shoot, T = reload) ----------
     protected override void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
@@ -118,17 +115,36 @@ public class PeteMovement2D : BasePlayerMovement2D
         {
             weaponEquipped = !weaponEquipped;
         }
+        // DEBUG: K key - Save checkpoint and respawn (for testing)
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("Attempted to save checkpoint");
+            // Save checkpoint at current position
+            if (CheckpointManager.Instance != null)
+            {
+                CheckpointManager.Instance.SaveCheckpoint(transform.position);
+                Debug.Log($"Checkpoint saved at {transform.position}");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("Attempted to respawn at checkpoint");
+            // Respawn at checkpoint
+            if (GameRestartManager.Instance != null)
+            {
+                GameRestartManager.Instance.RespawnCharacter();
+            }
+        }
     }
 
-    // ---------- SFX for hurt & death ----------
-    public override void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
+    public override void HurtPlayer(int damage, Vector2 knockbackForce, float? knockbackDirection = null, Vector2? hitboxCenter = null)
     {
         if (!isInvincible)
         {
             audioMgr?.StopRunLoop();
             audioMgr?.PlayHurt();
         }
-        base.HurtPlayer(damage, knockbackDirection, knockbackForce);
+        base.HurtPlayer(damage, knockbackForce, knockbackDirection, hitboxCenter);
     }
 
     protected override void Die()

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Dummy : EnemyBase, IHasFacing
+public class Dummy : EnemyBase
 {
     [SerializeField] Animator anim;
     private bool hurtStun = false;
     Coroutine hurtCoroutine;
-    public bool IsFacingRight => transform.lossyScale.x > 0; // IHasFacing implementation (based on transform scale)
 
     protected override void Awake()
     {
@@ -48,6 +47,34 @@ public class Dummy : EnemyBase, IHasFacing
     public override void EndHurtState()
     {
         hurtStun = false;
+    }
+
+    public override void Respawn(Vector2? position = null, bool? facingRight = null)
+    {
+        base.Respawn(position, facingRight);
+        
+        // Reset state variables
+        hurtStun = false;
+        
+        // Stop any active coroutines
+        if (hurtCoroutine != null)
+        {
+            StopCoroutine(hurtCoroutine);
+            hurtCoroutine = null;
+        }
+        StopAllCoroutines();
+        
+        // Reset animation state
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+        
+        // Reset movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
 }

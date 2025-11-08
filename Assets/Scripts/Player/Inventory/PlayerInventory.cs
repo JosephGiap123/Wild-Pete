@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -189,5 +190,80 @@ public class PlayerInventory : MonoBehaviour
         }
         Debug.Log("PlayerInventory: HasItem found " + count + " of item: " + itemName);
         return count;
+    }
+
+    /// <summary>
+    /// Restores inventory state from checkpoint data.
+    /// </summary>
+    public void RestoreInventory(List<CheckpointManager.InventorySlotData> savedSlots)
+    {
+        if (itemSlots == null || savedSlots == null)
+        {
+            Debug.LogWarning("PlayerInventory: Cannot restore inventory - itemSlots or savedSlots is null");
+            return;
+        }
+
+        // Deselect all slots first
+        DeselectAllSlots();
+        
+        // Clear description panel
+        ClearDescriptionPanel();
+
+        // Clear current inventory
+        ClearInventory();
+
+        // Restore each slot
+        for (int i = 0; i < itemSlots.Length && i < savedSlots.Count; i++)
+        {
+            if (itemSlots[i] == null) continue;
+
+            var savedSlot = savedSlots[i];
+            
+            // Skip empty slots
+            if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
+            {
+                continue;
+            }
+
+            // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
+            ItemSO foundItemSO = null;
+            
+            // First check consumableSOs (for consumables)
+            if (consumableSOs != null)
+            {
+                foreach (ConsumableSO consumableSO in consumableSOs)
+                {
+                    if (consumableSO != null && consumableSO.itemName == savedSlot.itemName)
+                    {
+                        foundItemSO = consumableSO; // ConsumableSO extends ItemSO, so this works
+                        break;
+                    }
+                }
+            }
+            
+            // If not found in consumables, check regular itemSOs
+            if (foundItemSO == null && itemSOs != null)
+            {
+                foreach (ItemSO itemSO in itemSOs)
+                {
+                    if (itemSO != null && itemSO.itemName == savedSlot.itemName)
+                    {
+                        foundItemSO = itemSO;
+                        break;
+                    }
+                }
+            }
+
+            if (foundItemSO != null)
+            {
+                // Directly restore the slot data (don't use AddItem which can stack items)
+                // This ensures items are restored to their exact saved slot positions
+                itemSlots[i].RestoreSlot(foundItemSO, savedSlot.quantity);
+            }
+            else
+            {
+                Debug.LogWarning($"PlayerInventory: Could not find ItemSO for item '{savedSlot.itemName}'");
+            }
+        }
     }
 }
