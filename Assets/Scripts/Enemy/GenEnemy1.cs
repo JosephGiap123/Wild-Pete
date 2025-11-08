@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GenEnemy : EnemyBase, IHasFacing
+public class GenEnemy : EnemyBase
 {
     [Header("Components")]
     [SerializeField] private Animator anim;
@@ -19,8 +19,6 @@ public class GenEnemy : EnemyBase, IHasFacing
     private float chaseTimer = 0f;
     private int currentPatrolIndex = 0;
     private Transform player;
-    private bool facingRight = true;
-    public bool IsFacingRight => facingRight; // IHasFacing implementation
 
     private bool hurtStun = false;
     private Coroutine hurtCoroutine;
@@ -129,7 +127,7 @@ public class GenEnemy : EnemyBase, IHasFacing
         if (distance > detectionRange) return false;
 
         // 2. Cone check
-        Vector2 facingDir = facingRight ? Vector2.right : Vector2.left;
+        Vector2 facingDir = isFacingRight ? Vector2.right : Vector2.left;
         float angle = Vector2.Angle(facingDir, dirToPlayer);
         if (angle > viewAngle / 2f) return false;
 
@@ -203,7 +201,7 @@ public class GenEnemy : EnemyBase, IHasFacing
         yield return new WaitForSeconds(1f);
 
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        Flip();
+        FlipSprite();
 
         waiting = false;
     }
@@ -227,10 +225,10 @@ public class GenEnemy : EnemyBase, IHasFacing
         );
 
         // Flip sprite to face player
-        if ((player.position.x > transform.position.x && !facingRight) ||
-            (player.position.x < transform.position.x && facingRight))
+        if ((player.position.x > transform.position.x && !isFacingRight) ||
+            (player.position.x < transform.position.x && isFacingRight))
         {
-            Flip();
+            FlipSprite();
         }
 
         // Close enough → attack
@@ -300,6 +298,38 @@ public class GenEnemy : EnemyBase, IHasFacing
         anim.Play("Die");
     }
 
+    public override void Respawn(Vector2? position = null, bool? facingRight = null)
+    {
+        base.Respawn(position, facingRight);
+        
+        // Reset all AI state variables
+        currentState = EnemyState.Idle;
+        hurtStun = false;
+        waiting = false;
+        chaseTimer = 0f;
+        currentPatrolIndex = 0;
+        
+        // Stop any active coroutines
+        if (hurtCoroutine != null)
+        {
+            StopCoroutine(hurtCoroutine);
+            hurtCoroutine = null;
+        }
+        StopAllCoroutines();
+        
+        // Reset movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        
+        // Reset animation state
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+    }
+
     private void ChangeState(EnemyState newState)
     {
         Debug.Log($"State changed: {currentState} → {newState}");
@@ -311,13 +341,6 @@ public class GenEnemy : EnemyBase, IHasFacing
         }
     }
 
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
-        transform.localScale = localScale;
-    }
 
     // 🔎 Debug vision cone in Scene view
     private void OnDrawGizmosSelected()
@@ -325,7 +348,7 @@ public class GenEnemy : EnemyBase, IHasFacing
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
-        Vector2 facingDir = facingRight ? Vector2.right : Vector2.left;
+        Vector2 facingDir = isFacingRight ? Vector2.right : Vector2.left;
         Vector2 leftBoundary = Quaternion.Euler(0, 0, viewAngle / 2) * facingDir;
         Vector2 rightBoundary = Quaternion.Euler(0, 0, -viewAngle / 2) * facingDir;
 

@@ -23,7 +23,7 @@ public class GuardBullet : MonoBehaviour
                 if (collision.gameObject != null)
                 {
                     Debug.Log("Hit player");
-                    collision.gameObject.transform.parent.gameObject.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, 1f, Vector2.zero);
+                    collision.gameObject.transform.parent.gameObject.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, Vector2.zero, 1f);
                 }
             }
             else if (((1 << collision.gameObject.layer) & staticMask) != 0)

@@ -45,7 +45,7 @@ public class ExplosionHitBox : MonoBehaviour
                 if (alreadyHit.Contains(targetRoot)) return;
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");
-                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, transform.position, calculateKnockback(collision.transform.position));
+                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, calculateKnockback(collision.transform.position), null, transform.position);
             }
         }
     }
