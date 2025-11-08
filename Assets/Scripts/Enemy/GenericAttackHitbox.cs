@@ -257,10 +257,10 @@ public class GenericAttackHitbox : MonoBehaviour
                 alreadyHit.Add(targetRoot);
                 Debug.Log("GenericAttackHitbox: Hit player");
 
-                // Player uses HurtPlayer(damage, hitboxCenter, knockbackForce)
+                // Player uses HurtPlayer(damage, knockbackForce, null, hitboxCenter)
                 // Pass hitbox center position (where attack came from) for proper knockback calculation
                 Vector2 hitboxCenter = GetHitboxCenter();
-                player.HurtPlayer(currentDamage, hitboxCenter, finalKnockback);
+                player.HurtPlayer(currentDamage, finalKnockback, null, hitboxCenter);
 
                 if (disableAfterFirstHit) DisableHitbox();
                 return;

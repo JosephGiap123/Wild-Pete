@@ -18,10 +18,8 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     // --- IInteractable ---
     public bool CanInteract() => true;
 
-    /// <summary>
-    /// Called by your world interaction (e.g., player presses E).
-    /// Shows the mini-game canvas and the vending popup screen.
-    /// </summary>
+    // Called by your world interaction (e.g., player presses E).
+    // Shows the mini-game canvas and the vending popup screen.
     public void Interact()
     {
         if (miniGameCanvas && !miniGameCanvas.gameObject.activeSelf)
@@ -32,10 +30,8 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         Debug.Log("[VendingPopupInteractable] Popup shown");
     }
 
-    /// <summary>
-    /// Opens the Keypad UI, hides the vending image, and centers the keypad.
-    /// Wire a Vending button/hotspot to this.
-    /// </summary>
+    // Opens the Keypad UI, hides the vending image, and centers the keypad.
+    // Wire a Vending button/hotspot to this.
     public void OpenKeypad()
     {
         if (!EnsureCanvasActive()) return;
@@ -71,10 +67,8 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         Debug.Log("[VendingPopupInteractable] Keypad shown");
     }
 
-    /// <summary>
-    /// Opens the Screw Panel UI, hides the vending image, and centers the panel.
-    /// Wire a Vending button/hotspot to this.
-    /// </summary>
+    // Opens the Screw Panel UI, hides the vending image, and centers the panel.
+    // Wire a Vending button/hotspot to this.
     public void OpenScrewPanel()
     {
         if (!EnsureCanvasActive()) return;
@@ -105,11 +99,9 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         Debug.Log("[VendingPopupInteractable] Screw panel shown");
     }
 
-    /// <summary>
-    /// Vending-level Exit: hide keypad/screw panels (if present),
-    /// hide the vending screen, and disable the mini-game canvas.
-    /// Wire the VendingPopup "X" button to this.
-    /// </summary>
+    // Vending-level Exit: hide keypad/screw panels (if present),
+    // hide the vending screen, and disable the mini-game canvas.
+    // Wire the VendingPopup "X" button to this.
     public void CloseAll()
     {
         if (keypadInstance) keypadInstance.Hide();

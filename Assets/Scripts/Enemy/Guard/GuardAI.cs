@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardAI : EnemyBase, IHasFacing
+public class GuardAI : EnemyBase
 {
     private enum GuardAttackType { None = 0, Melee = 1, Melee2 = 2, Ranged = 3, Dash = 4 }
     private GuardAudioManager audioManager;
@@ -31,8 +31,6 @@ public class GuardAI : EnemyBase, IHasFacing
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
-    public bool isFacingRight = true;
-    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     public bool isInAir = false;
 
     [Header("Combat Settings")]
@@ -445,6 +443,50 @@ public class GuardAI : EnemyBase, IHasFacing
     }
 
 
+    public override void Respawn(Vector2? position = null, bool? facingRight = null)
+    {
+        base.Respawn(position, facingRight);
+        
+        // Reset all AI state variables
+        isDead = false;
+        isHurt = false;
+        isAttacking = 0;
+        attackChain = 0;
+        chainMeleePending = false;
+        guardCurrentState = GuardState.Idle;
+        
+        // Reset all timers
+        attackTimer = 0f;
+        rangedTimer = 0f;
+        melee1Timer = 0f;
+        melee2Timer = 0f;
+        dashTimer = 0f;
+        selectTimer = 0f;
+        loseSightTimer = 0f;
+        patrolWaitTimer = 0f;
+        
+        // Reset movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        
+        // Stop any active coroutines
+        StopAllCoroutines();
+        
+        // Reset animation state
+        currentState = "Idle";
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+        
+        // Reset last attack
+        lastAttack = GuardAttackType.None;
+        
+        if (debugMode) Debug.Log("GuardAI: Respawned and state reset");
+    }
+
     protected IEnumerator Death()
     {
         isDead = true;
@@ -628,13 +670,14 @@ public class GuardAI : EnemyBase, IHasFacing
             FlipSprite();
     }
 
-    public virtual void FlipSprite()
+    public override void FlipSprite()
     {
-        isFacingRight = !isFacingRight;
-        projectileSpawnPoint.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 0 : 180);
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        base.FlipSprite(); // Handle isFacingRight and sprite flip
+        // Rotate projectile spawn point to match facing direction
+        if (projectileSpawnPoint != null)
+        {
+            projectileSpawnPoint.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 0 : 180);
+        }
     }
 
     private void TrySelectAndStartAttack(float distanceToPlayer)

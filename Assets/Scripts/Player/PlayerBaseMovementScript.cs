@@ -98,6 +98,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     //events
     public event Action<int, int> OnAmmoChanged;
+    public event Action PlayerDied;
 
     protected virtual void Awake()
     {
@@ -106,6 +107,81 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             groundCheck.size = new(CharWidth * 0.9f, groundCheck.size.y);
         }
+
+        // Subscribe to respawn event
+        GameRestartManager.CharacterRespawned += OnRespawn;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // Unsubscribe from respawn event
+        GameRestartManager.CharacterRespawned -= OnRespawn;
+    }
+
+    // Handles respawning the player at the checkpoint location.
+    protected virtual void OnRespawn(Vector2 checkpointLocation)
+    {
+        // Restore checkpoint state first
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.RestoreCheckpoint();
+        }
+
+        // Move player to checkpoint
+        transform.position = checkpointLocation;
+
+        // Reset player state
+        isDead = false;
+        isHurt = false;
+        isInvincible = false;
+        isAttacking = false;
+        isDashing = false;
+        isWallSliding = false;
+        isCrouching = false;
+        isJumping = false;
+        isGrounded = false;
+        isReloading = false;
+        attackCount = 0;
+
+        // Stop all movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        // Restore health and ammo from checkpoint
+        if (CheckpointManager.Instance != null && CheckpointManager.Instance.HasCheckpoint())
+        {
+            var checkpointData = CheckpointManager.Instance.GetCheckpointData();
+            if (checkpointData != null)
+            {
+                // Restore health
+                HealthManager.instance.SetHealth(checkpointData.playerHealth);
+
+                // Restore ammo
+                ammoCount = checkpointData.playerAmmo;
+                maxAmmo = checkpointData.playerMaxAmmo;
+                OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+            }
+        }
+        else
+        {
+            // No checkpoint - restore to full health/ammo
+            HealthManager.instance.SetHealth(maxHealth);
+            ammoCount = maxAmmo;
+            OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+        }
+
+        // Re-enable player
+        gameObject.SetActive(true);
+
+        // Cancel any active coroutines
+        CancelAllActions();
+
+        // Unpause game
+        PauseController.SetPause(false);
+
+        Debug.Log($"Player respawned at {checkpointLocation}");
     }
 
     // Abstract methods for character-specific behavior
@@ -619,15 +695,32 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         attackCount = 0;
     }
 
-
-    public virtual void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
+    public virtual void HurtPlayer(int damage, Vector2 knockbackForce, float? knockbackDirection = null, Vector2? hitboxCenter = null)
     {
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
 
+        // Determine knockback type and direction
+        bool useRadialKnockback = hitboxCenter.HasValue;
+        float finalKnockbackDir;
+
+        if (useRadialKnockback)
+        {
+            // Radial knockback: calculate direction from hitbox center
+            finalKnockbackDir = Mathf.Sign(knockbackForce.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.Value.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = isFacingRight ? -1 : 1;
+        }
+        else
+        {
+            // Directional knockback: use provided direction or calculate from force
+            finalKnockbackDir = knockbackDirection ?? Mathf.Sign(knockbackForce.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = isFacingRight ? -1 : 1;
+        }
+
         // Cancel all active states
         if (!hyperArmor)
-        { //hyper armor can ignore.
+        {
             isHurt = true;
             CancelAllActions();
             // Start timeout coroutine as safety fallback
@@ -637,19 +730,33 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             hurtTimeoutCoroutine = StartCoroutine(HurtStateTimeout());
         }
+
+        // Damage text
         if (damageText != null)
         {
+            Vector2 textVelocity = useRadialKnockback
+                ? new Vector2(knockbackForce.x, 5f)
+                : new Vector2(knockbackForce.x * finalKnockbackDir, 5f);
             GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x * knockbackDirection, 5f), damage, Color.red, Color.black);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(textVelocity, damage, Color.red, Color.black);
         }
+
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         HealthManager.instance.TakeDamage(damage);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         isDead = HealthManager.instance.IsDead();
+
         // Only apply knockback if player didn't die
         if (!isDead)
         {
-            ApplyKnockback(knockbackDirection, knockbackForce);
+            if (useRadialKnockback)
+            {
+                ApplyKnockbackRadial(finalKnockbackDir, knockbackForce);
+            }
+            else
+            {
+                ApplyKnockback(finalKnockbackDir, knockbackForce);
+            }
             StartCoroutine(InvincibilityFrames());
         }
     }
@@ -717,50 +824,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
     }
 
-    // Overload for knockback based on hitbox position
-    public virtual void HurtPlayer(int damage, Vector2 hitboxCenter, Vector2 knockbackForce)
-    {
-        // For explosion/radial knockback, use the Vector2 directly
-        // Extract direction sign from the knockback force itself for sprite flipping
-        float knockbackDir = Mathf.Sign(knockbackForce.x);
-        if (knockbackDir == 0) knockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.x);
-        if (knockbackDir == 0) knockbackDir = isFacingRight ? -1 : 1; // Fallback
-
-        // Use the full Vector2 knockback force, preserving both X and Y components
-        // Pass a flag to indicate this is radial knockback
-        ApplyKnockbackRadial(knockbackDir, knockbackForce);
-
-        // Handle damage and other effects
-        if (isInvincible || isDead) return;
-
-        // Cancel all active states
-        if (!hyperArmor)
-        {
-            isHurt = true;
-            CancelAllActions();
-            // Start timeout coroutine as safety fallback
-            if (hurtTimeoutCoroutine != null)
-            {
-                StopCoroutine(hurtTimeoutCoroutine);
-            }
-            hurtTimeoutCoroutine = StartCoroutine(HurtStateTimeout());
-        }
-        if (damageText != null)
-        {
-            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), damage, Color.red, Color.black);
-        }
-        StartCoroutine(animatorScript.HurtFlash(0.2f));
-        HealthManager.instance.TakeDamage(damage);
-        GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
-        isDead = HealthManager.instance.IsDead();
-        // Only apply invincibility if player didn't die
-        if (!isDead)
-        {
-            StartCoroutine(InvincibilityFrames());
-        }
-    }
-
     protected virtual void ApplyKnockback(float direction, Vector2 knockbackForce)
     {
         if (direction != (isFacingRight ? -1f : 1f))
@@ -821,16 +884,22 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         yield return new WaitForSeconds(deathAnimationDuration);
 
-        // Additional death logic can go here (e.g., respawn, game over screen, etc.)
-        // For now, we just disable the player
+        PlayerDied?.Invoke();
         OnDeathAnimationComplete();
+        Debug.Log("Attempted to respawn at checkpoint");
+        // Respawn at checkpoint
+        if (GameRestartManager.Instance != null)
+        {
+            GameRestartManager.Instance.RespawnCharacter();
+        }
     }
 
     protected virtual void OnDeathAnimationComplete()
     {
         // Override this method in child classes to handle what happens after death
         // For example: respawn, show game over, reload scene, etc.
-        gameObject.SetActive(false);
+        // Don't deactivate here - let the respawn system handle it
+        // gameObject.SetActive(false);
     }
 
     // Invincibility frames

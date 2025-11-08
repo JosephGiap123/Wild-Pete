@@ -33,7 +33,7 @@ public class AttackHitBoxGuard : MonoBehaviour
                 if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
-                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, parent.isFacingRight ? 1f : -1f, knockbackForce);
+                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, knockbackForce, parent.isFacingRight ? 1f : -1f);
                 if (audioManager != null) audioManager.PlayHit();
                 Debug.Log($"{(parent.isFacingRight ? 1f : -1f)} {knockbackForce}");
                 if (disableAfterFirstHit) DisableHitbox();

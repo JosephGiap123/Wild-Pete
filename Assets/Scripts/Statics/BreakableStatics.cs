@@ -14,18 +14,38 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
-    [Header("Audio")]
+        [Header("Audio")]
     [SerializeField] protected AudioClip hitSound;
     [SerializeField, Range(0f, 1f)] protected float hitVolume = 1f;
     [SerializeField] protected AudioClip breakSound;
     [SerializeField] protected AudioSource sfxSource;
     [SerializeField, Range(0f, 1f)] protected float breakVolume = 1f;
 
+    [SerializeField] protected int maxHealth = 10; // Store max health for respawn
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
+        
+        // Store max health
+        maxHealth = health;
+        
+        // Register with CheckpointManager (uses GameObject instance ID automatically)
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.RegisterStatic(this);
+        }
+    }
+    
+    protected virtual void OnDestroy()
+    {
+        // Unregister from CheckpointManager
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.UnregisterStatic(this);
+        }
     }
 
     public virtual void Damage(int dmg, Vector2 knockbackForce)
@@ -43,7 +63,6 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     protected virtual void Break()
     {
-        PlaySound(breakSound, breakVolume, true);
         Destroy(gameObject);
     }
 

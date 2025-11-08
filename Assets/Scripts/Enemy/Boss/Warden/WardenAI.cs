@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class WardenAI : EnemyBase, IHasFacing
+public class WardenAI : EnemyBase
 {
 
     [Header("Animations")]
@@ -12,8 +12,6 @@ public class WardenAI : EnemyBase, IHasFacing
 
     [Header("Movement Settings")]
     [SerializeField] protected float moveSpeed = 2f;
-    public bool isFacingRight = true;
-    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
 
@@ -88,10 +86,25 @@ public class WardenAI : EnemyBase, IHasFacing
     }
     public IEnumerator WaitForNearbyPlayer()
     {
-        yield return new WaitWhile(() => distanceToPlayer > 3f);
+        ChangeAnimationState("EntranceIdle");
+        yield return new WaitForSeconds(0.5f);
+        // Keep animation state updated while waiting (since AnimationControl won't run when inAttackState is true)
+        while (distanceToPlayer > 3f)
+        {
+            ChangeAnimationState("EntranceIdle");
+            yield return null;
+        }
+
+        // Play entrance animation when player is nearby
         ChangeAnimationState("Entrance");
         isInvincible = false;
         hpBarInteractor.ShowHealthBar(true);
+        // Update health bar visual when showing it (to reflect current health)
+        hpBarInteractor.UpdateHealthVisual();
+
+        // The entrance animation will call EndAttackState() via animation event
+        // which will set inAttackState = false when the animation completes
+        // No need to manually set it here
     }
 
     public void ChangeAnimationState(string newState)
@@ -210,16 +223,86 @@ public class WardenAI : EnemyBase, IHasFacing
         dropItemsOnDeath.DropItems();
         yield return new WaitForSeconds(2f); //wait for death animation to finish
         hpBarInteractor.ShowHealthBar(false);
+        Die();
+    }
+
+    protected override void Die()
+    {
         base.Die();
     }
 
-    public void FlipSprite()
+    public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
-        isFacingRight = !isFacingRight;
-        Vector3 localScale = transform.localScale;
-        projectileSpawnPoint.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 0 : 180);
-        localScale.x *= -1;
-        transform.localScale = localScale;
+        base.Respawn(position, facingRight);
+
+        // Reset all AI state variables
+        isDead = false;
+        isAttacking = 0;
+        inAttackState = true; // Keep in attack state until entrance animation completes
+        currentState = "Idle";
+        ult1ChainCount = 0;
+        isInvincible = true; // Will be set to false by WaitForNearbyPlayer coroutine
+
+        // Reset phase to 1 (phase should not persist across respawns)
+        phaseNum = 1;
+
+        // Reset all timers
+        ultimateTimer = 0f;
+        regularTimer = 0f;
+        rangedTimer = 0f;
+
+        // Reset movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        // Stop any active coroutines
+        StopAllCoroutines();
+
+        // Also stop coroutines on WardenAnimRelay (which runs Ult2LaserSpawn)
+        WardenAnimRelay animRelay = GetComponentInChildren<WardenAnimRelay>();
+        if (animRelay != null)
+        {
+            animRelay.StopAllCoroutines();
+        }
+
+        // Reset animation state
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+
+        // Hide health bar initially
+        if (hpBarInteractor != null)
+        {
+            hpBarInteractor.ShowHealthBar(false);
+            // Update health bar visual to reflect full health (will be shown when entrance completes)
+            hpBarInteractor.UpdateHealthVisual();
+        }
+
+        // Clean up any remaining lasers that might have been spawned (safety check)
+        GroundLaserBeam[] remainingLasers = FindObjectsByType<GroundLaserBeam>(FindObjectsSortMode.None);
+        foreach (GroundLaserBeam laser in remainingLasers)
+        {
+            if (laser != null && laser.gameObject != null)
+            {
+                Destroy(laser.gameObject);
+            }
+        }
+
+        // Restart the entrance sequence
+        StartCoroutine(WaitForNearbyPlayer());
+    }
+
+    public override void FlipSprite()
+    {
+        base.FlipSprite(); // Handle isFacingRight and sprite flip
+        // Rotate projectile spawn point to match facing direction
+        if (projectileSpawnPoint != null)
+        {
+            projectileSpawnPoint.localRotation = Quaternion.Euler(0, 0, isFacingRight ? 0 : 180);
+        }
     }
     public void EndAttack()
     {
@@ -407,6 +490,12 @@ public class WardenAI : EnemyBase, IHasFacing
         int count = 4 + 2 * phaseNum;
         for (int i = 0; i < count; i++)
         {
+            // Check if boss is still active and not dead before spawning each laser
+            if (isDead || !gameObject.activeSelf || !enabled)
+            {
+                yield break; // Stop spawning if boss is dead or inactive
+            }
+
             Vector3 newPos = new(player.position.x, transform.position.y, 0f);
             GroundLaserBeam laserScript = Instantiate(laserPrefab, newPos, Quaternion.identity).GetComponent<GroundLaserBeam>();
             laserScript.Initialize(newPos, laserDmg, laserKnockback, 0.3f);
