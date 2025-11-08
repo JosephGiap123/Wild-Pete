@@ -53,7 +53,17 @@ public class WardenAI : EnemyBase
     protected float distanceToPlayer = 100f;
 
     [SerializeField] BossHPBarInteractor hpBarInteractor;
+    [SerializeField] private WardenAudioManager audioManager;
     private Transform player;
+    protected override void Awake()
+    {
+        base.Awake();
+        if (!audioManager)
+        {
+            audioManager = GetComponent<WardenAudioManager>() ?? GetComponentInChildren<WardenAudioManager>();
+        }
+    }
+
     private void OnEnable()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
@@ -61,6 +71,7 @@ public class WardenAI : EnemyBase
     private void OnDisable()
     {
         GameManager.OnPlayerSet -= HandlePlayerSet;
+        audioManager?.StopRunLoop();
     }
     private void HandlePlayerSet(GameObject playerObj)
     {
@@ -144,13 +155,17 @@ public class WardenAI : EnemyBase
 
     protected void AnimationControl()
     {
+        bool shouldRunLoop = false;
+
         if (isDead)
         {
             ChangeAnimationState("Death");
+            UpdateRunLoopAudio(false);
             return;
         }
         else if (inAttackState)
         {
+            UpdateRunLoopAudio(false);
             return;
         }
         else if (isInAir)
@@ -163,23 +178,29 @@ public class WardenAI : EnemyBase
             {
                 ChangeAnimationState("Falling");
             }
+            UpdateRunLoopAudio(false);
+            return;
         }
         else
         {
             if (Mathf.Abs(rb.linearVelocity.x) > 0.25f)
             {
                 ChangeAnimationState("Run");
+                shouldRunLoop = true;
             }
             else
             {
                 ChangeAnimationState("Idle");
             }
         }
+
+        UpdateRunLoopAudio(shouldRunLoop);
     }
 
     public override void Hurt(int dmg, Vector2 knockbackForce)
     {
         if (isInvincible) return;
+        audioManager?.PlayHurt();
         StartCoroutine(base.DamageFlash(0.2f));
         health -= dmg;
         hpBarInteractor.UpdateHealthVisual();
@@ -219,6 +240,8 @@ public class WardenAI : EnemyBase
     protected IEnumerator Death()
     {
         isDead = true;
+        audioManager?.StopRunLoop();
+        audioManager?.PlayDeath();
         ZeroVelocity(); // Stop all movement
         dropItemsOnDeath.DropItems();
         yield return new WaitForSeconds(2f); //wait for death animation to finish
@@ -448,17 +471,21 @@ public class WardenAI : EnemyBase
             case 1: //melee chain 1
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
+                audioManager?.PlayMelee();
                 break;
             case 2: // melee chain 2
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
+                audioManager?.PlayMelee();
                 break;
             case 3:
                 ChangeAnimationState("RangedAttack");
+                audioManager?.PlayRangedAttack();
                 break;
             case 4: // ultimate 1 (slam down)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("Ultimate1Falling");
+                audioManager?.PlayTeleportSlam();
                 break;
             case 5: //ultimate 1 (landing slam)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[3]);
@@ -466,10 +493,12 @@ public class WardenAI : EnemyBase
                 break;
             case 6:
                 ChangeAnimationState("Ultimate2");
+                audioManager?.PlayGroundLasers();
                 break;
             case 7: //ultimate 3 (laser beam)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[4]);
                 ChangeAnimationState("Ultimate3");
+                audioManager?.PlayLaserBeam();
                 break;
             case 8:
                 ChangeAnimationState("Attack1Recovery");
@@ -607,6 +636,13 @@ public class WardenAI : EnemyBase
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
         projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
         return;
+    }
+
+    private void UpdateRunLoopAudio(bool shouldRun)
+    {
+        if (!audioManager) return;
+        if (shouldRun) audioManager.StartRunLoop();
+        else audioManager.StopRunLoop();
     }
 
     private void OnDrawGizmosSelected()

@@ -66,6 +66,21 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         Destroy(gameObject);
     }
 
+    public virtual void Restore(Vector2 position)
+    {
+        Restore();
+        transform.position = position;
+    }
+
+    public virtual void Restore()
+    {
+        health = Mathf.Max(health, 1);
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+    }
+
     public virtual IEnumerator DamageFlash(float duration)
     {
         sr.material.SetFloat("_FlashAmount", 1f);
