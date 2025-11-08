@@ -47,6 +47,11 @@ public class PeteMovement2D : BasePlayerMovement2D
     private void UpdateRunLoopSound()
     {
         if (!audioMgr) return;
+        if (LockpickFiveInARow.IsLockpickActive)
+        {
+            audioMgr.StopRunLoop();
+            return;
+        }
 
         bool shouldRunLoop =
             !isDead &&
@@ -65,6 +70,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
         {
+            audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
         if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
@@ -73,7 +79,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         }
         if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
-            ThrowAttack();
+            attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
@@ -203,14 +209,13 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
-    protected void ThrowAttack()
+    protected override IEnumerator ThrowAttack()
     {
-        // Play Throw animation
-        audioMgr.PlayThrow();
-        StartCoroutine(base.ThrowAttack());
-
-        // Stop run loop while throwing (optional)
+        // Play Throw animation + stop loop SFX while dynamite throw plays
+        audioMgr?.PlayThrow();
         audioMgr?.StopRunLoop();
+
+        yield return base.ThrowAttack();
     }
 
     // safety: stop loop if object disables/destroys

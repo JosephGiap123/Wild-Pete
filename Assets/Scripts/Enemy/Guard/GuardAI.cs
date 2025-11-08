@@ -5,6 +5,7 @@ using UnityEngine;
 public class GuardAI : EnemyBase
 {
     private enum GuardAttackType { None = 0, Melee = 1, Melee2 = 2, Ranged = 3, Dash = 4 }
+    private GuardAudioManager audioManager;
 
     private enum GuardState
     {
@@ -64,7 +65,7 @@ public class GuardAI : EnemyBase
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private BoxCollider2D boxAttackHitbox;
-    [SerializeField] private GenericAttackHitbox attackHitboxScript;
+    [SerializeField] private AttackHitBoxGuard attackHitboxScript;
 
     [Header("Patrol Settings")]
     [SerializeField] private Vector2[] patrolPoints;
@@ -99,6 +100,7 @@ public class GuardAI : EnemyBase
     {
         base.Awake();
         // Additional initialization if needed
+        audioManager = GetComponent<GuardAudioManager>() ?? GetComponentInChildren<GuardAudioManager>();
     }
 
     private void Start()
@@ -490,6 +492,7 @@ public class GuardAI : EnemyBase
         isDead = true;
         StopMoving(); // Stop all movement
         if (debugMode) Debug.Log("GuardAI: Death coroutine started, playing death animation...");
+        audioManager?.PlayDeath();
         dropItemsOnDeath.DropItems();
         yield return new WaitForSeconds(2f); //wait for death animation to finish
 
@@ -524,6 +527,7 @@ public class GuardAI : EnemyBase
         GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
         projScript.Initialize(rangedDamage, bulletSpeed, bulletLifeTime);
+        audioManager?.PlayShot();
         return;
     }
     public override void Hurt(int dmg, Vector2 knockbackForce)
@@ -536,6 +540,14 @@ public class GuardAI : EnemyBase
         StopMoving();
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         rb.linearVelocity += knockbackForce;
+        
+        if (audioManager != null)
+        {
+            if (health <= 0)
+                audioManager?.PlayDeath();
+            else
+                audioManager?.PlayHurt();
+        }
 
         // Clear ongoing/combo attack intent so we don't spam the same attack after stun
         isAttacking = 0;
@@ -591,7 +603,14 @@ public class GuardAI : EnemyBase
     void IsGroundedCheck()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
+        bool wasInAir = isInAir;
         isInAir = colliders.Length == 0;
+        
+        // Play run loop sound when landing and moving
+        if (wasInAir && !isInAir && Mathf.Abs(rb.linearVelocity.x) > 0.2f && audioManager != null)
+        {
+            audioManager?.StartRunLoop();
+        }
     }
 
     public void ChangeAnimationState(string newState)
@@ -614,6 +633,7 @@ public class GuardAI : EnemyBase
         }
         else if (isInAir)
         {
+            if (audioManager != null) audioManager?.StopRunLoop();
             if (rb.linearVelocity.y > 0.1f)
             {
                 ChangeAnimationState("Rising");
@@ -628,14 +648,17 @@ public class GuardAI : EnemyBase
             if (Mathf.Abs(rb.linearVelocity.x) > moveSpeed + 0.2f)
             {
                 ChangeAnimationState("Run");
+                if (audioManager != null) audioManager?.StartRunLoop();
             }
             else if (Mathf.Abs(rb.linearVelocity.x) > 0.2f)
             {
                 ChangeAnimationState("Walk");
+                if (audioManager != null) audioManager?.StartRunLoop();
             }
             else
             {
                 ChangeAnimationState("Idle");
+                if (audioManager != null) audioManager?.StopRunLoop();
             }
         }
     }
@@ -816,16 +839,19 @@ public class GuardAI : EnemyBase
                 isAttacking = 1;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
+                if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 2:
                 isAttacking = 2;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
+                if (audioManager != null) audioManager?.PlayMelee();
                 break;
             case 4:
                 isAttacking = 4;
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("AttackDash");
+                if (audioManager != null) audioManager?.PlayDash();
                 break;
             default:
                 break;

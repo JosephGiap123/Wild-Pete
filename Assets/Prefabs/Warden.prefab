@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &238143693276593872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4141905560760093521}
+  - component: {fileID: 1632042738502019196}
+  m_Layer: 0
+  m_Name: WardenAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4141905560760093521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238143693276593872}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.7999878, y: 0.96000016, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 496036332245576225}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1632042738502019196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238143693276593872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 914ba67a259727342af86b0b0a1dabb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  runLoop: {fileID: 8300000, guid: 5fee99e1ccc393c41b4362ab850514bb, type: 3}
+  meleeClips:
+  - {fileID: 8300000, guid: 3f6efccf4a7f2bc43a03619ee6d7e7e2, type: 3}
+  - {fileID: 8300000, guid: a0a15a470713b8d428ca3b1fe5ea82ac, type: 3}
+  - {fileID: 8300000, guid: b1bd864520db5974f99814d92915d8ed, type: 3}
+  rangedAttack: {fileID: 8300000, guid: e63a17e9c78828c4abe2643bee4a801f, type: 3}
+  teleportSlam: {fileID: 8300000, guid: 045e6a09a3f47f743b696c60fc0ca0c9, type: 3}
+  groundLasers: {fileID: 8300000, guid: a04035c198fdac945a32c80767804dbf, type: 3}
+  laserBeam: {fileID: 8300000, guid: eb376db9b45dc694f99512a12a6bd3be, type: 3}
+  hurt: {fileID: 0}
+  death: {fileID: 8300000, guid: 496ff05c11d51564daaffd84ad39602d, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.05
+  max3dDistance: 30
 --- !u!1 &2607281548831199066
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,6 +751,7 @@ Transform:
   - {fileID: 7600051325714117982}
   - {fileID: 619575574063777064}
   - {fileID: 4519676604523500934}
+  - {fileID: 4141905560760093521}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &7337193208649306649
@@ -743,9 +804,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c16fc8456157a4ab89ed34c0aca7cdec, type: 2}
   - {fileID: 11400000, guid: caf7ddf42b0cb43d9badecc999d389e4, type: 2}
   - {fileID: 11400000, guid: 4d7de26c733d6401b902d239f41c9065, type: 2}
+  isFacingRight: 1
   anim: {fileID: 2727749289623250478}
   moveSpeed: 4
-  isFacingRight: 1
   groundCheckBox: {fileID: 2663465241565738269}
   groundLayer:
     serializedVersion: 2

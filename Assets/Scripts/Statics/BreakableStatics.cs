@@ -14,7 +14,13 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     protected Rigidbody2D rb;
 
     [SerializeField] protected SpriteRenderer sr;
-    
+        [Header("Audio")]
+    [SerializeField] protected AudioClip hitSound;
+    [SerializeField, Range(0f, 1f)] protected float hitVolume = 1f;
+    [SerializeField] protected AudioClip breakSound;
+    [SerializeField] protected AudioSource sfxSource;
+    [SerializeField, Range(0f, 1f)] protected float breakVolume = 1f;
+
     [SerializeField] protected int maxHealth = 10; // Store max health for respawn
 
     protected virtual void Awake()
@@ -46,6 +52,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     {
         health -= dmg;
         Debug.Log(health);
+        PlaySound(hitSound, hitVolume);
         StartCoroutine(DamageFlash(0.2f));
         if (health <= 0)
         {
@@ -56,27 +63,21 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     protected virtual void Break()
     {
-        // Disable instead of destroy to allow respawn system to restore it
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
-    
-    // Restores the static to its original state at the specified position (for respawn system).
-    // position: Position to restore at. If Vector2.zero, keeps current position.
-    public virtual void Restore(Vector2? position = null)
+
+    public virtual void Restore(Vector2 position)
     {
-        health = maxHealth;
-        gameObject.SetActive(true);
-        
-        // Restore position if provided
-        if (position.HasValue && position.Value != Vector2.zero)
+        Restore();
+        transform.position = position;
+    }
+
+    public virtual void Restore()
+    {
+        health = Mathf.Max(health, 1);
+        if (!gameObject.activeSelf)
         {
-            transform.position = position.Value;
-        }
-        
-        // Reset physics
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
+            gameObject.SetActive(true);
         }
     }
 
@@ -85,5 +86,35 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         sr.material.SetFloat("_FlashAmount", 1f);
         yield return new WaitForSeconds(duration);
         sr.material.SetFloat("_FlashAmount", 0f);
+    }
+    protected void PlayHitSound()
+    {
+        PlaySound(hitSound, hitVolume);
+    }
+
+    private void PlaySound(AudioClip clip, float volume = 1f, bool useDetachedSource = false)
+    {
+        if (!clip) return;
+        volume = Mathf.Clamp01(volume <= 0f ? 1f : volume);
+
+        if (useDetachedSource)
+        {
+            AudioSource.PlayClipAtPoint(clip, transform.position, volume);
+            return;
+        }
+
+        if (!sfxSource)
+        {
+            sfxSource = GetComponent<AudioSource>();
+            if (!sfxSource)
+            {
+                sfxSource = gameObject.AddComponent<AudioSource>();
+                sfxSource.playOnAwake = false;
+                sfxSource.loop = false;
+                sfxSource.spatialBlend = 1f;
+            }
+        }
+
+        sfxSource.PlayOneShot(clip, volume);
     }
 }

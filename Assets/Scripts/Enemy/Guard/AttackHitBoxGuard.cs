@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class AttackHitBoxGuard : MonoBehaviour
 {
+    private GuardAudioManager audioManager;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private LayerMask staticMask;
     [SerializeField] private BoxCollider2D boxCol;
@@ -40,6 +41,7 @@ public class AttackHitBoxGuard : MonoBehaviour
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
                 targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, knockbackForce, parent.isFacingRight ? 1f : -1f);
+                if (audioManager != null) audioManager.PlayHit();
                 Debug.Log($"{(parent.isFacingRight ? 1f : -1f)} {knockbackForce}");
                 if (disableAfterFirstHit) DisableHitbox();
             }
@@ -53,6 +55,7 @@ public class AttackHitBoxGuard : MonoBehaviour
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit static");
                 targetRoot.GetComponent<BreakableStatics>().Damage(damage, new Vector2((parent.isFacingRight ? 1f : -1f) * knockbackForce.x, knockbackForce.y));
+                if (audioManager != null) audioManager.PlayHit();
                 if (disableAfterFirstHit) DisableHitbox();
             }
         }
@@ -65,6 +68,19 @@ public class AttackHitBoxGuard : MonoBehaviour
         boxCol.offset = new Vector2(localOffset.x, localOffset.y);
         boxCol.size = size;
         knockbackForce = knockback;
+    }
+
+    public void CustomizeHitbox(AttackHitboxInfo hitboxInfo)
+    {
+        if (hitboxInfo == null)
+        {
+            Debug.LogWarning("AttackHitBoxGuard: hitboxInfo is null.");
+            return;
+        }
+
+        playerMask = hitboxInfo.player;
+        staticMask = hitboxInfo.statics;
+        ChangeHitboxBox(hitboxInfo.hitboxOffset, hitboxInfo.hitboxSize, hitboxInfo.damage, hitboxInfo.knockbackForce);
     }
 
     public void ActivateBox()

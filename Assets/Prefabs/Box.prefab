@@ -323,6 +323,10 @@ MonoBehaviour:
   sr: {fileID: 4341665324301111070}
   particleEmitter: {fileID: 4024484180079263431, guid: 9527b8bad9d394a4390e56d3423e5291, type: 3}
   dropItemsOnDeath: {fileID: 363396052859599735}
+  hitSound: {fileID: 8300000, guid: f74703e2ee64dc74b896e92a5db2e585, type: 3}
+  breakSound: {fileID: 8300000, guid: 2bb79c0555453b741bb982ab32d7bfef, type: 3}
+  hitVolume: 1
+  breakVolume: 1
 --- !u!114 &363396052859599735
 MonoBehaviour:
   m_ObjectHideFlags: 0
