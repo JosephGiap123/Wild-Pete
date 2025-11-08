@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CheckpointManager : MonoBehaviour
 {
@@ -67,6 +69,51 @@ public class CheckpointManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Skip saving checkpoints for menu scenes
+        if (scene.name.Contains("Menu") || scene.name.Contains("menu"))
+        {
+            return;
+        }
+
+        // Save a checkpoint when the scene loads
+        // Wait a frame to ensure player and other objects are initialized
+        StartCoroutine(SaveCheckpointOnSceneLoad());
+    }
+
+    private IEnumerator SaveCheckpointOnSceneLoad()
+    {
+        // Wait a frame to ensure all objects are initialized
+        yield return null;
+
+        // Get player position (or spawn point if player doesn't exist yet)
+        Vector2 checkpointPosition = Vector2.zero;
+
+        if (GameManager.Instance != null && GameManager.Instance.player != null)
+        {
+            checkpointPosition = GameManager.Instance.player.transform.position;
+        }
+        else if (GameManager.Instance != null)
+        {
+            checkpointPosition = GameManager.Instance.transform.position;
+        }
+
+        // Save checkpoint at the player's spawn position
+        SaveCheckpoint(checkpointPosition);
+        Debug.Log($"Checkpoint auto-saved on scene load at {checkpointPosition}");
     }
 
     /// Saves a checkpoint at the given position and captures current game state.
