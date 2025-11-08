@@ -56,11 +56,11 @@ public class WardenAI : EnemyBase
     [SerializeField] private WardenAudioManager audioManager;
     private Transform player;
 
-    
+
     protected override void Awake()
     {
         base.Awake(); // This will try to register with CheckpointManager
-        
+
         if (!audioManager)
         {
             audioManager = GetComponent<WardenAudioManager>() ?? GetComponentInChildren<WardenAudioManager>();
@@ -71,11 +71,11 @@ public class WardenAI : EnemyBase
             CheckpointManager.Instance.RegisterEnemy(this);
         }
     }
-    
+
     private void OnEnable()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
-        
+
         // Try to register with CheckpointManager again (in case it wasn't ready during Awake())
         if (CheckpointManager.Instance != null)
         {
@@ -120,7 +120,7 @@ public class WardenAI : EnemyBase
     {
         ChangeAnimationState("EntranceIdle");
         yield return new WaitForSeconds(0.5f);
-        
+
         // Wait for player reference to be set
         while (player == null)
         {
@@ -132,7 +132,7 @@ public class WardenAI : EnemyBase
             ChangeAnimationState("EntranceIdle");
             yield return null;
         }
-        
+
         // Keep animation state updated while waiting (since AnimationControl won't run when inAttackState is true)
         while (distanceToPlayer > 3f)
         {
@@ -507,21 +507,17 @@ public class WardenAI : EnemyBase
             case 1: //melee chain 1
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
-                audioManager?.PlayMelee();
                 break;
             case 2: // melee chain 2
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
-                audioManager?.PlayMelee();
                 break;
             case 3:
                 ChangeAnimationState("RangedAttack");
-                audioManager?.PlayRangedAttack();
                 break;
             case 4: // ultimate 1 (slam down)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("Ultimate1Falling");
-                audioManager?.PlayTeleportSlam();
                 break;
             case 5: //ultimate 1 (landing slam)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[3]);
@@ -529,12 +525,10 @@ public class WardenAI : EnemyBase
                 break;
             case 6:
                 ChangeAnimationState("Ultimate2");
-                audioManager?.PlayGroundLasers();
                 break;
             case 7: //ultimate 3 (laser beam)
                 attackHitboxScript.CustomizeHitbox(attackHitboxes[4]);
                 ChangeAnimationState("Ultimate3");
-                audioManager?.PlayLaserBeam();
                 break;
             case 8:
                 ChangeAnimationState("Attack1Recovery");
@@ -595,15 +589,15 @@ public class WardenAI : EnemyBase
         {
             yield break; // Stop if player is null, boss is dead, or boss is inactive
         }
-        
+
         float targetX = player.position.x; // Capture player X position at start of teleport
-        
+
         ResetUltimateTimer(); // Reset the ultimate cooldown timer when the attack sequence begins
 
         rb.gravityScale = 0f;
         rb.transform.position = new(targetX, transform.position.y + 10f, 0f);
         yield return new WaitForSeconds(0.2f);
-        
+
         // Check again after wait to ensure boss is still in correct state
         if (isDead || !gameObject.activeSelf || !enabled || inAttackState == false)
         {
@@ -653,21 +647,21 @@ public class WardenAI : EnemyBase
                 ult1ChainCount = 0; // Reset chain count if boss state changed
                 yield break;
             }
-            
+
             ult1ChainCount++;
             if (ult1ChainCount < 3)
             {
                 // Chain directly into the next Ult 1 (Teleport)
                 // Wait for a brief moment before chaining
                 yield return new WaitForSeconds(0.5f);
-                
+
                 // Final check before chaining
                 if (isDead || !gameObject.activeSelf || !enabled || inAttackState == false)
                 {
                     ult1ChainCount = 0; // Reset chain count if boss state changed
                     yield break;
                 }
-                
+
                 Teleport();
                 yield break; // Exit the coroutine, the next Teleport will start a new one
             }
