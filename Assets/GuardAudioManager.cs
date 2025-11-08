@@ -17,7 +17,7 @@ public class GuardAudioManager : MonoBehaviour
     [SerializeField] private AudioClip death;
     [SerializeField] private AudioClip runLoop;
     [SerializeField] private AudioClip hit;
-  
+
 
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
