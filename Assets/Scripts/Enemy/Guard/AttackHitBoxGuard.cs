@@ -30,6 +30,13 @@ public class AttackHitBoxGuard : MonoBehaviour
             {
                 GameObject targetRoot = other.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
+                
+                // Don't attack if player is dead
+                if (HealthManager.instance != null && HealthManager.instance.IsDead())
+                {
+                    return;
+                }
+
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
                 targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, knockbackForce, parent.isFacingRight ? 1f : -1f);
