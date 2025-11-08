@@ -86,7 +86,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.11666667
-    functionName: CallRectHitbox
+    functionName: CallActivateHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

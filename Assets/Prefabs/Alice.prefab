@@ -95,7 +95,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9093190211906913712}
   - component: {fileID: 5102368542197912802}
-  - component: {fileID: 2599902317028416662}
   - component: {fileID: 6182104108368122417}
   m_Layer: 13
   m_Name: AttackHitbox
@@ -155,27 +154,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.8
---- !u!114 &2599902317028416662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807643912824950603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922f4bd8eecbb417fa8fd3e6e380f9d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 512
-  staticMask:
-    serializedVersion: 2
-    m_Bits: 16384
-  circleCol: {fileID: 5102368542197912802}
-  boxCol: {fileID: 6182104108368122417}
-  disableAfterFirstHit: 0
 --- !u!61 &6182104108368122417
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -455,9 +433,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8134312220912395196}
-  - component: {fileID: 8862283075697551678}
   - component: {fileID: 2802167836047707247}
+  - component: {fileID: 8862283075697551678}
   - component: {fileID: 8607775664743977173}
+  - component: {fileID: 7824528446332788342}
   m_Layer: 6
   m_Name: Alice
   m_TagString: Player
@@ -492,20 +471,6 @@ Transform:
   - {fileID: 6923331283735645932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8862283075697551678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3172980308799934302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d293c22d8a346819538f9b6922a4ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1601049201458241287}
-  sprite: {fileID: 4187117937373275561}
 --- !u!114 &2802167836047707247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,29 +518,33 @@ MonoBehaviour:
   trail: {fileID: 2179199224452851584}
   bulletOrigin: {fileID: 5187375710118761005}
   bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}
-  hitboxManager: {fileID: 2599902317028416662}
+  hitboxManager: {fileID: 7824528446332788342}
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
   dynamitePrefab: {fileID: 5763358536492206197, guid: 2ff69534917ef48c49d5c1f86262b09a, type: 3}
+  attackHitboxes:
+  - {fileID: 11400000, guid: b8573591ded644d0aa2b3c5dcda21a6a, type: 2}
+  - {fileID: 11400000, guid: 7474041a6b3e3418c8e35335e09dba3c, type: 2}
+  - {fileID: 11400000, guid: 973a8a5699f1f49a08163a2ede8fbcdc, type: 2}
+  - {fileID: 11400000, guid: b57c890bad42448f394f32da48faae6f, type: 2}
+  - {fileID: 11400000, guid: 99f66e4462eed4e7da74b22b25bb78d3, type: 2}
+  - {fileID: 11400000, guid: 2fc63c35d21254a65b2b8652e8fd8e6d, type: 2}
   runMinSpeed: 0.2
-  throwDuration: 0.5
-  melee1Damage: 4
-  melee1Size: 0.8
-  melee1Offset: {x: 0.5, y: 0}
-  melee1Knockback: {x: 0.5, y: 10}
-  melee2Damage: 5
-  melee2Size: 0.8
-  melee2Offset: {x: 0.5, y: 0}
-  melee2Knockback: {x: 4, y: -6}
-  crouchAttackDamage: 2
-  crouchAttackSize: {x: 1, y: 0.55}
-  crouchAttackOffset: {x: 0.3, y: -0.25}
-  crouchAttackKnockback: {x: 2, y: 1}
-  aerialAttackDamage: 5
-  aerialAttackSize: 1
-  aerialAttackOffset: {x: 0, y: 0}
-  aerialAttackKnockback: {x: 6, y: 0}
+--- !u!114 &8862283075697551678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172980308799934302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d293c22d8a346819538f9b6922a4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1601049201458241287}
+  sprite: {fileID: 4187117937373275561}
 --- !u!50 &8607775664743977173
 Rigidbody2D:
   serializedVersion: 5
@@ -603,6 +572,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7824528446332788342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172980308799934302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCol: {fileID: 6182104108368122417}
+  circleCol: {fileID: 5102368542197912802}
+  parentScript: {fileID: 2802167836047707247}
 --- !u!1 &3244053087830911747
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,7 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 2802167836047707247}
-  hitboxScript: {fileID: 2599902317028416662}
+  hitboxScript: {fileID: 7824528446332788342}
   audioMgr: {fileID: 2581573120976467173}
 --- !u!95 &1601049201458241287
 Animator:

@@ -64,6 +64,5 @@ public class ExplosionHitBox : MonoBehaviour
         float knockbackMagnitude = maxKnockback / effectiveDistance;
 
         return normalizedDirection * knockbackMagnitude;
-
     }
 }

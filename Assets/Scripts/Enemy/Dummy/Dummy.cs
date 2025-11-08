@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Dummy : EnemyBase
+public class Dummy : EnemyBase, IHasFacing
 {
     [SerializeField] Animator anim;
     private bool hurtStun = false;
     Coroutine hurtCoroutine;
+    public bool IsFacingRight => transform.lossyScale.x > 0; // IHasFacing implementation (based on transform scale)
 
     protected override void Awake()
     {

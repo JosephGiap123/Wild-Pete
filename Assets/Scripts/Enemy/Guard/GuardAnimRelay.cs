@@ -3,7 +3,7 @@ using UnityEngine;
 public class GuardAnimRelay : MonoBehaviour
 {
     [SerializeField] GuardAI guardAI;
-    [SerializeField] AttackHitBoxGuard hitboxScript;
+    [SerializeField] GenericAttackHitbox hitboxScript;
 
     public void CallEndAttack()
     {
@@ -11,7 +11,7 @@ public class GuardAnimRelay : MonoBehaviour
     }
     public void CallBoxHitbox()
     {
-        hitboxScript.ActivateBox();
+        hitboxScript.ActivateHitbox();
     }
     public void CallDisableHitbox()
     {

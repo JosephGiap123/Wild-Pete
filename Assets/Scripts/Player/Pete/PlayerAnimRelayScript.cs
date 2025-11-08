@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PlayerAnimRelayScript : MonoBehaviour
+public class PeteAnimRelay : MonoBehaviour
 {
 
     [SerializeField] PeteMovement2D movementScript;
-    [SerializeField] AttackHitbox hitboxScript;
+    [SerializeField] GenericAttackHitbox hitboxScript;
     [SerializeField] PeteAudioManager audioMgr;
 
     public void CallEndAttack()
@@ -12,14 +12,9 @@ public class PlayerAnimRelayScript : MonoBehaviour
         movementScript.EndAttack();
     }
 
-    public void CallRectHitbox()
+    public void CallActivateHitbox()
     {
-        hitboxScript.ActivateBox();
-    }
-
-    public void CallCircHitbox()
-    {
-        hitboxScript.ActivateCircle();
+        hitboxScript.ActivateHitbox();
     }
 
     public void CallDisableHitbox()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7801515584067031802}
   - component: {fileID: 7495216431741632230}
   - component: {fileID: 3735867727227939590}
-  - component: {fileID: 6125138577041459654}
+  - component: {fileID: 350655069283918725}
   m_Layer: 0
   m_Name: ExplosionCloud
   m_TagString: Untagged
@@ -126,6 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59280f607d7445b8b328e2c67e274ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionHitbox: {fileID: 11400000, guid: 53b60661f398241cf8b01e1330071941, type: 2}
+  attackHitbox: {fileID: 350655069283918725}
 --- !u!114 &7495216431741632230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +216,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.3}
   m_Radius: 0.8201362
---- !u!114 &6125138577041459654
+--- !u!114 &350655069283918725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,16 +225,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1307652572775246841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e7a2e777058a4977a9003b7119573fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitbox: {fileID: 3735867727227939590}
-  enemy:
-    serializedVersion: 2
-    m_Bits: 512
-  player:
-    serializedVersion: 2
-    m_Bits: 64
-  statics:
-    serializedVersion: 2
-    m_Bits: 16384
+  boxCol: {fileID: 0}
+  circleCol: {fileID: 3735867727227939590}
+  parentScript: {fileID: 7801515584067031802}
