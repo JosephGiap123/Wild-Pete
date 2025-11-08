@@ -60,10 +60,8 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         gameObject.SetActive(false);
     }
     
-    /// <summary>
-    /// Restores the static to its original state at the specified position (for respawn system).
-    /// </summary>
-    /// <param name="position">Position to restore at. If Vector2.zero, keeps current position.</param>
+    // Restores the static to its original state at the specified position (for respawn system).
+    // position: Position to restore at. If Vector2.zero, keeps current position.
     public virtual void Restore(Vector2? position = null)
     {
         health = maxHealth;

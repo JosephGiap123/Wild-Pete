@@ -51,10 +51,8 @@ public class GameRestartManager : MonoBehaviour
         PauseController.SetPause(true); //pause game
     }
 
-    /// <summary>
-    /// Respawns the character at the specified checkpoint location.
-    /// If no location is provided, uses the last saved checkpoint.
-    /// </summary>
+    // Respawns the character at the specified checkpoint location.
+    // If no location is provided, uses the last saved checkpoint.
     public void RespawnCharacter(Vector2? checkpointLocation = null)
     {
         // Clean up all active projectiles and lasers before respawning
@@ -80,9 +78,7 @@ public class GameRestartManager : MonoBehaviour
         CharacterRespawned?.Invoke(respawnLocation);
     }
 
-    /// <summary>
-    /// Destroys all active projectiles and lasers in the scene.
-    /// </summary>
+    // Destroys all active projectiles and lasers in the scene.
     private void CleanupProjectilesAndLasers()
     {
         // Destroy all enemy projectiles

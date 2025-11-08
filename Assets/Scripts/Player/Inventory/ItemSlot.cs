@@ -73,21 +73,20 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // Check if the slot is empty based on quantity or name
         if (quantity <= 0 || IsEmpty())
         {
-            // Reset ALL data and UI elements to empty state
-            ClearSlot();
+            // Reset UI elements to empty state (don't call ClearSlot to avoid recursion)
             itemIcon.sprite = defaultIcon;
             itemIcon.enabled = false;
-
+            quantityText.text = "0";
+            quantityText.enabled = false;
         }
         else
         {
             itemIcon.sprite = itemSprite;
             itemIcon.enabled = true;
+            quantityText.text = quantity.ToString();
+            // The text is enabled ONLY if the quantity is greater than 1 (a stack)
+            quantityText.enabled = quantity > 1;
         }
-
-        quantityText.text = quantity.ToString();
-        // The text is enabled ONLY if the quantity is greater than 1 (a stack)
-        quantityText.enabled = quantity > 1;
     }
 
 
@@ -125,11 +124,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDesc = null;
         dropSprite = defaultIcon;
         PlayerInventory.instance.ClearDescriptionPanel();
+        
+        // Update UI to reflect cleared state
+        UpdateUI();
     }
 
-    /// <summary>
-    /// Directly restores slot data from checkpoint. Used for restoring saved inventory state.
-    /// </summary>
+    // Directly restores slot data from checkpoint. Used for restoring saved inventory state.
     public void RestoreSlot(ItemSO itemData, int savedQuantity)
     {
         if (itemData == null || savedQuantity <= 0)

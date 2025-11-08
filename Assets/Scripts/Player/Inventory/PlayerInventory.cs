@@ -192,9 +192,7 @@ public class PlayerInventory : MonoBehaviour
         return count;
     }
 
-    /// <summary>
-    /// Restores inventory state from checkpoint data.
-    /// </summary>
+    // Restores inventory state from checkpoint data.
     public void RestoreInventory(List<CheckpointManager.InventorySlotData> savedSlots)
     {
         if (itemSlots == null || savedSlots == null)
@@ -213,56 +211,68 @@ public class PlayerInventory : MonoBehaviour
         ClearInventory();
 
         // Restore each slot
-        for (int i = 0; i < itemSlots.Length && i < savedSlots.Count; i++)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i] == null) continue;
 
-            var savedSlot = savedSlots[i];
-            
-            // Skip empty slots
-            if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
+            // If we have saved data for this slot, restore it
+            if (i < savedSlots.Count)
             {
-                continue;
-            }
-
-            // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
-            ItemSO foundItemSO = null;
-            
-            // First check consumableSOs (for consumables)
-            if (consumableSOs != null)
-            {
-                foreach (ConsumableSO consumableSO in consumableSOs)
+                var savedSlot = savedSlots[i];
+                
+                // If slot is empty in checkpoint, ensure it's cleared
+                if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
                 {
-                    if (consumableSO != null && consumableSO.itemName == savedSlot.itemName)
+                    itemSlots[i].ClearSlot();
+                    continue;
+                }
+
+                // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
+                ItemSO foundItemSO = null;
+                
+                // First check consumableSOs (for consumables)
+                if (consumableSOs != null)
+                {
+                    foreach (ConsumableSO consumableSO in consumableSOs)
                     {
-                        foundItemSO = consumableSO; // ConsumableSO extends ItemSO, so this works
-                        break;
+                        if (consumableSO != null && consumableSO.itemName == savedSlot.itemName)
+                        {
+                            foundItemSO = consumableSO; // ConsumableSO extends ItemSO, so this works
+                            break;
+                        }
                     }
                 }
-            }
-            
-            // If not found in consumables, check regular itemSOs
-            if (foundItemSO == null && itemSOs != null)
-            {
-                foreach (ItemSO itemSO in itemSOs)
+                
+                // If not found in consumables, check regular itemSOs
+                if (foundItemSO == null && itemSOs != null)
                 {
-                    if (itemSO != null && itemSO.itemName == savedSlot.itemName)
+                    foreach (ItemSO itemSO in itemSOs)
                     {
-                        foundItemSO = itemSO;
-                        break;
+                        if (itemSO != null && itemSO.itemName == savedSlot.itemName)
+                        {
+                            foundItemSO = itemSO;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (foundItemSO != null)
-            {
-                // Directly restore the slot data (don't use AddItem which can stack items)
-                // This ensures items are restored to their exact saved slot positions
-                itemSlots[i].RestoreSlot(foundItemSO, savedSlot.quantity);
+                if (foundItemSO != null)
+                {
+                    // Directly restore the slot data (don't use AddItem which can stack items)
+                    // This ensures items are restored to their exact saved slot positions
+                    itemSlots[i].RestoreSlot(foundItemSO, savedSlot.quantity);
+                }
+                else
+                {
+                    Debug.LogWarning($"PlayerInventory: Could not find ItemSO for item '{savedSlot.itemName}'");
+                    // Clear the slot if we can't find the ItemSO
+                    itemSlots[i].ClearSlot();
+                }
             }
             else
             {
-                Debug.LogWarning($"PlayerInventory: Could not find ItemSO for item '{savedSlot.itemName}'");
+                // No saved data for this slot (checkpoint had fewer slots) - ensure it's cleared
+                itemSlots[i].ClearSlot();
             }
         }
     }

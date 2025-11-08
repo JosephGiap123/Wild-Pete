@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// Checkpoint trigger that saves the player's position and game state when touched.
-/// </summary>
+// Checkpoint trigger that saves the player's position and game state when touched.
 public class Checkpoint : MonoBehaviour
 {
     [Header("Checkpoint Settings")]
@@ -34,9 +32,7 @@ public class Checkpoint : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Activates this checkpoint and saves the game state.
-    /// </summary>
+    // Activates this checkpoint and saves the game state.
     public void ActivateCheckpoint()
     {
         if (CheckpointManager.Instance != null)
@@ -58,9 +54,7 @@ public class Checkpoint : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Manually sets this checkpoint as active (for visual purposes).
-    /// </summary>
+    // Manually sets this checkpoint as active (for visual purposes).
     public void SetActive(bool active)
     {
         isActive = active;

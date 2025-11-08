@@ -118,9 +118,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         GameRestartManager.CharacterRespawned -= OnRespawn;
     }
 
-    /// <summary>
-    /// Handles respawning the player at the checkpoint location.
-    /// </summary>
+    // Handles respawning the player at the checkpoint location.
     protected virtual void OnRespawn(Vector2 checkpointLocation)
     {
         // Restore checkpoint state first

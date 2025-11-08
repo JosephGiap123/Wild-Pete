@@ -324,10 +324,8 @@ public class CheckpointManager : MonoBehaviour
         return currentCheckpoint != null;
     }
 
-    /// <summary>
-    /// Registers an item to be tracked by the checkpoint system.
-    /// Uses the GameObject's instance ID as the unique identifier.
-    /// </summary>
+    // Registers an item to be tracked by the checkpoint system.
+    // Uses the GameObject's instance ID as the unique identifier.
     public void RegisterItem(Item item)
     {
         if (item != null)
@@ -337,9 +335,7 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Unregisters an item from tracking.
-    /// </summary>
+    // Unregisters an item from tracking.
     public void UnregisterItem(Item item)
     {
         if (item != null)
@@ -348,10 +344,8 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Restores items on the map from checkpoint data.
-    /// Uses PlayerInventory's item atlas (itemSOs) to find item data.
-    /// </summary>
+    // Restores items on the map from checkpoint data.
+    // Uses PlayerInventory's item atlas (itemSOs) to find item data.
     private void RestoreItems(List<ItemData> savedItems)
     {
         if (savedItems == null || savedItems.Count == 0) return;

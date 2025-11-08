@@ -51,12 +51,10 @@ public class EnemyBase : MonoBehaviour, IHasFacing
         return;
     }
 
-    /// <summary>
-    /// Respawns the enemy at the specified position (or spawn point if not provided) with full health.
-    /// Called by checkpoint system to restore enemies that were alive at checkpoint time.
-    /// </summary>
-    /// <param name="position">Position to respawn at. If Vector2.zero, uses spawn point.</param>
-    /// <param name="facingRight">Facing direction to restore. If null, keeps current facing.</param>
+    // Respawns the enemy at the specified position (or spawn point if not provided) with full health.
+    // Called by checkpoint system to restore enemies that were alive at checkpoint time.
+    // position: Position to respawn at. If Vector2.zero, uses spawn point.
+    // facingRight: Facing direction to restore. If null, keeps current facing.
     public virtual void Respawn(Vector2? position = null, bool? facingRight = null)
     {
         Vector2 respawnPosition = position.HasValue && position.Value != Vector2.zero 
@@ -128,10 +126,8 @@ public class EnemyBase : MonoBehaviour, IHasFacing
         return maxHealth;
     }
 
-    /// <summary>
-    /// Flips the sprite horizontally by inverting the X scale.
-    /// Override this method to add additional flip logic (e.g., rotating projectile spawn points).
-    /// </summary>
+    // Flips the sprite horizontally by inverting the X scale.
+    // Override this method to add additional flip logic (e.g., rotating projectile spawn points).
     public virtual void FlipSprite()
     {
         isFacingRight = !isFacingRight;
