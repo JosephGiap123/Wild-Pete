@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Unity.Cinemachine;
 
-public abstract class BasePlayerMovement2D : MonoBehaviour
+public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -12,6 +12,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public float minJumpPower = 3f; // Minimum jump height if button is tapped
     protected float horizontalInput;
     public bool isFacingRight = true;
+    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     protected bool weaponEquipped = true;
     protected bool isGrounded;
     protected bool isAttacking = false;
@@ -79,11 +80,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected AttackHitbox hitboxManager;
+    [SerializeField] protected GenericAttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
     [SerializeField] protected GameObject damageText;
     [SerializeField] protected GameObject dynamitePrefab;
+    public AttackHitboxInfo[] attackHitboxes;
 
     protected GameObject bulletInstance;
 
@@ -702,7 +704,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             trail.emitting = false;
 
         if (hitboxManager != null)
-            hitboxManager.DisableAll();
+            hitboxManager.DisableHitbox();
 
         // Reset wall slide
         isWallSliding = false;
@@ -878,11 +880,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             case 0:
             case 1:
-                hitboxManager.ChangeHitboxBox(new(0.6f, 0f), new(0.6f, 0.4f), new(1f, 0f), 1);
+                hitboxManager.CustomizeHitbox(attackHitboxes[0]);
                 animatorScript.ChangeAnimationState(playerStates.Punch1);
                 break;
             case 2:
-                hitboxManager.ChangeHitboxBox(new(0.7f, 0f), new(0.8f, 0.4f), new(3f, 0f), 3);
+                hitboxManager.CustomizeHitbox(attackHitboxes[1]);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
                 attackTimer = attackCooldown;
                 break;

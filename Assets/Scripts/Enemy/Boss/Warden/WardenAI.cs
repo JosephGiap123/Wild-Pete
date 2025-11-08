@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class WardenAI : EnemyBase
+public class WardenAI : EnemyBase, IHasFacing
 {
 
     [Header("Animations")]
@@ -16,6 +13,7 @@ public class WardenAI : EnemyBase
     [Header("Movement Settings")]
     [SerializeField] protected float moveSpeed = 2f;
     public bool isFacingRight = true;
+    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
 
@@ -27,37 +25,14 @@ public class WardenAI : EnemyBase
     protected int isAttacking = 0;
 
     [Header("Combat Stats")]
-    [SerializeField] protected int melee1Dmg = 5;
-    [SerializeField] protected Vector2 melee1Offset;
-    [SerializeField] protected Vector2 melee1Size;
-    [SerializeField] protected Vector2 melee1Knockback = new(5f, 2f);
-    [SerializeField] protected Vector2 melee2Offset;
-    [SerializeField] protected Vector2 melee2Size;
-    [SerializeField] protected int melee2Dmg = 8;
-    [SerializeField] protected Vector2 melee2Knockback = new(7f, 3f);
     [SerializeField] protected int rangedDmg = 6;
     [SerializeField] protected float rangedSpeed = 20f;
     [SerializeField] protected float rangedLifeSpan = 4f;
     [SerializeField] protected Vector2 rangedKnockback = new(4f, 1f);
-    [SerializeField] protected int ultimate1FallingDmg = 4; //teleport slam, this dmg represents the initial slam part.
-    [SerializeField] protected int ultimate1LandingDmg = 4;
-    [SerializeField] protected Vector2 ultimate1FallingHitboxOffset;
-    [SerializeField] protected Vector2 ultimate1FallingHitboxSize;
-    [SerializeField] protected Vector2 ultimate1FallingKnockback = new(10f, -5f);
-
-    [SerializeField] protected Vector2 ultimate1LandingHitboxOffset;
-    [SerializeField] protected Vector2 ultimate1LandingHitboxSize;
-    [SerializeField] protected Vector2 ultimate1LandingKnockback = new(10f, -5f);
-    [SerializeField] protected int ultimate2Dmg = 6; //ground slam, lasers come from ground.
-    [SerializeField] protected Vector2 ultimate2Knockback = new(8f, 4f);
-    [SerializeField] protected int ultimate3Dmg = 3; //laser beam, continuous hits.
-    [SerializeField] protected Vector2 ultimate3Knockback = new(12f, 6f);
-    [SerializeField] protected Vector2 ultimate3HitboxOffset;
-    [SerializeField] protected Vector2 ultimate3HitboxSize;
     [SerializeField] protected Vector2 laserKnockback;
     [SerializeField] protected int laserDmg;
 
-    [SerializeField] protected float ultimateCooldown = 4f;
+    [SerializeField] protected float ultimateCooldown = 5f;
     [SerializeField] protected float regularAttackCooldown = 1f;
     [SerializeField] protected float rangedAttackCooldown = 3f;
     private float ultimateTimer = 0f;
@@ -73,7 +48,7 @@ public class WardenAI : EnemyBase
     [SerializeField] private GameObject laserPrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private BoxCollider2D boxAttackHitbox;
-    [SerializeField] private WardenAttackHitbox attackHitboxScript;
+    [SerializeField] private GenericAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject slamParticlePrefab;
     [SerializeField] private GameObject phaseChangeParticles;
     private int ult1ChainCount = 0;
@@ -202,6 +177,7 @@ public class WardenAI : EnemyBase
         }
         if (health <= 0)
         {
+            isInvincible = true;
             StartCoroutine(Death());
         }
         else if (health <= maxHealth * 0.66f && phaseNum < 2) //swap phases
@@ -262,7 +238,7 @@ public class WardenAI : EnemyBase
 
     public void ActivateHitbox()
     {
-        attackHitboxScript.ActivateBox();
+        attackHitboxScript.ActivateHitbox();
     }
 
     public void DisableHitbox()
@@ -387,29 +363,29 @@ public class WardenAI : EnemyBase
         switch (attackNum)
         {
             case 1: //melee chain 1
-                attackHitboxScript.ChangeHitboxBox(new Vector2(1.0f, 0.5f), new Vector2(2.0f, 1.5f), melee1Dmg, melee1Knockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
                 ChangeAnimationState("Attack1");
                 break;
             case 2: // melee chain 2
-                attackHitboxScript.ChangeHitboxBox(new Vector2(1.5f, 0.5f), new Vector2(2.5f, 1.5f), melee2Dmg, melee2Knockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[1]);
                 ChangeAnimationState("Attack2");
                 break;
             case 3:
                 ChangeAnimationState("RangedAttack");
                 break;
             case 4: // ultimate 1 (slam down)
-                attackHitboxScript.ChangeHitboxBox(ultimate1FallingHitboxOffset, ultimate1FallingHitboxSize, ultimate1FallingDmg, ultimate1FallingKnockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[2]);
                 ChangeAnimationState("Ultimate1Falling");
                 break;
             case 5: //ultimate 1 (landing slam)
-                attackHitboxScript.ChangeHitboxBox(ultimate1LandingHitboxOffset, ultimate1LandingHitboxSize, ultimate1LandingDmg, ultimate1LandingKnockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[3]);
                 ChangeAnimationState("Ultimate1Landing");
                 break;
             case 6:
                 ChangeAnimationState("Ultimate2");
                 break;
             case 7: //ultimate 3 (laser beam)
-                attackHitboxScript.ChangeHitboxBox(ultimate3HitboxOffset, ultimate3HitboxSize, ultimate3Dmg, ultimate3Knockback);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[4]);
                 ChangeAnimationState("Ultimate3");
                 break;
             case 8:
