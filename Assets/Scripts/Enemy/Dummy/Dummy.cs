@@ -49,4 +49,32 @@ public class Dummy : EnemyBase
         hurtStun = false;
     }
 
+    public override void Respawn(Vector2? position = null, bool? facingRight = null)
+    {
+        base.Respawn(position, facingRight);
+        
+        // Reset state variables
+        hurtStun = false;
+        
+        // Stop any active coroutines
+        if (hurtCoroutine != null)
+        {
+            StopCoroutine(hurtCoroutine);
+            hurtCoroutine = null;
+        }
+        StopAllCoroutines();
+        
+        // Reset animation state
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+        
+        // Reset movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+
 }

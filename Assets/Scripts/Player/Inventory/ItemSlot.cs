@@ -61,7 +61,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         // Safety check for UI references
         if (itemIcon == null || quantityText == null)
@@ -73,21 +73,20 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // Check if the slot is empty based on quantity or name
         if (quantity <= 0 || IsEmpty())
         {
-            // Reset ALL data and UI elements to empty state
-            ClearSlot();
+            // Reset UI elements to empty state (don't call ClearSlot to avoid recursion)
             itemIcon.sprite = defaultIcon;
             itemIcon.enabled = false;
-
+            quantityText.text = "0";
+            quantityText.enabled = false;
         }
         else
         {
             itemIcon.sprite = itemSprite;
             itemIcon.enabled = true;
+            quantityText.text = quantity.ToString();
+            // The text is enabled ONLY if the quantity is greater than 1 (a stack)
+            quantityText.enabled = quantity > 1;
         }
-
-        quantityText.text = quantity.ToString();
-        // The text is enabled ONLY if the quantity is greater than 1 (a stack)
-        quantityText.enabled = quantity > 1;
     }
 
 
@@ -125,6 +124,29 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDesc = null;
         dropSprite = defaultIcon;
         PlayerInventory.instance.ClearDescriptionPanel();
+        
+        // Update UI to reflect cleared state
+        UpdateUI();
+    }
+
+    // Directly restores slot data from checkpoint. Used for restoring saved inventory state.
+    public void RestoreSlot(ItemSO itemData, int savedQuantity)
+    {
+        if (itemData == null || savedQuantity <= 0)
+        {
+            ClearSlot();
+            return;
+        }
+
+        itemSO = itemData;
+        itemName = itemData.itemName;
+        itemSprite = itemData.icon;
+        maxStackSize = itemData.maxStackSize;
+        itemDesc = itemData.itemDesc;
+        quantity = savedQuantity;
+        dropSprite = itemData.dropIcon;
+
+        UpdateUI();
     }
 
     public bool DecreaseQuantity(int amount)
@@ -138,7 +160,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             quantity = 0;
         }
-        UpdateUI();
+        
+        // If quantity reaches 0, clear the slot completely
+        if (quantity <= 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            UpdateUI();
+        }
         return true;
     }
 
@@ -152,6 +183,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
         if (thisItemSelected)
         {
+            // Don't allow using items with quantity 0
+            if (quantity <= 0 || IsEmpty())
+            {
+                Debug.LogWarning("ItemSlot: Cannot use item - quantity is 0 or slot is empty!");
+                return;
+            }
+            
             // Find this slot's index in the inventory array
             int slotIndex = -1;
             for (int i = 0; i < PlayerInventory.instance.itemSlots.Length; i++)

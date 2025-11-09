@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GenEnemy : EnemyBase
+public class GenEnemy : EnemyBase, IHasFacing
 {
     [Header("Components")]
     [SerializeField] private Animator anim;
@@ -20,6 +20,7 @@ public class GenEnemy : EnemyBase
     private int currentPatrolIndex = 0;
     private Transform player;
     private bool facingRight = true;
+    public bool IsFacingRight => facingRight; // IHasFacing implementation
 
     private bool hurtStun = false;
     private Coroutine hurtCoroutine;
@@ -268,7 +269,7 @@ public class GenEnemy : EnemyBase
         anim.Play("Idle");
     }
 
-    public void EndHurtState()
+    public override void EndHurtState()
     {
         hurtStun = false;
     }

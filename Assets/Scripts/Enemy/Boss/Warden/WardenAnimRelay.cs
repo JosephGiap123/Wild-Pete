@@ -3,6 +3,7 @@ using UnityEngine;
 public class WardenAnimRelay : MonoBehaviour
 {
     [SerializeField] WardenAI wardenAI;
+    [SerializeField] WardenAudioManager audioManager;
     public void CallEndAttack()
     {
         wardenAI.EndAttack();
@@ -15,12 +16,6 @@ public class WardenAnimRelay : MonoBehaviour
     {
         wardenAI.DisableHitbox();
     }
-
-    // public void CallSpawnProjectile()
-    // {
-    //     wardenAI.SpawnProjectile();
-    // }
-
     public void CallEndHurt()
     {
         wardenAI.EndHurtState();
@@ -81,4 +76,24 @@ public class WardenAnimRelay : MonoBehaviour
     {
         wardenAI.ResetRangedTimer();
     }
+    public void CallPlayRangedAttack()
+    {
+        audioManager.PlayRangedAttack();
+    }
+    public void CallPlayTeleportSlam()
+    {
+        audioManager.PlayTeleportSlam();
+    }
+
+    public void CallPlayMelee()
+    {
+        audioManager.PlayMelee();
+    }
+    public void PlayLaserBeam()
+    {
+        audioManager.PlayLaserBeam();
+    }
+    // public void PlayDeath() => PlayOneShot(death);
+
+
 }

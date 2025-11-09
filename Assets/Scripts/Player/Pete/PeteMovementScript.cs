@@ -9,8 +9,6 @@ public class PeteMovement2D : BasePlayerMovement2D
     [Header("Audio – Run Loop")]
     [SerializeField] private float runMinSpeed = 0.2f; // min horiz speed to count as running
 
-    [Header("Throw Settings")]
-    [SerializeField] private float throwDuration = 0.5f; // how long throw locks movement if no anim event
 
     protected override void Awake()
     {
@@ -24,30 +22,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     protected override Vector2 StandOffset => new(0, 0.1042647f);
     protected override Vector2 StandSize => new(CharWidth, 1.1564f);
 
-    [Header("Pete Specific Combat Settings")]
-    [SerializeField] protected int melee1Damage = 2;
-    [SerializeField] protected Vector2 melee1Size = new(1.3f, 0.55f);
-    [SerializeField] protected Vector2 melee1Offset = new(0.4f, 0f);
-    [SerializeField] protected Vector2 melee1Knockback = new(1f, 0f);
-    [SerializeField] protected int melee2Damage = 2;
-    [SerializeField] protected Vector2 melee2Size = new(1.3f, 0.55f);
-    [SerializeField] protected Vector2 melee2Offset = new(0.25f, 0f);
-    [SerializeField] protected Vector2 melee2Knockback = new(-2f, 0f);
 
-    [SerializeField] protected int melee3Damage = 3;
-    [SerializeField] protected Vector2 melee3Size = new(1.75f, 0.55f);
-    [SerializeField] protected Vector2 melee3Offset = new(0.5f, 0f);
-    [SerializeField] protected Vector2 melee3Knockback = new(5f, 0f);
-    [SerializeField] protected int crouchAttackDamage = 3;
-    [SerializeField] protected Vector2 crouchAttackSize = new(1.35f, 0.55f);
-    [SerializeField] protected Vector2 crouchAttackOffset = new(0.4f, -0.25f);
-    [SerializeField] protected Vector2 crouchAttackKnockback = new(2f, 1f);
-    [SerializeField] protected int aerialAttackDamage = 4;
-    [SerializeField] protected Vector2 aerialAttackSize = new(1.9f, 1f);
-    [SerializeField] protected Vector2 aerialAttackOffset = new(0f, 0f);
-    [SerializeField] protected Vector2 aerialAttackKnockback = new(0f, 0f);
-
-    // ---------- Update & FixedUpdate ----------
     protected override void Update()
     {
         // Play jump SFX exactly when jump is initiated
@@ -72,6 +47,11 @@ public class PeteMovement2D : BasePlayerMovement2D
     private void UpdateRunLoopSound()
     {
         if (!audioMgr) return;
+        if (LockpickFiveInARow.IsLockpickActive)
+        {
+            audioMgr.StopRunLoop();
+            return;
+        }
 
         bool shouldRunLoop =
             !isDead &&
@@ -86,22 +66,21 @@ public class PeteMovement2D : BasePlayerMovement2D
         if (shouldRunLoop) audioMgr.StartRunLoop();
         else audioMgr.StopRunLoop();
     }
-
-
-    // ---------- Input (R = shoot, T = reload) ----------
     protected override void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
         {
+            audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
         if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
-            StartCoroutine(ThrowAttack());
+            attackCoroutine = StartCoroutine(ThrowAttack());
+            PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
         // R = SHOOT (use base method so ammo is decremented there)
@@ -144,15 +123,14 @@ public class PeteMovement2D : BasePlayerMovement2D
         }
     }
 
-    // ---------- SFX for hurt & death ----------
-    public override void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
+    public override void HurtPlayer(int damage, Vector2 knockbackForce, float? knockbackDirection = null, Vector2? hitboxCenter = null)
     {
         if (!isInvincible)
         {
             audioMgr?.StopRunLoop();
             audioMgr?.PlayHurt();
         }
-        base.HurtPlayer(damage, knockbackDirection, knockbackForce);
+        base.HurtPlayer(damage, knockbackForce, knockbackDirection, hitboxCenter);
     }
 
     protected override void Die()
@@ -162,21 +140,20 @@ public class PeteMovement2D : BasePlayerMovement2D
         base.Die();
     }
 
-    // ---------- Melee attacks (SFX mandatory on all three) ----------
     protected override void SetupGroundAttack(int attackIndex)
     {
         switch (attackIndex)
         {
             case 0:
-                hitboxManager.ChangeHitboxBox(melee1Offset, melee1Size, melee1Knockback, melee1Damage);
+                hitboxManager.CustomizeHitbox(attackHitboxes[2]);
                 animatorScript.ChangeAnimationState(playerStates.Melee1);
                 break;
             case 1:
-                hitboxManager.ChangeHitboxBox(melee2Offset, melee2Size, melee2Knockback, melee2Damage);
+                hitboxManager.CustomizeHitbox(attackHitboxes[3]);
                 animatorScript.ChangeAnimationState(playerStates.Melee2);
                 break;
             case 2:
-                hitboxManager.ChangeHitboxBox(melee3Offset, melee3Size, melee3Knockback, melee3Damage);
+                hitboxManager.CustomizeHitbox(attackHitboxes[4]);
                 animatorScript.ChangeAnimationState(playerStates.Melee3);
                 attackTimer = attackCooldown;
                 break;
@@ -185,14 +162,14 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override void SetupCrouchAttack()
     {
-        hitboxManager.ChangeHitboxBox(crouchAttackOffset, crouchAttackSize, crouchAttackKnockback, crouchAttackDamage);
+        hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
         attackTimer = attackCooldown / 2;
     }
 
     protected override void SetupAerialAttack()
     {
-        hitboxManager.ChangeHitboxBox(aerialAttackOffset, aerialAttackSize, aerialAttackKnockback, aerialAttackDamage);
+        hitboxManager.CustomizeHitbox(attackHitboxes[6]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
         aerialTimer = aerialCooldown;
     }
@@ -230,26 +207,15 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     public void InstBullet()
     {
-        // ammo already decremented by base.RangedAttack()
         bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
     }
-
-    // ---------- Throw (fix: end by time so it never freezes) ----------
     protected override IEnumerator ThrowAttack()
     {
-        isAttacking = true;
-
-        // Play Throw animation
-        animatorScript.ChangeAnimationState(playerStates.Throw);
-
-        // Stop run loop while throwing (optional)
+        // Play Throw animation + stop loop SFX while dynamite throw plays
+        audioMgr?.PlayThrow();
         audioMgr?.StopRunLoop();
 
-        // If you also spawn a thrown object, call it via an Animation Event (e.g., InstThrow())
-        // Then end after a fixed duration (if you also add an EndAttack() event, this is just a backup)
-        yield return new WaitForSeconds(throwDuration);
-
-        EndAttack();
+        yield return base.ThrowAttack();
     }
 
     // safety: stop loop if object disables/destroys

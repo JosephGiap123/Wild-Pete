@@ -3,7 +3,8 @@ using UnityEngine;
 public class GuardAnimRelay : MonoBehaviour
 {
     [SerializeField] GuardAI guardAI;
-    [SerializeField] AttackHitBoxGuard hitboxScript;
+    [SerializeField] GenericAttackHitbox hitboxScript;
+    [SerializeField] GuardAudioManager audioManager;
 
     public void CallEndAttack()
     {
@@ -11,7 +12,7 @@ public class GuardAnimRelay : MonoBehaviour
     }
     public void CallBoxHitbox()
     {
-        hitboxScript.ActivateBox();
+        hitboxScript.ActivateHitbox();
     }
     public void CallDisableHitbox()
     {
@@ -36,5 +37,29 @@ public class GuardAnimRelay : MonoBehaviour
     public void CallEndDash()
     {
         guardAI.StopMoving();
+    }
+    public void CallPlayRanged()
+    {
+        audioManager.PlayShot();
+    }
+
+    public void CallPlayMelee()
+    {
+        audioManager.PlayMelee();
+    }
+
+    public void CallPlayDash()
+    {
+        audioManager.PlayDash();
+    }
+
+    public void CallPlayHurt()
+    {
+        audioManager.PlayHurt();
+    }
+
+    public void CallPlayDeath()
+    {
+        audioManager.PlayDeath();
     }
 }

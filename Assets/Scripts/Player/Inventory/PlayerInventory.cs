@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -61,6 +62,13 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
+        // Check if the slot has any quantity left
+        if (itemSlots[inventoryLocation].quantity <= 0)
+        {
+            Debug.LogWarning($"PlayerInventory: Cannot use consumable {itemName} - quantity is 0!");
+            return;
+        }
+        
         for (int i = 0; i < consumableSOs.Length; i++)
         {
             if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
@@ -189,5 +197,90 @@ public class PlayerInventory : MonoBehaviour
         }
         Debug.Log("PlayerInventory: HasItem found " + count + " of item: " + itemName);
         return count;
+    }
+
+    // Restores inventory state from checkpoint data.
+    public void RestoreInventory(List<CheckpointManager.InventorySlotData> savedSlots)
+    {
+        if (itemSlots == null || savedSlots == null)
+        {
+            Debug.LogWarning("PlayerInventory: Cannot restore inventory - itemSlots or savedSlots is null");
+            return;
+        }
+
+        // Deselect all slots first
+        DeselectAllSlots();
+        
+        // Clear description panel
+        ClearDescriptionPanel();
+
+        // Clear current inventory
+        ClearInventory();
+
+        // Restore each slot
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] == null) continue;
+
+            // If we have saved data for this slot, restore it
+            if (i < savedSlots.Count)
+            {
+                var savedSlot = savedSlots[i];
+                
+                // If slot is empty in checkpoint, ensure it's cleared
+                if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
+                {
+                    itemSlots[i].ClearSlot();
+                    continue;
+                }
+
+                // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
+                ItemSO foundItemSO = null;
+                
+                // First check consumableSOs (for consumables)
+                if (consumableSOs != null)
+                {
+                    foreach (ConsumableSO consumableSO in consumableSOs)
+                    {
+                        if (consumableSO != null && consumableSO.itemName == savedSlot.itemName)
+                        {
+                            foundItemSO = consumableSO; // ConsumableSO extends ItemSO, so this works
+                            break;
+                        }
+                    }
+                }
+                
+                // If not found in consumables, check regular itemSOs
+                if (foundItemSO == null && itemSOs != null)
+                {
+                    foreach (ItemSO itemSO in itemSOs)
+                    {
+                        if (itemSO != null && itemSO.itemName == savedSlot.itemName)
+                        {
+                            foundItemSO = itemSO;
+                            break;
+                        }
+                    }
+                }
+
+                if (foundItemSO != null)
+                {
+                    // Directly restore the slot data (don't use AddItem which can stack items)
+                    // This ensures items are restored to their exact saved slot positions
+                    itemSlots[i].RestoreSlot(foundItemSO, savedSlot.quantity);
+                }
+                else
+                {
+                    Debug.LogWarning($"PlayerInventory: Could not find ItemSO for item '{savedSlot.itemName}'");
+                    // Clear the slot if we can't find the ItemSO
+                    itemSlots[i].ClearSlot();
+                }
+            }
+            else
+            {
+                // No saved data for this slot (checkpoint had fewer slots) - ensure it's cleared
+                itemSlots[i].ClearSlot();
+            }
+        }
     }
 }

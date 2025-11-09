@@ -39,9 +39,16 @@ public class GroundLaserBeam : MonoBehaviour
             {
                 GameObject targetRoot = collision.transform.parent.gameObject;
                 if (alreadyHit.Contains(targetRoot)) return; // prevent multiple hits on same target during this activation
+                
+                // Don't attack if player is dead
+                if (HealthManager.instance != null && HealthManager.instance.IsDead())
+                {
+                    return;
+                }
+
                 alreadyHit.Add(targetRoot);
                 Debug.Log("Hit player");
-                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, facingRight ? 1f : -1f, knockbackForce);
+                targetRoot.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, knockbackForce, facingRight ? 1f : -1f);
                 Debug.Log($"{(facingRight ? 1f : -1f)} {knockbackForce}");
                 if (disableAfterFirstHit) DisableHitbox();
             }

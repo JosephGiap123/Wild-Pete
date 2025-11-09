@@ -4,7 +4,7 @@ public class AliceAnimRelayScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] AliceMovement2D movementScript;
-    [SerializeField] AttackHitbox hitboxScript;
+    [SerializeField] GenericAttackHitbox hitboxScript;
     [SerializeField] AliceAudioManager audioMgr;
 
     public void CallEndAttack()
@@ -12,14 +12,9 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.EndAttack();
     }
 
-    public void CallRectHitbox()
+    public void CallActivateHitbox()
     {
-        hitboxScript.ActivateBox();
-    }
-
-    public void CallCircHitbox()
-    {
-        hitboxScript.ActivateCircle();
+        hitboxScript.ActivateHitbox();
     }
 
     public void CallDisableHitbox()
@@ -69,6 +64,11 @@ public class AliceAnimRelayScript : MonoBehaviour
     public void CallReloadSound()
     {
         audioMgr.PlayReload();
+    }
+
+    public void InitDynamite()
+    {
+        movementScript.InitDynamite();
     }
 
 }

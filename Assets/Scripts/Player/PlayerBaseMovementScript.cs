@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Unity.Cinemachine;
 
-public abstract class BasePlayerMovement2D : MonoBehaviour
+public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
@@ -12,6 +12,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     public float minJumpPower = 3f; // Minimum jump height if button is tapped
     protected float horizontalInput;
     public bool isFacingRight = true;
+    public bool IsFacingRight => isFacingRight; // IHasFacing implementation
     protected bool weaponEquipped = true;
     protected bool isGrounded;
     protected bool isAttacking = false;
@@ -35,6 +36,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
+    [SerializeField] protected float hurtStateTimeout = 1.0f; // Max time to stay in hurt state (safety fallback)
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
@@ -52,6 +54,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected Coroutine dashCooldownCoroutine;
     protected Coroutine attackCoroutine;
     protected Coroutine attackTimeoutCoroutine;
+    protected Coroutine hurtTimeoutCoroutine;
 
     [Header("Aerial Settings")]
     [SerializeField] protected float aerialCooldown = 1f;
@@ -77,12 +80,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected AttackHitbox hitboxManager;
+    [SerializeField] protected GenericAttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
     [SerializeField] protected GameObject damageText;
-
-
+    [SerializeField] protected GameObject dynamitePrefab;
+    public AttackHitboxInfo[] attackHitboxes;
 
     protected GameObject bulletInstance;
 
@@ -95,6 +98,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
     //events
     public event Action<int, int> OnAmmoChanged;
+    public event Action PlayerDied;
 
     protected virtual void Awake()
     {
@@ -103,6 +107,81 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             groundCheck.size = new(CharWidth * 0.9f, groundCheck.size.y);
         }
+
+        // Subscribe to respawn event
+        GameRestartManager.CharacterRespawned += OnRespawn;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // Unsubscribe from respawn event
+        GameRestartManager.CharacterRespawned -= OnRespawn;
+    }
+
+    // Handles respawning the player at the checkpoint location.
+    protected virtual void OnRespawn(Vector2 checkpointLocation)
+    {
+        // Restore checkpoint state first
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.RestoreCheckpoint();
+        }
+
+        // Move player to checkpoint
+        transform.position = checkpointLocation;
+
+        // Reset player state
+        isDead = false;
+        isHurt = false;
+        isInvincible = false;
+        isAttacking = false;
+        isDashing = false;
+        isWallSliding = false;
+        isCrouching = false;
+        isJumping = false;
+        isGrounded = false;
+        isReloading = false;
+        attackCount = 0;
+
+        // Stop all movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        // Restore health and ammo from checkpoint
+        if (CheckpointManager.Instance != null && CheckpointManager.Instance.HasCheckpoint())
+        {
+            var checkpointData = CheckpointManager.Instance.GetCheckpointData();
+            if (checkpointData != null)
+            {
+                // Restore health
+                HealthManager.instance.SetHealth(checkpointData.playerHealth);
+
+                // Restore ammo
+                ammoCount = checkpointData.playerAmmo;
+                maxAmmo = checkpointData.playerMaxAmmo;
+                OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+            }
+        }
+        else
+        {
+            // No checkpoint - restore to full health/ammo
+            HealthManager.instance.SetHealth(maxHealth);
+            ammoCount = maxAmmo;
+            OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+        }
+
+        // Re-enable player
+        gameObject.SetActive(true);
+
+        // Cancel any active coroutines
+        CancelAllActions();
+
+        // Unpause game
+        PauseController.SetPause(false);
+
+        Debug.Log($"Player respawned at {checkpointLocation}");
     }
 
     // Abstract methods for character-specific behavior
@@ -148,7 +227,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.F) && isGrounded && false)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
@@ -548,7 +627,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
 
         yield return new WaitForSeconds(slidingCooldown);
         isDashing = false;
-        
+
     }
 
     protected virtual IEnumerator AerialAttack()
@@ -563,8 +642,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     protected virtual IEnumerator ThrowAttack()
     {
         isAttacking = true;
+        animatorScript.ChangeAnimationState(playerStates.Throw);
         StartAttackWatchdog(maxAttackDuration);
         yield return new WaitWhile(() => isAttacking);
+    }
+
+    public void InitDynamite()
+    {
+        GameObject thrownDynamite = Instantiate(dynamitePrefab, transform.position, Quaternion.Euler(0, 0, isFacingRight ? 180 : 0));
+        thrownDynamite.GetComponent<Dynamite>().Initialize(new(6f * (isFacingRight ? 1f : -1f), 8f));
     }
 
     protected virtual IEnumerator RangedAttack()
@@ -609,31 +695,68 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         attackCount = 0;
     }
 
-
-    public virtual void HurtPlayer(int damage, float knockbackDirection, Vector2 knockbackForce)
+    public virtual void HurtPlayer(int damage, Vector2 knockbackForce, float? knockbackDirection = null, Vector2? hitboxCenter = null)
     {
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
 
+        // Determine knockback type and direction
+        bool useRadialKnockback = hitboxCenter.HasValue;
+        float finalKnockbackDir;
+
+        if (useRadialKnockback)
+        {
+            // Radial knockback: calculate direction from hitbox center
+            finalKnockbackDir = Mathf.Sign(knockbackForce.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.Value.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = isFacingRight ? -1 : 1;
+        }
+        else
+        {
+            // Directional knockback: use provided direction or calculate from force
+            finalKnockbackDir = knockbackDirection ?? Mathf.Sign(knockbackForce.x);
+            if (finalKnockbackDir == 0) finalKnockbackDir = isFacingRight ? -1 : 1;
+        }
+
         // Cancel all active states
         if (!hyperArmor)
-        { //hyper armor can ignore.
+        {
             isHurt = true;
             CancelAllActions();
+            // Start timeout coroutine as safety fallback
+            if (hurtTimeoutCoroutine != null)
+            {
+                StopCoroutine(hurtTimeoutCoroutine);
+            }
+            hurtTimeoutCoroutine = StartCoroutine(HurtStateTimeout());
         }
+
+        // Damage text
         if (damageText != null)
         {
+            Vector2 textVelocity = useRadialKnockback
+                ? new Vector2(knockbackForce.x, 5f)
+                : new Vector2(knockbackForce.x * finalKnockbackDir, 5f);
             GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x * knockbackDirection, 5f), damage, Color.red, Color.black);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(textVelocity, damage, Color.red, Color.black);
         }
+
         StartCoroutine(animatorScript.HurtFlash(0.2f));
         HealthManager.instance.TakeDamage(damage);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         isDead = HealthManager.instance.IsDead();
+
         // Only apply knockback if player didn't die
         if (!isDead)
         {
-            ApplyKnockback(knockbackDirection, knockbackForce);
+            if (useRadialKnockback)
+            {
+                ApplyKnockbackRadial(finalKnockbackDir, knockbackForce);
+            }
+            else
+            {
+                ApplyKnockback(finalKnockbackDir, knockbackForce);
+            }
             StartCoroutine(InvincibilityFrames());
         }
     }
@@ -688,18 +811,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
             trail.emitting = false;
 
         if (hitboxManager != null)
-            hitboxManager.DisableAll();
+            hitboxManager.DisableHitbox();
 
         // Reset wall slide
         isWallSliding = false;
-    }
 
-    // Overload for knockback based on hitbox position
-    public virtual void HurtPlayer(int damage, Vector2 hitboxCenter, Vector2 knockbackForce)
-    {
-        float knockbackDir = Mathf.Sign(transform.position.x - hitboxCenter.x);
-        if (knockbackDir == 0) knockbackDir = isFacingRight ? -1 : 1; // Fallback
-        HurtPlayer(damage, knockbackDir, knockbackForce);
+        // Clear hurt state timeout
+        if (hurtTimeoutCoroutine != null)
+        {
+            StopCoroutine(hurtTimeoutCoroutine);
+            hurtTimeoutCoroutine = null;
+        }
     }
 
     protected virtual void ApplyKnockback(float direction, Vector2 knockbackForce)
@@ -711,9 +833,37 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         rb.linearVelocity = new(direction * knockbackForce.x, knockbackForce.y);
     }
 
+    protected virtual void ApplyKnockbackRadial(float direction, Vector2 knockbackForce)
+    {
+        // For radial/explosion knockback, use the force vector directly
+        // Direction is only used for sprite flipping
+        if (direction != (isFacingRight ? -1f : 1f))
+        {
+            FlipSprite();
+        }
+        rb.linearVelocity = knockbackForce;
+    }
+
     public virtual void EndHurt()
     {
         isHurt = false;
+        // Stop timeout coroutine if it's still running
+        if (hurtTimeoutCoroutine != null)
+        {
+            StopCoroutine(hurtTimeoutCoroutine);
+            hurtTimeoutCoroutine = null;
+        }
+    }
+
+    protected virtual IEnumerator HurtStateTimeout()
+    {
+        yield return new WaitForSeconds(hurtStateTimeout);
+        // Safety fallback: automatically clear hurt state if animation event didn't fire
+        if (isHurt)
+        {
+            Debug.LogWarning("Hurt state timeout reached - clearing hurt state automatically");
+            EndHurt();
+        }
     }
 
     protected virtual void Die()
@@ -734,16 +884,22 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
     {
         yield return new WaitForSeconds(deathAnimationDuration);
 
-        // Additional death logic can go here (e.g., respawn, game over screen, etc.)
-        // For now, we just disable the player
+        PlayerDied?.Invoke();
         OnDeathAnimationComplete();
+        Debug.Log("Attempted to respawn at checkpoint");
+        // Respawn at checkpoint
+        if (GameRestartManager.Instance != null)
+        {
+            GameRestartManager.Instance.RespawnCharacter();
+        }
     }
 
     protected virtual void OnDeathAnimationComplete()
     {
         // Override this method in child classes to handle what happens after death
         // For example: respawn, show game over, reload scene, etc.
-        gameObject.SetActive(false);
+        // Don't deactivate here - let the respawn system handle it
+        // gameObject.SetActive(false);
     }
 
     // Invincibility frames
@@ -793,11 +949,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour
         {
             case 0:
             case 1:
-                hitboxManager.ChangeHitboxBox(new(0.6f, 0f), new(0.6f, 0.4f), new(1f, 0f), 1);
+                hitboxManager.CustomizeHitbox(attackHitboxes[0]);
                 animatorScript.ChangeAnimationState(playerStates.Punch1);
                 break;
             case 2:
-                hitboxManager.ChangeHitboxBox(new(0.7f, 0f), new(0.8f, 0.4f), new(3f, 0f), 3);
+                hitboxManager.CustomizeHitbox(attackHitboxes[1]);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
                 attackTimer = attackCooldown;
                 break;

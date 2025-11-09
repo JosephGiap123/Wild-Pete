@@ -86,4 +86,18 @@ public class HealthManager : MonoBehaviour
         health += change;
     }
 
+    // Gets the current health value.
+    public int GetCurrentHealth()
+    {
+        return health;
+    }
+
+    // Sets the current health value (for respawn/checkpoint system).
+    public void SetHealth(int newHealth)
+    {
+        health = Mathf.Clamp(newHealth, 0, maxHealth);
+        OnHealthChanged?.Invoke(health, maxHealth);
+        healthBar.UpdateHealthBar(health, maxHealth);
+    }
+
 }

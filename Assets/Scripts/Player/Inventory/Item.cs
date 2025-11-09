@@ -31,10 +31,22 @@ public class Item : MonoBehaviour
 			icon = itemSO.icon;
 			maxStackSize = itemSO.maxStackSize;
 			itemDesc = itemSO.itemDesc;
-			quantity = itemSO.quantity;
+			// Only set quantity from itemSO if it hasn't been set yet (e.g., by Initialize)
+			// This prevents Start() from overwriting a restored quantity
+			if (quantity == 0)
+			{
+				quantity = itemSO.quantity;
+			}
 			dropIcon = itemSO.dropIcon;
 			physicalItemModel.Load();
 		}
+		
+		// Register with checkpoint system
+		if (CheckpointManager.Instance != null)
+		{
+			CheckpointManager.Instance.RegisterItem(this);
+		}
+		
 		StartCoroutine(WaitToEnablePickable(1.0f));
 	}
 
@@ -49,6 +61,23 @@ public class Item : MonoBehaviour
 		quantity = itemSO.quantity;
 		dropIcon = itemSO.dropIcon;
 		physicalItemModel.Load();
+		
+		// Ensure inventoryManager is set (in case Initialize is called before Start)
+		if (inventoryManager == null)
+		{
+			inventoryManager = PlayerInventory.instance;
+		}
+		
+		// Ensure WaitToEnablePickable coroutine is started (in case Initialize is called before Start)
+		// Stop any existing coroutine first to avoid duplicates
+		StopAllCoroutines();
+		StartCoroutine(WaitToEnablePickable(1.0f));
+		
+		// Register with checkpoint system (in case Initialize is called after Start)
+		if (CheckpointManager.Instance != null)
+		{
+			CheckpointManager.Instance.RegisterItem(this);
+		}
 	}
 
 	protected IEnumerator WaitToEnablePickable(float timeToPickUp)
@@ -63,7 +92,23 @@ public class Item : MonoBehaviour
 		{
 			Debug.Log("picking item up");
 			inventoryManager.AddItem(this);
+			
+			// Unregister from checkpoint system before destroying
+			if (CheckpointManager.Instance != null)
+			{
+				CheckpointManager.Instance.UnregisterItem(this);
+			}
+			
 			Destroy(gameObject);
+		}
+	}
+	
+	void OnDestroy()
+	{
+		// Safety: unregister from checkpoint system if still registered
+		if (CheckpointManager.Instance != null)
+		{
+			CheckpointManager.Instance.UnregisterItem(this);
 		}
 	}
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8308173776896760361}
   - component: {fileID: 188134232818702089}
-  - component: {fileID: 7544642231447546388}
   m_Layer: 6
   m_Name: ImpulseEmitter
   m_TagString: Untagged
@@ -86,20 +85,6 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
---- !u!114 &7544642231447546388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121004912143073257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1fb5dca8f2e5b243b24169419468aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  key: 117
 --- !u!1 &410439048829482216
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +141,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -174,8 +159,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayerID: -667168985
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 3344895713379779979, guid: 5a0448f1d4ab94e01b10ff12a7d37117, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -363,7 +348,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 1
   m_PreviewTimeScale: 1
@@ -447,7 +432,6 @@ GameObject:
   - component: {fileID: 3214691480717692999}
   - component: {fileID: 781829894381207796}
   - component: {fileID: 2803381632177467573}
-  - component: {fileID: 3065023052435475213}
   m_Layer: 13
   m_Name: AttackHitbox
   m_TagString: Player
@@ -552,27 +536,90 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.9, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3065023052435475213
+--- !u!1 &2308210432708632854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5739320312149157293}
+  - component: {fileID: 790312010669025935}
+  m_Layer: 6
+  m_Name: Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5739320312149157293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2308210432708632854}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.0060533094, w: 0.9999817}
+  m_LocalPosition: {x: -0.025, y: 0.194, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5995900776780897598}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &790312010669025935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635048306840537600}
+  m_GameObject: {fileID: 2308210432708632854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922f4bd8eecbb417fa8fd3e6e380f9d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 512
-  staticMask:
-    serializedVersion: 2
-    m_Bits: 16384
-  circleCol: {fileID: 781829894381207796}
-  boxCol: {fileID: 2803381632177467573}
-  disableAfterFirstHit: 0
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.93207544, g: 0.6099132, b: 0.2866571, a: 1}
+  m_Intensity: 0.3
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 000000004b8b42d04d5fd3f82dc59fda4b5f0496
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0.4260369
+  m_PointLightOuterRadius: 2.5655682
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &3949179700763203121
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,8 +1001,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5995900776780897598}
-  - component: {fileID: 8139471980475301415}
   - component: {fileID: 675986149054274358}
+  - component: {fileID: 8139471980475301415}
+  - component: {fileID: 8742557805554968667}
   - component: {fileID: 2942441695391280840}
   m_Layer: 6
   m_Name: WildPete
@@ -988,22 +1036,9 @@ Transform:
   - {fileID: 5472695338924372274}
   - {fileID: 1973967770327943744}
   - {fileID: 8308173776896760361}
+  - {fileID: 5739320312149157293}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8139471980475301415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8045371504318166606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d293c22d8a346819538f9b6922a4ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 2275127635874104794}
-  sprite: {fileID: 5790001502036111594}
 --- !u!114 &675986149054274358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,13 +1055,14 @@ MonoBehaviour:
   jumpPower: 9
   minJumpPower: 4
   isFacingRight: 1
-  maxHealth: 20
+  maxHealth: 50
   ammoCount: 10
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
   attackCooldown: 1.4
-  invincibilityTime: 0.2
+  invincibilityTime: 0
+  hurtStateTimeout: 1
   deathAnimationDuration: 8
   dashingPower: 10
   dashingTime: 0.3
@@ -1050,32 +1086,49 @@ MonoBehaviour:
   trail: {fileID: 3613643447242516594}
   bulletOrigin: {fileID: 6009581206254739397}
   bullet: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}
-  hitboxManager: {fileID: 3065023052435475213}
+  hitboxManager: {fileID: 8742557805554968667}
   animatorScript: {fileID: 8139471980475301415}
   interactor: {fileID: 936485352055800519}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
+  dynamitePrefab: {fileID: 5763358536492206197, guid: 2ff69534917ef48c49d5c1f86262b09a, type: 3}
+  attackHitboxes:
+  - {fileID: 11400000, guid: b8573591ded644d0aa2b3c5dcda21a6a, type: 2}
+  - {fileID: 11400000, guid: 7474041a6b3e3418c8e35335e09dba3c, type: 2}
+  - {fileID: 11400000, guid: 95c53b3e7a35c462aba7683c024a6094, type: 2}
+  - {fileID: 11400000, guid: 4479e261d939b4bf7a440bf7d9b3ebc3, type: 2}
+  - {fileID: 11400000, guid: ff5aae7ebfafc4b52b488b1900276f53, type: 2}
+  - {fileID: 11400000, guid: 6c2f843ef11fb40868ccb936c3ca1243, type: 2}
+  - {fileID: 11400000, guid: fb51b36c7354c410a9f46f16af5d96a6, type: 2}
   runMinSpeed: 0.2
-  throwDuration: 0.5
-  melee1Damage: 2
-  melee1Size: {x: 1.3, y: 0.55}
-  melee1Offset: {x: 0.4, y: 0}
-  melee1Knockback: {x: 1, y: 0}
-  melee2Damage: 2
-  melee2Size: {x: 1.3, y: 0.55}
-  melee2Offset: {x: 0.25, y: 0}
-  melee2Knockback: {x: -2, y: 0}
-  melee3Damage: 3
-  melee3Size: {x: 1.75, y: 0.55}
-  melee3Offset: {x: 0.5, y: 0}
-  melee3Knockback: {x: 5, y: 0}
-  crouchAttackDamage: 3
-  crouchAttackSize: {x: 1.35, y: 0.55}
-  crouchAttackOffset: {x: 0.4, y: -0.25}
-  crouchAttackKnockback: {x: 2, y: 1}
-  aerialAttackDamage: 4
-  aerialAttackSize: {x: 1.9, y: 1}
-  aerialAttackOffset: {x: 0, y: 0}
-  aerialAttackKnockback: {x: 0, y: 0}
+--- !u!114 &8139471980475301415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d293c22d8a346819538f9b6922a4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2275127635874104794}
+  sprite: {fileID: 5790001502036111594}
+--- !u!114 &8742557805554968667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCol: {fileID: 2803381632177467573}
+  circleCol: {fileID: 781829894381207796}
+  parentScript: {fileID: 675986149054274358}
 --- !u!50 &2942441695391280840
 Rigidbody2D:
   serializedVersion: 5
@@ -1178,10 +1231,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1709080651
+  m_SortingLayerID: -1778098357
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 955989879, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
+  m_Sprite: {fileID: 1866567157, guid: ef24bf1c05ebd46b58db19336545f9ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1227,5 +1280,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 675986149054274358}
-  hitboxScript: {fileID: 3065023052435475213}
+  hitboxScript: {fileID: 8742557805554968667}
   audioMgr: {fileID: 6832124629652602160}

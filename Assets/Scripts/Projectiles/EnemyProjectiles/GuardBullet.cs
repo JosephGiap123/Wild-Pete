@@ -22,8 +22,15 @@ public class GuardBullet : MonoBehaviour
             {
                 if (collision.gameObject != null)
                 {
+                    // Don't attack if player is dead
+                    if (HealthManager.instance != null && HealthManager.instance.IsDead())
+                    {
+                        Destroy(gameObject);
+                        return;
+                    }
+
                     Debug.Log("Hit player");
-                    collision.gameObject.transform.parent.gameObject.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, 1f, Vector2.zero);
+                    collision.gameObject.transform.parent.gameObject.GetComponent<BasePlayerMovement2D>().HurtPlayer(damage, Vector2.zero, 1f);
                 }
             }
             else if (((1 << collision.gameObject.layer) & staticMask) != 0)

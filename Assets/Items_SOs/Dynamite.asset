@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Dynamite
   icon: {fileID: 6885471744156643951, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
-  dropIcon: {fileID: 6885471744156643951, guid: 95b65291bf5a44bcc8fbb4b7723630f8, type: 3}
+  dropIcon: {fileID: 6073946270139058362, guid: 3c6efa6803be7473eaac79b5d5d5398f, type: 3}
   maxStackSize: 4
   quantity: 1
   itemDesc: 'Explosives! Fun! WOOHOOOOOO!!!!!
