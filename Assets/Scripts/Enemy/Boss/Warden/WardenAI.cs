@@ -278,7 +278,7 @@ public class WardenAI : EnemyBase
         audioManager?.PlayDeath();
         ZeroVelocity(); // Stop all movement
         dropItemsOnDeath.DropItems();
-        yield return new WaitForSeconds(2f); //wait for death animation to finish
+        yield return new WaitForSeconds(4f); //wait for death animation to finish
         hpBarInteractor.ShowHealthBar(false);
         Die();
     }
