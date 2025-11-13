@@ -66,36 +66,45 @@ public class AliceMovement2D : BasePlayerMovement2D
         else audioMgr.StopRunLoop();
     }
 
+    public override void FlipSprite()
+    {
+        base.FlipSprite();
+    }
+
     protected override void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        // Safety check: ensure ControlManager is initialized
+        if (ControlManager.instance == null || ControlManager.instance.inputMapping == null)
+            return;
+
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
-        if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Melee]) && !isWallSliding)
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
         // R = SHOOT (use base method so ammo is decremented there, like Pete)
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
         {
             StartCoroutine(RangedAttack());
         }
 
         // T = RELOAD (play reload SFX at start)
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
 
@@ -105,19 +114,25 @@ public class AliceMovement2D : BasePlayerMovement2D
 
             if (!isCrouching)
             {
+                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+                emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
+                dashParticle.Emit(emitParams, 1);
                 slideCoroutine = StartCoroutine(Dash());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
                 audioMgr?.PlayDash();
             }
             else
             {
+                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+                emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
+                slideParticle.Emit(emitParams, 1);
                 audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
         {
             weaponEquipped = !weaponEquipped;
         }
@@ -232,7 +247,6 @@ public class AliceMovement2D : BasePlayerMovement2D
         yield return base.ThrowAttack();
     }
 
-    // safety: stop loop if object disables/destroys
     private void OnDisable() { audioMgr?.StopRunLoop(); }
     private void OnDestroy() { audioMgr?.StopRunLoop(); }
 }

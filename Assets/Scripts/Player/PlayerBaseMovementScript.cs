@@ -40,7 +40,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
-    [SerializeField] protected float deathAnimationDuration = 8f; // How long death animation plays
+    [SerializeField] protected float deathAnimationDuration = 6f; // How long death animation plays
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -96,6 +96,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected abstract Vector2 StandOffset { get; }
     protected abstract Vector2 StandSize { get; }
 
+    [Header("Particle References")]
+    [SerializeField] protected ParticleSystem slideParticle;
+    [SerializeField] protected ParticleSystem jumpParticle;
+    [SerializeField] protected ParticleSystem dashParticle;
     //events
     public event Action<int, int> OnAmmoChanged;
     public event Action PlayerDied;
@@ -219,27 +223,27 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
         }
-        if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Melee]) && !isWallSliding)
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded && false)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && false)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
         {
             attackCoroutine = StartCoroutine(RangedAttack());
         }
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
-        if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
             if (!isCrouching)
@@ -254,7 +258,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
 
         }
-        if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
         {
             weaponEquipped = !weaponEquipped;
         }
@@ -278,6 +282,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             isJumping = true;
             isGrounded = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            jumpParticle.Emit(1);
             if (isDashing && isCrouching)
             { //dash cancel
                 if (slideCoroutine != null)
@@ -886,6 +891,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         PlayerDied?.Invoke();
         OnDeathAnimationComplete();
+
+        // wait for fade-in
+        yield return new WaitForSeconds(1.5f);
+
         Debug.Log("Attempted to respawn at checkpoint");
         // Respawn at checkpoint
         if (GameRestartManager.Instance != null)
@@ -896,10 +905,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void OnDeathAnimationComplete()
     {
-        // Override this method in child classes to handle what happens after death
-        // For example: respawn, show game over, reload scene, etc.
-        // Don't deactivate here - let the respawn system handle it
-        // gameObject.SetActive(false);
+
     }
 
     // Invincibility frames
