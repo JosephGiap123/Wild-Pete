@@ -4,12 +4,12 @@ using UnityEngine;
 public class GameRestartManager : MonoBehaviour
 {
     public static GameRestartManager Instance { get; private set; }
-    
+
     BasePlayerMovement2D playerMovementScript;
     public static Vector2 checkPointLocation;
     public static event Action GameRestart;
     public static event Action<Vector2> CharacterRespawned;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -19,7 +19,7 @@ public class GameRestartManager : MonoBehaviour
         }
         Instance = this;
     }
-    
+
     void OnEnable()
     {
         GameManager.OnPlayerSet += SetPlayer;
@@ -33,7 +33,7 @@ public class GameRestartManager : MonoBehaviour
             playerMovementScript.PlayerDied -= PlayerDeath;
         }
     }
-    
+
     void SetPlayer(GameObject player)
     {
         if (player == null)
@@ -48,7 +48,7 @@ public class GameRestartManager : MonoBehaviour
     void PlayerDeath()
     {
         //pull up menu
-        PauseController.SetPause(true); //pause game
+        // PauseController.SetPause(true); //pause game
     }
 
     // Respawns the character at the specified checkpoint location.
@@ -57,9 +57,9 @@ public class GameRestartManager : MonoBehaviour
     {
         // Clean up all active projectiles and lasers before respawning
         CleanupProjectilesAndLasers();
-        
+
         Vector2 respawnLocation;
-        
+
         if (checkpointLocation.HasValue)
         {
             respawnLocation = checkpointLocation.Value;

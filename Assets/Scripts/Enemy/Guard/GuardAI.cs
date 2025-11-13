@@ -35,8 +35,6 @@ public class GuardAI : EnemyBase
     [Header("Combat Settings")]
     private int isAttacking = 0; // 0 = no attack, 1 = melee1, 2 = melee2, 3 = ranged, 4 = dash attack
     private int attackChain = 0;
-    private bool isHurt = false;
-    private bool isDead = false;
     [SerializeField] private float meleeRange = 1f;
     [SerializeField] private float dashRange = 5f;
 
@@ -211,7 +209,6 @@ public class GuardAI : EnemyBase
 
     private void Update()
     {
-        // Always call AnimationControl, even when dead or hurt (for death/hurt animations)
         AnimationControl();
 
         // Stop processing AI logic if dead or hurt
@@ -509,8 +506,7 @@ public class GuardAI : EnemyBase
     public void EndAttack()
     {
         isAttacking = 0;
-        StopMoving(); // Ensure movement is stopped when attack ends
-        if (debugMode) Debug.Log("GuardAI: Attack ended, returning to normal behavior.");
+        StopMoving();
 
         // If a melee chain is pending, slightly reduce selector delay to immediately pick melee2
         if (chainMeleePending)

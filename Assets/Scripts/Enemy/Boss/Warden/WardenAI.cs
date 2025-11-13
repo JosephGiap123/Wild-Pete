@@ -17,7 +17,6 @@ public class WardenAI : EnemyBase
 
     [Header("Combat Setting")]
     public int phaseNum = 1;
-    protected bool isDead = false;
     protected bool isInAir = false;
     protected bool inAttackState = true;
     protected int isAttacking = 0;

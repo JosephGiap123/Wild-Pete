@@ -83,6 +83,9 @@ public class CheckpointManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Clean up null references when scene loads
+        CleanupNullReferences();
+
         // Skip saving checkpoints for menu scenes
         if (scene.name.Contains("Menu") || scene.name.Contains("menu"))
         {
@@ -119,6 +122,9 @@ public class CheckpointManager : MonoBehaviour
     /// Saves a checkpoint at the given position and captures current game state.
     public void SaveCheckpoint(Vector2 position)
     {
+        // Clean up null references before saving
+        CleanupNullReferences();
+
         currentCheckpoint = new CheckpointData
         {
             position = position,
@@ -231,6 +237,9 @@ public class CheckpointManager : MonoBehaviour
             Debug.LogWarning("No checkpoint saved! Cannot restore.");
             return;
         }
+
+        // Clean up null references before restoring
+        CleanupNullReferences();
 
         // Clear inventory first before restoring
         if (PlayerInventory.instance != null)
@@ -434,6 +443,53 @@ public class CheckpointManager : MonoBehaviour
         if (item != null)
         {
             trackedItems.Remove(item.gameObject.GetInstanceID());
+        }
+    }
+
+    /// Cleans up null references from tracking dictionaries to prevent memory leaks.
+    /// This should be called periodically, especially when scenes change.
+    private void CleanupNullReferences()
+    {
+        // Clean up null enemy references
+        List<int> nullEnemyKeys = new List<int>();
+        foreach (var kvp in trackedEnemies)
+        {
+            if (kvp.Value == null)
+            {
+                nullEnemyKeys.Add(kvp.Key);
+            }
+        }
+        foreach (int key in nullEnemyKeys)
+        {
+            trackedEnemies.Remove(key);
+        }
+
+        // Clean up null static references
+        List<int> nullStaticKeys = new List<int>();
+        foreach (var kvp in trackedStatics)
+        {
+            if (kvp.Value == null)
+            {
+                nullStaticKeys.Add(kvp.Key);
+            }
+        }
+        foreach (int key in nullStaticKeys)
+        {
+            trackedStatics.Remove(key);
+        }
+
+        // Clean up null item references
+        List<int> nullItemKeys = new List<int>();
+        foreach (var kvp in trackedItems)
+        {
+            if (kvp.Value == null)
+            {
+                nullItemKeys.Add(kvp.Key);
+            }
+        }
+        foreach (int key in nullItemKeys)
+        {
+            trackedItems.Remove(key);
         }
     }
 
