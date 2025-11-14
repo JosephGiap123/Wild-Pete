@@ -104,6 +104,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     public event Action<int, int> OnAmmoChanged;
     public event Action PlayerDied;
 
+    public event Action<PlayerControls, KeyCode> InputUsed;
+
     protected virtual void Awake()
     {
         // Make ground check slightly smaller than character width
@@ -404,6 +406,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             if (isCrouching || isJumping || !isGrounded || attackTimer > 0f) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
+            CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
             SetUpPunchAttack(attackCount);
             attackCount++;
             isAttacking = true;
@@ -418,6 +421,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             if (isJumping || attackTimer > 0f) return; //frame perfect check.
             if (isCrouching)
             {
+                CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
                 SetupCrouchAttack();
                 isAttacking = true;
                 StartAttackWatchdog(maxAttackDuration);
@@ -426,7 +430,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
             if (attackCount >= maxAttackChain || attackCount < 0)
                 attackCount = 0;
-
+            CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
             SetupGroundAttack(attackCount);
             attackCount++;
             isAttacking = true;
@@ -439,7 +443,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         else
         {
             if (aerialTimer <= 0f)
+            {
+                CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
                 attackCoroutine = StartCoroutine(AerialAttack());
+            }
         }
     }
 
@@ -906,6 +913,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual void OnDeathAnimationComplete()
     {
 
+    }
+
+    protected virtual void CallInputInvoke(PlayerControls pc, KeyCode kc)
+    {
+        InputUsed?.Invoke(pc, kc);
     }
 
     // Invincibility frames
