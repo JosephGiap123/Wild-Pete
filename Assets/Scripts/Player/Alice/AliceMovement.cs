@@ -79,6 +79,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
+            CallInputInvoke(PlayerControls.Interact, ControlManager.instance.inputMapping[PlayerControls.Interact]);
             audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
@@ -88,6 +89,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         }
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
+
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }

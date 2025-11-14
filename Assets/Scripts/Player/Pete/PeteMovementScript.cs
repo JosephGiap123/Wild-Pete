@@ -102,7 +102,7 @@ public class PeteMovement2D : BasePlayerMovement2D
 
             // stop run loop and play dash SFX immediately
             audioMgr?.StopRunLoop();
-
+            CallInputInvoke(PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
             if (!isCrouching)
             {
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
@@ -125,6 +125,7 @@ public class PeteMovement2D : BasePlayerMovement2D
 
         if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
         {
+            CallInputInvoke(PlayerControls.Unequip, ControlManager.instance.inputMapping[PlayerControls.Unequip]);
             weaponEquipped = !weaponEquipped;
         }
     }
@@ -218,6 +219,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     protected override IEnumerator ThrowAttack()
     {
         // Play Throw animation + stop loop SFX while dynamite throw plays
+        CallInputInvoke(PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
         audioMgr?.PlayThrow();
         audioMgr?.StopRunLoop();
 
