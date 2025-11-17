@@ -85,13 +85,13 @@ public class PeteMovement2D : BasePlayerMovement2D
         }
 
         // R = SHOOT (use base method so ammo is decremented there)
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             StartCoroutine(RangedAttack());
         }
 
         // T = RELOAD
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
@@ -124,9 +124,8 @@ public class PeteMovement2D : BasePlayerMovement2D
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
-            CallInputInvoke(PlayerControls.Unequip, ControlManager.instance.inputMapping[PlayerControls.Unequip]);
             weaponEquipped = !weaponEquipped;
         }
     }

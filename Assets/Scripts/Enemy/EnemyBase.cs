@@ -103,7 +103,8 @@ public class EnemyBase : MonoBehaviour, IHasFacing
             dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
         }
 
-        if (health <= 0)
+        // Only call Die() if not already dead (child classes may handle death with coroutines)
+        if (health <= 0 && !isDead)
         {
             Die();
         }
@@ -124,7 +125,7 @@ public class EnemyBase : MonoBehaviour, IHasFacing
                 }
             }
         }
-        
+
         this.gameObject.SetActive(false);
     }
 
