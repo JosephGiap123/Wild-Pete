@@ -410,8 +410,6 @@ public class GuardAI : PatrolEnemyAI
     {
         if (isDead) return;
 
-        health -= dmg;
-        if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}");
         // Immediately stop current movement, then apply knockback so stun halts momentum
         StopMoving();
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -419,7 +417,7 @@ public class GuardAI : PatrolEnemyAI
 
         if (audioManager != null)
         {
-            if (health <= 0)
+            if (health - dmg <= 0)
                 audioManager?.PlayDeath();
             else
                 audioManager?.PlayHurt();
@@ -430,36 +428,29 @@ public class GuardAI : PatrolEnemyAI
         attackChain = 0;
         attackTimer = attackCooldown / 3; // small delay before next decision
 
-        if (damageText != null)
-        {
-            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
-        }
         StartHurtAnim(dmg);
 
-        // Enter Alert state and try to find attacker
+        // Exit guard-specific states when hurt
+        isInGuardSpecificState = false;
+
+        // Check if this hit will kill the enemy
+        bool willDie = (health - dmg) <= 0;
+
+        // If this will kill the enemy, start death coroutine BEFORE calling base.Hurt
+        // Set isDead = true first so base.Hurt() doesn't call Die() (which deactivates GameObject)
+        if (willDie)
+        {
+            isDead = true; // Prevent base.Hurt() from calling Die()
+            StartCoroutine(Death());
+        }
+
+        // Call base Hurt (handles health, damage text, and sets Alert state)
+        base.Hurt(dmg, knockbackForce);
+
+        // Guard-specific logic after base.Hurt
         if (IsAlive())
         {
-            isInGuardSpecificState = false;
-            currentState = PatrolState.Alert;
-            loseSightTimer = 0f;
-
-            // Try to find player if we don't have reference
-            if (player == null)
-            {
-                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-                if (playerObj != null)
-                {
-                    player = playerObj.transform;
-                    if (debugMode) Debug.Log("GuardAI: Found player after being attacked!");
-                }
-            }
-
-            if (debugMode) Debug.Log("GuardAI: Hurt! Entering Alert state!");
-        }
-        else
-        {
-            StartCoroutine(Death());
+            if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}, Entering Alert state!");
         }
     }
     public override void EndHurtState()

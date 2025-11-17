@@ -63,19 +63,47 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60d6e8dbfa40f41c3b1f44dbc85850bb, type: 2}
   - {fileID: 11400000, guid: d5554366c85ec4677a67b9f5459472bf, type: 2}
   isFacingRight: 1
+  currentState: 0
+  patrolPoints: []
+  useRelativePatrolPoints: 1
+  patrolWaitTime: 2
+  detectionRange: 9
+  raycastHeightOffset: 0.8
+  raycastCount: 3
+  raycastVerticalSpread: 0.2
+  nearDetectRadius: 1
+  loseSightTime: 3
+  checkFacingDirection: 1
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 1589248
   moveSpeed: 2.5
+  alertSpeed: 4
+  meleeRange: 1.2
+  dashRange: 5
+  rangedRange: 8
+  rangedDamage: 2
+  rangedAttackCooldown: 5
+  meleeAttackCooldown: 1.5
+  dashAttackCooldown: 3
+  bulletSpeed: 14
+  bulletLifeTime: 3
+  dashAttackSpeed: 8
+  meleeWeight: 1
+  lungeWeight: 1
+  rangedWeight: 1
+  selectionInterval: 0.2
+  repeatAttackPenalty: 0.35
+  jumpForce: 10
+  jumpCooldown: 1.3
+  jumpHorizontalSpeed: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 1048576
   groundCheckBox: {fileID: 5124159699385860196}
-  rangedDamage: 2
-  rangedAttackCooldown: 5
-  bulletSpeed: 14
-  bulletLifeTime: 3
-  dashAttackSpeed: 8
   projectileSpawnPoint: {fileID: 5034376497237104729}
   attackHitboxScript: {fileID: 2025989532765267944}
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 2277310032840431590, guid: 0179eb3413fae4c489270909a1cabbcb, type: 3}
   anim: {fileID: 1509815332877302861}
 --- !u!50 &8860381776879248772
 Rigidbody2D:
@@ -551,7 +579,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.047094464}
+  m_Offset: {x: 0, y: -0.015114903}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -561,7 +589,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.6590021, y: 0.110437155}
+  m_Size: {x: 1.6590021, y: 0.089117765}
   m_EdgeRadius: 0
 --- !u!1 &7106800518552874580
 GameObject:
@@ -629,7 +657,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00563097, y: 0.34552354}
+  m_Offset: {x: 0.00563097, y: 0.36684334}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -639,5 +667,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.6791029, y: 0.81732905}
+  m_Size: {x: 1.6791029, y: 0.77468944}
   m_EdgeRadius: 0

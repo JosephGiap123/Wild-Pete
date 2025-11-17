@@ -196,7 +196,7 @@ public class SkeletonMinerAI : PatrolEnemyAI
         }
         else
         {
-            if (Mathf.Abs(rb.linearVelocity.x) > moveSpeed + 0.2f)
+            if (Mathf.Abs(rb.linearVelocity.x) > 0.2f)
             {
                 ChangeAnimationState("Walk");
             }
@@ -238,7 +238,8 @@ public class SkeletonMinerAI : PatrolEnemyAI
     {
         if (isDead) return;
 
-        health -= dmg;
+        // Check if this hit will kill the enemy
+        bool willDie = (health - dmg) <= 0;
 
         // Immediately stop current movement, then apply knockback so stun halts momentum
         StopMoving();
@@ -248,20 +249,18 @@ public class SkeletonMinerAI : PatrolEnemyAI
         // Clear ongoing attack intent
         isAttacking = 0;
 
-        // Show damage text
-        if (damageText != null)
-        {
-            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
-        }
-
         StartHurtAnim(dmg);
 
-        // Start death sequence if health is 0 or below
-        if (!IsAlive())
+        // If this will kill the enemy, start death coroutine BEFORE calling base.Hurt
+        // Set isDead = true first so base.Hurt() doesn't call Die() (which deactivates GameObject)
+        if (willDie)
         {
+            isDead = true; // Prevent base.Hurt() from calling Die()
             StartCoroutine(Death());
         }
+
+        // Call base Hurt (handles health, damage text, and sets Alert state)
+        base.Hurt(dmg, knockbackForce);
     }
 
     protected IEnumerator Death()

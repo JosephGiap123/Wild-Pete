@@ -13,7 +13,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected float horizontalInput;
     public bool isFacingRight = true;
     public bool IsFacingRight => isFacingRight; // IHasFacing implementation
-    protected bool weaponEquipped = true;
+    protected bool weaponEquipped = false;
     protected bool isGrounded;
     protected bool isAttacking = false;
     protected bool isCrouching = false;
@@ -331,7 +331,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         AnimationControl();
         if (isHurt || isReloading) return;
         HandleMovement();
-        if (!isDashing)
+        if (!isDashing && !isDead)
         {
             HandleInput();
             HandleFlip();
@@ -340,6 +340,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
+        if (isDead) return;
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
@@ -352,7 +353,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3] != null && !PlayerInventory.instance.equipmentSlots[3].IsEmpty())
         {
             attackCoroutine = StartCoroutine(RangedAttack());
         }
@@ -375,20 +376,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
 
         }
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
-            weaponEquipped = !weaponEquipped;
+            Debug.Log(PlayerInventory.instance.equipmentSlots[2].GetEquippedItem().itemName);
+            PlayerInventory.instance.equipmentSlots[2].UnequipItem();
         }
     }
-
-    public PlayerOrientationPosition GetPlayerOrientPosition()
-    {
-        PlayerOrientationPosition pos;
-        pos.position = transform;
-        pos.isFacingRight = isFacingRight;
-        return pos;
-    }
-
     protected virtual void HandleMovement()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -1107,6 +1100,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
                 attackTimer = attackCooldown;
                 break;
         }
+    }
+
+    public PlayerOrientationPosition GetPlayerOrientPosition()
+    {
+        PlayerOrientationPosition pos;
+        pos.position = transform;
+        pos.isFacingRight = isFacingRight;
+        return pos;
+    }
+
+    public void SetWeaponEquipped(bool equipped)
+    {
+        weaponEquipped = equipped;
     }
 
 }

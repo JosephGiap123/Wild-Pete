@@ -418,5 +418,29 @@ public abstract class PatrolEnemyAI : EnemyBase
 		patrolWaitTimer = 0f;
 		currentPatrolIndex = 0;
 	}
+
+	/// Override Hurt to automatically enter Alert state when hit
+	public override void Hurt(int dmg, Vector2 knockbackForce)
+	{
+		// Call base Hurt first (handles health, damage text, etc.)
+		base.Hurt(dmg, knockbackForce);
+
+		// Enter Alert state and try to find attacker
+		if (IsAlive())
+		{
+			currentState = PatrolState.Alert;
+			loseSightTimer = 0f;
+
+			// Try to find player if we don't have reference
+			if (player == null)
+			{
+				GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+				if (playerObj != null)
+				{
+					player = playerObj.transform;
+				}
+			}
+		}
+	}
 }
 
