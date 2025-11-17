@@ -22,6 +22,19 @@ public class CheckpointManager : MonoBehaviour
     }
 
     [System.Serializable]
+    public class EquipmentSlotData
+    {
+        public EquipmentSO.EquipmentSlot slotType;
+        public string equipmentName; // null if slot is empty
+
+        public EquipmentSlotData(EquipmentSO.EquipmentSlot type, string name)
+        {
+            slotType = type;
+            equipmentName = name;
+        }
+    }
+
+    [System.Serializable]
     public class ItemData
     {
         public Vector2 position;
@@ -50,6 +63,7 @@ public class CheckpointManager : MonoBehaviour
         public int playerAmmo;
         public int playerMaxAmmo;
         public List<InventorySlotData> inventorySlots = new List<InventorySlotData>(); // Inventory state
+        public List<EquipmentSlotData> equipmentSlots = new List<EquipmentSlotData>(); // Equipment state
         public List<ItemData> items = new List<ItemData>(); // Dropped items on the map (both placed and dropped)
     }
 
@@ -210,6 +224,21 @@ public class CheckpointManager : MonoBehaviour
             }
         }
 
+        // Capture equipment state
+        currentCheckpoint.equipmentSlots.Clear();
+        if (PlayerInventory.instance != null && PlayerInventory.instance.equipmentSlots != null)
+        {
+            foreach (EquipmentSlot slot in PlayerInventory.instance.equipmentSlots)
+            {
+                if (slot != null)
+                {
+                    EquipmentSO equippedItem = slot.GetEquippedItem();
+                    string equipmentName = equippedItem != null ? equippedItem.itemName : null;
+                    currentCheckpoint.equipmentSlots.Add(new EquipmentSlotData(slot.slotType, equipmentName));
+                }
+            }
+        }
+
         // Capture dropped items on the map (both placed in scene and dropped)
         currentCheckpoint.items.Clear();
         foreach (var kvp in trackedItems)
@@ -347,6 +376,12 @@ public class CheckpointManager : MonoBehaviour
         if (PlayerInventory.instance != null && currentCheckpoint.inventorySlots != null && currentCheckpoint.inventorySlots.Count > 0)
         {
             PlayerInventory.instance.RestoreInventory(currentCheckpoint.inventorySlots);
+        }
+
+        // Restore equipment state
+        if (PlayerInventory.instance != null && currentCheckpoint.equipmentSlots != null && currentCheckpoint.equipmentSlots.Count > 0)
+        {
+            RestoreEquipment(currentCheckpoint.equipmentSlots);
         }
 
         // Restore dropped items on the map
@@ -537,11 +572,13 @@ public class CheckpointManager : MonoBehaviour
         // Get ItemSOs from PlayerInventory (the atlas)
         ItemSO[] allItemSOs = null;
         ConsumableSO[] allConsumableSOs = null;
+        EquipmentSO[] allEquipmentSOs = null;
 
         if (PlayerInventory.instance != null)
         {
             allItemSOs = PlayerInventory.instance.itemSOs;
             allConsumableSOs = PlayerInventory.instance.consumableSOs;
+            allEquipmentSOs = PlayerInventory.instance.equipmentSOs;
         }
 
         // Restore each item
@@ -560,6 +597,19 @@ public class CheckpointManager : MonoBehaviour
                     if (consumableSO != null && consumableSO.itemName == itemData.itemName)
                     {
                         foundItemSO = consumableSO;
+                        break;
+                    }
+                }
+            }
+
+            // If not found, check equipment
+            if (foundItemSO == null && allEquipmentSOs != null)
+            {
+                foreach (EquipmentSO equipmentSO in allEquipmentSOs)
+                {
+                    if (equipmentSO != null && equipmentSO.itemName == itemData.itemName)
+                    {
+                        foundItemSO = equipmentSO; // EquipmentSO extends ItemSO
                         break;
                     }
                 }
@@ -596,6 +646,82 @@ public class CheckpointManager : MonoBehaviour
             else
             {
                 Debug.LogWarning($"CheckpointManager: Could not find ItemSO for item '{itemData.itemName}' in PlayerInventory atlas");
+            }
+        }
+    }
+
+    // Restores equipment from checkpoint data.
+    private void RestoreEquipment(List<EquipmentSlotData> savedEquipment)
+    {
+        if (savedEquipment == null || savedEquipment.Count == 0) return;
+        if (PlayerInventory.instance == null || PlayerInventory.instance.equipmentSlots == null)
+        {
+            Debug.LogWarning("CheckpointManager: Cannot restore equipment - PlayerInventory or equipmentSlots is null!");
+            return;
+        }
+
+        // Get EquipmentSOs from PlayerInventory
+        EquipmentSO[] allEquipmentSOs = PlayerInventory.instance.equipmentSOs;
+        if (allEquipmentSOs == null)
+        {
+            Debug.LogWarning("CheckpointManager: Cannot restore equipment - equipmentSOs array is null!");
+            return;
+        }
+
+        // First, clear all equipment slots (unequip everything)
+        foreach (EquipmentSlot slot in PlayerInventory.instance.equipmentSlots)
+        {
+            if (slot != null && !slot.IsEmpty())
+            {
+                slot.ClearSlot();
+            }
+        }
+
+        // Now restore each saved equipment
+        foreach (EquipmentSlotData savedSlot in savedEquipment)
+        {
+            // Skip empty slots
+            if (string.IsNullOrEmpty(savedSlot.equipmentName))
+            {
+                continue;
+            }
+
+            // Find the equipment slot that matches this slot type
+            EquipmentSlot targetSlot = null;
+            foreach (EquipmentSlot slot in PlayerInventory.instance.equipmentSlots)
+            {
+                if (slot != null && slot.slotType == savedSlot.slotType)
+                {
+                    targetSlot = slot;
+                    break;
+                }
+            }
+
+            if (targetSlot == null)
+            {
+                Debug.LogWarning($"CheckpointManager: Could not find equipment slot for type {savedSlot.slotType}!");
+                continue;
+            }
+
+            // Find the EquipmentSO by name
+            EquipmentSO foundEquipment = null;
+            foreach (EquipmentSO equipment in allEquipmentSOs)
+            {
+                if (equipment != null && equipment.itemName == savedSlot.equipmentName)
+                {
+                    foundEquipment = equipment;
+                    break;
+                }
+            }
+
+            if (foundEquipment != null)
+            {
+                // Equip the item (this will also apply stat bonuses)
+                targetSlot.EquipItem(foundEquipment);
+            }
+            else
+            {
+                Debug.LogWarning($"CheckpointManager: Could not find EquipmentSO for equipment '{savedSlot.equipmentName}'!");
             }
         }
     }

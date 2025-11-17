@@ -6,6 +6,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         if (menuCanvas != null)
         {
             menuCanvas.SetActive(false);

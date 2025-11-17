@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 892631889321125751}
   - component: {fileID: 7889889698610521013}
   - component: {fileID: 11418297021498573}
+  - component: {fileID: 5058760496962662551}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -106,6 +107,8 @@ MonoBehaviour:
   consumableSOs:
   - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
   - {fileID: 11400000, guid: 90f83fff8c7634eaa845757bff46a396, type: 2}
+  equipmentSOs: []
+  equipmentSlots: []
   itemDescriptionIcon: {fileID: 0}
   ItemDescriptionNameText: {fileID: 0}
   ItemDescriptionText: {fileID: 0}
@@ -255,3 +258,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaee5a287f5ad46e6bf98a63dcb3ebe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keyCodeConnection: 
+  keyCodeTextSprite: []
+--- !u!114 &5058760496962662551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed9b5f92d93ab4316b9f3f0c331f9e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMaxHealth: 50
+  baseMaxAmmo: 5
+  baseMovementSpeed: 5
+  baseJumpCount: 1
+  baseDashSpeed: 14
+  baseSlideSpeed: 10
+  baseBulletSpeed: 10
+  baseBulletCount: 0
+  baseMeleeAttack: 0
+  baseRangedAttack: 0
+  baseUniversalAttack: 0

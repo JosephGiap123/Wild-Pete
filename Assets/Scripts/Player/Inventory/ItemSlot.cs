@@ -203,7 +203,19 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
             if (slotIndex >= 0)
             {
-                PlayerInventory.instance.UseConsumable(itemName, slotIndex);
+                // Check if this is an equipment item - if so, equip it instead of using it
+                if (PlayerInventory.instance.IsEquipment(itemName))
+                {
+                    PlayerInventory.instance.EquipItemFromInventory(slotIndex);
+                    // Deselect after equipping
+                    PlayerInventory.instance.DeselectAllSlots();
+                    PlayerInventory.instance.ClearDescriptionPanel();
+                }
+                else
+                {
+                    // It's a consumable, use it normally
+                    PlayerInventory.instance.UseConsumable(itemName, slotIndex);
+                }
             }
             else
             {
@@ -213,6 +225,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
 
         PlayerInventory.instance.DeselectAllSlots();
+        PlayerInventory.instance.DeselectAllEquipmentSlots();
 
         if (selectedShader != null)
         {

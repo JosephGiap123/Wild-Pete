@@ -81,6 +81,16 @@ public class EnemyBase : MonoBehaviour, IHasFacing
             }
         }
 
+        // Disable any active hitboxes before respawning
+        GenericAttackHitbox[] hitboxes = GetComponentsInChildren<GenericAttackHitbox>();
+        foreach (GenericAttackHitbox hitbox in hitboxes)
+        {
+            if (hitbox != null)
+            {
+                hitbox.DisableHitbox();
+            }
+        }
+
         this.gameObject.SetActive(true);
     }
     public virtual void Hurt(int dmg, Vector2 knockbackForce)
@@ -101,6 +111,20 @@ public class EnemyBase : MonoBehaviour, IHasFacing
 
     protected virtual void Die()
     {
+        // Disable any active hitboxes before deactivating
+        if (attackHitboxes != null)
+        {
+            // Find and disable GenericAttackHitbox components
+            GenericAttackHitbox[] hitboxes = GetComponentsInChildren<GenericAttackHitbox>();
+            foreach (GenericAttackHitbox hitbox in hitboxes)
+            {
+                if (hitbox != null)
+                {
+                    hitbox.DisableHitbox();
+                }
+            }
+        }
+        
         this.gameObject.SetActive(false);
     }
 
