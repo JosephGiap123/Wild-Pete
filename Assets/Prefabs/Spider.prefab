@@ -37,6 +37,7 @@ Transform:
   - {fileID: 7459739505180727292}
   - {fileID: 345021377273853056}
   - {fileID: 5034376497237104729}
+  - {fileID: 5066625754720722524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7861613852618866291
@@ -52,6 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  isDead: 0
+  isHurt: 0
   rb: {fileID: 8860381776879248772}
   sr: {fileID: 3980627443635898316}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
@@ -72,6 +75,7 @@ MonoBehaviour:
   dashAttackSpeed: 8
   projectileSpawnPoint: {fileID: 5034376497237104729}
   attackHitboxScript: {fileID: 2025989532765267944}
+  projectilePrefab: {fileID: 0}
   anim: {fileID: 1509815332877302861}
 --- !u!50 &8860381776879248772
 Rigidbody2D:
@@ -355,6 +359,101 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spiderAI: {fileID: 7861613852618866291}
   hitboxScript: {fileID: 2025989532765267944}
+--- !u!1 &4875164777802096295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5066625754720722524}
+  - component: {fileID: 2077911442559621801}
+  - component: {fileID: 7224417689590882550}
+  m_Layer: 9
+  m_Name: SpiderHurtCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5066625754720722524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875164777802096295}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4334169147971131912}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2077911442559621801
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875164777802096295}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.012377262, y: 0.4672511}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9752455, y: 0.39969057}
+  m_EdgeRadius: 0
+--- !u!114 &7224417689590882550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875164777802096295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296981246557f4cd784ed96f6f705188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentScript: {fileID: 7861613852618866291}
+  hurtBox: {fileID: 2077911442559621801}
+  damageCooldown: 1
+  attackHitboxInfo: {fileID: 11400000, guid: 63e95c99e4ad348bd974d870fb3f53d6, type: 2}
 --- !u!1 &5814887739743750731
 GameObject:
   m_ObjectHideFlags: 0

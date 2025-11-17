@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8308173776896760361}
   - component: {fileID: 188134232818702089}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ImpulseEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4340733969736957708}
   - component: {fileID: 3613643447242516594}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DashTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,9 +432,9 @@ GameObject:
   - component: {fileID: 3214691480717692999}
   - component: {fileID: 781829894381207796}
   - component: {fileID: 2803381632177467573}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: AttackHitbox
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5443,7 +5443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5739320312149157293}
   - component: {fileID: 790312010669025935}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5681,9 +5681,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8849368548994619156}
   - component: {fileID: 1050609727464449330}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5758,7 +5758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1896967197796685413}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WallRayCast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5790,9 +5790,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5708121150537116410}
   - component: {fileID: 8462912563472778152}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CeilingCheck
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15660,7 +15660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6009581206254739397}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15697,7 +15697,7 @@ GameObject:
   - component: {fileID: 2942441695391280840}
   m_Layer: 6
   m_Name: WildPete
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15864,9 +15864,9 @@ GameObject:
   - component: {fileID: 5790001502036111594}
   - component: {fileID: 2275127635874104794}
   - component: {fileID: 6599196787385644411}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sprite
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
