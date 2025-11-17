@@ -19,6 +19,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isCrouching = false;
     protected bool isJumping = false;
     protected float jumpTimeCounter;
+    protected int jumpsRemaining = 1; // Track remaining jumps (starts at 1)
 
     [Header("Combat Settings")]
     public int maxHealth = 20;
@@ -116,12 +117,120 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         // Subscribe to respawn event
         GameRestartManager.CharacterRespawned += OnRespawn;
+
+        // Subscribe to stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged += HandleStatChanged;
+        }
     }
 
     protected virtual void OnDestroy()
     {
         // Unsubscribe from respawn event
         GameRestartManager.CharacterRespawned -= OnRespawn;
+
+        // Unsubscribe from stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged -= HandleStatChanged;
+        }
+    }
+
+    protected virtual void Start()
+    {
+        // Initialize StatsManager with player's base stats
+        // Use a coroutine to ensure StatsManager is ready
+        StartCoroutine(InitializeStatsManager());
+    }
+
+    private IEnumerator InitializeStatsManager()
+    {
+        // Wait a frame to ensure StatsManager is initialized
+        yield return null;
+
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.InitializeStats(
+                maxHealth,
+                maxAmmo,
+                moveSpeed,
+                1, // jumpCount (base is 1)
+                dashingPower,
+                slidePower,
+                10f, // bulletSpeed (default, adjust if needed)
+                0, // bulletCount (default)
+                0f, // meleeAttack (default)
+                0f, // rangedAttack (default)
+                0f  // universalAttack (default)
+            );
+
+            // Initialize jumps remaining from StatsManager
+            jumpsRemaining = StatsManager.instance.jumpCount;
+        }
+    }
+
+    private void HandleStatChanged(EquipmentSO.Stats stat, float value)
+    {
+        if (StatsManager.instance == null) return;
+
+        switch (stat)
+        {
+            case EquipmentSO.Stats.MaxHealth:
+                maxHealth = StatsManager.instance.maxHealth;
+                // Update HealthManager if it exists
+                if (HealthManager.instance != null)
+                {
+                    HealthManager.instance.SetMaxHealth(maxHealth);
+                    // If current health exceeds new max, cap it
+                    int currentHealth = HealthManager.instance.GetCurrentHealth();
+                    if (currentHealth > maxHealth)
+                    {
+                        HealthManager.instance.SetHealth(maxHealth);
+                    }
+                }
+                break;
+
+            case EquipmentSO.Stats.MovementSpeed:
+                moveSpeed = StatsManager.instance.MovementSpeed;
+                break;
+
+            case EquipmentSO.Stats.DashSpeed:
+                dashingPower = StatsManager.instance.dashSpeed;
+                break;
+
+            case EquipmentSO.Stats.SlideSpeed:
+                slidePower = StatsManager.instance.slideSpeed;
+                break;
+
+            case EquipmentSO.Stats.MaxAmmo:
+                maxAmmo = StatsManager.instance.maxAmmo;
+                // If current ammo exceeds new max, cap it
+                if (ammoCount > maxAmmo)
+                {
+                    ammoCount = maxAmmo;
+                }
+                OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+                break;
+
+            case EquipmentSO.Stats.JumpCount:
+                // Update max jump count from StatsManager
+                // If we're grounded, reset jumps to the new max
+                if (isGrounded)
+                {
+                    jumpsRemaining = StatsManager.instance.jumpCount;
+                }
+                break;
+
+            case EquipmentSO.Stats.BulletSpeed:
+            case EquipmentSO.Stats.BulletCount:
+            case EquipmentSO.Stats.MeleeAttack:
+            case EquipmentSO.Stats.RangedAttack:
+            case EquipmentSO.Stats.UniversalAttack:
+                // These stats would be used in attack calculations
+                // You can add fields to store them if needed
+                break;
+        }
     }
 
     // Handles respawning the player at the checkpoint location.
@@ -176,6 +285,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             HealthManager.instance.SetHealth(maxHealth);
             ammoCount = maxAmmo;
             OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+        }
+
+        // Disable hitbox immediately on respawn
+        if (hitboxManager != null)
+        {
+            hitboxManager.DisableHitbox();
         }
 
         // Re-enable player
@@ -278,11 +393,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Jump initiation
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded || Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+        // Jump initiation - allow jumping if we have jumps remaining
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && jumpsRemaining > 0)
         {
             isJumping = true;
             isGrounded = false;
+            jumpsRemaining--; // Use one jump
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             jumpParticle.Emit(1);
             if (isDashing && isCrouching)
@@ -577,10 +693,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
 
-        // Reset jump state when landing
+        // Reset jump state and restore jumps when landing
         if (!wasGrounded && isGrounded)
         {
             isJumping = false;
+            // Restore all jumps when landing
+            if (StatsManager.instance != null)
+            {
+                jumpsRemaining = StatsManager.instance.jumpCount;
+            }
+            else
+            {
+                jumpsRemaining = 1; // Fallback to 1 if StatsManager not available
+            }
         }
     }
 
@@ -881,6 +1006,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual void Die()
     {
         isDead = true;
+
+        // Disable hitbox immediately on death
+        if (hitboxManager != null)
+        {
+            hitboxManager.DisableHitbox();
+        }
 
         // Cancel all active actions
         CancelAllActions();

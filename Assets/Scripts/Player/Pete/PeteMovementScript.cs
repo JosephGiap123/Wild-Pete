@@ -25,12 +25,13 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override void Update()
     {
-        // Play jump SFX exactly when jump is initiated
+        // Play jump SFX exactly when jump is initiated (works with multi-jump)
         if (!PauseController.IsGamePaused
-            && isGrounded
             && !isDashing
-            && Input.GetKeyDown(KeyCode.W))
+            && jumpsRemaining > 0
+            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
+            // Only play sound if we have jumps remaining
             audioMgr?.PlayJump();
         }
 

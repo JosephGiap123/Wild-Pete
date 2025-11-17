@@ -761,33 +761,36 @@ public class GuardAI : EnemyBase
         }
 
         // Start the chosen attack and apply cooldowns
+        // Randomize attack cooldown between 0.8-1x the regular time
+        float randomMultiplier = Random.Range(0.8f, 1.0f);
+        
         switch (best)
         {
             case GuardAttackType.Melee:
                 MeleeAttack();
                 melee1Timer = melee1AttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Melee;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Melee2:
                 MeleeAttack();
                 melee2Timer = melee2AttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Melee2;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Dash:
                 SetUpAttackHitbox(4);
                 dashTimer = dashAttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Dash;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Ranged:
                 RangedAttack();
                 rangedTimer = rangedAttackCooldown;
-                attackTimer = attackCooldown * 0.75f;
+                attackTimer = attackCooldown * 0.75f * randomMultiplier;
                 lastAttack = GuardAttackType.Ranged;
                 // remain in Alert state for ranged while chasing
                 break;
@@ -812,7 +815,9 @@ public class GuardAI : EnemyBase
             isAttacking = 2;
             SetUpAttackHitbox(2);
             attackChain = 0;
-            attackTimer = attackCooldown / 2;
+            // Randomize attack cooldown between 0.8-1x the regular time
+            float randomMultiplier = Random.Range(0.8f, 1.0f);
+            attackTimer = (attackCooldown / 2) * randomMultiplier;
             chainMeleePending = false; // chain complete
         }
     }

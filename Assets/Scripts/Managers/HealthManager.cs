@@ -28,17 +28,55 @@ public class HealthManager : MonoBehaviour
         GameManager.OnPlayerSet += HandlePlayerSet;
     }
 
-    private void OnDisable()
-    {
-        GameManager.OnPlayerSet -= HandlePlayerSet;
-    }
-
     private void HandlePlayerSet(GameObject player)
     {
-        maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
+        // Get max health from StatsManager if available, otherwise use player's base maxHealth
+        if (StatsManager.instance != null)
+        {
+            maxHealth = StatsManager.instance.maxHealth;
+        }
+        else
+        {
+            maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
+        }
+        
         health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(health);
+        
+        // Subscribe to stat changes for max health updates
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged += HandleMaxHealthChanged;
+        }
+    }
+    
+    private void HandleMaxHealthChanged(EquipmentSO.Stats stat, float value)
+    {
+        if (stat == EquipmentSO.Stats.MaxHealth && StatsManager.instance != null)
+        {
+            int newMaxHealth = StatsManager.instance.maxHealth;
+            
+            // If current health exceeds new max, cap it before updating
+            if (health > newMaxHealth)
+            {
+                health = newMaxHealth;
+            }
+            
+            // Update max health (this will also update the UI)
+            SetMaxHealth(newMaxHealth);
+        }
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.OnPlayerSet -= HandlePlayerSet;
+        
+        // Unsubscribe from stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged -= HandleMaxHealthChanged;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -62,6 +100,14 @@ public class HealthManager : MonoBehaviour
     {
         maxHealth = newMaxHealth;
         OnMaxHealthChanged?.Invoke(maxHealth);
+        
+        // Update health bar UI
+        if (healthBar != null)
+        {
+            healthBar.UpdateMaxHealth(maxHealth);
+            // Also update current health display to reflect new max
+            healthBar.UpdateHealthBar(health, maxHealth);
+        }
     }
 
     public void Heal(int amount)
