@@ -41,7 +41,6 @@ public class AliceMovement2D : BasePlayerMovement2D
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        // (Optional) Move UpdateRunLoopSound() here if you prefer physics-timed checks.
     }
 
     private void UpdateRunLoopSound()
@@ -95,14 +94,13 @@ public class AliceMovement2D : BasePlayerMovement2D
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
-        // R = SHOOT (use base method so ammo is decremented there, like Pete)
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             StartCoroutine(RangedAttack());
         }
 
-        // T = RELOAD (play reload SFX at start)
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
@@ -135,7 +133,7 @@ public class AliceMovement2D : BasePlayerMovement2D
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
             weaponEquipped = !weaponEquipped;
         }

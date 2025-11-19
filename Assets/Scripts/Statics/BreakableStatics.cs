@@ -22,6 +22,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     [SerializeField, Range(0f, 1f)] protected float breakVolume = 1f;
 
     [SerializeField] protected int maxHealth = 10; // Store max health for respawn
+    protected bool isBroken = false; // Track if this static is broken
 
     protected virtual void Awake()
     {
@@ -63,7 +64,9 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     protected virtual void Break()
     {
-        Destroy(gameObject);
+        // Don't destroy - just deactivate and mark as broken (checkpoint system will handle restoration)
+        isBroken = true;
+        gameObject.SetActive(false);
     }
 
     public virtual void Restore(Vector2 position)
@@ -74,11 +77,27 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     public virtual void Restore()
     {
-        health = Mathf.Max(health, 1);
+        // Fully restore the static: health, active state, and broken flag
+        isBroken = false;
+        health = maxHealth;
+
+        // Reset velocity if rigidbody exists
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        sr.material.SetFloat("_FlashAmount", 0f);
+
+        // Reactivate the GameObject
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
         }
+    }
+
+    public bool IsBroken()
+    {
+        return isBroken;
     }
 
     public virtual IEnumerator DamageFlash(float duration)

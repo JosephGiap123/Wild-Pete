@@ -176,6 +176,16 @@ public class CheckpointManager : MonoBehaviour
         }
 
         // Capture static states and positions
+        // First, ensure all statics in the scene are tracked
+        BreakableStatics[] allStatics = FindObjectsByType<BreakableStatics>(FindObjectsSortMode.None);
+        foreach (BreakableStatics statics in allStatics)
+        {
+            if (statics != null && !trackedStatics.ContainsKey(statics.gameObject.GetInstanceID()))
+            {
+                RegisterStatic(statics);
+            }
+        }
+
         currentCheckpoint.staticStates.Clear();
         currentCheckpoint.staticPositions.Clear();
         foreach (var kvp in trackedStatics)
@@ -366,8 +376,20 @@ public class CheckpointManager : MonoBehaviour
                 }
                 else
                 {
-                    // Static was broken at checkpoint - keep it broken
-                    statics.gameObject.SetActive(false);
+                    // Static was broken at checkpoint - keep it broken (deactivated)
+                    if (statics.gameObject.activeSelf)
+                    {
+                        statics.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                // Static wasn't tracked at checkpoint time - ensure it's registered and restore if needed
+                // This handles cases where statics are added after checkpoint save
+                if (!statics.gameObject.activeSelf)
+                {
+                    statics.Restore();
                 }
             }
         }

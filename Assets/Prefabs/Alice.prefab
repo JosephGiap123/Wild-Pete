@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6923331283735645932}
   - component: {fileID: 8453157193428454103}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ImpulseEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 9093190211906913712}
   - component: {fileID: 5102368542197912802}
   - component: {fileID: 6182104108368122417}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5169,7 +5169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9125069936538399559}
   - component: {fileID: 3803627630943915765}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5247,7 +5247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5086195719058683094}
   - component: {fileID: 5933276072712254741}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10230,9 +10230,9 @@ GameObject:
   - component: {fileID: 8862283075697551678}
   - component: {fileID: 8607775664743977173}
   - component: {fileID: 7824528446332788342}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Alice
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10488,7 +10488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5187375710118761005}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10519,7 +10519,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4137327256938815234}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WallRayCast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10553,7 +10553,7 @@ GameObject:
   - component: {fileID: 4187117937373275561}
   - component: {fileID: 6661474420223646056}
   - component: {fileID: 1601049201458241287}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10755,7 +10755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1572131595119563634}
   - component: {fileID: 2179199224452851584}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DashTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15910,7 +15910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3495771250545613865}
   - component: {fileID: 3481565198068845709}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
