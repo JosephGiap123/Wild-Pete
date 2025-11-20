@@ -15695,6 +15695,7 @@ GameObject:
   - component: {fileID: 8139471980475301415}
   - component: {fileID: 8742557805554968667}
   - component: {fileID: 2942441695391280840}
+  - component: {fileID: 7504804122771053848}
   m_Layer: 6
   m_Name: WildPete
   m_TagString: Untagged
@@ -15795,6 +15796,7 @@ MonoBehaviour:
   slideParticle: {fileID: 6976379698817741947}
   jumpParticle: {fileID: 5284088687788283822}
   dashParticle: {fileID: 1014601021296711167}
+  inputBroadcaster: {fileID: 7504804122771053848}
   runMinSpeed: 0.2
 --- !u!114 &8139471980475301415
 MonoBehaviour:
@@ -15852,6 +15854,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7504804122771053848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9a0851e9dc748fc84fc6c6f185d031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
 --- !u!1 &8113746080852306424
 GameObject:
   m_ObjectHideFlags: 0

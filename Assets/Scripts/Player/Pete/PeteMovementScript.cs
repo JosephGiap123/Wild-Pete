@@ -31,7 +31,6 @@ public class PeteMovement2D : BasePlayerMovement2D
             && jumpsRemaining > 0
             && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            // Only play sound if we have jumps remaining
             audioMgr?.PlayJump();
         }
 
@@ -71,6 +70,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
+            CallInputInvoke("Interact", PlayerControls.Interact, ControlManager.instance.inputMapping[PlayerControls.Interact]);
             audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
@@ -103,9 +103,9 @@ public class PeteMovement2D : BasePlayerMovement2D
 
             // stop run loop and play dash SFX immediately
             audioMgr?.StopRunLoop();
-            CallInputInvoke(PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
             if (!isCrouching)
             {
+                CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 dashParticle.Emit(emitParams, 1);
@@ -115,6 +115,7 @@ public class PeteMovement2D : BasePlayerMovement2D
             }
             else
             {
+                CallInputInvoke("Slide", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 slideParticle.Emit(emitParams, 1);
@@ -149,6 +150,7 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override void SetupGroundAttack(int attackIndex)
     {
+        CallInputInvoke("Melee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         switch (attackIndex)
         {
             case 0:
@@ -169,6 +171,7 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override void SetupCrouchAttack()
     {
+        CallInputInvoke("CrouchMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
         attackTimer = attackCooldown / 2;
@@ -176,6 +179,7 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     protected override void SetupAerialAttack()
     {
+        CallInputInvoke("AerialMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[6]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
         aerialTimer = aerialCooldown;
@@ -185,8 +189,6 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, 0.3f), 0);
     }
-
-    // ---------- Ranged (base decrements ammo) ----------
     protected override IEnumerator AerialAttack()
     {
         aerialTimer = aerialCooldown;
@@ -201,11 +203,13 @@ public class PeteMovement2D : BasePlayerMovement2D
     {
         if (isCrouching)
         {
+            CallInputInvoke("CrouchRangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, -0.12f, 0f);
             animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
         }
         else
         {
+            CallInputInvoke("RangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
             animatorScript.ChangeAnimationState(playerStates.RangedAttack);
         }
@@ -219,7 +223,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     protected override IEnumerator ThrowAttack()
     {
         // Play Throw animation + stop loop SFX while dynamite throw plays
-        CallInputInvoke(PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
+        CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
         audioMgr?.PlayThrow();
         audioMgr?.StopRunLoop();
 

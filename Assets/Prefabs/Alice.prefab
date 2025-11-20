@@ -10230,6 +10230,7 @@ GameObject:
   - component: {fileID: 8862283075697551678}
   - component: {fileID: 8607775664743977173}
   - component: {fileID: 7824528446332788342}
+  - component: {fileID: 1842705194756823511}
   m_Layer: 0
   m_Name: Alice
   m_TagString: Untagged
@@ -10329,6 +10330,7 @@ MonoBehaviour:
   slideParticle: {fileID: 1512325147502876378}
   jumpParticle: {fileID: 7851847275027949122}
   dashParticle: {fileID: 7434259271629952336}
+  inputBroadcaster: {fileID: 1842705194756823511}
   runMinSpeed: 0.2
 --- !u!114 &8862283075697551678
 MonoBehaviour:
@@ -10386,6 +10388,19 @@ MonoBehaviour:
   boxCol: {fileID: 6182104108368122417}
   circleCol: {fileID: 5102368542197912802}
   parentScript: {fileID: 2802167836047707247}
+--- !u!114 &1842705194756823511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172980308799934302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9a0851e9dc748fc84fc6c6f185d031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
 --- !u!1 &3244053087830911747
 GameObject:
   m_ObjectHideFlags: 0

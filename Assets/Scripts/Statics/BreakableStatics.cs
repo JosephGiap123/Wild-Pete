@@ -22,7 +22,9 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
     [SerializeField, Range(0f, 1f)] protected float breakVolume = 1f;
 
     [SerializeField] protected int maxHealth = 10; // Store max health for respawn
-    protected bool isBroken = false; // Track if this static is broken
+    protected bool isBroken = false; // Track if this static is broke
+    public bool isInvincible = false;
+    public IntEventSO tutorialIndexEvent;
 
     protected virtual void Awake()
     {
@@ -38,6 +40,19 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
         {
             CheckpointManager.Instance.RegisterStatic(this);
         }
+        if (tutorialIndexEvent != null)
+        {
+            isInvincible = true;
+            tutorialIndexEvent.onEventRaised.AddListener(OnTutorialIndexChanged);
+        }
+    }
+
+    void OnTutorialIndexChanged(int index)
+    {
+        if (index == 4)
+        {
+            isInvincible = false;
+        }
     }
 
     protected virtual void OnDestroy()
@@ -51,6 +66,7 @@ public class BreakableStatics : MonoBehaviour, IHasFacing
 
     public virtual void Damage(int dmg, Vector2 knockbackForce)
     {
+        if (isInvincible) return;
         health -= dmg;
         Debug.Log(health);
         PlaySound(hitSound, hitVolume);
