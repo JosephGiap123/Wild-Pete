@@ -117,8 +117,8 @@ public class SkeletonMinerAI : PatrolEnemyAI
                 if (playerIsBehind)
                 {
                     // Turn around to look for player
-                    FlipSprite();
-                }
+            FlipSprite();
+    }
             }
 
             if (loseSightTimer >= loseSightTime)
@@ -140,7 +140,7 @@ public class SkeletonMinerAI : PatrolEnemyAI
 
         // Movement logic
         if (distanceToPlayer > meleeRange)
-        {
+    {
             // Not in melee range - keep chasing
             MoveTowards(player.position, alertSpeed);
         }

@@ -29,7 +29,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         if (!PauseController.IsGamePaused
             && !isDashing
             && jumpsRemaining > 0
-            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)))
         {
             audioMgr?.PlayJump();
         }

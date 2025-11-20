@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1845674008679027450}
   - component: {fileID: 2820137982760406122}
   - component: {fileID: 5214338442338250012}
+  - component: {fileID: 4081309632180943067}
   m_Layer: 5
   m_Name: Attacking Tutorial
   m_TagString: Untagged
@@ -77,6 +78,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4081309632180943067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736877701305165270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 1
+  itemNameToPickUp: 
+  tutorialType: 1
+  originalListenForKeys: 
+  originalListenForInputs:
+  - Punch
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 0}
 --- !u!1 &2479903907916367623
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +111,7 @@ GameObject:
   - component: {fileID: 4204843228753801082}
   - component: {fileID: 1986941292975761822}
   - component: {fileID: 5404636294814772854}
+  - component: {fileID: 2165943694321119196}
   m_Layer: 5
   m_Name: Sliding Tutorial
   m_TagString: Untagged
@@ -154,6 +178,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2165943694321119196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2479903907916367623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 1
+  itemNameToPickUp: 
+  tutorialType: 1
+  originalListenForKeys: 
+  originalListenForInputs:
+  - Slide
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 0}
 --- !u!1 &2808733324203765942
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +349,7 @@ GameObject:
   - component: {fileID: 7095999201363029723}
   - component: {fileID: 3487511018683129526}
   - component: {fileID: 611129614303217863}
+  - component: {fileID: 4947556433468645760}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -398,6 +445,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4947556433468645760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967630564765570583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969d41c36f7774270b28457a225b72b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialSlides:
+  - {fileID: 3236999862279149757}
+  - {fileID: 9189064410729998324}
+  - {fileID: 2165943694321119196}
+  - {fileID: 4081309632180943067}
+  - {fileID: 8445319545122726676}
+  - {fileID: 2952394909192484579}
+  currentTutorial: {fileID: 3236999862279149757}
+  tutorialIndexEvent: {fileID: 11400000, guid: d82bfce5f22554f1597a4aa0c4bf0ca5, type: 2}
+  tutorialCompletedEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
 --- !u!1 &3334318258269390057
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,6 +614,7 @@ GameObject:
   - component: {fileID: 877035169302362656}
   - component: {fileID: 1427068171032619393}
   - component: {fileID: 2163389905612461554}
+  - component: {fileID: 9189064410729998324}
   m_Layer: 5
   m_Name: Dashing Tutorial
   m_TagString: Untagged
@@ -611,6 +681,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9189064410729998324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916872563029269949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 1
+  itemNameToPickUp: 
+  tutorialType: 1
+  originalListenForKeys: 
+  originalListenForInputs:
+  - Dash
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 0}
 --- !u!1 &4090980754569347264
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,13 +901,14 @@ GameObject:
   - component: {fileID: 8296098769197725835}
   - component: {fileID: 2784096113138290599}
   - component: {fileID: 8806657589136225799}
+  - component: {fileID: 2952394909192484579}
   m_Layer: 5
   m_Name: Using Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8296098769197725835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -875,6 +968,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2952394909192484579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984236412272084412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 0
+  itemNameToPickUp: 
+  tutorialType: 1
+  originalListenForKeys: 
+  originalListenForInputs:
+  - Inventory
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 0}
 --- !u!1 &5635233634744910084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,8 +1496,9 @@ GameObject:
   - component: {fileID: 7832361865725201215}
   - component: {fileID: 7307987761459843230}
   - component: {fileID: 3270782957606442341}
+  - component: {fileID: 3236999862279149757}
   m_Layer: 5
-  m_Name: MovementTutorial
+  m_Name: Movement Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1447,6 +1563,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3236999862279149757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8440553828742403328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 1
+  itemNameToPickUp: 
+  tutorialType: 0
+  originalListenForKeys: 77000000610000007300000064000000
+  originalListenForInputs: []
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 0}
 --- !u!1 &8507136962322808710
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,6 +1595,7 @@ GameObject:
   - component: {fileID: 2777228696871268527}
   - component: {fileID: 2041742426378473832}
   - component: {fileID: 4381438112787754113}
+  - component: {fileID: 8445319545122726676}
   m_Layer: 5
   m_Name: Destroy Box
   m_TagString: Untagged
@@ -1523,6 +1661,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8445319545122726676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8507136962322808710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a6c5f625a504b77870aa258d3d4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goToNextAfterComplete: 1
+  itemNameToPickUp: Lockpick
+  tutorialType: 4
+  originalListenForKeys: 
+  originalListenForInputs: []
+  tutorialTimeLimit: 5
+  tutorialCompleteEvent: {fileID: 11400000, guid: 646a2c2d6e92b4fa9b59825af49e8299, type: 2}
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
+  itemPickUpEvent: {fileID: 11400000, guid: 0599af1023c9e495ea6838873b56cf6f, type: 2}
 --- !u!1 &8781588205004127223
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,8 +36,8 @@ public class HealthManager : MonoBehaviour
             maxHealth = StatsManager.instance.maxHealth;
         }
         else
-        {
-            maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
+    {
+        maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
         }
         
         health = maxHealth;

@@ -152,12 +152,12 @@ public class SuicideGolemAI : PatrolEnemyAI
 
         // Set animation based on movement
         if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
-        {
-            ChangeAnimationState("Run");
-        }
-        else
-        {
-            ChangeAnimationState("Idle");
+            {
+                ChangeAnimationState("Run");
+            }
+            else
+            {
+                ChangeAnimationState("Idle");
         }
     }
 
@@ -190,9 +190,9 @@ public class SuicideGolemAI : PatrolEnemyAI
         // Set up explosion hitbox
         if (attackHitboxScript != null && attackHitboxes != null && attackHitboxes.Length > 0)
         {
-            attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
+                attackHitboxScript.CustomizeHitbox(attackHitboxes[0]);
         }
-        ChangeAnimationState("Explode");
+                ChangeAnimationState("Explode");
     }
 
     // Public method called by animation event at the end of Explode animation
@@ -242,7 +242,7 @@ public class SuicideGolemAI : PatrolEnemyAI
 
         // Reset movement
         if (rb != null)
-        {
+    {
             rb.linearVelocity = Vector2.zero;
         }
 
