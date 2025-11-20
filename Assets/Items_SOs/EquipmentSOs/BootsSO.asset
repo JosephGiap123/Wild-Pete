@@ -21,6 +21,6 @@ MonoBehaviour:
     double jumps.
   itemStats: 0400000005000000
   itemStatAmounts:
-  - 3
-  - 10
+  - 0.1
+  - 1
   equipmentType: 1

@@ -10,7 +10,7 @@ public class GenericHurtCollision : MonoBehaviour
 
 	void Update()
 	{
-		if (parentScript.isDead || parentScript.isHurt)
+		if (parentScript.isDead || parentScript.isHurt || PauseController.IsGamePaused)
 		{
 			return;
 		}

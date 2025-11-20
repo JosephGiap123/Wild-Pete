@@ -219,7 +219,7 @@ public class SpiderAI : PatrolEnemyAI
                 // Not melee attacking - sometimes back away, sometimes stay
                 // Give a chance to stay close for potential melee attack
                 // If attack timer is ready, stay close to allow melee selection
-                if (attackTimer <= 0f && Random.value < 0.5f) // 50% chance to stay
+                if (attackTimer <= 0f && Random.value < 0.75f) // 75% chance to stay
                 {
                     // Stay close - might melee attack next frame
                     StopMoving();

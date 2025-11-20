@@ -139,19 +139,19 @@ public class GuardAI : PatrolEnemyAI
         {
             switch (guardCurrentState)
             {
-                case GuardState.Attack: HandleAttack(); break;
-                case GuardState.Return: HandleReturn(); break;
-            }
+            case GuardState.Attack: HandleAttack(); break;
+            case GuardState.Return: HandleReturn(); break;
         }
+    }
         else
         {
             // Use base class state machine
             switch (currentState)
-            {
+        {
                 case PatrolState.Idle: HandleIdle(canSee); break;
                 case PatrolState.Patrol: HandlePatrol(canSee); break;
                 case PatrolState.Alert: HandleAlert(canSee); break;
-            }
+        }
         }
     }
 
@@ -439,7 +439,7 @@ public class GuardAI : PatrolEnemyAI
         // If this will kill the enemy, start death coroutine BEFORE calling base.Hurt
         // Set isDead = true first so base.Hurt() doesn't call Die() (which deactivates GameObject)
         if (willDie)
-        {
+                {
             isDead = true; // Prevent base.Hurt() from calling Die()
             StartCoroutine(Death());
         }

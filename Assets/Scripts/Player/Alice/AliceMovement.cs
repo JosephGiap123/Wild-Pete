@@ -28,7 +28,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         if (!PauseController.IsGamePaused
             && !isDashing
             && jumpsRemaining > 0
-            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)))
         {
             // Only play sound if we have jumps remaining
             audioMgr?.PlayJump();
@@ -79,7 +79,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
-            CallInputInvoke(PlayerControls.Interact, ControlManager.instance.inputMapping[PlayerControls.Interact]);
+            CallInputInvoke("Interact", PlayerControls.Interact, ControlManager.instance.inputMapping[PlayerControls.Interact]);
             audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
@@ -115,6 +115,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
             if (!isCrouching)
             {
+                CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 dashParticle.Emit(emitParams, 1);
@@ -124,6 +125,7 @@ public class AliceMovement2D : BasePlayerMovement2D
             }
             else
             {
+                CallInputInvoke("Slide", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 slideParticle.Emit(emitParams, 1);
@@ -158,6 +160,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupGroundAttack(int attackIndex)
     {
+        CallInputInvoke("Melee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         switch (attackIndex)
         {
             case 0:
@@ -176,6 +179,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupCrouchAttack()
     {
+        CallInputInvoke("CrouchMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[4]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
         audioMgr?.PlaySweep();
@@ -184,6 +188,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupAerialAttack()
     {
+        CallInputInvoke("AerialMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
         aerialTimer = aerialCooldown;
@@ -212,19 +217,13 @@ public class AliceMovement2D : BasePlayerMovement2D
     {
         if (isCrouching)
         {
+            CallInputInvoke("CrouchRangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-            if (isCrouching)
-            {
-                bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-                animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
-            }
-            else
-            {
-                bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
-            }
+            animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
         }
         else
         {
+            CallInputInvoke("RangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
             animatorScript.ChangeAnimationState(playerStates.RangedAttack);
         }
@@ -243,6 +242,7 @@ public class AliceMovement2D : BasePlayerMovement2D
     }
     protected override IEnumerator ThrowAttack()
     {
+        CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
         // audioMgr.PlayThrow();
         // audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();

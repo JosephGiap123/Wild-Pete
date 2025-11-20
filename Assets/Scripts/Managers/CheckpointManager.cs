@@ -379,7 +379,7 @@ public class CheckpointManager : MonoBehaviour
                     // Static was broken at checkpoint - keep it broken (deactivated)
                     if (statics.gameObject.activeSelf)
                     {
-                        statics.gameObject.SetActive(false);
+                    statics.gameObject.SetActive(false);
                     }
                 }
             }
