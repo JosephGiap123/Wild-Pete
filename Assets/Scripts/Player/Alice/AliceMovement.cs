@@ -28,7 +28,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         if (!PauseController.IsGamePaused
             && !isDashing
             && jumpsRemaining > 0
-            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)))
         {
             // Only play sound if we have jumps remaining
             audioMgr?.PlayJump();

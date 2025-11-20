@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     [SerializeField] private GameObject Pete;
     [SerializeField] private GameObject Alice;
-    [SerializeField] private CinemachineCamera cinemachineCam;
+    [SerializeField] public CinemachineCamera cinemachineCam;
     public int selectedCharacter = 1;
     public GameObject player { get; private set; }
 
@@ -50,7 +50,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
-        SetPlayer();
+        // Only spawn player if one doesn't already exist (prevents duplicates when testing)
+        if (player == null)
+        {
+            SetPlayer();
+        }
     }
 }

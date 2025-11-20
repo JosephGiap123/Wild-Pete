@@ -10281,7 +10281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  jumpPower: 9
+  jumpPower: 10
   minJumpPower: 4
   isFacingRight: 1
   maxHealth: 50
@@ -10292,7 +10292,8 @@ MonoBehaviour:
   attackCooldown: 2
   invincibilityTime: 0
   hurtStateTimeout: 1
-  deathAnimationDuration: 8
+  deathAnimationDuration: 2
+  deathYThreshold: -21
   dashingPower: 15
   dashingTime: 0.3
   slidePower: 12

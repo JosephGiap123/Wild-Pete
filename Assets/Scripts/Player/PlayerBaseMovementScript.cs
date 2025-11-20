@@ -41,7 +41,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
-    [SerializeField] protected float deathAnimationDuration = 6f; // How long death animation plays
+    [SerializeField] protected float deathAnimationDuration = 4f; // How long death animation plays
+    [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -324,6 +325,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             return;
         }
+
+        // Check if player has fallen below death threshold
+        if (!isDead && transform.position.y < deathYThreshold)
+        {
+            Debug.Log($"Player fell below death threshold ({deathYThreshold}). Player Y: {transform.position.y}");
+            Die();
+            return;
+        }
+
         attackTimer -= Time.deltaTime;
         aerialTimer -= Time.deltaTime;
 
@@ -387,7 +397,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDead) return;
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && jumpsRemaining > 0)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0)
         {
             isJumping = true;
             isGrounded = false;
@@ -408,7 +418,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDashing) return;
 
         // Release jump button early for shorter jump
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
             // Apply minimum jump power if released early
