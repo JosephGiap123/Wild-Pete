@@ -68,7 +68,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [Header("Wall Slide Settings")]
     [SerializeField] protected Transform wallRay;
     [SerializeField] protected LayerMask wallMask;
-    [SerializeField] protected float wallSlideSpeed = 1.5f;
+    [SerializeField] protected float wallSlideSpeed = 0.9f;
     protected bool isTouchingWall;
     protected bool isWallSliding = false;
     protected float castDistance = 0.3f;

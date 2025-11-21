@@ -10305,7 +10305,7 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 524288
-  wallSlideSpeed: 1.7
+  wallSlideSpeed: 1.2
   rb: {fileID: 8607775664743977173}
   boxCol: {fileID: 8169233198180431905}
   groundCheck: {fileID: 3803627630943915765}
