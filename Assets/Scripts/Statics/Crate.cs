@@ -26,6 +26,7 @@ public class Crate : BreakableStatics
     }
     public override void Damage(int dmg, Vector2 knockbackForce)
     {
+        if (isInvincible) return;
         health -= dmg;
         Debug.Log(health);
         PlayHitSound();

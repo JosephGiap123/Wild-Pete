@@ -11,6 +11,16 @@ public class TutorialKeySetText : MonoBehaviour
         Debug.Log(mappedKeyCode);
         Sprite keyCodeSprite = ControlManager.instance.spriteMapping[mappedKeyCode];
         keyText.GetComponent<SpriteRenderer>().sprite = keyCodeSprite;
+        if (mappedKeyCode == KeyCode.Tab)
+        {
+            GetComponent<RectTransform>().sizeDelta = new Vector2(64f, 36f);
+            keyText.GetComponent<RectTransform>().sizeDelta = new Vector2(36f, 36f);
+        }
+        else
+        {
+            GetComponent<RectTransform>().sizeDelta = new Vector2(36f, 36f);
+            keyText.GetComponent<RectTransform>().sizeDelta = new Vector2(12f, 12f);
+        }
     }
     public void Initialize(PlayerControls inputName)
     {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8308173776896760361}
   - component: {fileID: 188134232818702089}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ImpulseEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4340733969736957708}
   - component: {fileID: 3613643447242516594}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DashTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,9 +432,9 @@ GameObject:
   - component: {fileID: 3214691480717692999}
   - component: {fileID: 781829894381207796}
   - component: {fileID: 2803381632177467573}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: AttackHitbox
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5443,7 +5443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5739320312149157293}
   - component: {fileID: 790312010669025935}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5681,9 +5681,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8849368548994619156}
   - component: {fileID: 1050609727464449330}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GroundCheck
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5758,7 +5758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1896967197796685413}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WallRayCast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5790,9 +5790,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5708121150537116410}
   - component: {fileID: 8462912563472778152}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CeilingCheck
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15660,7 +15660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6009581206254739397}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15695,9 +15695,10 @@ GameObject:
   - component: {fileID: 8139471980475301415}
   - component: {fileID: 8742557805554968667}
   - component: {fileID: 2942441695391280840}
+  - component: {fileID: 7504804122771053848}
   m_Layer: 6
   m_Name: WildPete
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15745,7 +15746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4.5
-  jumpPower: 9
+  jumpPower: 10
   minJumpPower: 4
   isFacingRight: 1
   maxHealth: 50
@@ -15756,7 +15757,8 @@ MonoBehaviour:
   attackCooldown: 1.4
   invincibilityTime: 0
   hurtStateTimeout: 1
-  deathAnimationDuration: 8
+  deathAnimationDuration: 2
+  deathYThreshold: -21
   dashingPower: 15
   dashingTime: 0.3
   slidePower: 13
@@ -15768,7 +15770,7 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 524288
-  wallSlideSpeed: 1.5
+  wallSlideSpeed: 1.2
   rb: {fileID: 2942441695391280840}
   boxCol: {fileID: 6528279183396595597}
   groundCheck: {fileID: 1050609727464449330}
@@ -15795,6 +15797,7 @@ MonoBehaviour:
   slideParticle: {fileID: 6976379698817741947}
   jumpParticle: {fileID: 5284088687788283822}
   dashParticle: {fileID: 1014601021296711167}
+  inputBroadcaster: {fileID: 7504804122771053848}
   runMinSpeed: 0.2
 --- !u!114 &8139471980475301415
 MonoBehaviour:
@@ -15852,6 +15855,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7504804122771053848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9a0851e9dc748fc84fc6c6f185d031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputEvent: {fileID: 11400000, guid: bc320d00ffcfe454e93a046cfae33db7, type: 2}
 --- !u!1 &8113746080852306424
 GameObject:
   m_ObjectHideFlags: 0
@@ -15864,9 +15880,9 @@ GameObject:
   - component: {fileID: 5790001502036111594}
   - component: {fileID: 2275127635874104794}
   - component: {fileID: 6599196787385644411}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sprite
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

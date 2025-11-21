@@ -13,7 +13,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected float horizontalInput;
     public bool isFacingRight = true;
     public bool IsFacingRight => isFacingRight; // IHasFacing implementation
-    protected bool weaponEquipped = true;
+    protected bool weaponEquipped = false;
     protected bool isGrounded;
     protected bool isAttacking = false;
     protected bool isCrouching = false;
@@ -41,7 +41,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
-    [SerializeField] protected float deathAnimationDuration = 6f; // How long death animation plays
+    [SerializeField] protected float deathAnimationDuration = 4f; // How long death animation plays
+    [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -67,7 +68,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [Header("Wall Slide Settings")]
     [SerializeField] protected Transform wallRay;
     [SerializeField] protected LayerMask wallMask;
-    [SerializeField] protected float wallSlideSpeed = 1.5f;
+    [SerializeField] protected float wallSlideSpeed = 0.9f;
     protected bool isTouchingWall;
     protected bool isWallSliding = false;
     protected float castDistance = 0.3f;
@@ -105,7 +106,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     public event Action<int, int> OnAmmoChanged;
     public event Action PlayerDied;
 
-    public event Action<PlayerControls, KeyCode> InputUsed;
+    [SerializeField] protected InputBroadcaster inputBroadcaster;
 
     protected virtual void Awake()
     {
@@ -324,6 +325,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             return;
         }
+
+        // Check if player has fallen below death threshold
+        if (!isDead && transform.position.y < deathYThreshold)
+        {
+            Debug.Log($"Player fell below death threshold ({deathYThreshold}). Player Y: {transform.position.y}");
+            Die();
+            return;
+        }
+
         attackTimer -= Time.deltaTime;
         aerialTimer -= Time.deltaTime;
 
@@ -331,7 +341,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         AnimationControl();
         if (isHurt || isReloading) return;
         HandleMovement();
-        if (!isDashing)
+        if (!isDashing && !isDead)
         {
             HandleInput();
             HandleFlip();
@@ -340,6 +350,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
+        if (isDead) return;
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
@@ -352,7 +363,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3] != null && !PlayerInventory.instance.equipmentSlots[3].IsEmpty())
         {
             attackCoroutine = StartCoroutine(RangedAttack());
         }
@@ -375,30 +386,22 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
 
         }
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
-            weaponEquipped = !weaponEquipped;
+            Debug.Log(PlayerInventory.instance.equipmentSlots[2].GetEquippedItem().itemName);
+            PlayerInventory.instance.equipmentSlots[2].UnequipItem();
         }
     }
-
-    public PlayerOrientationPosition GetPlayerOrientPosition()
-    {
-        PlayerOrientationPosition pos;
-        pos.position = transform;
-        pos.isFacingRight = isFacingRight;
-        return pos;
-    }
-
     protected virtual void HandleMovement()
     {
+        if (isDead) return;
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Jump initiation - allow jumping if we have jumps remaining
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && jumpsRemaining > 0)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0)
         {
             isJumping = true;
             isGrounded = false;
-            jumpsRemaining--; // Use one jump
+            jumpsRemaining--;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             jumpParticle.Emit(1);
             if (isDashing && isCrouching)
@@ -415,7 +418,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDashing) return;
 
         // Release jump button early for shorter jump
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
             // Apply minimum jump power if released early
@@ -522,7 +525,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             if (isCrouching || isJumping || !isGrounded || attackTimer > 0f) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
-            CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
             SetUpPunchAttack(attackCount);
             attackCount++;
             isAttacking = true;
@@ -537,7 +539,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             if (isJumping || attackTimer > 0f) return; //frame perfect check.
             if (isCrouching)
             {
-                CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
                 SetupCrouchAttack();
                 isAttacking = true;
                 StartAttackWatchdog(maxAttackDuration);
@@ -546,7 +547,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
             if (attackCount >= maxAttackChain || attackCount < 0)
                 attackCount = 0;
-            CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
             SetupGroundAttack(attackCount);
             attackCount++;
             isAttacking = true;
@@ -560,7 +560,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             if (aerialTimer <= 0f)
             {
-                CallInputInvoke(PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
                 attackCoroutine = StartCoroutine(AerialAttack());
             }
         }
@@ -1046,9 +1045,13 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     }
 
-    protected virtual void CallInputInvoke(PlayerControls pc, KeyCode kc)
+    protected virtual void CallInputInvoke(string inputName, PlayerControls pc, KeyCode kc)
     {
-        InputUsed?.Invoke(pc, kc);
+        if (inputBroadcaster != null && inputBroadcaster.inputEvent != null)
+        {
+            inputBroadcaster.RaiseInputEvent(inputName, pc, kc);
+        }
+        Debug.Log("Input used: " + inputName + " " + pc + " " + kc.ToString());
     }
 
     // Invincibility frames
@@ -1093,6 +1096,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void SetUpPunchAttack(int attackIndex)
     {
+        CallInputInvoke("Punch", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         attackIndex = Mathf.Clamp(attackIndex, 0, 2);
         switch (attackIndex)
         {
@@ -1107,6 +1111,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
                 attackTimer = attackCooldown;
                 break;
         }
+    }
+
+    public PlayerOrientationPosition GetPlayerOrientPosition()
+    {
+        PlayerOrientationPosition pos;
+        pos.position = transform;
+        pos.isFacingRight = isFacingRight;
+        return pos;
+    }
+
+    public void SetWeaponEquipped(bool equipped)
+    {
+        weaponEquipped = equipped;
     }
 
 }

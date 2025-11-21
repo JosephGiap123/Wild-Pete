@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class PlayerInventory : MonoBehaviour
     public ItemSO[] itemSOs;
     public ConsumableSO[] consumableSOs;
     public EquipmentSO[] equipmentSOs;
-    
+
     [Header("Equipment Slots")]
     // Equipment slots - assign these in the Inspector (one for each EquipmentSlot type)
     public EquipmentSlot[] equipmentSlots;
@@ -25,6 +26,9 @@ public class PlayerInventory : MonoBehaviour
     public TMP_Text ItemDescriptionNameText;
     public TMP_Text ItemDescriptionText;
 
+    public event Action<EquipmentSO> OnEquipmentEquippedEvent;
+    public event Action<EquipmentSO> OnEquipmentUnequippedEvent;
+
     private void Awake()
     {
         if (instance == null)
@@ -32,8 +36,7 @@ public class PlayerInventory : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // Note: If you use GetComponentsInChildren<ItemSlot>(), do it here:
-            // itemSlots = GetComponentsInChildren<ItemSlot>();
+
         }
         else
         {
@@ -73,7 +76,7 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning($"PlayerInventory: Cannot use consumable {itemName} - quantity is 0!");
             return;
         }
-        
+
         for (int i = 0; i < consumableSOs.Length; i++)
         {
             if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
@@ -150,11 +153,11 @@ public class PlayerInventory : MonoBehaviour
             }
         }
     }
-    
+
     public void DeselectAllEquipmentSlots()
     {
         if (equipmentSlots == null) return;
-        
+
         foreach (EquipmentSlot slot in equipmentSlots)
         {
             if (slot != null)
@@ -232,7 +235,7 @@ public class PlayerInventory : MonoBehaviour
 
         // Deselect all slots first
         DeselectAllSlots();
-        
+
         // Clear description panel
         ClearDescriptionPanel();
 
@@ -248,7 +251,7 @@ public class PlayerInventory : MonoBehaviour
             if (i < savedSlots.Count)
             {
                 var savedSlot = savedSlots[i];
-                
+
                 // If slot is empty in checkpoint, ensure it's cleared
                 if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
                 {
@@ -258,7 +261,7 @@ public class PlayerInventory : MonoBehaviour
 
                 // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
                 ItemSO foundItemSO = null;
-                
+
                 // First check consumableSOs (for consumables)
                 if (consumableSOs != null)
                 {
@@ -271,7 +274,7 @@ public class PlayerInventory : MonoBehaviour
                         }
                     }
                 }
-                
+
                 // If not found in consumables, check equipmentSOs (for equipment)
                 if (foundItemSO == null && equipmentSOs != null)
                 {
@@ -284,7 +287,7 @@ public class PlayerInventory : MonoBehaviour
                         }
                     }
                 }
-                
+
                 // If not found in consumables or equipment, check regular itemSOs
                 if (foundItemSO == null && itemSOs != null)
                 {
@@ -318,9 +321,9 @@ public class PlayerInventory : MonoBehaviour
             }
         }
     }
-    
+
     // ========== EQUIPMENT SYSTEM ==========
-    
+
     /// <summary>
     /// Tries to equip an equipment item from an inventory slot
     /// </summary>
@@ -330,13 +333,13 @@ public class PlayerInventory : MonoBehaviour
         {
             return false;
         }
-        
+
         ItemSlot slot = itemSlots[inventorySlotIndex];
         if (slot == null || slot.IsEmpty() || slot.quantity <= 0)
         {
             return false;
         }
-        
+
         // Check if the item is an equipment
         EquipmentSO equipment = GetEquipmentSO(slot.itemName);
         if (equipment == null)
@@ -344,7 +347,7 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning($"Item {slot.itemName} is not an equipment!");
             return false;
         }
-        
+
         // Find the appropriate equipment slot
         EquipmentSlot targetEquipmentSlot = GetEquipmentSlotByType(equipment.equipmentType);
         if (targetEquipmentSlot == null)
@@ -352,28 +355,29 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning($"No equipment slot found for type {equipment.equipmentType}!");
             return false;
         }
-        
+
+
         // Equip the item
         targetEquipmentSlot.EquipItem(equipment);
-        
+
         // Remove one from inventory
         slot.DecreaseQuantity(1);
-        
+
         return true;
     }
-    
+
     /// <summary>
     /// Adds an equipment item back to inventory when unequipped
     /// </summary>
     public void AddEquipmentToInventory(EquipmentSO equipment)
     {
         if (equipment == null) return;
-        
+
         // Create a temporary Item object to add to inventory
         // We'll need to create a GameObject with Item component temporarily
         GameObject tempItem = new GameObject("TempEquipmentItem");
         Item itemComponent = tempItem.AddComponent<Item>();
-        
+
         // Initialize the item with equipment data
         itemComponent.itemSO = equipment;
         itemComponent.itemName = equipment.itemName;
@@ -382,21 +386,21 @@ public class PlayerInventory : MonoBehaviour
         itemComponent.maxStackSize = equipment.maxStackSize;
         itemComponent.quantity = 1;
         itemComponent.itemDesc = equipment.itemDesc;
-        
+
         // Add to inventory
         AddItem(itemComponent);
-        
+
         // Clean up temporary object
         Destroy(tempItem);
     }
-    
+
     /// <summary>
     /// Gets an EquipmentSO by name
     /// </summary>
     private EquipmentSO GetEquipmentSO(string itemName)
     {
         if (equipmentSOs == null) return null;
-        
+
         foreach (EquipmentSO equipment in equipmentSOs)
         {
             if (equipment != null && equipment.itemName == itemName)
@@ -406,14 +410,14 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
-    
+
     /// <summary>
     /// Gets an equipment slot by its type
     /// </summary>
     private EquipmentSlot GetEquipmentSlotByType(EquipmentSO.EquipmentSlot slotType)
     {
         if (equipmentSlots == null) return null;
-        
+
         foreach (EquipmentSlot slot in equipmentSlots)
         {
             if (slot != null && slot.slotType == slotType)
@@ -423,14 +427,17 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
-    
+
     /// <summary>
     /// Called when equipment is equipped - apply stat bonuses
     /// </summary>
     public void OnEquipmentEquipped(EquipmentSO equipment)
     {
         if (equipment == null) return;
-        
+
+        // Trigger the event
+        OnEquipmentEquippedEvent?.Invoke(equipment);
+
         // Apply stat bonuses from equipment
         if (StatsManager.instance != null)
         {
@@ -441,15 +448,31 @@ public class PlayerInventory : MonoBehaviour
         {
             Debug.LogWarning("PlayerInventory: StatsManager.instance is null! Cannot apply equipment stats.");
         }
+
+        // If this is a melee weapon, equip the weapon on the player
+        if (equipment.equipmentType == EquipmentSO.EquipmentSlot.Melee)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.player != null)
+            {
+                BasePlayerMovement2D playerMovement = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>();
+                if (playerMovement != null)
+                {
+                    playerMovement.SetWeaponEquipped(true);
+                }
+            }
+        }
     }
-    
+
     /// <summary>
     /// Called when equipment is unequipped - remove stat bonuses
     /// </summary>
     public void OnEquipmentUnequipped(EquipmentSO equipment)
     {
         if (equipment == null) return;
-        
+
+        // Trigger the event
+        OnEquipmentUnequippedEvent?.Invoke(equipment);
+
         // Remove stat bonuses from equipment
         if (StatsManager.instance != null)
         {
@@ -460,8 +483,21 @@ public class PlayerInventory : MonoBehaviour
         {
             Debug.LogWarning("PlayerInventory: StatsManager.instance is null! Cannot remove equipment stats.");
         }
+
+        // If this is a melee weapon, unequip the weapon on the player
+        if (equipment.equipmentType == EquipmentSO.EquipmentSlot.Melee)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.player != null)
+            {
+                BasePlayerMovement2D playerMovement = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>();
+                if (playerMovement != null)
+                {
+                    playerMovement.SetWeaponEquipped(false);
+                }
+            }
+        }
     }
-    
+
     /// <summary>
     /// Checks if an item is an equipment
     /// </summary>

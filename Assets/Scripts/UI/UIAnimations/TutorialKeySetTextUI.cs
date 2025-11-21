@@ -12,6 +12,7 @@ public class TutorialKeySetTextUI : MonoBehaviour
         Debug.Log(mappedKeyCode);
         Sprite keyCodeSprite = ControlManager.instance.spriteMapping[mappedKeyCode];
         keyText.sprite = keyCodeSprite;
+
     }
     public void Initialize(PlayerControls inputName)
     {
