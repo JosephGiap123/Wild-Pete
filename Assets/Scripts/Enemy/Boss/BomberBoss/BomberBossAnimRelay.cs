@@ -29,6 +29,11 @@ public class BomberBossAnimRelay : MonoBehaviour
     {
         bomberBoss.AddVelocity(addedVelocity);
     }
+
+    public void CallAddYVelocity(float addedVelocity)
+    {
+        bomberBoss.AddYVelocity(addedVelocity);
+    }
     public void CallChangeAttackNumber(int attackNum)
     {
         bomberBoss.ChangeAttackNumber(attackNum);
@@ -36,5 +41,25 @@ public class BomberBossAnimRelay : MonoBehaviour
     public void CallEndAttackState()
     {
         bomberBoss.EndAttackState();
+    }
+
+    public void CallEndMelee1Attack()
+    {
+        bomberBoss.EndMelee1Chain();
+    }
+
+    public void CallSetUpAndSpawnParticle(int particleNum)
+    {
+        bomberBoss.SetUpAndSpawnParticle(particleNum);
+    }
+
+    public void CallSpawnRocket(float angle)
+    {
+        bomberBoss.SpawnRocket(angle);
+    }
+
+    public void CallSpawnRocketJumpExplosion()
+    {
+        bomberBoss.SpawnRocketJumpExplosion();
     }
 }

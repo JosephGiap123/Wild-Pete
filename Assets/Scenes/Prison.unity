@@ -87271,6 +87271,10 @@ PrefabInstance:
       propertyPath: hpBar
       value: 
       objectReference: {fileID: 1393814672}
+    - target: {fileID: 1190115757944002534, guid: 88e1f510bb13d4b58b9d4c097e123d56, type: 3}
+      propertyPath: bossAI
+      value: 
+      objectReference: {fileID: 1239059220}
     - target: {fileID: 9044181392038691299, guid: 88e1f510bb13d4b58b9d4c097e123d56, type: 3}
       propertyPath: m_Name
       value: Warden
@@ -87280,6 +87284,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88e1f510bb13d4b58b9d4c097e123d56, type: 3}
+--- !u!114 &1239059220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8446106769678175166, guid: 88e1f510bb13d4b58b9d4c097e123d56, type: 3}
+  m_PrefabInstance: {fileID: 1239059219}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80eb8a858d3554a05bb8d24a79e8be47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1267360224
 PrefabInstance:
   m_ObjectHideFlags: 0
