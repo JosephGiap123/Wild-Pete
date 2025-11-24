@@ -5159,6 +5159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionCloud: {fileID: 1307652572775246841, guid: 6b6b3a62b32c1495bb6160ec87d719dd, type: 3}
   explosionParticles: {fileID: 4177891046806048846, guid: ccfdd5d14f5e445a79ae08e3561701ca, type: 3}
+  explosionHitbox: {fileID: 11400000, guid: 53b60661f398241cf8b01e1330071941, type: 2}
   explosionTime: 3
 --- !u!50 &6273434030552163463
 Rigidbody2D:

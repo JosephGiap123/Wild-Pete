@@ -46,7 +46,7 @@ public class RPGRocket : MonoBehaviour
         {
             GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
             SpawnExplosion();
-            Destroy(gameObject);
+            DestroyRocket();
         }
     }
 

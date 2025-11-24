@@ -62,4 +62,14 @@ public class BomberBossAnimRelay : MonoBehaviour
     {
         bomberBoss.SpawnRocketJumpExplosion();
     }
+
+    public void CallEndUlt()
+    {
+        bomberBoss.EndUlt();
+    }
+
+    public void CallDoUlt()
+    {
+        bomberBoss.DoUlt();
+    }
 }
