@@ -21,7 +21,8 @@ public class Dynamite : MonoBehaviour
     public IEnumerator Explode()
     {
         yield return new WaitForSeconds(explosionTime);
-        Instantiate(explosionCloud, transform.position, Quaternion.identity);
+        GameObject newExplosionCloud = Instantiate(explosionCloud, transform.position, Quaternion.identity);
+        newExplosionCloud.GetComponent<ExplosionCloud>().Initialize(null);
         Instantiate(explosionParticles, transform.position, Quaternion.identity);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         Destroy(gameObject);

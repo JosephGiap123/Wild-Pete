@@ -96,7 +96,7 @@ public class EnemyBase : MonoBehaviour, IHasFacing
     public virtual void Hurt(int dmg, Vector2 knockbackForce)
     {
         health -= dmg;
-        Debug.Log(health);
+        // Debug.Log(health);
         if (damageText != null)
         {
             GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
