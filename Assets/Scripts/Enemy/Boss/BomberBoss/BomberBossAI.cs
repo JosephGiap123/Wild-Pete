@@ -33,6 +33,26 @@ public class BomberBoss : EnemyBase, IHasFacing
     [SerializeField] private Transform airDiagonalRocketProjSpawnPt;
     [SerializeField] private Transform airStraightRocketProjSpawnPt;
 
+    [SerializeField] private GameObject dynamitePrefab;
+    [SerializeField] private GameObject landminePrefab;
+
+    [Header("Ultimate Attack - Dynamite Spawn")]
+    [Tooltip("BoxCollider2D that defines the area where dynamite can spawn. Set as trigger.")]
+    [SerializeField] private BoxCollider2D SpawnBounds;
+    [Tooltip("Number of dynamite to spawn in the ultimate attack")]
+    [SerializeField] private int dynamiteCount = 5;
+    [Tooltip("Initial downward velocity for spawned dynamite")]
+
+    [SerializeField] private float dynamiteFallSpeed = 2f;
+    [Tooltip("Random horizontal velocity range for dynamite")]
+    [SerializeField] private Vector2 horizontalVelocityRange = new Vector2(-1f, 1f);
+    [Tooltip("Y offset from top of bounds for spawn position (positive = slightly below top)")]
+
+    [Header("Ultimate Attack - Land Mine Spawn")]
+    [SerializeField] private int landMineCount = 5;
+    [Tooltip("Y offset from top of bounds for spawn position (positive = slightly below top)")]
+    [SerializeField] private float topSpawnOffset = 0.5f;
+
     protected float distanceToPlayer = 100f;
 
 
@@ -43,6 +63,8 @@ public class BomberBoss : EnemyBase, IHasFacing
     [SerializeField] private ParticleSystem shootAirStraightParticle;
     [SerializeField] BossHPBarInteractor hpBarInteractor;
     private Transform player;
+
+    [SerializeField] private Transform centerOfArena;
 
     protected override void Awake()
     {
@@ -90,6 +112,14 @@ public class BomberBoss : EnemyBase, IHasFacing
         {
             RocketJump();
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            StartUlt(1);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            StartUlt(2);
+        }
         AnimationControl();
         IsGroundedCheck();
         if (inAttackState || isDead) return;
@@ -113,6 +143,8 @@ public class BomberBoss : EnemyBase, IHasFacing
         else if (particleNum == 4)
         {
             newParticle = shootAirStraightParticle;
+            newParticle.Emit(1);
+            return;
         }
         ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
         emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
@@ -236,6 +268,54 @@ public class BomberBoss : EnemyBase, IHasFacing
         isAttacking = newAttackNum;
     }
 
+    public void EndUlt()
+    {
+        ChangeAnimationState("UltRecovery");
+    }
+
+    public void SpawnDynamite()
+    {
+        if (dynamitePrefab == null)
+        {
+            Debug.LogError("BomberBoss: Dynamite prefab is not assigned!");
+            return;
+        }
+
+        if (SpawnBounds == null)
+        {
+            Debug.LogError("BomberBoss: Dynamite spawn bounds (BoxCollider2D) is not assigned!");
+            return;
+        }
+
+        Bounds spawnBounds = SpawnBounds.bounds;
+
+        for (int i = 0; i < dynamiteCount; i++)
+        {
+            // Generate random X position within bounds, but spawn at top Y
+            float randomX = Random.Range(spawnBounds.min.x, spawnBounds.max.x);
+            float spawnY = spawnBounds.max.y - topSpawnOffset; // Spawn near the top
+            Vector2 spawnPosition = new Vector2(randomX, spawnY);
+
+            // Spawn dynamite
+            GameObject newDynamite = Instantiate(dynamitePrefab, spawnPosition, Quaternion.identity);
+
+            // Calculate initial velocity (downward with slight random horizontal)
+            float randomHorizontal = Random.Range(horizontalVelocityRange.x, horizontalVelocityRange.y);
+            Vector2 initVelocity = new Vector2(randomHorizontal, -dynamiteFallSpeed);
+
+            // Initialize the dynamite
+            Dynamite dynamiteScript = newDynamite.GetComponent<Dynamite>();
+            if (dynamiteScript != null)
+            {
+                dynamiteScript.Initialize(initVelocity);
+            }
+            else
+            {
+                Debug.LogWarning("BomberBoss: Dynamite prefab doesn't have Dynamite component!");
+            }
+        }
+    }
+
     public void EndAttackState()
     {
         inAttackState = false;
@@ -335,6 +415,72 @@ public class BomberBoss : EnemyBase, IHasFacing
         isAttacking = 4;
         inAttackState = true;
         ChangeAnimationState("RocketJump");
+    }
+
+
+    public void DoUlt()
+    {
+        switch (isAttacking)
+        {
+            case 5:
+                SpawnDynamite();
+                break;
+            case 6:
+                SpawnLandMines();
+                break;
+            case 7:
+                //spawn nuke
+                break;
+            default:
+                Debug.LogError("BomberBoss: Invalid ultimate attack number: " + isAttacking);
+                break;
+        }
+    }
+    public void StartUlt(int ultNum)
+    {
+        FaceTowardsPlayer();
+        ZeroVelocity();
+        isAttacking = 4 + ultNum;
+        inAttackState = true;
+        ChangeAnimationState("Ultcall");
+    }
+
+    public void SpawnLandMines()
+    {
+        if (landminePrefab == null)
+        {
+            Debug.LogError("BomberBoss: Landmine prefab is not assigned!");
+            return;
+        }
+
+        if (SpawnBounds == null)
+        {
+            Debug.LogError("BomberBoss: Landmine spawn bounds (BoxCollider2D) is not assigned!");
+            return;
+        }
+
+        Bounds spawnBounds = SpawnBounds.bounds;
+
+        for (int i = 0; i < landMineCount; i++)
+        {
+            // Generate random X position within bounds
+            float randomX = Random.Range(spawnBounds.min.x, spawnBounds.max.x);
+            // Spawn at the bottom of the bounds (ground level) instead of top
+            float spawnY = spawnBounds.min.y;
+            Vector2 spawnPosition = new Vector2(randomX, spawnY);
+
+            // Spawn landmine
+            GameObject newLandMine = Instantiate(landminePrefab, spawnPosition, Quaternion.identity);
+            Landmine landmineScript = newLandMine.GetComponent<Landmine>();
+            if (landmineScript != null)
+            {
+                landmineScript.InitializeLandMine();
+            }
+            else
+            {
+                Debug.LogWarning("BomberBoss: Landmine prefab doesn't have Landmine component!");
+            }
+        }
     }
 
     public void SpawnRocket(float rawAngle)
