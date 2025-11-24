@@ -66,5 +66,35 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Wild-Pete.sln"
+    "dotnet.defaultSolution": "WildPete.sln",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/Library/**": true,
+        "**/library/**": true,
+        "**/Temp/**": true,
+        "**/temp/**": true,
+        "**/obj/**": true,
+        "**/Obj/**": true,
+        "**/Logs/**": true,
+        "**/logs/**": true,
+        "**/UserSettings/**": true,
+        "**/ProjectSettings/**": true,
+        "**/Build/**": true,
+        "**/build/**": true,
+        "**/*.meta": true,
+        "**/*.asset": true,
+        "**/*.prefab": true,
+        "**/*.unity": true,
+        "**/*.png": true,
+        "**/*.jpg": true,
+        "**/*.jpeg": true,
+        "**/*.mp3": true,
+        "**/*.wav": true
+    },
+    "omnisharp.enableRoslynAnalyzers": false,
+    "omnisharp.enableEditorConfigSupport": false,
+    "omnisharp.maxProjectResults": 250,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": false,
+    "dotnet.formatting.organizeImportsOnFormat": false
 }

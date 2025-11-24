@@ -3,9 +3,10 @@ using UnityEngine;
 public class MenuController : MonoBehaviour
 {
     public GameObject menuCanvas;
-
+    public InputBroadcaster inputBroadcaster;
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         if (menuCanvas != null)
         {
             menuCanvas.SetActive(false);
@@ -23,11 +24,13 @@ public class MenuController : MonoBehaviour
         {
             if (menuCanvas == null)
             {
+
                 Debug.LogError("MenuController: menuCanvas is null! Cannot toggle menu.");
                 return;
             }
 
             if (!menuCanvas.activeSelf && PauseController.IsGamePaused) return;
+            inputBroadcaster.RaiseInputEvent("Inventory", PlayerControls.Inventory, KeyCode.Tab);
             menuCanvas.SetActive(!menuCanvas.activeSelf);
         }
     }

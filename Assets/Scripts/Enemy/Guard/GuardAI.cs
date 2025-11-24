@@ -2,31 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardAI : EnemyBase
+public class GuardAI : PatrolEnemyAI
 {
     private enum GuardAttackType { None = 0, Melee = 1, Melee2 = 2, Ranged = 3, Dash = 4 }
     private GuardAudioManager audioManager;
+
+    // Guard-specific states beyond base class states
     private enum GuardState
     {
-        Idle,
-        Patrol,
-        Alert,
         Attack,
         Return
     }
 
-    [SerializeField] private GuardState guardCurrentState = GuardState.Idle;
+    [SerializeField] private GuardState guardCurrentState = GuardState.Attack;
+    private bool isInGuardSpecificState = false; // Track if we're in Attack or Return state
 
     [Header("Debug Settings")]
     [SerializeField] private bool debugMode = false; // Toggle this to see debug logs
 
     [Header("Animations")]
     [SerializeField] private Animator anim;
-    private string currentState = "Idle";
+    private string currentAnimationState = "Idle";
 
     [Header("Guard Movement Settings")]
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float alertSpeed = 4f; // Faster movement when chasing player
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
@@ -35,8 +33,6 @@ public class GuardAI : EnemyBase
     [Header("Combat Settings")]
     private int isAttacking = 0; // 0 = no attack, 1 = melee1, 2 = melee2, 3 = ranged, 4 = dash attack
     private int attackChain = 0;
-    private bool isHurt = false;
-    private bool isDead = false;
     [SerializeField] private float meleeRange = 1f;
     [SerializeField] private float dashRange = 5f;
 
@@ -65,20 +61,8 @@ public class GuardAI : EnemyBase
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GenericAttackHitbox attackHitboxScript; // Uses GenericAttackHitbox system
 
-    [Header("Patrol Settings")]
-    [SerializeField] private Vector2[] patrolPoints;
-    private int currentPatrolIndex = 0;
-    [SerializeField] private float patrolWaitTime = 2f;
-    private float patrolWaitTimer = 0f;
-
     [Header("Detection Settings")]
-    [SerializeField] private float detectionRange = 8f;
-    [SerializeField] private float nearDetectRadius = 1f; // detect player if extremely close, regardless of facing/LOS
-    [SerializeField] private float loseSightTime = 3f;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private LayerMask obstructionLayer;
-    private Transform player;
-    private float loseSightTimer = 0f;
 
     [Header("Attack Settings (timers)")]
     [SerializeField] private float attackCooldown = 1f; // seconds between attacks
@@ -96,122 +80,29 @@ public class GuardAI : EnemyBase
 
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake(); // Calls EnemyBase.Awake()
         // Additional initialization if needed
         audioManager = GetComponent<GuardAudioManager>() ?? GetComponentInChildren<GuardAudioManager>();
     }
 
-    private void Start()
+    protected override void OnEnable()
     {
-        // Try to find player immediately if it exists
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-            if (debugMode) Debug.Log($"GuardAI: Player found at start: {player.name}");
-        }
+        base.OnEnable(); // Handles GameManager.OnPlayerSet
     }
 
-    private void OnEnable()
+    protected override void OnDisable()
     {
-        GameManager.OnPlayerSet += HandlePlayerSet;
+        base.OnDisable(); // Unsubscribes from GameManager.OnPlayerSet
     }
 
-    private void OnDisable()
+    // Override to enable facing direction checks
+    protected override bool ShouldCheckFacingDirection()
     {
-        GameManager.OnPlayerSet -= HandlePlayerSet;
-    }
-
-    private void HandlePlayerSet(GameObject playerObj)
-    {
-        if (playerObj != null)
-        {
-            this.player = playerObj.transform;
-            if (debugMode) Debug.Log($"GuardAI: Player set via GameManager: {player.name}");
-        }
-    }
-
-    private bool CanSeePlayer()
-    {
-        if (player == null)
-        {
-            // Try to find player again
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        Vector2 directionToPlayer = player.position - transform.position;
-        float distanceToPlayer = directionToPlayer.magnitude;
-
-        // Immediate proximity detection (anti-hugging): if very close, detect regardless of facing/LOS
-        if (distanceToPlayer <= nearDetectRadius)
-            return true;
-
-        // Check if player is in detection range
-        if (distanceToPlayer > detectionRange)
-            return false;
-
-        // Only check in facing direction
-        if ((isFacingRight && directionToPlayer.x < 0) || (!isFacingRight && directionToPlayer.x > 0))
-            return false;
-
-        // Raycast ONLY for obstructions - if we hit something that's NOT the player, line of sight is blocked
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer.normalized, distanceToPlayer, obstructionLayer);
-
-        // Draw debug ray to visualize detection
-        Debug.DrawRay(transform.position, directionToPlayer.normalized * distanceToPlayer, hit.collider != null ? Color.red : Color.green);
-
-        // If we hit an obstruction before reaching the player, we can't see them
-        if (hit.collider != null)
-        {
-            if (debugMode) Debug.Log($"GuardAI: Line of sight blocked by {hit.collider.name}");
-            return false;
-        }
-
-        // No obstruction and player is in range and direction - we can see them!
-        if (debugMode) Debug.Log("GuardAI: Can see player!");
         return true;
-    }
-
-    private void MoveTowards(Vector2 target, float speed = -1f)
-    {
-        // Use default moveSpeed if no speed specified
-        if (speed < 0) speed = moveSpeed;
-
-        float deltaX = target.x - transform.position.x;
-
-        // Higher tolerance for movement to prevent micro-adjustments
-        if (Mathf.Abs(deltaX) > 0.5f)
-        {
-            float direction = Mathf.Sign(deltaX);
-            rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
-
-            if ((direction > 0 && !isFacingRight) || (direction < 0 && isFacingRight))
-                FlipSprite();
-        }
-        else
-        {
-            StopMoving();
-        }
-    }
-
-
-
-    public void StopMoving()
-    {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
     private void Update()
     {
-        // Always call AnimationControl, even when dead or hurt (for death/hurt animations)
         AnimationControl();
 
         // Stop processing AI logic if dead or hurt
@@ -237,80 +128,63 @@ public class GuardAI : EnemyBase
         // Debug current state (only if debug mode enabled)
         if (debugMode)
         {
-            Debug.Log($"GuardAI State: {guardCurrentState}, CanSeePlayer: {canSee}, Player: {(player != null ? player.name : "NULL")}, Attacking: {isAttacking}");
+            string stateName = isInGuardSpecificState
+                ? (guardCurrentState == GuardState.Attack ? "Attack" : "Return")
+                : currentState.ToString();
+            Debug.Log($"GuardAI State: {stateName}, CanSeePlayer: {canSee}, Player: {(player != null ? player.name : "NULL")}, Attacking: {isAttacking}");
         }
 
-        switch (guardCurrentState)
+        // Handle Guard-specific states first
+        if (isInGuardSpecificState)
         {
-            case GuardState.Idle: HandleIdle(canSee); break;
-            case GuardState.Patrol: HandlePatrol(canSee); break;
-            case GuardState.Alert: HandleAlert(canSee); break;
+            switch (guardCurrentState)
+            {
             case GuardState.Attack: HandleAttack(); break;
             case GuardState.Return: HandleReturn(); break;
         }
     }
-
-
-    private void HandleIdle(bool canSee)
-    {
-        StopMoving();
-
-        if (canSee)
+        else
         {
-            if (debugMode) Debug.Log("GuardAI Idle: Spotted player! Entering Alert state.");
-            guardCurrentState = GuardState.Alert;
-            loseSightTimer = 0f;
-            return;
+            // Use base class state machine
+            switch (currentState)
+        {
+                case PatrolState.Idle: HandleIdle(canSee); break;
+                case PatrolState.Patrol: HandlePatrol(canSee); break;
+                case PatrolState.Alert: HandleAlert(canSee); break;
         }
-
-        patrolWaitTimer += Time.deltaTime;
-
-        if (patrolWaitTimer >= patrolWaitTime)
-        {
-            patrolWaitTimer = 0f;
-            guardCurrentState = GuardState.Patrol;
-            if (debugMode) Debug.Log("GuardAI Idle: Finished waiting, starting patrol.");
         }
     }
 
-    private void HandlePatrol(bool canSee)
+
+    // Override base HandleIdle to add debug logging
+    protected override void HandleIdle(bool canSee)
+    {
+        base.HandleIdle(canSee);
+        if (debugMode && canSee)
+        {
+            Debug.Log("GuardAI Idle: Spotted player! Entering Alert state.");
+        }
+    }
+
+    // Override base HandlePatrol to add debug logging
+    protected override void HandlePatrol(bool canSee)
     {
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
             Debug.LogWarning("GuardAI: No patrol points set! Switching to Idle.");
-            guardCurrentState = GuardState.Idle;
+            currentState = PatrolState.Idle;
             return;
         }
 
-        if (canSee)
+        base.HandlePatrol(canSee);
+        if (debugMode && canSee)
         {
-            if (debugMode) Debug.Log("GuardAI: Spotted player during patrol! Switching to Alert.");
-            guardCurrentState = GuardState.Alert;
-            loseSightTimer = 0f;
-            return;
-        }
-
-        Vector2 patrolTarget = patrolPoints[currentPatrolIndex];
-        float distanceToTarget = Vector2.Distance(transform.position, patrolTarget);
-
-        MoveTowards(patrolTarget);
-
-        // Much higher tolerance to prevent getting stuck
-        if (distanceToTarget < 1.0f)
-        {
-            StopMoving();
-            patrolWaitTimer += Time.deltaTime;
-
-            if (patrolWaitTimer >= patrolWaitTime)
-            {
-                patrolWaitTimer = 0f;
-                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-                if (debugMode) Debug.Log($"GuardAI Patrol: Moving to next patrol point: {currentPatrolIndex}");
-            }
+            Debug.Log("GuardAI: Spotted player during patrol! Switching to Alert.");
         }
     }
 
-    private void HandleAlert(bool canSee)
+    // Override base HandleAlert to add attack selection logic
+    protected override void HandleAlert(bool canSee)
     {
         // If currently attacking, only allow dash to control velocity; otherwise halt movement
         if (isAttacking != 0)
@@ -322,6 +196,7 @@ public class GuardAI : EnemyBase
             return;
         }
 
+        // Call base HandleAlert for lose sight logic
         if (!canSee)
         {
             loseSightTimer += Time.deltaTime;
@@ -345,6 +220,7 @@ public class GuardAI : EnemyBase
             {
                 loseSightTimer = 0f;
                 StopMoving();
+                isInGuardSpecificState = true;
                 guardCurrentState = GuardState.Return;
                 if (debugMode) Debug.Log("GuardAI Alert: Giving up search, returning to patrol.");
                 return;
@@ -375,6 +251,7 @@ public class GuardAI : EnemyBase
         {
             // In melee/dash range - stop and enter Attack state for close combat
             StopMoving();
+            isInGuardSpecificState = true;
             guardCurrentState = GuardState.Attack;
             if (debugMode) Debug.Log($"GuardAI Alert: In melee/dash range ({distanceToPlayer:F2} units)! Switching to Attack state.");
         }
@@ -403,7 +280,8 @@ public class GuardAI : EnemyBase
 
         // After attacking finishes, always return to Alert state to search for player
         // Don't immediately give up if we can't see them (they might be behind us)
-        guardCurrentState = GuardState.Alert;
+        isInGuardSpecificState = false;
+        currentState = PatrolState.Alert;
         loseSightTimer = 0f; // Reset timer so guard searches for a while
         if (debugMode) Debug.Log("GuardAI Attack: Attack finished, entering Alert state to search for player.");
     }
@@ -415,7 +293,8 @@ public class GuardAI : EnemyBase
         if (CanSeePlayer())
         {
             if (debugMode) Debug.Log("GuardAI Return: Spotted player again! Re-entering Alert state.");
-            guardCurrentState = GuardState.Alert;
+            isInGuardSpecificState = false;
+            currentState = PatrolState.Alert;
             loseSightTimer = 0f;
             return;
         }
@@ -423,7 +302,8 @@ public class GuardAI : EnemyBase
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
             if (debugMode) Debug.LogWarning("GuardAI Return: No patrol points, switching to Idle.");
-            guardCurrentState = GuardState.Idle;
+            isInGuardSpecificState = false;
+            currentState = PatrolState.Idle;
             return;
         }
 
@@ -435,7 +315,8 @@ public class GuardAI : EnemyBase
         if (distanceToTarget < 1.0f) // Same tolerance as patrol for consistency
         {
             if (debugMode) Debug.Log("GuardAI Return: Reached patrol point, idling before resuming patrol.");
-            guardCurrentState = GuardState.Idle;
+            isInGuardSpecificState = false;
+            currentState = PatrolState.Idle;
             patrolWaitTimer = 0f; // Reset wait timer for idle period
         }
     }
@@ -443,15 +324,16 @@ public class GuardAI : EnemyBase
 
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
-        base.Respawn(position, facingRight);
+        base.Respawn(position, facingRight); // Base handles patrol state reset
 
-        // Reset all AI state variables
+        // Reset Guard-specific state
         isDead = false;
         isHurt = false;
         isAttacking = 0;
         attackChain = 0;
         chainMeleePending = false;
-        guardCurrentState = GuardState.Idle;
+        isInGuardSpecificState = false;
+        guardCurrentState = GuardState.Attack;
 
         // Reset all timers
         attackTimer = 0f;
@@ -460,8 +342,6 @@ public class GuardAI : EnemyBase
         melee2Timer = 0f;
         dashTimer = 0f;
         selectTimer = 0f;
-        loseSightTimer = 0f;
-        patrolWaitTimer = 0f;
 
         // Reset movement
         if (rb != null)
@@ -473,7 +353,7 @@ public class GuardAI : EnemyBase
         StopAllCoroutines();
 
         // Reset animation state
-        currentState = "Idle";
+        currentAnimationState = "Idle";
         if (anim != null)
         {
             anim.Play("Idle");
@@ -509,8 +389,7 @@ public class GuardAI : EnemyBase
     public void EndAttack()
     {
         isAttacking = 0;
-        StopMoving(); // Ensure movement is stopped when attack ends
-        if (debugMode) Debug.Log("GuardAI: Attack ended, returning to normal behavior.");
+        StopMoving();
 
         // If a melee chain is pending, slightly reduce selector delay to immediately pick melee2
         if (chainMeleePending)
@@ -531,8 +410,6 @@ public class GuardAI : EnemyBase
     {
         if (isDead) return;
 
-        health -= dmg;
-        if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}");
         // Immediately stop current movement, then apply knockback so stun halts momentum
         StopMoving();
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -540,7 +417,7 @@ public class GuardAI : EnemyBase
 
         if (audioManager != null)
         {
-            if (health <= 0)
+            if (health - dmg <= 0)
                 audioManager?.PlayDeath();
             else
                 audioManager?.PlayHurt();
@@ -549,37 +426,31 @@ public class GuardAI : EnemyBase
         // Clear ongoing/combo attack intent so we don't spam the same attack after stun
         isAttacking = 0;
         attackChain = 0;
-        attackTimer = attackCooldown / 2; // small delay before next decision
+        attackTimer = attackCooldown / 3; // small delay before next decision
 
-        if (damageText != null)
-        {
-            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
-            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
-        }
         StartHurtAnim(dmg);
 
-        // Enter Alert state and try to find attacker
+        // Exit guard-specific states when hurt
+        isInGuardSpecificState = false;
+
+        // Check if this hit will kill the enemy
+        bool willDie = (health - dmg) <= 0;
+
+        // If this will kill the enemy, start death coroutine BEFORE calling base.Hurt
+        // Set isDead = true first so base.Hurt() doesn't call Die() (which deactivates GameObject)
+        if (willDie)
+                {
+            isDead = true; // Prevent base.Hurt() from calling Die()
+            StartCoroutine(Death());
+        }
+
+        // Call base Hurt (handles health, damage text, and sets Alert state)
+        base.Hurt(dmg, knockbackForce);
+
+        // Guard-specific logic after base.Hurt
         if (IsAlive())
         {
-            guardCurrentState = GuardState.Alert;
-            loseSightTimer = 0f;
-
-            // Try to find player if we don't have reference
-            if (player == null)
-            {
-                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-                if (playerObj != null)
-                {
-                    player = playerObj.transform;
-                    if (debugMode) Debug.Log("GuardAI: Found player after being attacked!");
-                }
-            }
-
-            if (debugMode) Debug.Log("GuardAI: Hurt! Entering Alert state!");
-        }
-        else
-        {
-            StartCoroutine(Death());
+            if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}, Entering Alert state!");
         }
     }
     public override void EndHurtState()
@@ -612,9 +483,9 @@ public class GuardAI : EnemyBase
 
     public void ChangeAnimationState(string newState)
     {
-        if (newState == currentState) return;
+        if (newState == currentAnimationState) return;
         anim.Play(newState, 0, 0f);
-        currentState = newState;
+        currentAnimationState = newState;
     }
 
     protected void AnimationControl()
@@ -765,33 +636,36 @@ public class GuardAI : EnemyBase
         }
 
         // Start the chosen attack and apply cooldowns
+        // Randomize attack cooldown between 0.8-1x the regular time
+        float randomMultiplier = Random.Range(0.8f, 1.0f);
+
         switch (best)
         {
             case GuardAttackType.Melee:
                 MeleeAttack();
                 melee1Timer = melee1AttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Melee;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Melee2:
                 MeleeAttack();
                 melee2Timer = melee2AttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Melee2;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Dash:
                 SetUpAttackHitbox(4);
                 dashTimer = dashAttackCooldown;
-                attackTimer = attackCooldown;
+                attackTimer = attackCooldown * randomMultiplier;
                 lastAttack = GuardAttackType.Dash;
                 guardCurrentState = GuardState.Attack;
                 break;
             case GuardAttackType.Ranged:
                 RangedAttack();
                 rangedTimer = rangedAttackCooldown;
-                attackTimer = attackCooldown * 0.75f;
+                attackTimer = attackCooldown * 0.75f * randomMultiplier;
                 lastAttack = GuardAttackType.Ranged;
                 // remain in Alert state for ranged while chasing
                 break;
@@ -816,7 +690,9 @@ public class GuardAI : EnemyBase
             isAttacking = 2;
             SetUpAttackHitbox(2);
             attackChain = 0;
-            attackTimer = attackCooldown / 2;
+            // Randomize attack cooldown between 0.8-1x the regular time
+            float randomMultiplier = Random.Range(0.8f, 1.0f);
+            attackTimer = (attackCooldown / 2) * randomMultiplier;
             chainMeleePending = false; // chain complete
         }
     }
@@ -858,20 +734,13 @@ public class GuardAI : EnemyBase
         rb.linearVelocity = new Vector2(dashSpeed, rb.linearVelocity.y);
     }
 
-    private void OnDrawGizmosSelected()
+    protected override void OnDrawGizmosSelected()
     {
+        base.OnDrawGizmosSelected(); // Draw base gizmos (detection range, patrol points, raycasts)
+
+        // Draw facing direction indicator
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + (isFacingRight ? Vector3.right : Vector3.left) * detectionRange);
-
-        Gizmos.color = Color.yellow;
-        if (patrolPoints != null)
-        {
-            foreach (var p in patrolPoints)
-            {
-                if (p != null)
-                    Gizmos.DrawWireSphere(p, 0.2f);
-            }
-        }
     }
 
 }

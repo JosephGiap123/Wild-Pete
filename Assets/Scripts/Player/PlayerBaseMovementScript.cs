@@ -13,12 +13,13 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected float horizontalInput;
     public bool isFacingRight = true;
     public bool IsFacingRight => isFacingRight; // IHasFacing implementation
-    protected bool weaponEquipped = true;
+    protected bool weaponEquipped = false;
     protected bool isGrounded;
     protected bool isAttacking = false;
     protected bool isCrouching = false;
     protected bool isJumping = false;
     protected float jumpTimeCounter;
+    protected int jumpsRemaining = 1; // Track remaining jumps (starts at 1)
 
     [Header("Combat Settings")]
     public int maxHealth = 20;
@@ -40,7 +41,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isHurt = false;
     protected bool isInvincible = false;
     protected bool isDead = false;
-    [SerializeField] protected float deathAnimationDuration = 8f; // How long death animation plays
+    [SerializeField] protected float deathAnimationDuration = 4f; // How long death animation plays
+    [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
     protected bool canDash = true;
@@ -66,7 +68,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [Header("Wall Slide Settings")]
     [SerializeField] protected Transform wallRay;
     [SerializeField] protected LayerMask wallMask;
-    [SerializeField] protected float wallSlideSpeed = 1.5f;
+    [SerializeField] protected float wallSlideSpeed = 0.9f;
     protected bool isTouchingWall;
     protected bool isWallSliding = false;
     protected float castDistance = 0.3f;
@@ -96,9 +98,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected abstract Vector2 StandOffset { get; }
     protected abstract Vector2 StandSize { get; }
 
+    [Header("Particle References")]
+    [SerializeField] protected ParticleSystem slideParticle;
+    [SerializeField] protected ParticleSystem jumpParticle;
+    [SerializeField] protected ParticleSystem dashParticle;
     //events
     public event Action<int, int> OnAmmoChanged;
     public event Action PlayerDied;
+
+    [SerializeField] protected InputBroadcaster inputBroadcaster;
 
     protected virtual void Awake()
     {
@@ -110,12 +118,120 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         // Subscribe to respawn event
         GameRestartManager.CharacterRespawned += OnRespawn;
+
+        // Subscribe to stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged += HandleStatChanged;
+        }
     }
 
     protected virtual void OnDestroy()
     {
         // Unsubscribe from respawn event
         GameRestartManager.CharacterRespawned -= OnRespawn;
+
+        // Unsubscribe from stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged -= HandleStatChanged;
+        }
+    }
+
+    protected virtual void Start()
+    {
+        // Initialize StatsManager with player's base stats
+        // Use a coroutine to ensure StatsManager is ready
+        StartCoroutine(InitializeStatsManager());
+    }
+
+    private IEnumerator InitializeStatsManager()
+    {
+        // Wait a frame to ensure StatsManager is initialized
+        yield return null;
+
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.InitializeStats(
+                maxHealth,
+                maxAmmo,
+                moveSpeed,
+                1, // jumpCount (base is 1)
+                dashingPower,
+                slidePower,
+                10f, // bulletSpeed (default, adjust if needed)
+                0, // bulletCount (default)
+                0f, // meleeAttack (default)
+                0f, // rangedAttack (default)
+                0f  // universalAttack (default)
+            );
+
+            // Initialize jumps remaining from StatsManager
+            jumpsRemaining = StatsManager.instance.jumpCount;
+        }
+    }
+
+    private void HandleStatChanged(EquipmentSO.Stats stat, float value)
+    {
+        if (StatsManager.instance == null) return;
+
+        switch (stat)
+        {
+            case EquipmentSO.Stats.MaxHealth:
+                maxHealth = StatsManager.instance.maxHealth;
+                // Update HealthManager if it exists
+                if (HealthManager.instance != null)
+                {
+                    HealthManager.instance.SetMaxHealth(maxHealth);
+                    // If current health exceeds new max, cap it
+                    int currentHealth = HealthManager.instance.GetCurrentHealth();
+                    if (currentHealth > maxHealth)
+                    {
+                        HealthManager.instance.SetHealth(maxHealth);
+                    }
+                }
+                break;
+
+            case EquipmentSO.Stats.MovementSpeed:
+                moveSpeed = StatsManager.instance.MovementSpeed;
+                break;
+
+            case EquipmentSO.Stats.DashSpeed:
+                dashingPower = StatsManager.instance.dashSpeed;
+                break;
+
+            case EquipmentSO.Stats.SlideSpeed:
+                slidePower = StatsManager.instance.slideSpeed;
+                break;
+
+            case EquipmentSO.Stats.MaxAmmo:
+                maxAmmo = StatsManager.instance.maxAmmo;
+                // If current ammo exceeds new max, cap it
+                if (ammoCount > maxAmmo)
+                {
+                    ammoCount = maxAmmo;
+                }
+                OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
+                break;
+
+            case EquipmentSO.Stats.JumpCount:
+                // Update max jump count from StatsManager
+                // If we're grounded, reset jumps to the new max
+                if (isGrounded)
+                {
+                    jumpsRemaining = StatsManager.instance.jumpCount;
+                }
+                break;
+
+            case EquipmentSO.Stats.BulletSpeed:
+            case EquipmentSO.Stats.BulletCount:
+            case EquipmentSO.Stats.MeleeAttack:
+            case EquipmentSO.Stats.RangedAttack:
+            case EquipmentSO.Stats.UniversalAttack:
+                // These stats would be used in attack calculations
+                // You can add fields to store them if needed
+                break;
+        }
     }
 
     // Handles respawning the player at the checkpoint location.
@@ -172,6 +288,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
         }
 
+        // Disable hitbox immediately on respawn
+        if (hitboxManager != null)
+        {
+            hitboxManager.DisableHitbox();
+        }
+
         // Re-enable player
         gameObject.SetActive(true);
 
@@ -203,6 +325,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             return;
         }
+
+        // Check if player has fallen below death threshold
+        if (!isDead && transform.position.y < deathYThreshold)
+        {
+            Debug.Log($"Player fell below death threshold ({deathYThreshold}). Player Y: {transform.position.y}");
+            Die();
+            return;
+        }
+
         attackTimer -= Time.deltaTime;
         aerialTimer -= Time.deltaTime;
 
@@ -210,7 +341,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         AnimationControl();
         if (isHurt || isReloading) return;
         HandleMovement();
-        if (!isDashing)
+        if (!isDashing && !isDead)
         {
             HandleInput();
             HandleFlip();
@@ -219,27 +350,28 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        if (isDead) return;
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
         }
-        if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Melee]) && !isWallSliding)
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded && false)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && false)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
         }
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3] != null && !PlayerInventory.instance.equipmentSlots[3].IsEmpty())
         {
             attackCoroutine = StartCoroutine(RangedAttack());
         }
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isCrouching && !isDashing && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
-        if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
             if (!isCrouching)
@@ -254,30 +386,24 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
 
         }
-        if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
-            weaponEquipped = !weaponEquipped;
+            Debug.Log(PlayerInventory.instance.equipmentSlots[2].GetEquippedItem().itemName);
+            PlayerInventory.instance.equipmentSlots[2].UnequipItem();
         }
     }
-
-    public PlayerOrientationPosition GetPlayerOrientPosition()
-    {
-        PlayerOrientationPosition pos;
-        pos.position = transform;
-        pos.isFacingRight = isFacingRight;
-        return pos;
-    }
-
     protected virtual void HandleMovement()
     {
+        if (isDead) return;
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Jump initiation
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded || Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0)
         {
             isJumping = true;
             isGrounded = false;
+            jumpsRemaining--;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            jumpParticle.Emit(1);
             if (isDashing && isCrouching)
             { //dash cancel
                 if (slideCoroutine != null)
@@ -292,7 +418,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDashing) return;
 
         // Release jump button early for shorter jump
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
             // Apply minimum jump power if released early
@@ -421,7 +547,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
             if (attackCount >= maxAttackChain || attackCount < 0)
                 attackCount = 0;
-
             SetupGroundAttack(attackCount);
             attackCount++;
             isAttacking = true;
@@ -434,7 +559,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         else
         {
             if (aerialTimer <= 0f)
+            {
                 attackCoroutine = StartCoroutine(AerialAttack());
+            }
         }
     }
 
@@ -565,10 +692,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
 
-        // Reset jump state when landing
+        // Reset jump state and restore jumps when landing
         if (!wasGrounded && isGrounded)
         {
             isJumping = false;
+            // Restore all jumps when landing
+            if (StatsManager.instance != null)
+            {
+                jumpsRemaining = StatsManager.instance.jumpCount;
+            }
+            else
+            {
+                jumpsRemaining = 1; // Fallback to 1 if StatsManager not available
+            }
         }
     }
 
@@ -870,6 +1006,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         isDead = true;
 
+        // Disable hitbox immediately on death
+        if (hitboxManager != null)
+        {
+            hitboxManager.DisableHitbox();
+        }
+
         // Cancel all active actions
         CancelAllActions();
 
@@ -886,6 +1028,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         PlayerDied?.Invoke();
         OnDeathAnimationComplete();
+
+        // wait for fade-in
+        yield return new WaitForSeconds(1.5f);
+
         Debug.Log("Attempted to respawn at checkpoint");
         // Respawn at checkpoint
         if (GameRestartManager.Instance != null)
@@ -896,10 +1042,16 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void OnDeathAnimationComplete()
     {
-        // Override this method in child classes to handle what happens after death
-        // For example: respawn, show game over, reload scene, etc.
-        // Don't deactivate here - let the respawn system handle it
-        // gameObject.SetActive(false);
+
+    }
+
+    protected virtual void CallInputInvoke(string inputName, PlayerControls pc, KeyCode kc)
+    {
+        if (inputBroadcaster != null && inputBroadcaster.inputEvent != null)
+        {
+            inputBroadcaster.RaiseInputEvent(inputName, pc, kc);
+        }
+        Debug.Log("Input used: " + inputName + " " + pc + " " + kc.ToString());
     }
 
     // Invincibility frames
@@ -944,6 +1096,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void SetUpPunchAttack(int attackIndex)
     {
+        CallInputInvoke("Punch", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         attackIndex = Mathf.Clamp(attackIndex, 0, 2);
         switch (attackIndex)
         {
@@ -958,6 +1111,19 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
                 attackTimer = attackCooldown;
                 break;
         }
+    }
+
+    public PlayerOrientationPosition GetPlayerOrientPosition()
+    {
+        PlayerOrientationPosition pos;
+        pos.position = transform;
+        pos.isFacingRight = isFacingRight;
+        return pos;
+    }
+
+    public void SetWeaponEquipped(bool equipped)
+    {
+        weaponEquipped = equipped;
     }
 
 }

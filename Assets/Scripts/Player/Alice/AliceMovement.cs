@@ -24,12 +24,13 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void Update()
     {
-        // Play jump SFX exactly when jump is initiated (same as Pete)
+        // Play jump SFX exactly when jump is initiated (works with multi-jump)
         if (!PauseController.IsGamePaused
-            && isGrounded
             && !isDashing
-            && Input.GetKeyDown(KeyCode.W))
+            && jumpsRemaining > 0
+            && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)))
         {
+            // Only play sound if we have jumps remaining
             audioMgr?.PlayJump();
         }
 
@@ -40,7 +41,6 @@ public class AliceMovement2D : BasePlayerMovement2D
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        // (Optional) Move UpdateRunLoopSound() here if you prefer physics-timed checks.
     }
 
     private void UpdateRunLoopSound()
@@ -66,36 +66,46 @@ public class AliceMovement2D : BasePlayerMovement2D
         else audioMgr.StopRunLoop();
     }
 
+    public override void FlipSprite()
+    {
+        base.FlipSprite();
+    }
+
     protected override void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !isDashing && isGrounded)
+        // Safety check: ensure ControlManager is initialized
+        if (ControlManager.instance == null || ControlManager.instance.inputMapping == null)
+            return;
+
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
+            CallInputInvoke("Interact", PlayerControls.Interact, ControlManager.instance.inputMapping[PlayerControls.Interact]);
             audioMgr?.StopRunLoop();
             interactor.OnInteract();
         }
-        if (Input.GetKeyDown(KeyCode.E) && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Melee]) && !isWallSliding)
         {
             Attack();
         }
-        if (Input.GetKeyDown(KeyCode.F) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
+
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
 
-        // R = SHOOT (use base method so ammo is decremented there, like Pete)
-        if (Input.GetKeyDown(KeyCode.R) && isGrounded && !isAttacking && ammoCount > 0)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             StartCoroutine(RangedAttack());
         }
 
-        // T = RELOAD (play reload SFX at start)
-        if (Input.GetKeyDown(KeyCode.T) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0)
+
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Reload]) && isGrounded && !isAttacking && !isReloading && ammoCount < maxAmmo && PlayerInventory.instance.HasItem("Ammo") > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
         {
             isDashing = true;
 
@@ -105,19 +115,27 @@ public class AliceMovement2D : BasePlayerMovement2D
 
             if (!isCrouching)
             {
+                CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
+                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+                emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
+                dashParticle.Emit(emitParams, 1);
                 slideCoroutine = StartCoroutine(Dash());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
                 audioMgr?.PlayDash();
             }
             else
             {
+                CallInputInvoke("Slide", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
+                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+                emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
+                slideParticle.Emit(emitParams, 1);
                 audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
                 dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(KeyCode.Z))
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
         {
             weaponEquipped = !weaponEquipped;
         }
@@ -142,6 +160,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupGroundAttack(int attackIndex)
     {
+        CallInputInvoke("Melee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         switch (attackIndex)
         {
             case 0:
@@ -160,6 +179,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupCrouchAttack()
     {
+        CallInputInvoke("CrouchMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[4]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
         audioMgr?.PlaySweep();
@@ -168,6 +188,7 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void SetupAerialAttack()
     {
+        CallInputInvoke("AerialMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
         aerialTimer = aerialCooldown;
@@ -196,19 +217,13 @@ public class AliceMovement2D : BasePlayerMovement2D
     {
         if (isCrouching)
         {
+            CallInputInvoke("CrouchRangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-            if (isCrouching)
-            {
-                bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-                animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
-            }
-            else
-            {
-                bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
-            }
+            animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
         }
         else
         {
+            CallInputInvoke("RangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new Vector3(bulletOrigin.transform.localPosition.x, 0.2f, 0f);
             animatorScript.ChangeAnimationState(playerStates.RangedAttack);
         }
@@ -227,12 +242,12 @@ public class AliceMovement2D : BasePlayerMovement2D
     }
     protected override IEnumerator ThrowAttack()
     {
+        CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
         // audioMgr.PlayThrow();
         // audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();
     }
 
-    // safety: stop loop if object disables/destroys
     private void OnDisable() { audioMgr?.StopRunLoop(); }
     private void OnDestroy() { audioMgr?.StopRunLoop(); }
 }

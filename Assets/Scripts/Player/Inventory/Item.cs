@@ -16,7 +16,7 @@ public class Item : MonoBehaviour
 	private PlayerInventory inventoryManager;
 	private Rigidbody2D rb;
 	PhysicalItemModel physicalItemModel;
-
+	public ItemPickUpEvent itemPickUpEvent;
 	void Awake()
 	{
 		physicalItemModel = GetComponent<PhysicalItemModel>();
@@ -40,13 +40,13 @@ public class Item : MonoBehaviour
 			dropIcon = itemSO.dropIcon;
 			physicalItemModel.Load();
 		}
-		
+
 		// Register with checkpoint system
 		if (CheckpointManager.Instance != null)
 		{
 			CheckpointManager.Instance.RegisterItem(this);
 		}
-		
+
 		StartCoroutine(WaitToEnablePickable(1.0f));
 	}
 
@@ -61,18 +61,18 @@ public class Item : MonoBehaviour
 		quantity = itemSO.quantity;
 		dropIcon = itemSO.dropIcon;
 		physicalItemModel.Load();
-		
+
 		// Ensure inventoryManager is set (in case Initialize is called before Start)
 		if (inventoryManager == null)
 		{
 			inventoryManager = PlayerInventory.instance;
 		}
-		
+
 		// Ensure WaitToEnablePickable coroutine is started (in case Initialize is called before Start)
 		// Stop any existing coroutine first to avoid duplicates
 		StopAllCoroutines();
 		StartCoroutine(WaitToEnablePickable(1.0f));
-		
+
 		// Register with checkpoint system (in case Initialize is called after Start)
 		if (CheckpointManager.Instance != null)
 		{
@@ -92,17 +92,18 @@ public class Item : MonoBehaviour
 		{
 			Debug.Log("picking item up");
 			inventoryManager.AddItem(this);
-			
+			itemPickUpEvent.RaiseEvent(this);
+
 			// Unregister from checkpoint system before destroying
 			if (CheckpointManager.Instance != null)
 			{
 				CheckpointManager.Instance.UnregisterItem(this);
 			}
-			
+
 			Destroy(gameObject);
 		}
 	}
-	
+
 	void OnDestroy()
 	{
 		// Safety: unregister from checkpoint system if still registered

@@ -3,17 +3,17 @@ using TMPro;
 public class BossHPBarInteractor : MonoBehaviour
 {
     [SerializeField] BossHealthBarScript hpBar;
-    [SerializeField] WardenAI wardenAI;
+    [SerializeField] EnemyBase bossAI;
     public void Start()
     {
         hpBar.GetComponentInChildren<TMP_Text>().text = gameObject.name;
-        hpBar.SetMaxHealth(wardenAI.GetMaxHealth());
-        hpBar.SetHealth(wardenAI.GetHealth());
+        hpBar.SetMaxHealth(bossAI.GetMaxHealth());
+        hpBar.SetHealth(bossAI.GetHealth());
     }
 
     public void UpdateHealthVisual()
     {
-        hpBar.UpdateHealthBar(wardenAI.GetHealth(), wardenAI.GetMaxHealth());
+        hpBar.UpdateHealthBar(bossAI.GetHealth(), bossAI.GetMaxHealth());
     }
     public void ShowHealthBar(bool shown)
     {

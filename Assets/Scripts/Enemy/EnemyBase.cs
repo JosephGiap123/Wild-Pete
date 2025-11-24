@@ -9,6 +9,9 @@ public class EnemyBase : MonoBehaviour, IHasFacing
     [SerializeField] protected int maxHealth = 10;
     protected int health;
 
+    public bool isDead = false;
+    public bool isHurt = false;
+
     [Header("References")]
     // [SerializeField] protected Animator animator;
     [SerializeField] protected Rigidbody2D rb;
@@ -22,21 +25,22 @@ public class EnemyBase : MonoBehaviour, IHasFacing
     [Header("Facing")]
     public bool isFacingRight = true;
     public bool IsFacingRight => isFacingRight; // IHasFacing implementation
-    
+
+
     protected virtual void Awake()
     {
         health = maxHealth;
         sr = GetComponentInChildren<SpriteRenderer>();
         sr.material = new Material(sr.sharedMaterial); // duplicate the base material
         spawnPoint = this.transform.position;
-        
+
         // Register with CheckpointManager (uses GameObject instance ID automatically)
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.RegisterEnemy(this);
         }
     }
-    
+
     protected virtual void OnDestroy()
     {
         // Unregister from CheckpointManager
@@ -57,12 +61,12 @@ public class EnemyBase : MonoBehaviour, IHasFacing
     // facingRight: Facing direction to restore. If null, keeps current facing.
     public virtual void Respawn(Vector2? position = null, bool? facingRight = null)
     {
-        Vector2 respawnPosition = position.HasValue && position.Value != Vector2.zero 
-            ? position.Value 
+        Vector2 respawnPosition = position.HasValue && position.Value != Vector2.zero
+            ? position.Value
             : spawnPoint;
         this.transform.position = respawnPosition;
         this.health = maxHealth;
-        
+
         // Restore facing direction if provided
         if (facingRight.HasValue)
         {
@@ -76,20 +80,31 @@ public class EnemyBase : MonoBehaviour, IHasFacing
                 isFacingRight = facingRight.Value;
             }
         }
-        
+
+        // Disable any active hitboxes before respawning
+        GenericAttackHitbox[] hitboxes = GetComponentsInChildren<GenericAttackHitbox>();
+        foreach (GenericAttackHitbox hitbox in hitboxes)
+        {
+            if (hitbox != null)
+            {
+                hitbox.DisableHitbox();
+            }
+        }
+
         this.gameObject.SetActive(true);
     }
     public virtual void Hurt(int dmg, Vector2 knockbackForce)
     {
         health -= dmg;
-        Debug.Log(health);
+        // Debug.Log(health);
         if (damageText != null)
         {
             GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
             dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
         }
 
-        if (health <= 0)
+        // Only call Die() if not already dead (child classes may handle death with coroutines)
+        if (health <= 0 && !isDead)
         {
             Die();
         }
@@ -97,6 +112,20 @@ public class EnemyBase : MonoBehaviour, IHasFacing
 
     protected virtual void Die()
     {
+        // Disable any active hitboxes before deactivating
+        if (attackHitboxes != null)
+        {
+            // Find and disable GenericAttackHitbox components
+            GenericAttackHitbox[] hitboxes = GetComponentsInChildren<GenericAttackHitbox>();
+            foreach (GenericAttackHitbox hitbox in hitboxes)
+            {
+                if (hitbox != null)
+                {
+                    hitbox.DisableHitbox();
+                }
+            }
+        }
+
         this.gameObject.SetActive(false);
     }
 
