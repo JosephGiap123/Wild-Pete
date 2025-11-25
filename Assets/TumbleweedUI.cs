@@ -7,6 +7,9 @@ public class UITumbleweed : MonoBehaviour
   public Vector2 direction = new Vector2(-4f, -.67f);
   public float leftLimitX = -1000f;
   public float resetX = 1000f;
+  public float bounceHeight = 10f;
+  public float bounceSpeed = 4f;
+  private float bounceTimer = 0f;
 
   private RectTransform rt;
   private Vector2 startPos;
@@ -25,13 +28,23 @@ public class UITumbleweed : MonoBehaviour
     // Move along slope
     rt.anchoredPosition += direction * moveSpeed * Time.deltaTime;
 
-    // Rotate like rolling
+    bounceTimer += Time.deltaTime * bounceSpeed;
+    float bounce = Mathf.Sin(bounceTimer) * bounceHeight;
+
+
+    rt.anchoredPosition = new Vector2(
+        rt.anchoredPosition.x,
+        rt.anchoredPosition.y + bounce * Time.deltaTime
+    );
+
+
     rt.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
 
-    // Reset to original spot
     if (rt.anchoredPosition.x < leftLimitX)
     {
       rt.anchoredPosition = startPos;
+      bounceTimer = 0f;
     }
   }
+
 }
