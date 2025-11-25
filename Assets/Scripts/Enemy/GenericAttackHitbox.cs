@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class GenericAttackHitbox : MonoBehaviour
     private Vector2 currentKnockbackForce;
     private int currentDamage;
     private bool disableAfterFirstHit;
+    private bool hasCheckedInitialOverlap = false; // Track if we've done the initial overlap check
 
     // Cached parent for facing direction detection
     private MonoBehaviour parentWithFacing;
@@ -122,6 +124,7 @@ public class GenericAttackHitbox : MonoBehaviour
         alreadyHit.Clear();
 
         // Enable the appropriate collider based on hitboxData (configured in CustomizeHitbox)
+        Collider2D activeCollider = null;
         if (hitboxData != null)
         {
             bool useCircle = hitboxData.hitboxSize.y == 0;
@@ -129,15 +132,66 @@ public class GenericAttackHitbox : MonoBehaviour
             if (useCircle && circleCol != null)
             {
                 circleCol.enabled = true;
+                activeCollider = circleCol;
             }
             else if (!useCircle && boxCol != null)
             {
                 boxCol.enabled = true;
+                activeCollider = boxCol;
             }
         }
         else
         {
             Debug.LogWarning("GenericAttackHitbox: ActivateHitbox called but hitboxData is null! Call CustomizeHitbox first.");
+            return;
+        }
+
+        // Check for objects already inside the trigger when it activates
+        // This handles cases where the player is already inside when the hitbox becomes active
+        if (activeCollider != null)
+        {
+            hasCheckedInitialOverlap = false;
+            // Check immediately
+            CheckOverlappingColliders(activeCollider);
+            // Also check after a frame delay to catch any physics updates
+            StartCoroutine(CheckOverlapAfterFrame(activeCollider));
+        }
+    }
+
+    private IEnumerator CheckOverlapAfterFrame(Collider2D collider)
+    {
+        // Wait for physics to update
+        yield return null;
+        if (active && collider != null && collider.enabled)
+        {
+            CheckOverlappingColliders(collider);
+            hasCheckedInitialOverlap = true;
+        }
+    }
+
+    private void CheckOverlappingColliders(Collider2D collider)
+    {
+        if (hitboxData == null) return;
+
+        // Combine all layers we care about (player, enemy, statics)
+        LayerMask combinedLayers = hitboxData.player | hitboxData.enemy | hitboxData.statics;
+
+        // Use OverlapCollider to find all colliders already inside
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(combinedLayers);
+        filter.useTriggers = true; // Include trigger colliders
+
+        List<Collider2D> overlappingColliders = new List<Collider2D>();
+        collider.Overlap(filter, overlappingColliders);
+
+        // Process each overlapping collider as if it just entered
+        foreach (Collider2D other in overlappingColliders)
+        {
+            if (other != null && other != collider)
+            {
+                // Simulate OnTriggerEnter2D for objects already inside
+                OnTriggerEnter2D(other);
+            }
         }
     }
 
@@ -145,6 +199,7 @@ public class GenericAttackHitbox : MonoBehaviour
     {
         active = false;
         alreadyHit.Clear();
+        hasCheckedInitialOverlap = false;
 
         if (boxCol != null) boxCol.enabled = false;
         if (circleCol != null) circleCol.enabled = false;
@@ -237,6 +292,21 @@ public class GenericAttackHitbox : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other)
+    {
+        ProcessHit(other);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        // Fallback: if we haven't checked initial overlap yet, process any objects that are staying
+        // This catches edge cases where the overlap check missed something
+        if (!hasCheckedInitialOverlap)
+        {
+            ProcessHit(other);
+        }
+    }
+
+    private void ProcessHit(Collider2D other)
     {
         if (!active || hitboxData == null) return;
 

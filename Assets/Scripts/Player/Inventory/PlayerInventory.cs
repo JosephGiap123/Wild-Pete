@@ -348,6 +348,11 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
 
+        if (equipment.equipableBy != EquipmentSO.EquipableBy.Both && GameManager.Instance.selectedCharacter.ToString() != equipment.equipableBy.ToString())
+        {
+            Debug.LogWarning($"Item {slot.itemName} is not equipable by {GameManager.Instance.selectedCharacter}!");
+            return false;
+        }
         // Find the appropriate equipment slot
         EquipmentSlot targetEquipmentSlot = GetEquipmentSlotByType(equipment.equipmentType);
         if (targetEquipmentSlot == null)

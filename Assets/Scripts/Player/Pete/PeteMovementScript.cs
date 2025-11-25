@@ -97,31 +97,40 @@ public class PeteMovement2D : BasePlayerMovement2D
         }
 
 
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
-            isDashing = true;
 
-            // stop run loop and play dash SFX immediately
-            audioMgr?.StopRunLoop();
-            if (!isCrouching)
+            if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
             {
+                isDashing = true;
+
+                // stop run loop and play dash SFX immediately
+                audioMgr?.StopRunLoop();
                 CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 dashParticle.Emit(emitParams, 1);
                 slideCoroutine = StartCoroutine(Dash());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
                 audioMgr?.PlayDash();
             }
-            else
+            else if (isCrouching && EnergyManager.instance.UseEnergy(slidingEnergyCost))
             {
+                isDashing = true;
+
+                // stop run loop and play dash SFX immediately
+                audioMgr?.StopRunLoop();
                 CallInputInvoke("Slide", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 slideParticle.Emit(emitParams, 1);
                 audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+            }
+            else
+            {
+                Debug.Log("Not enough energy to dash or slide");
             }
         }
 
@@ -164,7 +173,7 @@ public class PeteMovement2D : BasePlayerMovement2D
             case 2:
                 hitboxManager.CustomizeHitbox(attackHitboxes[4]);
                 animatorScript.ChangeAnimationState(playerStates.Melee3);
-                attackTimer = attackCooldown;
+                // attackTimer = attackCooldown;
                 break;
         }
     }
@@ -174,7 +183,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         CallInputInvoke("CrouchMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
-        attackTimer = attackCooldown / 2;
+        // attackTimer = attackCooldown / 2;
     }
 
     protected override void SetupAerialAttack()
@@ -182,7 +191,7 @@ public class PeteMovement2D : BasePlayerMovement2D
         CallInputInvoke("AerialMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[6]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
-        aerialTimer = aerialCooldown;
+        // aerialTimer = aerialCooldown;
     }
 
     protected override void HandleAerialAttackMovement()
@@ -191,7 +200,7 @@ public class PeteMovement2D : BasePlayerMovement2D
     }
     protected override IEnumerator AerialAttack()
     {
-        aerialTimer = aerialCooldown;
+        // aerialTimer = aerialCooldown;
         SetupAerialAttack();
         isAttacking = true;
         float oldGravity = rb.linearVelocity.y > 0 ? -1f : rb.linearVelocity.y;

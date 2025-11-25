@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 7747668802711476343}
   - component: {fileID: 1170260910579437216}
   - component: {fileID: 5703343036248857653}
+  - component: {fileID: 6534801137106630166}
   m_Layer: 9
   m_Name: SkeletonMiner
   m_TagString: Untagged
@@ -136,7 +137,7 @@ MonoBehaviour:
   rb: {fileID: 7747668802711476343}
   sr: {fileID: 19218159406472641}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
-  dropItemsOnDeath: {fileID: 0}
+  dropItemsOnDeath: {fileID: 6534801137106630166}
   attackHitboxes:
   - {fileID: 11400000, guid: 5d3f0def00b644cf79c9f9daecb00e55, type: 2}
   isFacingRight: 1
@@ -158,12 +159,17 @@ MonoBehaviour:
     m_Bits: 1589248
   moveSpeed: 2
   alertSpeed: 4
-  meleeRange: 1
-  meleeAttackCooldown: 1.5
+  canJump: 1
+  jumpPower: 9
+  jumpCooldown: 1
+  obstacleDetectionDistance: 0.5
+  groundCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1048576
   groundCheckBox: {fileID: 3179358076165495718}
+  meleeRange: 1
+  meleeAttackCooldown: 1.5
   attackHitboxScript: {fileID: 5703343036248857653}
   anim: {fileID: 3531115528278991489}
 --- !u!114 &5703343036248857653
@@ -181,6 +187,27 @@ MonoBehaviour:
   boxCol: {fileID: 3611589837997193026}
   circleCol: {fileID: 5872956229488124196}
   parentScript: {fileID: 1170260910579437216}
+--- !u!114 &6534801137106630166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825004053316584561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662f1b00516f94510b77d0acaed1e919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
+  items:
+  - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
+  - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
+  - {fileID: 11400000, guid: cfcf74ad749c546d98ba838c1e8733e1, type: 2}
+  itemDropChances:
+  - 60
+  - 100
+  - 25
 --- !u!1 &2030070163671870000
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +660,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 33344
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

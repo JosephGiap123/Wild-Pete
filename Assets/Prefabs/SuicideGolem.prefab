@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 2995196897123441282}
   - component: {fileID: 9052543882290067099}
   - component: {fileID: 8116994666380000824}
+  - component: {fileID: 1071425780929972173}
   m_Layer: 9
   m_Name: SuicideGolem
   m_TagString: Untagged
@@ -489,7 +490,7 @@ MonoBehaviour:
   rb: {fileID: 2995196897123441282}
   sr: {fileID: 8536502374643764691}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
-  dropItemsOnDeath: {fileID: 0}
+  dropItemsOnDeath: {fileID: 1071425780929972173}
   attackHitboxes:
   - {fileID: 11400000, guid: 3dff549c0c29341ea8330817bda146ad, type: 2}
   isFacingRight: 1
@@ -509,11 +510,16 @@ MonoBehaviour:
     m_Bits: 1589248
   moveSpeed: 3.5
   alertSpeed: 4
-  explosionRange: 1.5
+  canJump: 1
+  jumpPower: 9
+  jumpCooldown: 1
+  obstacleDetectionDistance: 0.5
+  groundCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1572864
   groundCheckBox: {fileID: 7462579911399170850}
+  explosionRange: 1.5
   attackHitboxScript: {fileID: 8116994666380000824}
   anim: {fileID: 4348027968885589308}
 --- !u!114 &8116994666380000824
@@ -531,6 +537,23 @@ MonoBehaviour:
   boxCol: {fileID: 772495767400520458}
   circleCol: {fileID: 1678516027632529818}
   parentScript: {fileID: 9052543882290067099}
+--- !u!114 &1071425780929972173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989045366931940393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662f1b00516f94510b77d0acaed1e919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
+  items:
+  - {fileID: 11400000, guid: cfcf74ad749c546d98ba838c1e8733e1, type: 2}
+  itemDropChances:
+  - 100
 --- !u!1 &7568946971500160677
 GameObject:
   m_ObjectHideFlags: 0

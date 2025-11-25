@@ -23,9 +23,48 @@ public class HealthManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void OnEnable()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnPlayerSet -= HandlePlayerSet;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        // Unsubscribe from stat changes
+        if (StatsManager.instance != null)
+        {
+            StatsManager.instance.OnStatChanged -= HandleMaxHealthChanged;
+        }
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        // Find the health bar in the new scene
+        if (healthBar == null || healthBar.gameObject == null)
+        {
+            HealthBarScript foundBar = FindFirstObjectByType<HealthBarScript>();
+            if (foundBar != null)
+            {
+                healthBar = foundBar;
+                Debug.Log($"HealthManager: Found health bar in new scene: {healthBar.name}");
+
+                // Update the health bar with current values
+                if (healthBar != null)
+                {
+                    healthBar.SetMaxHealth(maxHealth);
+                    healthBar.SetHealth(health);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("HealthManager: No health bar found in new scene!");
+            }
+        }
     }
 
     private void HandlePlayerSet(GameObject player)
@@ -36,59 +75,64 @@ public class HealthManager : MonoBehaviour
             maxHealth = StatsManager.instance.maxHealth;
         }
         else
-    {
-        maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
+        {
+            maxHealth = player.GetComponent<BasePlayerMovement2D>().maxHealth;
         }
-        
+
         health = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        healthBar.SetHealth(health);
-        
+
+        // Find health bar if not set
+        if (healthBar == null || healthBar.gameObject == null)
+        {
+            healthBar = FindFirstObjectByType<HealthBarScript>();
+        }
+
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(health);
+        }
+
         // Subscribe to stat changes for max health updates
         if (StatsManager.instance != null)
         {
             StatsManager.instance.OnStatChanged += HandleMaxHealthChanged;
         }
     }
-    
+
     private void HandleMaxHealthChanged(EquipmentSO.Stats stat, float value)
     {
         if (stat == EquipmentSO.Stats.MaxHealth && StatsManager.instance != null)
         {
             int newMaxHealth = StatsManager.instance.maxHealth;
-            
+
             // If current health exceeds new max, cap it before updating
             if (health > newMaxHealth)
             {
                 health = newMaxHealth;
             }
-            
+
             // Update max health (this will also update the UI)
             SetMaxHealth(newMaxHealth);
-        }
-    }
-    
-    private void OnDisable()
-    {
-        GameManager.OnPlayerSet -= HandlePlayerSet;
-        
-        // Unsubscribe from stat changes
-        if (StatsManager.instance != null)
-        {
-            StatsManager.instance.OnStatChanged -= HandleMaxHealthChanged;
         }
     }
 
     public void TakeDamage(int damage)
     {
+        bool wasAlive = health > 0;
         health -= damage;
         if (health <= 0)
         {
             health = 0;
-            OnPlayerDeath?.Invoke();
         }
         OnHealthChanged?.Invoke(health, maxHealth);
         healthBar.UpdateHealthBar(health, maxHealth);
+
+        // Fire death event if player was alive and is now dead
+        if (wasAlive && health <= 0)
+        {
+            OnPlayerDeath?.Invoke();
+        }
     }
 
     public bool IsDead()
@@ -96,11 +140,29 @@ public class HealthManager : MonoBehaviour
         return health <= 0;
     }
 
+    // Kills the player by setting health to 0 and firing death event
+    // Use this for non-damage deaths (like fall death)
+    public void KillPlayer()
+    {
+        bool wasAlive = health > 0;
+        health = 0;
+        OnHealthChanged?.Invoke(health, maxHealth);
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(health, maxHealth);
+        }
+
+        if (wasAlive)
+        {
+            OnPlayerDeath?.Invoke();
+        }
+    }
+
     public void SetMaxHealth(int newMaxHealth)
     {
         maxHealth = newMaxHealth;
         OnMaxHealthChanged?.Invoke(maxHealth);
-        
+
         // Update health bar UI
         if (healthBar != null)
         {
@@ -139,6 +201,7 @@ public class HealthManager : MonoBehaviour
     }
 
     // Sets the current health value (for respawn/checkpoint system).
+    // Does NOT fire death event - use KillPlayer() if you want to trigger death
     public void SetHealth(int newHealth)
     {
         health = Mathf.Clamp(newHealth, 0, maxHealth);

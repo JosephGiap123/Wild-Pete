@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GunUIScript : MonoBehaviour
 {
@@ -13,16 +14,53 @@ public class GunUIScript : MonoBehaviour
     void OnEnable()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
-        PlayerInventory.instance.OnEquipmentEquippedEvent += UpdateGunUI;
-        PlayerInventory.instance.OnEquipmentUnequippedEvent += UpdateGunUI;
+        SubscribeToInventoryEvents();
+
+        // If player is already set, update UI immediately
+        if (GameManager.Instance != null && GameManager.Instance.player != null)
+        {
+            HandlePlayerSet(GameManager.Instance.player);
+        }
+
+        // Also try to update UI after a short delay in case inventory wasn't ready
+        StartCoroutine(DelayedInitialUpdate());
+    }
+
+    private void SubscribeToInventoryEvents()
+    {
+        if (PlayerInventory.instance != null)
+        {
+            PlayerInventory.instance.OnEquipmentEquippedEvent += UpdateGunUI;
+            PlayerInventory.instance.OnEquipmentUnequippedEvent += UpdateGunUI;
+        }
+    }
+
+    private System.Collections.IEnumerator DelayedInitialUpdate()
+    {
+        // Wait a frame to ensure everything is initialized
+        yield return null;
+
+        // Try subscribing again in case inventory wasn't ready
+        SubscribeToInventoryEvents();
+
+        // Force update UI to catch any equipment that was already equipped
+        DrawGunUI();
+        if (playerMovement != null)
+        {
+            DrawAmmoUI();
+        }
     }
 
     void OnDisable()
     {
         GameManager.OnPlayerSet -= HandlePlayerSet;
 
-        PlayerInventory.instance.OnEquipmentEquippedEvent -= UpdateGunUI;
-        PlayerInventory.instance.OnEquipmentUnequippedEvent -= UpdateGunUI;
+        if (PlayerInventory.instance != null)
+        {
+            PlayerInventory.instance.OnEquipmentEquippedEvent -= UpdateGunUI;
+            PlayerInventory.instance.OnEquipmentUnequippedEvent -= UpdateGunUI;
+        }
+
         // Unsubscribe from ammo event when disabled
         if (playerMovement != null)
         {
@@ -149,14 +187,43 @@ public class GunUIScript : MonoBehaviour
 
     private void UpdateGunUI(EquipmentSO equipment)
     {
-        // Only update if this is a ranged weapon (slot 3)
-        if (equipment != null && equipment.equipmentType != EquipmentSO.EquipmentSlot.Ranged)
+        // If equipment is null (unequipped), check if slot 3 is empty
+        // If equipment is not null, only update if this is a ranged weapon
+        if (equipment != null)
         {
-            return; // Not a ranged weapon, ignore
+            if (equipment.equipmentType != EquipmentSO.EquipmentSlot.Ranged)
+            {
+                return; // Not a ranged weapon, ignore
+            }
+        }
+        else
+        {
+            // Equipment is null - check if slot 3 is actually empty
+            // This handles the unequip case
+            if (PlayerInventory.instance != null
+                && PlayerInventory.instance.equipmentSlots != null
+                && PlayerInventory.instance.equipmentSlots.Length > 3
+                && PlayerInventory.instance.equipmentSlots[3] != null
+                && !PlayerInventory.instance.equipmentSlots[3].IsEmpty())
+            {
+                // Slot is not empty, so this unequip event is for a different slot
+                return;
+            }
         }
 
+        // Force update UI immediately
+        // Use a small delay to ensure inventory state is updated
+        StartCoroutine(DelayedUIUpdate());
+    }
+
+    private System.Collections.IEnumerator DelayedUIUpdate()
+    {
+        // Wait one frame to ensure inventory state is fully updated
+        yield return null;
+
+        // Always update gun UI (will hide if no ranged weapon or player not set)
         DrawGunUI();
-        
+
         // Only update ammo UI if player is set
         if (playerMovement != null)
         {
