@@ -10302,7 +10302,7 @@ MonoBehaviour:
   groundAttackEnergyCost: 1.5
   aerialAttackEnergyCost: 1.5
   crouchingAttackEnergyCost: 1
-  jumpEnergyCost: 1
+  jumpEnergyCost: 0.5
   maxAttackDuration: 0.9
   wallRay: {fileID: 4137327256938815234}
   wallMask:
