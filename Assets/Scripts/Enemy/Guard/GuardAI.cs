@@ -471,7 +471,7 @@ public class GuardAI : PatrolEnemyAI
     {
         bool wasInAir = isInAir;
         base.IsGroundedCheck(); // Base class handles the actual ground checking
-        
+
         // Play run loop sound when landing and moving
         if (wasInAir && !isInAir && Mathf.Abs(rb.linearVelocity.x) > 0.2f && audioManager != null)
         {
