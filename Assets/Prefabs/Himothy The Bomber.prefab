@@ -20299,7 +20299,7 @@ MonoBehaviour:
   isDead: 0
   isHurt: 0
   rb: {fileID: 945366372731786584}
-  sr: {fileID: 0}
+  sr: {fileID: 8980338560309106573}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
   dropItemsOnDeath: {fileID: 0}
   attackHitboxes:
@@ -20329,7 +20329,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2277310032840431590, guid: 53837dabf4a0d4cf79743e2182f33723, type: 3}
   rocketJumpExplosionPrefab: {fileID: 1307652572775246841, guid: 67750f8b4ea894a02902523fd60d09bd, type: 3}
   attackHitboxScript: {fileID: 1711177795937728857}
-  phaseChangeParticles: {fileID: 0}
+  phaseChangeParticles: {fileID: 142381578256920333, guid: 3d8ebd56469d9414785cdc69c33a86d4, type: 3}
   audioManager: {fileID: 0}
   standRocketProjSpawnPt: {fileID: 4765558091931435412}
   airDiagonalRocketProjSpawnPt: {fileID: 1485806988595676659}
