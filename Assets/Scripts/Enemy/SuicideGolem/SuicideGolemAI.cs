@@ -7,9 +7,7 @@ public class SuicideGolemAI : PatrolEnemyAI
     [SerializeField] private float explosionRange = 1f; // Range at which golem explodes
 
     [Header("Ground Check")]
-    private bool isInAir = false;
-    public LayerMask groundLayer;
-    [SerializeField] private BoxCollider2D groundCheckBox;
+    // Note: groundCheckBox, groundLayer, and isInAir are now inherited from base class
 
     [Header("Combat Settings")]
     private int isAttacking = 0; // 0 = no attack, 1 = exploding
@@ -44,9 +42,11 @@ public class SuicideGolemAI : PatrolEnemyAI
 
     public void Update()
     {
+        // Call base Update for jump timer and ground checking
+        base.Update();
+        
         AnimationControl();
         if (isDead || isExploding) return;
-        IsGroundedCheck();
 
         // Check for explosion first (regardless of state)
         if (player != null)
@@ -161,11 +161,9 @@ public class SuicideGolemAI : PatrolEnemyAI
         }
     }
 
-    void IsGroundedCheck()
+    protected override void IsGroundedCheck()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
-        bool wasInAir = isInAir;
-        isInAir = colliders.Length == 0;
+        base.IsGroundedCheck(); // Base class handles the actual ground checking
     }
 
     // Legacy method - kept for compatibility but explosion is now triggered automatically

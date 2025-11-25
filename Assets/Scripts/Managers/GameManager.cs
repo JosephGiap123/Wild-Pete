@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Pete;
     [SerializeField] private GameObject Alice;
     [SerializeField] public CinemachineCamera cinemachineCam;
+
+    public bool UsePlayerPrefs = true;
     public int selectedCharacter = 1;
     public GameObject player { get; private set; }
 
@@ -28,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayer()
     {
-        selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
+        if (UsePlayerPrefs) selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
         switch (selectedCharacter)
         {
             case 1:

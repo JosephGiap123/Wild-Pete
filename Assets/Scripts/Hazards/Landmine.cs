@@ -44,7 +44,7 @@ public class Landmine : MonoBehaviour
     public void SwitchToLandMineAnim()
     {
         GetComponent<Animator>().Play("LandMine");
-        boxCol.enabled = true;
+        boxCol.enabled = true; 
         Destroy(gameObject, destroyTimer);
     }
 

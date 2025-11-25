@@ -120,6 +120,36 @@ public class GameRestartManager : MonoBehaviour
             }
         }
 
+        // Destroy all landmines
+        Landmine[] landmines = FindObjectsOfType<Landmine>();
+        foreach (Landmine landmine in landmines)
+        {
+            if (landmine != null && landmine.gameObject != null)
+            {
+                Destroy(landmine.gameObject);
+            }
+        }
+
+        // Destroy all nukes
+        Nuke[] nukes = FindObjectsOfType<Nuke>();
+        foreach (Nuke nuke in nukes)
+        {
+            if (nuke != null && nuke.gameObject != null)
+            {
+                Destroy(nuke.gameObject);
+            }
+        }
+
+        // Destroy all rockets
+        RPGRocket[] rockets = FindObjectsOfType<RPGRocket>();
+        foreach (RPGRocket rocket in rockets)
+        {
+            if (rocket != null && rocket.gameObject != null)
+            {
+                Destroy(rocket.gameObject);
+            }
+        }
+
         // Destroy all lasers
         GroundLaserBeam[] lasers = FindObjectsOfType<GroundLaserBeam>();
         foreach (GroundLaserBeam laser in lasers)
