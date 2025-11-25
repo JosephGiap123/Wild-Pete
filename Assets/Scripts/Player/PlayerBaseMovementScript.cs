@@ -387,7 +387,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
-        if (isDead) return;
+        if (isDead || isAttacking || isReloading) return;
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
