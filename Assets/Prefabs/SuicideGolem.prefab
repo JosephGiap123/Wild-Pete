@@ -325,6 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suicideGolemAI: {fileID: 9052543882290067099}
   hitboxScript: {fileID: 8116994666380000824}
+  audioMgr: {fileID: 6944911315198932796}
 --- !u!1 &5873019691046623163
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +441,7 @@ Transform:
   - {fileID: 4471041450035631713}
   - {fileID: 8181635246774896884}
   - {fileID: 1655210934430061623}
+  - {fileID: 3301303302898482679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2995196897123441282
@@ -493,6 +495,7 @@ MonoBehaviour:
   isFacingRight: 1
   currentState: 0
   patrolPoints: []
+  useRelativePatrolPoints: 1
   patrolWaitTime: 2
   detectionRange: 9
   raycastHeightOffset: 0.4
@@ -500,6 +503,7 @@ MonoBehaviour:
   raycastVerticalSpread: 0.2
   nearDetectRadius: 1
   loseSightTime: 3
+  checkFacingDirection: 1
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 1589248
@@ -612,6 +616,61 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!1 &8221414300533268969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3301303302898482679}
+  - component: {fileID: 6944911315198932796}
+  m_Layer: 0
+  m_Name: SGAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3301303302898482679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8221414300533268969}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.16000366, y: 0.99999976, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7480165928309796089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6944911315198932796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8221414300533268969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984c6a49a42971c438504ce5942317be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  explodeClip: {fileID: 8300000, guid: 6e070dd367b923749bd9947eedce5d91, type: 3}
+  beepClip: {fileID: 8300000, guid: 0a52540f7b2252a47a2fd10ba6ce1a6f, type: 3}
+  runLoopClip: {fileID: 8300000, guid: 56e9d3994152ba04db5e8cd52d66597d, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.03
+  max3dDistance: 20
+  beepInterval: 0.8
+  beepSpeedMultiplier: 5
+  runLoopPitchMultiplier: 2
 --- !u!1 &9167374772897689206
 GameObject:
   m_ObjectHideFlags: 0

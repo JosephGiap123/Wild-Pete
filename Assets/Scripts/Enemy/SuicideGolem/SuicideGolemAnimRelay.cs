@@ -5,6 +5,8 @@ public class SuicideGolemAnimRelay : MonoBehaviour
     [SerializeField] SuicideGolemAI suicideGolemAI;
     [SerializeField] GenericAttackHitbox hitboxScript;
 
+    [SerializeField] SGAudioManager audioMgr;
+
     public void CallEndAttack()
     {
         suicideGolemAI.EndAttack();
@@ -40,6 +42,32 @@ public class SuicideGolemAnimRelay : MonoBehaviour
     public void CallExplosionDeathSequence()
     {
         StartCoroutine(suicideGolemAI.ExplosionDeathSequence());
+    }
+
+    public void CallExplosionSound()
+    {
+        if (audioMgr == null) return;
+        audioMgr.StopRunLoop();
+        audioMgr.StopBeeping();
+        audioMgr.PlayExplode();
+    }
+
+    public void CallWalkSound()
+    {
+        if (audioMgr == null) return;
+        audioMgr.StartRunLoop();
+    }
+
+    public void CallStopWalkSound()
+    {
+        if (audioMgr == null) return;
+        audioMgr.StopRunLoop();
+    }
+
+    public void CallStartBeeping()
+    {
+        if (audioMgr == null) return;
+        audioMgr.StartBeeping();
     }
 
 }
