@@ -80,6 +80,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: CallSpawnRocket
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 315
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
     functionName: CallSetUpAndSpawnParticle
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -87,17 +94,17 @@ AnimationClip:
     intParameter: 3
     messageOptions: 0
   - time: 0
-    functionName: CallSpawnRocket
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 315
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.016666668
     functionName: CallAddYVelocity
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 8
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: CallUseAmmo
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.016666668

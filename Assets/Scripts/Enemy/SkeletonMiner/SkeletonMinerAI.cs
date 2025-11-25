@@ -10,9 +10,7 @@ public class SkeletonMinerAI : PatrolEnemyAI
     private float meleeTimer = 0f;
 
     [Header("Ground Check")]
-    private bool isInAir = false;
-    public LayerMask groundLayer;
-    [SerializeField] private BoxCollider2D groundCheckBox;
+    // Note: groundCheckBox, groundLayer, and isInAir are now inherited from base class
 
     [Header("Attack References")]
     [SerializeField] private GenericAttackHitbox attackHitboxScript;
@@ -34,9 +32,11 @@ public class SkeletonMinerAI : PatrolEnemyAI
 
     public void Update()
     {
+        // Call base Update for jump timer and ground checking
+        base.Update();
+        
         AnimationControl();
         if (isDead || isHurt) return;
-        IsGroundedCheck();
 
         // Update attack timer
         meleeTimer -= Time.deltaTime;
@@ -207,11 +207,9 @@ public class SkeletonMinerAI : PatrolEnemyAI
         }
     }
 
-    void IsGroundedCheck()
+    protected override void IsGroundedCheck()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
-        bool wasInAir = isInAir;
-        isInAir = colliders.Length == 0;
+        base.IsGroundedCheck(); // Base class handles the actual ground checking
     }
 
     //attacks

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BomberBoss : EnemyBase, IHasFacing
 {
@@ -9,6 +10,8 @@ public class BomberBoss : EnemyBase, IHasFacing
     private string currentState = "Idle";
 
     [Header("Movement Settings")]
+
+    private bool isStaggered = false;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
@@ -20,7 +23,43 @@ public class BomberBoss : EnemyBase, IHasFacing
     protected int isAttacking = 0;
     protected bool isInvincible = false;
 
+    [SerializeField] private float meleeDistance = 1f;
+    [SerializeField] private float rangedDistance = 15f;
     [Header("Combat Stats")]
+    [SerializeField] private int originalMaxAmmo = 10;
+    private int maxAmmo = 10;
+    private int currentAmmo = 10;
+    [SerializeField] private int originalMaxAerialShotsConsecutively = 3;
+    private int maxAerialShotsConsecutively = 3;
+    [SerializeField] private float meleeCooldown = 2f;
+    private float meleeTimer = 0f;
+    [SerializeField] private float rangedCooldown = 6f;
+    [SerializeField] private float aerialRangedCooldown = 0.5f;
+    private float rangedTimer = 0f;
+    [SerializeField] private float rocketJumpCooldown = 8f;
+    private float rocketJumpTimer = 0f;
+
+    [SerializeField] private float originalUltCooldown = 20f;
+    private float ultCooldown = 20f;
+    private float ultTimer = 0f;
+
+    [SerializeField] private int originalMaxConsecutiveUltimates = 1;
+    private int consecutiveUltimates = 0;
+    private int maxConsecutiveUltimates = 1;
+
+    // Track consecutive aerial shots
+    private int consecutiveAerialShots = 0;
+
+    // Track ultimate usage for weighting (lower = used more recently, higher priority)
+    private int ult1UsageWeight = 0; // Dynamite
+    private int ult2UsageWeight = 0; // Landmines
+    private int ult3UsageWeight = 0; // Nuke
+
+    [SerializeField] private float staggerTime = 3f;
+
+    [SerializeField] int damageToStagger = 40;
+    private int currentStaggerDamage = 0;
+    private float staggerTimer = 0f;
 
 
     [Header("Combat References")]
@@ -28,6 +67,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     [SerializeField] private GameObject rocketJumpExplosionPrefab;
     [SerializeField] private GenericAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject phaseChangeParticles;
+    [SerializeField] private WardenAudioManager audioManager;
     [Header("Rocket Spawn Points")]
     [SerializeField] private Transform standRocketProjSpawnPt;
     [SerializeField] private Transform airDiagonalRocketProjSpawnPt;
@@ -35,6 +75,8 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     [SerializeField] private GameObject dynamitePrefab;
     [SerializeField] private GameObject landminePrefab;
+
+    [SerializeField] private GameObject nukePrefab;
 
     [Header("Ultimate Attack - Dynamite Spawn")]
     [Tooltip("BoxCollider2D that defines the area where dynamite can spawn. Set as trigger.")]
@@ -53,6 +95,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     [Tooltip("Y offset from top of bounds for spawn position (positive = slightly below top)")]
     [SerializeField] private float topSpawnOffset = 0.5f;
 
+
     protected float distanceToPlayer = 100f;
 
 
@@ -69,7 +112,8 @@ public class BomberBoss : EnemyBase, IHasFacing
     protected override void Awake()
     {
         base.Awake();
-        hpBarInteractor.ShowHealthBar(true);
+        isInvincible = true; // Start invincible until entrance completes
+        hpBarInteractor.ShowHealthBar(false); // Hide health bar initially
     }
 
     private void OnEnable()
@@ -92,37 +136,76 @@ public class BomberBoss : EnemyBase, IHasFacing
         if (playerObj != null) this.player = playerObj.transform;
     }
 
+    public void Start()
+    {
+        StartCoroutine(WaitForNearbyPlayer());
+    }
+
+    public IEnumerator WaitForNearbyPlayer()
+    {
+        ChangeAnimationState("EntranceIdle");
+        yield return new WaitForSeconds(0.5f);
+
+        // Wait for player reference to be set
+        while (player == null)
+        {
+            // Try to get player from GameManager
+            if (GameManager.Instance != null && GameManager.Instance.player != null)
+            {
+                player = GameManager.Instance.player.transform;
+            }
+            ChangeAnimationState("EntranceIdle");
+            yield return null;
+        }
+
+        // Keep animation state updated while waiting (since AnimationControl won't run when inAttackState is true)
+        while (distanceToPlayer > 3f)
+        {
+            ChangeAnimationState("EntranceIdle");
+            yield return null;
+        }
+
+        // Play entrance animation when player is nearby
+        ChangeAnimationState("Entrance");
+        isInvincible = false;
+        hpBarInteractor.ShowHealthBar(true);
+        // Update health bar visual when showing it (to reflect current health)
+        hpBarInteractor.UpdateHealthVisual();
+
+        // The entrance animation will call EndAttackState() via animation event
+        // which will set inAttackState = false when the animation completes
+        // No need to manually set it here
+    }
+
     public void Update()
     {
+        if (PauseController.IsGamePaused) return;
+
+        meleeTimer -= Time.deltaTime;
+        ultTimer -= Time.deltaTime;
+        staggerTimer -= Time.deltaTime;
+        rangedTimer -= Time.deltaTime;
+        rocketJumpTimer -= Time.deltaTime;
+        if (isStaggered && staggerTimer <= 0)
+        {
+            CallEndStaggerAnimation();
+        }
+
         if (player != null)
         {
             distanceToPlayer = Vector2.Distance(player.position, transform.position);
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetUpAttackHitboxes(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ShootRocket();
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            RocketJump();
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            StartUlt(1);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            StartUlt(2);
-        }
         AnimationControl();
         IsGroundedCheck();
-        if (inAttackState || isDead) return;
+        if (inAttackState || isDead || isStaggered) return;
+
+        // Increment ultimate usage weights (makes them more available over time)
+        if (ult1UsageWeight > 0) ult1UsageWeight--;
+        if (ult2UsageWeight > 0) ult2UsageWeight--;
+        if (ult3UsageWeight > 0) ult3UsageWeight--;
+
+        DecideAttack();
     }
 
     public void SetUpAndSpawnParticle(int particleNum)
@@ -154,7 +237,7 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     protected void AnimationControl()
     {
-        if (inAttackState || isDead) return;
+        if (inAttackState || isDead || isStaggered) return;
         else if (isInAir)
         {
             if (rb.linearVelocity.y > 0.1f)
@@ -170,7 +253,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         }
         else
         {
-            if (Mathf.Abs(rb.linearVelocity.x) > 0.25f)
+            if (Mathf.Abs(rb.linearVelocity.x) > 2.5f)
             {
                 ChangeAnimationState("Run");
             }
@@ -194,13 +277,33 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     void IsGroundedCheck()
     {
+        bool wasInAir = isInAir;
         Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
         isInAir = colliders.Length == 0;
+
+        // Reset consecutive aerial shots when landing
+        if (wasInAir && !isInAir)
+        {
+            consecutiveAerialShots = 0;
+        }
     }
 
     private void MoveTowards(Vector2 target, float speed = -1f)
     {
         if (speed < 0) speed = moveSpeed;
+        float deltaX = target.x - transform.position.x;
+        if (Mathf.Abs(deltaX) > 0.5f)
+        {
+            float direction = Mathf.Sign(deltaX);
+            rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+
+            if ((direction > 0 && !isFacingRight) || (direction < 0 && isFacingRight))
+                FlipSprite();
+        }
+        else
+        {
+            ZeroVelocity();
+        }
     }
 
     // private void UpdateRunLoopAudio(bool shouldRun)
@@ -215,10 +318,46 @@ public class BomberBoss : EnemyBase, IHasFacing
     public override void Hurt(int dmg, Vector2 knockbackForce)
     {
         if (isInvincible) return;
-        // audioManager?.PlayHurt();
-        StartCoroutine(base.DamageFlash(0.2f));
-        base.Hurt(dmg, knockbackForce);
+        health -= dmg;
+        if (damageText != null)
+        {
+            GameObject dmgText = Instantiate(damageText, transform.position, transform.rotation);
+            dmgText.GetComponentInChildren<DamageText>().Initialize(new(knockbackForce.x, 5f), dmg, new Color(0.8862745f, 0.3660145f, 0.0980392f, 1f), Color.red);
+        }
         hpBarInteractor.UpdateHealthVisual();
+        StartCoroutine(base.DamageFlash(0.2f));
+        // audioManager?.PlayHurt();
+        if (!isStaggered) currentStaggerDamage += dmg;
+        if (currentStaggerDamage >= damageToStagger)
+        {
+            StartStagger();
+            currentStaggerDamage = 0;
+        }
+        if (health <= 0)
+        {
+            isInvincible = true;
+            StartCoroutine(Death());
+        }
+        else if (health <= maxHealth * 0.66f && phaseNum < 2) //swap phases
+        {
+            phaseNum = 2;
+            moveSpeed = 3f;
+            maxAmmo = originalMaxAmmo + 2;
+            maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 1;
+            maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 1;
+            ultCooldown = originalUltCooldown - 1f;
+            // Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
+        }
+        else if (health <= maxHealth * 0.33f && phaseNum < 3)
+        {
+            phaseNum = 3;
+            moveSpeed = 4f;
+            maxAmmo = originalMaxAmmo + 4;
+            maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 2;
+            maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 2;
+            ultCooldown = originalUltCooldown - 2f;
+            // Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
+        }
     }
 
     public void FaceTowardsPlayer()
@@ -232,10 +371,15 @@ public class BomberBoss : EnemyBase, IHasFacing
     protected IEnumerator Death()
     {
         isDead = true;
+        ChangeAnimationState("Death");
         // audioManager?.StopRunLoop();
         // audioManager?.PlayDeath();
         ZeroVelocity(); // Stop all movement
-        dropItemsOnDeath.DropItems();
+        isStaggered = false;
+        if (dropItemsOnDeath != null)
+        {
+            dropItemsOnDeath.DropItems();
+        }
         yield return new WaitForSeconds(4f); //wait for death animation to finish
         hpBarInteractor.ShowHealthBar(false);
         Die();
@@ -248,7 +392,68 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
-        base.Respawn(position, facingRight);
+        // Boss always returns to spawn point, ignoring checkpoint position
+        base.Respawn(null, facingRight);
+
+        // Reset all AI state variables
+        isDead = false;
+        isAttacking = 0;
+        inAttackState = true; // Keep in attack state until entrance animation completes
+        currentState = "Idle";
+        isStaggered = false;
+        isInvincible = true; // Will be set to false by WaitForNearbyPlayer coroutine
+        currentStaggerDamage = 0;
+        consecutiveUltimates = 0;
+
+        // Reset phase to 1 (phase should not persist across respawns)
+        phaseNum = 1;
+        maxAmmo = originalMaxAmmo;
+        maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively;
+        maxConsecutiveUltimates = originalMaxConsecutiveUltimates;
+        ultCooldown = originalUltCooldown;
+        // Reset all timers
+        meleeTimer = 0f;
+        rangedTimer = 0f;
+        rocketJumpTimer = 0f;
+        ultTimer = 0f;
+        staggerTimer = 0f;
+
+        // Reset ammo
+        currentAmmo = maxAmmo;
+
+        // Reset aerial shot tracking
+        consecutiveAerialShots = 0;
+
+        // Reset ultimate usage weights
+        ult1UsageWeight = 0;
+        ult2UsageWeight = 0;
+        ult3UsageWeight = 0;
+
+        // Reset movement and physics
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        // Stop any active coroutines
+        StopAllCoroutines();
+
+        // Reset animation state
+        if (anim != null)
+        {
+            anim.Play("Idle");
+        }
+
+        // Hide health bar initially
+        if (hpBarInteractor != null)
+        {
+            hpBarInteractor.ShowHealthBar(false);
+            // Update health bar visual to reflect full health (will be shown when entrance completes)
+            hpBarInteractor.UpdateHealthVisual();
+        }
+
+        // Restart the entrance sequence
+        StartCoroutine(WaitForNearbyPlayer());
     }
 
     public override void FlipSprite()
@@ -333,9 +538,47 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     public void ZeroVelocity()
     {
+        // If in air, preserve vertical velocity to allow natural falling
+
         rb.linearVelocity = Vector2.zero;
     }
 
+    public void Reload()
+    {
+        currentAmmo = maxAmmo;
+    }
+
+    public void UseAmmo()
+    {
+        currentAmmo--;
+    }
+
+
+    public void StartReload()
+    {
+        currentAmmo = 0;
+        inAttackState = true;
+        isAttacking = -1;
+        ChangeAnimationState("Reload");
+    }
+
+    public void StartStagger()
+    {
+        staggerTimer = staggerTime;
+        isStaggered = true;
+        inAttackState = false;
+        isAttacking = 0;
+        ChangeAnimationState("Stagger");
+    }
+
+    public void CallEndStaggerAnimation()
+    {
+        ChangeAnimationState("StaggerRecovery");
+    }
+    public void EndStagger()
+    {
+        isStaggered = false;
+    }
     public void SetUpAttackHitboxes(int attackNum)
     {
         FaceTowardsPlayer();
@@ -364,6 +607,192 @@ public class BomberBoss : EnemyBase, IHasFacing
         {
             SetUpAttackHitboxes(2); //chain into dash attack
         }
+        meleeTimer = meleeCooldown;
+    }
+
+    public void DecideAttack()
+    {
+        if (player == null) return;
+
+        List<int> availableAttacks = new List<int>();
+
+        // 1. Reload (highest priority if no ammo and grounded)
+        if (currentAmmo <= 0 && !isInAir)
+        {
+            StartReload();
+            return;
+        }
+
+        // 2. Melee attack (if within melee distance and grounded and cooldown ready)
+        if (distanceToPlayer <= meleeDistance && !isInAir && meleeTimer <= 0)
+        {
+            availableAttacks.Add(1); // Melee
+        }
+
+        // 3. Ranged attack (if within ranged distance but NOT melee distance, has ammo, and cooldown ready)
+        if (distanceToPlayer > meleeDistance && distanceToPlayer <= rangedDistance && currentAmmo > 0 && rangedTimer <= 0)
+        {
+            availableAttacks.Add(3); // Ranged
+        }
+
+        // 4. Rocket jump (if within ranged distance AND ammo >= 5 AND cooldown ready)
+        if (distanceToPlayer <= rangedDistance && currentAmmo >= 5 && !isInAir && rocketJumpTimer <= 0)
+        {
+            availableAttacks.Add(4); // Rocket jump
+        }
+
+        // 5. Aerial rocket attacks (if in the air, above player, consecutive shots < max, has ammo, and cooldown ready)
+        if (isInAir && transform.position.y > player.position.y + 1f &&
+            consecutiveAerialShots < maxAerialShotsConsecutively &&
+            currentAmmo > 0 && rangedTimer <= 0)
+        {
+            availableAttacks.Add(5); // Aerial rocket
+        }
+
+        // 6. Ultimates (only in phase 2+, off cooldown, and not actively using ultimate)
+        if (phaseNum >= 2 && ultTimer <= 0 && isAttacking < 5)
+        {
+            // Add available ultimates with weights
+            List<int> availableUlts = new List<int>();
+            List<float> ultWeights = new List<float>();
+
+            // All ultimates are available, but weighted by usage
+            // Use 10, 11, 12 to avoid conflict with aerial rocket (5)
+            availableUlts.Add(10); // Ult 1 (Dynamite)
+            ultWeights.Add(ult1UsageWeight + 1f); // +1 to avoid zero weight
+
+            availableUlts.Add(11); // Ult 2 (Landmines)
+            ultWeights.Add(ult2UsageWeight + 1f);
+
+            availableUlts.Add(12); // Ult 3 (Nuke)
+            ultWeights.Add(ult3UsageWeight + 1f);
+
+            // Choose ultimate based on weighted random
+            if (availableUlts.Count > 0)
+            {
+                float totalWeight = 0f;
+                foreach (float weight in ultWeights)
+                {
+                    totalWeight += weight;
+                }
+
+                float randomValue = Random.Range(0f, totalWeight);
+                float currentWeight = 0f;
+                int chosenUlt = availableUlts[0];
+
+                for (int i = 0; i < availableUlts.Count; i++)
+                {
+                    currentWeight += ultWeights[i];
+                    if (randomValue <= currentWeight)
+                    {
+                        chosenUlt = availableUlts[i];
+                        break;
+                    }
+                }
+
+                availableAttacks.Add(chosenUlt);
+            }
+        }
+
+        // Choose an attack from available options
+        if (availableAttacks.Count > 0)
+        {
+            // Priority order: Melee > Ranged > Rocket Jump > Aerial Rocket > Ultimates
+            int chosenAttack = availableAttacks[0]; // Default to first
+
+            // Check for melee first (highest priority)
+            if (availableAttacks.Contains(1))
+            {
+                chosenAttack = 1;
+            }
+            // Then choose between ranged and rocket jump (80% chance for ranged)
+            else if (availableAttacks.Contains(3) && availableAttacks.Contains(4))
+            {
+                // Both ranged and rocket jump are available - 80% chance for ranged
+                float random = Random.Range(0f, 1f);
+                if (random < 0.8f)
+                {
+                    chosenAttack = 3; // Ranged (80% chance)
+                }
+                else
+                {
+                    chosenAttack = 4; // Rocket jump (20% chance)
+                }
+            }
+            // Only ranged available
+            else if (availableAttacks.Contains(3))
+            {
+                chosenAttack = 3;
+            }
+            // Only rocket jump available
+            else if (availableAttacks.Contains(4))
+            {
+                chosenAttack = 4;
+            }
+            // Then aerial rocket
+            else if (availableAttacks.Contains(5))
+            {
+                chosenAttack = 5;
+            }
+            // Finally ultimates (randomly choose from available)
+            else if (availableAttacks.Count > 0)
+            {
+                // Filter to only ultimates (10, 11, 12)
+                List<int> ultOptions = availableAttacks.FindAll(a => a >= 10 && a <= 12);
+                if (ultOptions.Count > 0)
+                {
+                    chosenAttack = ultOptions[Random.Range(0, ultOptions.Count)];
+                }
+            }
+
+            // Execute chosen attack
+            switch (chosenAttack)
+            {
+                case 1: // Melee
+                    SetUpAttackHitboxes(1);
+                    break;
+                case 3: // Ranged
+                    ShootRocket();
+                    break;
+                case 4: // Rocket jump
+                    RocketJump();
+                    break;
+                case 5: // Aerial rocket (boss is grounded but above player)
+                    consecutiveAerialShots++;
+                    ShootRocket(); // ShootRocket() now handles this case automatically
+                    break;
+                case 10: // Ult 1 (Dynamite) - isAttacking = 5
+                    StartUlt(1);
+                    break;
+                case 11: // Ult 2 (Landmines) - isAttacking = 6
+                    StartUlt(2);
+                    break;
+                case 12: // Ult 3 (Nuke) - isAttacking = 7
+                    StartUlt(3);
+                    break;
+            }
+        }
+        else
+        {
+            // No attacks available - move towards player until within melee range
+            if (distanceToPlayer > meleeDistance && !isInAir)
+            {
+                MoveTowards(player.position);
+            }
+            else
+            {
+                // Only zero velocity if grounded (preserve fall velocity when in air)
+                if (!isInAir)
+                {
+                    ZeroVelocity();
+                }
+                else
+                {
+                    // Only zero horizontal velocity when in air
+                    rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+                }
+            }
+        }
     }
 
     public float DetermineXDistanceToPlayer()
@@ -374,13 +803,18 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     public void ShootRocket()
     {
+        if (currentAmmo <= 0 || rangedTimer > 0) return;
+
+        // Use aerial animations only if boss is actually in the air
         if (isInAir)
         {
-            //if the enemy is in the air can do 2 things: either shoot straight down or shoot diagonally.
+            //if the enemy is in the air or above player can do 2 things: either shoot straight down or shoot diagonally.
             //if the player is to the left of the enemy, shoot diagonally to the right(using the block back to go towards the player)
             //if the enemy is to the right, shoot to the left.
             //if it is relatively below the player in x value, shoot straight down.
-            ZeroVelocity();
+            rangedTimer = aerialRangedCooldown;
+            // Only zero horizontal velocity, preserve vertical velocity so boss continues falling
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
             FaceTowardsPlayer();
             isAttacking = 3;
             inAttackState = true;
@@ -399,6 +833,8 @@ public class BomberBoss : EnemyBase, IHasFacing
         }
         else
         {
+            rangedTimer = rangedCooldown;
+            UseAmmo();
             ZeroVelocity();
             FaceTowardsPlayer();
             isAttacking = 3;
@@ -410,34 +846,48 @@ public class BomberBoss : EnemyBase, IHasFacing
 
     public void RocketJump()
     {
+        rangedTimer = 1f;
+        rocketJumpTimer = rocketJumpCooldown;
         ZeroVelocity();
         FaceTowardsPlayer();
         isAttacking = 4;
         inAttackState = true;
         ChangeAnimationState("RocketJump");
     }
-
-
     public void DoUlt()
     {
         switch (isAttacking)
         {
             case 5:
                 SpawnDynamite();
+                ult1UsageWeight = 10; // Increase weight (make it less likely to be chosen next time)
                 break;
             case 6:
                 SpawnLandMines();
+                ult2UsageWeight = 10;
                 break;
             case 7:
-                //spawn nuke
+                SpawnNuke();
+                ult3UsageWeight = 50;
                 break;
             default:
                 Debug.LogError("BomberBoss: Invalid ultimate attack number: " + isAttacking);
                 break;
         }
+        consecutiveUltimates++;
+        if (consecutiveUltimates >= maxConsecutiveUltimates)
+        {
+            consecutiveUltimates = 0;
+            ultTimer = ultCooldown;
+        }
+        else
+        {
+            ultTimer = 3f;
+        }
     }
     public void StartUlt(int ultNum)
     {
+        if (ultTimer > 0) return;
         FaceTowardsPlayer();
         ZeroVelocity();
         isAttacking = 4 + ultNum;
@@ -481,6 +931,11 @@ public class BomberBoss : EnemyBase, IHasFacing
                 Debug.LogWarning("BomberBoss: Landmine prefab doesn't have Landmine component!");
             }
         }
+    }
+
+    public void SpawnNuke()
+    {
+        GameObject newNuke = Instantiate(nukePrefab, transform.position, Quaternion.identity);
     }
 
     public void SpawnRocket(float rawAngle)

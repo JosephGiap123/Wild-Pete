@@ -26,9 +26,7 @@ public class GuardAI : PatrolEnemyAI
 
     [Header("Guard Movement Settings")]
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private BoxCollider2D groundCheckBox;
-    [SerializeField] private LayerMask groundLayer;
-    public bool isInAir = false;
+    // Note: groundCheckBox, groundLayer, and isInAir are now inherited from base class
 
     [Header("Combat Settings")]
     private int isAttacking = 0; // 0 = no attack, 1 = melee1, 2 = melee2, 3 = ranged, 4 = dash attack
@@ -103,12 +101,13 @@ public class GuardAI : PatrolEnemyAI
 
     private void Update()
     {
+        // Call base Update for jump timer and ground checking
+        base.Update();
+        
         AnimationControl();
 
         // Stop processing AI logic if dead or hurt
         if (isDead || isHurt) return;
-
-        IsGroundedCheck();
 
         // While performing non-dash attacks, ensure no horizontal drift
         if (isAttacking == 1 || isAttacking == 2 || isAttacking == 3)
@@ -468,12 +467,11 @@ public class GuardAI : PatrolEnemyAI
 
     }
 
-    void IsGroundedCheck()
+    protected override void IsGroundedCheck()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
         bool wasInAir = isInAir;
-        isInAir = colliders.Length == 0;
-
+        base.IsGroundedCheck(); // Base class handles the actual ground checking
+        
         // Play run loop sound when landing and moving
         if (wasInAir && !isInAir && Mathf.Abs(rb.linearVelocity.x) > 0.2f && audioManager != null)
         {

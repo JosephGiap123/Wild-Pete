@@ -72,4 +72,19 @@ public class BomberBossAnimRelay : MonoBehaviour
     {
         bomberBoss.DoUlt();
     }
+
+    public void CallReload()
+    {
+        bomberBoss.Reload();
+    }
+
+    public void CallEndStagger()
+    {
+        bomberBoss.EndStagger();
+    }
+
+    public void CallUseAmmo()
+    {
+        bomberBoss.UseAmmo();
+    }
 }
