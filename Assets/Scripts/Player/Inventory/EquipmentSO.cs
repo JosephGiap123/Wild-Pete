@@ -11,6 +11,12 @@ public class EquipmentSO : ItemSO
 		Melee,
 		Ranged
 	}
+	public enum EquipableBy
+	{
+		Alice,
+		Pete,
+		Both
+	}
 
 	public enum Stats
 	{
@@ -24,11 +30,15 @@ public class EquipmentSO : ItemSO
 		SlideSpeed,
 		MaxAmmo,
 		BulletSpeed,
-		BulletCount
+		BulletCount,
+		MaxEnergy,
+		EnergyRegenRate
 	}
 	public List<Stats> itemStats;
 	public List<float> itemStatAmounts;
 	public EquipmentSlot equipmentType;
+
+	public EquipableBy equipableBy;
 
 
 }

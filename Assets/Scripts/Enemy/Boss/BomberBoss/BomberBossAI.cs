@@ -12,6 +12,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     [Header("Movement Settings")]
 
     private bool isStaggered = false;
+    [SerializeField] private float originalMoveSpeed = 2f;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] private BoxCollider2D groundCheckBox;
     [SerializeField] private LayerMask groundLayer;
@@ -341,7 +342,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         else if (health <= maxHealth * 0.66f && phaseNum < 2) //swap phases
         {
             phaseNum = 2;
-            moveSpeed = 3f;
+            moveSpeed = originalMoveSpeed + 1f;
             maxAmmo = originalMaxAmmo + 2;
             maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 1;
             maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 1;
@@ -351,7 +352,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         else if (health <= maxHealth * 0.33f && phaseNum < 3)
         {
             phaseNum = 3;
-            moveSpeed = 4f;
+            moveSpeed = originalMoveSpeed + 2f;
             maxAmmo = originalMaxAmmo + 4;
             maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 2;
             maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 2;
@@ -406,6 +407,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         consecutiveUltimates = 0;
 
         // Reset phase to 1 (phase should not persist across respawns)
+        moveSpeed = originalMoveSpeed;
         phaseNum = 1;
         maxAmmo = originalMaxAmmo;
         maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively;

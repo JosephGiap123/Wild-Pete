@@ -627,7 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8003201971850344269}
   - component: {fileID: 320465481017679420}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpiderBodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 33344
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
