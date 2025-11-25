@@ -24,6 +24,6 @@ MonoBehaviour:
   knockbackForce: {x: 15, y: 0}
   hitboxOffset: {x: 0, y: 0}
   hitboxSize: {x: 0.8, y: 0}
-  damage: 10
+  damage: 7
   stunTime: 0
   constantKnockback: 0

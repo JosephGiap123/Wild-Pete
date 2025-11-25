@@ -44,9 +44,9 @@ public class RPGRocket : MonoBehaviour
         }
         if (shouldDestroy)
         {
-            GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
+            GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(0.6f);
             SpawnExplosion();
-            Destroy(gameObject);
+            DestroyRocket();
         }
     }
 

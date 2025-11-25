@@ -38,6 +38,17 @@ public abstract class PatrolEnemyAI : EnemyBase
 
 	protected Transform player;
 
+	[Header("Jump Settings")]
+	[SerializeField] protected bool canJump = true; // Whether this enemy can jump over obstacles
+	[SerializeField] protected float jumpPower = 6f;
+	[SerializeField] protected float jumpCooldown = 1f;
+	[SerializeField] protected float obstacleDetectionDistance = 0.5f; // How far ahead to check for obstacles
+	[SerializeField] protected float groundCheckDistance = 0.3f; // How far down to check for ground ahead
+	[SerializeField] protected LayerMask groundLayer; // Layer mask for ground/walls
+	[SerializeField] protected BoxCollider2D groundCheckBox; // Optional: BoxCollider2D for ground checking
+	protected float jumpTimer = 0f;
+	protected bool isInAir = false;
+
 	protected virtual void Start()
 	{
 		// Store starting position for relative patrol points
@@ -49,6 +60,118 @@ public abstract class PatrolEnemyAI : EnemyBase
 		{
 			player = playerObj.transform;
 		}
+
+		// Try to find ground check box if not assigned
+		if (groundCheckBox == null)
+		{
+			groundCheckBox = GetComponentInChildren<BoxCollider2D>();
+		}
+	}
+
+	/// <summary>
+	/// Update method. Child classes should call base.Update() to get jump timer and ground checking.
+	/// </summary>
+	protected virtual void Update()
+	{
+		// Decrement jump timer
+		if (jumpTimer > 0f)
+		{
+			jumpTimer -= Time.deltaTime;
+		}
+
+		// Check if grounded
+		IsGroundedCheck();
+	}
+
+	/// <summary>
+	/// Checks if the enemy is grounded. Override in child classes if they have custom ground checking.
+	/// </summary>
+	protected virtual void IsGroundedCheck()
+	{
+		if (groundCheckBox != null)
+		{
+			Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
+			isInAir = colliders.Length == 0;
+		}
+		else
+		{
+			// Fallback: use a simple raycast down
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, groundLayer);
+			isInAir = hit.collider == null;
+		}
+	}
+
+	/// <summary>
+	/// Checks if there's an obstacle (wall or floor) ahead that should be jumped over.
+	/// </summary>
+	protected virtual bool HasObstacleAhead()
+	{
+		if (!canJump || isInAir || jumpTimer > 0f)
+		{
+			return false;
+		}
+
+		// Direction we're facing
+		Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+
+		// Check for wall ahead at multiple heights to catch walls of different sizes
+		bool wallDetected = false;
+		for (float height = 0.2f; height <= 1.0f; height += 0.3f)
+		{
+			Vector2 wallCheckOrigin = new Vector2(transform.position.x, transform.position.y + height);
+			RaycastHit2D wallHit = Physics2D.Raycast(wallCheckOrigin, direction, obstacleDetectionDistance, groundLayer);
+
+			if (wallHit.collider != null)
+			{
+				wallDetected = true;
+				// There's a wall - check if there's ground above it to jump onto
+				Vector2 groundCheckOrigin = wallHit.point + direction * 0.2f + Vector2.up * 0.2f;
+				RaycastHit2D groundHit = Physics2D.Raycast(groundCheckOrigin, Vector2.down, groundCheckDistance + 1f, groundLayer);
+
+				// If there's ground above the wall, we can jump over it
+				if (groundHit.collider != null)
+				{
+					return true;
+				}
+			}
+		}
+
+		// If we detected a wall but no ground above it, don't jump (it's too high)
+		if (wallDetected)
+		{
+			return false;
+		}
+
+		// Check for gap ahead (no ground to walk on)
+		Vector2 gapCheckOrigin = new Vector2(transform.position.x, transform.position.y);
+		RaycastHit2D gapHit = Physics2D.Raycast(gapCheckOrigin + direction * obstacleDetectionDistance, Vector2.down, groundCheckDistance, groundLayer);
+
+		if (gapHit.collider == null)
+		{
+			// No ground ahead - check if there's ground further ahead to jump to
+			RaycastHit2D farGroundHit = Physics2D.Raycast(gapCheckOrigin + direction * (obstacleDetectionDistance + 0.5f), Vector2.down, groundCheckDistance + 1f, groundLayer);
+			if (farGroundHit.collider != null)
+			{
+				// There's ground further ahead - we should jump
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Makes the enemy jump. Override in child classes for custom jump behavior.
+	/// </summary>
+	protected virtual void Jump()
+	{
+		if (isInAir || jumpTimer > 0f || !canJump)
+		{
+			return;
+		}
+
+		rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+		jumpTimer = jumpCooldown;
 	}
 
 	protected virtual void OnEnable()
@@ -160,7 +283,37 @@ public abstract class PatrolEnemyAI : EnemyBase
 		if (Mathf.Abs(deltaX) > 0.5f)
 		{
 			float direction = Mathf.Sign(deltaX);
-			rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+
+			// Check if we're hitting a wall while in the air - stop horizontal movement
+			if (isInAir)
+			{
+				Vector2 wallDirection = isFacingRight ? Vector2.right : Vector2.left;
+				RaycastHit2D wallHit = Physics2D.Raycast(transform.position, wallDirection, 0.3f, groundLayer);
+				if (wallHit.collider != null)
+				{
+					// Hitting a wall while jumping - stop horizontal movement
+					rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+					return;
+				}
+			}
+
+			// Check for obstacles ahead before moving (only if grounded)
+			if (!isInAir && HasObstacleAhead())
+			{
+				Jump();
+				// After jumping, still apply horizontal movement for the jump
+				rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+			}
+			else if (!isInAir)
+			{
+				// Normal movement when grounded and no obstacles
+				rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+			}
+			else
+			{
+				// In air but not hitting wall - allow some horizontal movement
+				rb.linearVelocity = new Vector2(direction * speed * 0.5f, rb.linearVelocity.y);
+			}
 
 			// Face the direction we're moving
 			if ((direction > 0 && !isFacingRight) || (direction < 0 && isFacingRight))
