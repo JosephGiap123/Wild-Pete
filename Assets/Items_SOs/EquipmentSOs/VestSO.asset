@@ -22,3 +22,4 @@ MonoBehaviour:
   itemStatAmounts:
   - 20
   equipmentType: 0
+  equipableBy: 2

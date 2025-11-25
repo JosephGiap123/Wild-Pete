@@ -21,3 +21,4 @@ MonoBehaviour:
   itemStats: 
   itemStatAmounts: []
   equipmentType: 3
+  equipableBy: 1

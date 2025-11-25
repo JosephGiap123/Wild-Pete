@@ -32,8 +32,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isReloading = false;
     protected Coroutine reloadCoroutine;
     bool hyperArmor = false;
-    [SerializeField] protected float attackCooldown = 1.2f;
-    protected float attackTimer = 0f;
+    // [SerializeField] protected float attackCooldown = 1.2f;
+    // protected float attackTimer = 0f;
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
@@ -45,22 +45,30 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
-    protected bool canDash = true;
     protected bool isDashing;
     public float dashingPower = 12f;
     public float dashingTime = 0.3f;
     public float slidePower = 6f;
-    public float dashingCooldown = 3f;
-    public float slidingCooldown = 0.75f;
+    // public float dashingCooldown = 3f;
+    // public float slidingCooldown = 0.75f;
     protected Coroutine slideCoroutine;
-    protected Coroutine dashCooldownCoroutine;
+    // protected Coroutine dashCooldownCoroutine;
     protected Coroutine attackCoroutine;
     protected Coroutine attackTimeoutCoroutine;
     protected Coroutine hurtTimeoutCoroutine;
 
+    [Header("Energy Settings")]
+    [SerializeField] protected float dashingEnergyCost = 5f;
+    [SerializeField] protected float slidingEnergyCost = 2f;
+    [SerializeField] protected float weaponlessMeleeEnergyCost = 1f;
+    [SerializeField] protected float groundAttackEnergyCost = 1f;
+    [SerializeField] protected float aerialAttackEnergyCost = 1f;
+    [SerializeField] protected float crouchingAttackEnergyCost = 1f;
+    [SerializeField] protected float jumpEnergyCost = 1f;
+
     [Header("Aerial Settings")]
-    [SerializeField] protected float aerialCooldown = 1f;
-    protected float aerialTimer = 0f;
+    // [SerializeField] protected float aerialCooldown = 1f;
+    // protected float aerialTimer = 0f;
 
     [Header("Attack Safety")]
     [SerializeField] protected float maxAttackDuration = 0.9f; // watchdog timeout for attacks
@@ -363,8 +371,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             return;
         }
 
-        attackTimer -= Time.deltaTime;
-        aerialTimer -= Time.deltaTime;
+        // attackTimer -= Time.deltaTime;
+        // aerialTimer -= Time.deltaTime;
 
         if (isAttacking) return;
         AnimationControl();
@@ -400,18 +408,23 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
-            isDashing = true;
-            if (!isCrouching)
+            if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
             {
+                isDashing = true;
                 slideCoroutine = StartCoroutine(Dash());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+            }
+            else if (isCrouching && EnergyManager.instance.UseEnergy(slidingEnergyCost))
+            {
+                isDashing = true;
+                StartCoroutine(Slide());
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
             else
             {
-                StartCoroutine(Slide());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+                Debug.Log("Not enough energy to dash or slide");
             }
 
         }
@@ -426,7 +439,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDead) return;
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0 && EnergyManager.instance.UseEnergy(jumpEnergyCost))
         {
             isJumping = true;
             isGrounded = false;
@@ -437,10 +450,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             { //dash cancel
                 if (slideCoroutine != null)
                     StopCoroutine(slideCoroutine);
-                if (dashCooldownCoroutine != null)
-                    StopCoroutine(dashCooldownCoroutine);
+                // if (dashCooldownCoroutine != null)
+                //     StopCoroutine(dashCooldownCoroutine);
                 isDashing = false;
-                StartCoroutine(DashCooldown(slidingCooldown));
+                // StartCoroutine(DashCooldown(slidingCooldown));
             }
         }
 
@@ -550,8 +563,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual void Attack()
     {
         if (!weaponEquipped)
-        {
-            if (isCrouching || isJumping || !isGrounded || attackTimer > 0f) return;
+        { //punching
+            if (isCrouching || isJumping || !isGrounded || !EnergyManager.instance.UseEnergy(weaponlessMeleeEnergyCost)) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
             SetUpPunchAttack(attackCount);
@@ -565,15 +578,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         if (isGrounded)
         {
-            if (isJumping || attackTimer > 0f) return; //frame perfect check.
+            if (isJumping) return; //frame perfect check.
             if (isCrouching)
             {
+                if (!EnergyManager.instance.UseEnergy(crouchingAttackEnergyCost)) return;
                 SetupCrouchAttack();
                 isAttacking = true;
                 StartAttackWatchdog(maxAttackDuration);
                 return;
             }
 
+            if (!EnergyManager.instance.UseEnergy(groundAttackEnergyCost)) return;
             if (attackCount >= maxAttackChain || attackCount < 0)
                 attackCount = 0;
             SetupGroundAttack(attackCount);
@@ -587,7 +602,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         else
         {
-            if (aerialTimer <= 0f)
+            if (EnergyManager.instance.UseEnergy(aerialAttackEnergyCost)) //to replace with energy later
             {
                 attackCoroutine = StartCoroutine(AerialAttack());
             }
@@ -757,7 +772,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual IEnumerator Dash()
     {
         isInvincible = true;
-        canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -775,29 +789,30 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         isDashing = false;
     }
 
-    protected virtual IEnumerator DashCooldown(float cooldown)
-    {
-        yield return new WaitWhile(() => isDashing);
-        canDash = false;
-        yield return new WaitForSeconds(cooldown);
-        canDash = true;
-    }
+    // protected virtual IEnumerator DashCooldown(float cooldown)
+    // {
+    //     yield return new WaitWhile(() => isDashing);
+    //     canDash = false;
+    //     yield return new WaitForSeconds(cooldown);
+    //     canDash = true;
+    // }
 
     protected virtual IEnumerator Slide()
     {
-        canDash = false;
         isDashing = true;
 
         rb.linearVelocity = new(Mathf.Sign(transform.localScale.x) * slidePower, 0f);
 
-        yield return new WaitForSeconds(slidingCooldown);
+        yield return new WaitForSeconds(0.5f);
+        // Wait while still sliding fast (velocity > 0.1), then exit when it slows down or hits wall
+        yield return new WaitWhile(() => Mathf.Abs(rb.linearVelocity.x) > 0.5f);
         isDashing = false;
 
     }
 
     protected virtual IEnumerator AerialAttack()
     {
-        aerialTimer = aerialCooldown;
+        // aerialTimer = aerialCooldown;
         SetupAerialAttack();
         isAttacking = true;
         StartAttackWatchdog(maxAttackDuration);
@@ -964,12 +979,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             try { StopCoroutine(slideCoroutine); } catch { }
             slideCoroutine = null;
         }
-        if (dashCooldownCoroutine != null)
-        {
-            try { StopCoroutine(dashCooldownCoroutine); } catch { }
-            dashCooldownCoroutine = null;
-        }
-        canDash = true;
+        // if (dashCooldownCoroutine != null)
+        // {
+        //     try { StopCoroutine(dashCooldownCoroutine); } catch { }
+        //     dashCooldownCoroutine = null;
+        // }
         isInvincible = false;
 
         // Reset gravity if was dashing
@@ -1164,7 +1178,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             case 2:
                 hitboxManager.CustomizeHitbox(attackHitboxes[1]);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
-                attackTimer = attackCooldown;
+                // attackTimer = attackCooldown;
                 break;
         }
     }
