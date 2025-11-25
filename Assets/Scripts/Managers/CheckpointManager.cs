@@ -97,6 +97,9 @@ public class CheckpointManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Clear checkpoint from previous scene when entering a new scene
+        ClearCheckpoint();
+
         // Clean up null references when scene loads
         CleanupNullReferences();
 
@@ -113,24 +116,21 @@ public class CheckpointManager : MonoBehaviour
 
     private IEnumerator SaveCheckpointOnSceneLoad()
     {
-        // Wait a frame to ensure all objects are initialized
+        // Wait for player to be spawned
+        while (GameManager.Instance == null || GameManager.Instance.player == null)
+        {
+            yield return null;
+        }
+
+        // Wait one more frame to ensure everything is initialized
         yield return null;
 
-        // Get player position (or spawn point if player doesn't exist yet)
-        Vector2 checkpointPosition = Vector2.zero;
+        // Get player's spawn position
+        Vector2 checkpointPosition = GameManager.Instance.player.transform.position;
 
-        if (GameManager.Instance != null && GameManager.Instance.player != null)
-        {
-            checkpointPosition = GameManager.Instance.player.transform.position;
-        }
-        else if (GameManager.Instance != null)
-        {
-            checkpointPosition = GameManager.Instance.transform.position;
-        }
-
-        // Save checkpoint at the player's spawn position
+        // Save checkpoint at spawn position
         SaveCheckpoint(checkpointPosition);
-        Debug.Log($"Checkpoint auto-saved on scene load at {checkpointPosition}");
+        Debug.Log($"CheckpointManager: Checkpoint saved at spawn position {checkpointPosition} in scene {UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
     }
 
     /// Saves a checkpoint at the given position and captures current game state.
@@ -266,7 +266,7 @@ public class CheckpointManager : MonoBehaviour
 
         GameRestartManager.checkPointLocation = position;
         OnCheckpointSaved?.Invoke(position);
-        Debug.Log($"Checkpoint saved at {position}");
+        Debug.Log($"CheckpointManager: Checkpoint saved at {position} in scene {currentCheckpoint.sceneName}");
     }
     /// Restores game state to the last saved checkpoint.
     public void RestoreCheckpoint()
@@ -276,6 +276,15 @@ public class CheckpointManager : MonoBehaviour
             Debug.LogWarning("No checkpoint saved! Cannot restore.");
             return;
         }
+
+        // Check if checkpoint is from the current scene
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentCheckpoint.sceneName != currentSceneName)
+        {
+            Debug.LogWarning($"CheckpointManager: Checkpoint is from scene '{currentCheckpoint.sceneName}' but current scene is '{currentSceneName}'. Checkpoint position may be incorrect!");
+        }
+
+        Debug.Log($"CheckpointManager: Restoring checkpoint from scene '{currentCheckpoint.sceneName}' at position {currentCheckpoint.position}");
 
         // Clean up null references before restoring
         CleanupNullReferences();
@@ -379,7 +388,7 @@ public class CheckpointManager : MonoBehaviour
                     // Static was broken at checkpoint - keep it broken (deactivated)
                     if (statics.gameObject.activeSelf)
                     {
-                    statics.gameObject.SetActive(false);
+                        statics.gameObject.SetActive(false);
                     }
                 }
             }
@@ -477,10 +486,23 @@ public class CheckpointManager : MonoBehaviour
 
 
     /// Checks if a checkpoint has been saved.
-
     public bool HasCheckpoint()
     {
         return currentCheckpoint != null;
+    }
+
+    /// Clears the current checkpoint (used when changing scenes).
+    public void ClearCheckpoint()
+    {
+        if (currentCheckpoint != null)
+        {
+            Debug.Log($"CheckpointManager: Clearing checkpoint from previous scene (was at {currentCheckpoint.position})");
+        }
+        currentCheckpoint = null;
+        trackedEnemies.Clear();
+        trackedStatics.Clear();
+        trackedItems.Clear();
+        Debug.Log("CheckpointManager: Checkpoint cleared for new scene");
     }
 
     // Registers an item to be tracked by the checkpoint system.

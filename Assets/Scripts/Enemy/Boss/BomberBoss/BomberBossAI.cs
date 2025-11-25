@@ -346,7 +346,7 @@ public class BomberBoss : EnemyBase, IHasFacing
             maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 1;
             maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 1;
             ultCooldown = originalUltCooldown - 1f;
-            // Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
+            Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
         }
         else if (health <= maxHealth * 0.33f && phaseNum < 3)
         {
@@ -356,7 +356,7 @@ public class BomberBoss : EnemyBase, IHasFacing
             maxAerialShotsConsecutively = originalMaxAerialShotsConsecutively + 2;
             maxConsecutiveUltimates = originalMaxConsecutiveUltimates + 2;
             ultCooldown = originalUltCooldown - 2f;
-            // Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
+            Instantiate(phaseChangeParticles, transform.position, Quaternion.identity);
         }
     }
 
@@ -650,7 +650,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         }
 
         // 6. Ultimates (only in phase 2+, off cooldown, and not actively using ultimate)
-        if (phaseNum >= 2 && ultTimer <= 0 && isAttacking < 5)
+        if (phaseNum >= 2 && ultTimer <= 0 && isAttacking < 5 && !isInAir)
         {
             // Add available ultimates with weights
             List<int> availableUlts = new List<int>();
@@ -758,7 +758,6 @@ public class BomberBoss : EnemyBase, IHasFacing
                     RocketJump();
                     break;
                 case 5: // Aerial rocket (boss is grounded but above player)
-                    consecutiveAerialShots++;
                     ShootRocket(); // ShootRocket() now handles this case automatically
                     break;
                 case 10: // Ult 1 (Dynamite) - isAttacking = 5
@@ -820,6 +819,8 @@ public class BomberBoss : EnemyBase, IHasFacing
             inAttackState = true;
 
             float xDistanceToPlayer = DetermineXDistanceToPlayer();
+            consecutiveAerialShots++;
+            Debug.Log($"BomberBoss: Aerial shot fired. Consecutive shots: {consecutiveAerialShots}/{maxAerialShotsConsecutively}");
             if (xDistanceToPlayer > 1.2f)
             {  //do diagonal.
                 FaceTowardsPlayer();
@@ -834,7 +835,6 @@ public class BomberBoss : EnemyBase, IHasFacing
         else
         {
             rangedTimer = rangedCooldown;
-            UseAmmo();
             ZeroVelocity();
             FaceTowardsPlayer();
             isAttacking = 3;

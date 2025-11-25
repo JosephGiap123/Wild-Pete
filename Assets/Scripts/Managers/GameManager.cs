@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Pete;
     [SerializeField] private GameObject Alice;
     [SerializeField] public CinemachineCamera cinemachineCam;
+
+    [SerializeField] private string[] sceneNames;
+    [SerializeField] private Vector2[] spawnPositions;
 
     public bool UsePlayerPrefs = true;
     public int selectedCharacter = 1;
@@ -28,34 +33,109 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); //keep across scene loads
     }
 
-    public void SetPlayer()
+    private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void FindCinemachineCamera()
+    {
+        // Find the Cinemachine camera in the current scene
+        CinemachineCamera[] cameras = FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
+        if (cameras.Length > 0)
+        {
+            cinemachineCam = cameras[0];
+            Debug.Log($"GameManager: Found Cinemachine camera: {cinemachineCam.name}");
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: No Cinemachine camera found in scene!");
+        }
+    }
+
+    public void SetPlayer(Vector2 spawnPosition)
+    {
+        // Find the Cinemachine camera in the current scene first
+        FindCinemachineCamera();
+
         if (UsePlayerPrefs) selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
         switch (selectedCharacter)
         {
             case 1:
-                player = Instantiate(Pete, transform.position, Quaternion.identity);
+                player = Instantiate(Pete, spawnPosition, Quaternion.identity);
                 break;
             case 2:
-                player = Instantiate(Alice, transform.position, Quaternion.identity);
+                player = Instantiate(Alice, spawnPosition, Quaternion.identity);
                 break;
             default:
                 break;
         }
+
+        if (player == null)
+        {
+            Debug.LogError("GameManager: Failed to instantiate player!");
+            return;
+        }
+
         GameObject camFollowTarget = new GameObject("CameraFollowTarget");
         camFollowTarget.transform.SetParent(player.transform);
         camFollowTarget.transform.localPosition = new Vector3(0, 2f, 0);
         OnPlayerSet?.Invoke(player); // Notify listeners
-        cinemachineCam.Follow = camFollowTarget.transform;
-        cinemachineCam.LookAt = camFollowTarget.transform;
+
+        // Only set camera targets if we have a valid camera reference
+        if (cinemachineCam != null)
+        {
+            cinemachineCam.Follow = camFollowTarget.transform;
+            cinemachineCam.LookAt = camFollowTarget.transform;
+            Debug.Log($"GameManager: Set camera Follow and LookAt to player");
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: Cannot set camera targets - cinemachineCam is null!");
+        }
     }
 
-    void Start()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Only spawn player if one doesn't already exist (prevents duplicates when testing)
-        if (player == null)
+        if (scene.name == "Menu")
         {
-            SetPlayer();
+            return;
         }
+
+        // Wait a frame to ensure the scene is fully loaded before finding camera and spawning player
+        StartCoroutine(SetPlayerAfterSceneLoad(scene));
+    }
+
+    private System.Collections.IEnumerator SetPlayerAfterSceneLoad(Scene scene)
+    {
+        // Wait a frame to ensure all scene objects are initialized
+        yield return null;
+
+        Vector2 spawnPosition;
+        Debug.Log($"GameManager: Scene name: {scene.name}");
+        Debug.Log($"GameManager: Scene index: {Array.IndexOf(sceneNames, scene.name)}");
+        Debug.Log($"GameManager: Spawn positions length: {spawnPositions.Length}");
+        Debug.Log($"GameManager: Spawn positions: {string.Join(", ", spawnPositions)}");
+
+        // When changing scenes, always use the scene's spawn position
+        // Checkpoints are cleared on scene load and are only used for respawning within the same scene
+        int sceneIndex = Array.IndexOf(sceneNames, scene.name);
+        if (sceneIndex >= 0 && sceneIndex < spawnPositions.Length)
+        {
+            spawnPosition = spawnPositions[sceneIndex];
+            Debug.Log($"GameManager: Using scene spawn position: {spawnPosition}");
+        }
+        else
+        {
+            Debug.LogWarning($"GameManager: Scene '{scene.name}' not found in sceneNames array, using default spawn position");
+            spawnPosition = Vector2.zero;
+        }
+
+        SetPlayer(spawnPosition);
     }
 }

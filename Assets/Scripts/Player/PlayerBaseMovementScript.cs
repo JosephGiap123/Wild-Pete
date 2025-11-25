@@ -126,6 +126,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
     }
 
+    private void OnDisable()
+    {
+        // Unsubscribe from death event when object is disabled/destroyed
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= Die;
+        }
+    }
+
     protected virtual void OnDestroy()
     {
         // Unsubscribe from respawn event
@@ -135,6 +144,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (StatsManager.instance != null)
         {
             StatsManager.instance.OnStatChanged -= HandleStatChanged;
+        }
+
+        // Also unsubscribe from death event in OnDestroy as a safety net
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= Die;
         }
     }
 
@@ -235,16 +250,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     }
 
     // Handles respawning the player at the checkpoint location.
-    protected virtual void OnRespawn(Vector2 checkpointLocation)
+    // This is public so GameRestartManager can call it directly on the current player
+    public virtual void OnRespawn(Vector2 checkpointLocation)
     {
+        // Check if this object has been destroyed
+        if (this == null || gameObject == null)
+        {
+            Debug.LogWarning("OnRespawn called on destroyed player object, ignoring");
+            return;
+        }
+
         // Restore checkpoint state first
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.RestoreCheckpoint();
         }
-
-        // Move player to checkpoint
-        transform.position = checkpointLocation;
 
         // Reset player state
         isDead = false;
@@ -263,6 +283,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
+            rb.position = checkpointLocation;
+        }
+
+        // Check again before accessing transform
+        if (this != null && gameObject != null)
+        {
+            transform.position = checkpointLocation;
+        }
+        else
+        {
+            Debug.LogError("Player object destroyed during OnRespawn, cannot set position");
+            return;
         }
 
         // Restore health and ammo from checkpoint
@@ -271,10 +303,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             var checkpointData = CheckpointManager.Instance.GetCheckpointData();
             if (checkpointData != null)
             {
-                // Restore health
                 HealthManager.instance.SetHealth(checkpointData.playerHealth);
-
-                // Restore ammo
                 ammoCount = checkpointData.playerAmmo;
                 maxAmmo = checkpointData.playerMaxAmmo;
                 OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
@@ -282,7 +311,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         else
         {
-            // No checkpoint - restore to full health/ammo
             HealthManager.instance.SetHealth(maxHealth);
             ammoCount = maxAmmo;
             OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
@@ -303,7 +331,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Unpause game
         PauseController.SetPause(false);
 
-        Debug.Log($"Player respawned at {checkpointLocation}");
+        Debug.Log($"Player respawned at checkpoint: {checkpointLocation}");
     }
 
     // Abstract methods for character-specific behavior
@@ -330,7 +358,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (!isDead && transform.position.y < deathYThreshold)
         {
             Debug.Log($"Player fell below death threshold ({deathYThreshold}). Player Y: {transform.position.y}");
-            Die();
+            // Kill player through HealthManager event system for consistency
+            HealthManager.instance.KillPlayer();
             return;
         }
 
@@ -878,12 +907,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
 
         StartCoroutine(animatorScript.HurtFlash(0.2f));
-        HealthManager.instance.TakeDamage(damage);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
-        isDead = HealthManager.instance.IsDead();
+
+        // Apply damage - HealthManager will fire OnPlayerDeath event if player dies
+        // Die() will be called by the event subscription, so we just check if dead to skip knockback
+        HealthManager.instance.TakeDamage(damage);
+        bool playerDied = HealthManager.instance.IsDead();
 
         // Only apply knockback if player didn't die
-        if (!isDead)
+        if (!playerDied)
         {
             if (useRadialKnockback)
             {
@@ -895,6 +927,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             StartCoroutine(InvincibilityFrames());
         }
+        // If player died, Die() will be called by OnPlayerDeath event subscription
     }
 
     protected virtual void CancelAllActions()
@@ -902,46 +935,48 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Cancel attacks
         if (attackCoroutine != null)
         {
-            StopCoroutine(attackCoroutine);
+            try { StopCoroutine(attackCoroutine); } catch { }
             attackCoroutine = null;
         }
         if (attackTimeoutCoroutine != null)
         {
-            StopCoroutine(attackTimeoutCoroutine);
+            try { StopCoroutine(attackTimeoutCoroutine); } catch { }
             attackTimeoutCoroutine = null;
         }
         isAttacking = false;
         if (attackResetCoroutine != null)
         {
-            StopCoroutine(attackResetCoroutine);
+            try { StopCoroutine(attackResetCoroutine); } catch { }
             attackResetCoroutine = null;
         }
 
         isReloading = false;
         if (reloadCoroutine != null)
         {
-            StopCoroutine(reloadCoroutine);
+            try { StopCoroutine(reloadCoroutine); } catch { }
             reloadCoroutine = null;
         }
-
 
         // Cancel dash/slide
         isDashing = false;
         if (slideCoroutine != null)
         {
-            StopCoroutine(slideCoroutine);
+            try { StopCoroutine(slideCoroutine); } catch { }
             slideCoroutine = null;
         }
         if (dashCooldownCoroutine != null)
         {
-            StopCoroutine(dashCooldownCoroutine);
+            try { StopCoroutine(dashCooldownCoroutine); } catch { }
             dashCooldownCoroutine = null;
         }
         canDash = true;
         isInvincible = false;
 
         // Reset gravity if was dashing
-        rb.gravityScale = 3f; //change, hardcoded so far.
+        if (rb != null)
+        {
+            rb.gravityScale = 3f; //change, hardcoded so far.
+        }
 
         if (trail != null)
             trail.emitting = false;
@@ -955,7 +990,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Clear hurt state timeout
         if (hurtTimeoutCoroutine != null)
         {
-            StopCoroutine(hurtTimeoutCoroutine);
+            try { StopCoroutine(hurtTimeoutCoroutine); } catch { }
             hurtTimeoutCoroutine = null;
         }
     }
@@ -986,7 +1021,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Stop timeout coroutine if it's still running
         if (hurtTimeoutCoroutine != null)
         {
-            StopCoroutine(hurtTimeoutCoroutine);
+            try { StopCoroutine(hurtTimeoutCoroutine); } catch { }
             hurtTimeoutCoroutine = null;
         }
     }
@@ -1004,6 +1039,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void Die()
     {
+        // Idempotent: if already dead, don't process death again
+        if (isDead) return;
+
+        // Check if object is still valid before proceeding
+        if (this == null || gameObject == null) return;
+
         isDead = true;
 
         // Disable hitbox immediately on death
@@ -1016,10 +1057,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         CancelAllActions();
 
         // Stop all movement
-        rb.linearVelocity = Vector2.zero;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
 
-        // Start death sequence
-        StartCoroutine(DeathSequence());
+        // Start death sequence - use try-catch to handle destroyed object case
+        try
+        {
+            StartCoroutine(DeathSequence());
+        }
+        catch (System.Exception)
+        {
+            // Object was destroyed, can't start coroutine - this is fine, death was already processed
+            Debug.LogWarning("Player object destroyed before death sequence could start");
+        }
     }
 
     protected virtual IEnumerator DeathSequence()
@@ -1037,6 +1089,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (GameRestartManager.Instance != null)
         {
             GameRestartManager.Instance.RespawnCharacter();
+        }
+        else
+        {
+            Debug.LogError("GameRestartManager is null! Cannot respawn player.");
         }
     }
 
@@ -1078,7 +1134,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         if (attackTimeoutCoroutine != null)
         {
-            StopCoroutine(attackTimeoutCoroutine);
+            try { StopCoroutine(attackTimeoutCoroutine); } catch { }
         }
         attackTimeoutCoroutine = StartCoroutine(AttackTimeout(duration));
     }
