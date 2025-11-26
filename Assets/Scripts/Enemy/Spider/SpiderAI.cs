@@ -27,15 +27,12 @@ public class SpiderAI : PatrolEnemyAI
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 11f; // Increased from 7f for higher jump
-    [SerializeField] private float jumpCooldown = 1f;
+    // Note: jumpCooldown and jumpTimer are now inherited from base class
     [SerializeField] private float jumpHorizontalSpeed = 6f; // Horizontal speed while jumping
-    private float jumpTimer = 0f;
     private bool isJumping = false; // Track if we're in a jump
 
     [Header("Ground Check")]
-    private bool isInAir = false;
-    public LayerMask groundLayer;
-    [SerializeField] private BoxCollider2D groundCheckBox;
+    // Note: groundCheckBox, groundLayer, and isInAir are now inherited from base class
 
     [Header("Attack References")]
     [SerializeField] Transform projectileSpawnPoint;
@@ -69,17 +66,18 @@ public class SpiderAI : PatrolEnemyAI
 
     public void Update()
     {
+        // Call base Update for jump timer and ground checking
+        base.Update();
+        
         AnimationControl();
         if (isDead || isHurt) return;
-        IsGroundedCheck();
 
-        // Update timers
+        // Update timers (jumpTimer is now handled by base class)
         rangedTimer -= Time.deltaTime;
         meleeTimer -= Time.deltaTime;
         dashTimer -= Time.deltaTime;
         attackTimer -= Time.deltaTime;
         selectTimer -= Time.deltaTime;
-        jumpTimer -= Time.deltaTime;
 
         // Stop horizontal movement during non-dash attacks
         if (isAttacking != 0 && isAttacking != 2) // Not lunge/dash
@@ -370,7 +368,7 @@ public class SpiderAI : PatrolEnemyAI
 
         isJumping = true;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        jumpTimer = jumpCooldown;
+        jumpTimer = jumpCooldown; // Use base class jumpCooldown
     }
     public override void FlipSprite()
     {
@@ -429,11 +427,10 @@ public class SpiderAI : PatrolEnemyAI
         }
     }
 
-    void IsGroundedCheck()
+    protected override void IsGroundedCheck()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheckBox.bounds.center, groundCheckBox.bounds.size, 0f, groundLayer);
         bool wasInAir = isInAir;
-        isInAir = colliders.Length == 0;
+        base.IsGroundedCheck(); // Base class handles the actual ground checking
 
         // Reset jumping flag when we land
         if (wasInAir && !isInAir)

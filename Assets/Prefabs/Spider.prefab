@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7861613852618866291}
   - component: {fileID: 8860381776879248772}
   - component: {fileID: 2025989532765267944}
+  - component: {fileID: 2160995821639319921}
   m_Layer: 0
   m_Name: Spider
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MonoBehaviour:
   rb: {fileID: 8860381776879248772}
   sr: {fileID: 3980627443635898316}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
-  dropItemsOnDeath: {fileID: 0}
+  dropItemsOnDeath: {fileID: 2160995821639319921}
   attackHitboxes:
   - {fileID: 11400000, guid: 60d6e8dbfa40f41c3b1f44dbc85850bb, type: 2}
   - {fileID: 11400000, guid: d5554366c85ec4677a67b9f5459472bf, type: 2}
@@ -79,6 +80,15 @@ MonoBehaviour:
     m_Bits: 1589248
   moveSpeed: 2.5
   alertSpeed: 4
+  canJump: 1
+  jumpPower: 6
+  jumpCooldown: 1.3
+  obstacleDetectionDistance: 0.5
+  groundCheckDistance: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  groundCheckBox: {fileID: 5124159699385860196}
   meleeRange: 1.8
   dashRange: 5
   rangedRange: 8
@@ -94,13 +104,8 @@ MonoBehaviour:
   rangedWeight: 1
   selectionInterval: 0.2
   repeatAttackPenalty: 0.35
-  jumpForce: 10
-  jumpCooldown: 1.3
+  jumpForce: 11
   jumpHorizontalSpeed: 5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1048576
-  groundCheckBox: {fileID: 5124159699385860196}
   projectileSpawnPoint: {fileID: 5034376497237104729}
   attackHitboxScript: {fileID: 2025989532765267944}
   projectilePrefab: {fileID: 2277310032840431590, guid: 0179eb3413fae4c489270909a1cabbcb, type: 3}
@@ -147,6 +152,27 @@ MonoBehaviour:
   boxCol: {fileID: 2925555137410435154}
   circleCol: {fileID: 8804788379809605971}
   parentScript: {fileID: 7861613852618866291}
+--- !u!114 &2160995821639319921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523259469214327156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662f1b00516f94510b77d0acaed1e919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
+  items:
+  - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
+  - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
+  - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
+  itemDropChances:
+  - 100
+  - 100
+  - 100
 --- !u!1 &3142232724049741755
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8003201971850344269}
   - component: {fileID: 320465481017679420}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpiderBodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +665,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 33344
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

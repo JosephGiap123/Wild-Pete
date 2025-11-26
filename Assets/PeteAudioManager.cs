@@ -64,7 +64,7 @@ public class PeteAudioManager : MonoBehaviour
 
     public void PlayReload()
     {
-        if (!reload) return;
+        if (!reload || sfxSource == null) return;
 
         if (pitchResetCo != null) StopCoroutine(pitchResetCo);
 
@@ -85,7 +85,7 @@ public class PeteAudioManager : MonoBehaviour
 
     public void StartRunLoop()
     {
-        if (!runLoop || loopSource.isPlaying) return;
+        if (!runLoop || loopSource == null || loopSource.isPlaying) return;
         loopSource.clip = runLoop;
         loopSource.pitch = 1f;
         loopSource.volume = sfxVolume;
@@ -94,19 +94,19 @@ public class PeteAudioManager : MonoBehaviour
 
     public void StopRunLoop()
     {
-        if (loopSource.isPlaying) loopSource.Stop();
+        if (loopSource != null && loopSource.isPlaying) loopSource.Stop();
     }
 
     public void SetSfxVolume(float value01)
     {
         sfxVolume = Mathf.Clamp01(value01);
-        if (loopSource.isPlaying) loopSource.volume = sfxVolume;
+        if (loopSource != null && loopSource.isPlaying) loopSource.volume = sfxVolume;
     }
 
     // -------- helpers ----------
     private void PlayOneShot(AudioClip clip)
     {
-        if (!clip) return;
+        if (!clip || sfxSource == null) return;
         float oldPitch = sfxSource.pitch;
         sfxSource.pitch = 1f + Random.Range(-pitchJitter, pitchJitter);
         sfxSource.PlayOneShot(clip, sfxVolume);
@@ -143,9 +143,12 @@ public class PeteAudioManager : MonoBehaviour
     private IEnumerator ResetPitchAfter(float seconds, float oldPitch, AudioClip oldClip)
     {
         yield return new WaitForSeconds(seconds);
-        sfxSource.pitch = oldPitch;
-        if (sfxSource.clip == reload && !sfxSource.isPlaying)
-            sfxSource.clip = oldClip;
+        if (sfxSource != null)
+        {
+            sfxSource.pitch = oldPitch;
+            if (sfxSource.clip == reload && !sfxSource.isPlaying)
+                sfxSource.clip = oldClip;
+        }
         pitchResetCo = null;
     }
 }

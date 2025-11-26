@@ -32,8 +32,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected bool isReloading = false;
     protected Coroutine reloadCoroutine;
     bool hyperArmor = false;
-    [SerializeField] protected float attackCooldown = 1.2f;
-    protected float attackTimer = 0f;
+    // [SerializeField] protected float attackCooldown = 1.2f;
+    // protected float attackTimer = 0f;
 
     [Header("Hurt Settings")] //clauded code here
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
@@ -45,22 +45,30 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
-    protected bool canDash = true;
     protected bool isDashing;
     public float dashingPower = 12f;
     public float dashingTime = 0.3f;
     public float slidePower = 6f;
-    public float dashingCooldown = 3f;
-    public float slidingCooldown = 0.75f;
+    // public float dashingCooldown = 3f;
+    // public float slidingCooldown = 0.75f;
     protected Coroutine slideCoroutine;
-    protected Coroutine dashCooldownCoroutine;
+    // protected Coroutine dashCooldownCoroutine;
     protected Coroutine attackCoroutine;
     protected Coroutine attackTimeoutCoroutine;
     protected Coroutine hurtTimeoutCoroutine;
 
+    [Header("Energy Settings")]
+    [SerializeField] protected float dashingEnergyCost = 5f;
+    [SerializeField] protected float slidingEnergyCost = 2f;
+    [SerializeField] protected float weaponlessMeleeEnergyCost = 1f;
+    [SerializeField] protected float groundAttackEnergyCost = 1f;
+    [SerializeField] protected float aerialAttackEnergyCost = 1f;
+    [SerializeField] protected float crouchingAttackEnergyCost = 1f;
+    [SerializeField] protected float jumpEnergyCost = 1f;
+
     [Header("Aerial Settings")]
-    [SerializeField] protected float aerialCooldown = 1f;
-    protected float aerialTimer = 0f;
+    // [SerializeField] protected float aerialCooldown = 1f;
+    // protected float aerialTimer = 0f;
 
     [Header("Attack Safety")]
     [SerializeField] protected float maxAttackDuration = 0.9f; // watchdog timeout for attacks
@@ -126,6 +134,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
     }
 
+    private void OnDisable()
+    {
+        // Unsubscribe from death event when object is disabled/destroyed
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= Die;
+        }
+    }
+
     protected virtual void OnDestroy()
     {
         // Unsubscribe from respawn event
@@ -135,6 +152,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (StatsManager.instance != null)
         {
             StatsManager.instance.OnStatChanged -= HandleStatChanged;
+        }
+
+        // Also unsubscribe from death event in OnDestroy as a safety net
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= Die;
         }
     }
 
@@ -235,16 +258,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     }
 
     // Handles respawning the player at the checkpoint location.
-    protected virtual void OnRespawn(Vector2 checkpointLocation)
+    // This is public so GameRestartManager can call it directly on the current player
+    public virtual void OnRespawn(Vector2 checkpointLocation)
     {
+        // Check if this object has been destroyed
+        if (this == null || gameObject == null)
+        {
+            Debug.LogWarning("OnRespawn called on destroyed player object, ignoring");
+            return;
+        }
+
         // Restore checkpoint state first
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.RestoreCheckpoint();
         }
-
-        // Move player to checkpoint
-        transform.position = checkpointLocation;
 
         // Reset player state
         isDead = false;
@@ -263,6 +291,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
+            rb.position = checkpointLocation;
+        }
+
+        // Check again before accessing transform
+        if (this != null && gameObject != null)
+        {
+            transform.position = checkpointLocation;
+        }
+        else
+        {
+            Debug.LogError("Player object destroyed during OnRespawn, cannot set position");
+            return;
         }
 
         // Restore health and ammo from checkpoint
@@ -271,10 +311,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             var checkpointData = CheckpointManager.Instance.GetCheckpointData();
             if (checkpointData != null)
             {
-                // Restore health
                 HealthManager.instance.SetHealth(checkpointData.playerHealth);
-
-                // Restore ammo
                 ammoCount = checkpointData.playerAmmo;
                 maxAmmo = checkpointData.playerMaxAmmo;
                 OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
@@ -282,7 +319,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         else
         {
-            // No checkpoint - restore to full health/ammo
             HealthManager.instance.SetHealth(maxHealth);
             ammoCount = maxAmmo;
             OnAmmoChanged?.Invoke(ammoCount, maxAmmo);
@@ -303,7 +339,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Unpause game
         PauseController.SetPause(false);
 
-        Debug.Log($"Player respawned at {checkpointLocation}");
+        Debug.Log($"Player respawned at checkpoint: {checkpointLocation}");
     }
 
     // Abstract methods for character-specific behavior
@@ -330,12 +366,13 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (!isDead && transform.position.y < deathYThreshold)
         {
             Debug.Log($"Player fell below death threshold ({deathYThreshold}). Player Y: {transform.position.y}");
-            Die();
+            // Kill player through HealthManager event system for consistency
+            HealthManager.instance.KillPlayer();
             return;
         }
 
-        attackTimer -= Time.deltaTime;
-        aerialTimer -= Time.deltaTime;
+        // attackTimer -= Time.deltaTime;
+        // aerialTimer -= Time.deltaTime;
 
         if (isAttacking) return;
         AnimationControl();
@@ -350,7 +387,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void HandleInput()
     {
-        if (isDead) return;
+        if (isDead || isAttacking || isReloading) return;
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Interact]) && !isDashing && isGrounded)
         {
             interactor.OnInteract();
@@ -371,18 +408,23 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
-            isDashing = true;
-            if (!isCrouching)
+            if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
             {
+                isDashing = true;
                 slideCoroutine = StartCoroutine(Dash());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+            }
+            else if (isCrouching && EnergyManager.instance.UseEnergy(slidingEnergyCost))
+            {
+                isDashing = true;
+                StartCoroutine(Slide());
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
             }
             else
             {
-                StartCoroutine(Slide());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+                Debug.Log("Not enough energy to dash or slide");
             }
 
         }
@@ -397,7 +439,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (isDead) return;
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && jumpsRemaining > 0 && EnergyManager.instance.UseEnergy(jumpEnergyCost))
         {
             isJumping = true;
             isGrounded = false;
@@ -408,10 +450,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             { //dash cancel
                 if (slideCoroutine != null)
                     StopCoroutine(slideCoroutine);
-                if (dashCooldownCoroutine != null)
-                    StopCoroutine(dashCooldownCoroutine);
+                // if (dashCooldownCoroutine != null)
+                //     StopCoroutine(dashCooldownCoroutine);
                 isDashing = false;
-                StartCoroutine(DashCooldown(slidingCooldown));
+                // StartCoroutine(DashCooldown(slidingCooldown));
             }
         }
 
@@ -521,8 +563,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual void Attack()
     {
         if (!weaponEquipped)
-        {
-            if (isCrouching || isJumping || !isGrounded || attackTimer > 0f) return;
+        { //punching
+            if (isCrouching || isJumping || !isGrounded || !EnergyManager.instance.UseEnergy(weaponlessMeleeEnergyCost)) return;
             if (attackCount >= 3 || attackCount < 0)
                 attackCount = 0;
             SetUpPunchAttack(attackCount);
@@ -536,15 +578,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         if (isGrounded)
         {
-            if (isJumping || attackTimer > 0f) return; //frame perfect check.
+            if (isJumping) return; //frame perfect check.
             if (isCrouching)
             {
+                if (!EnergyManager.instance.UseEnergy(crouchingAttackEnergyCost)) return;
                 SetupCrouchAttack();
                 isAttacking = true;
                 StartAttackWatchdog(maxAttackDuration);
                 return;
             }
 
+            if (!EnergyManager.instance.UseEnergy(groundAttackEnergyCost)) return;
             if (attackCount >= maxAttackChain || attackCount < 0)
                 attackCount = 0;
             SetupGroundAttack(attackCount);
@@ -558,7 +602,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
         else
         {
-            if (aerialTimer <= 0f)
+            if (EnergyManager.instance.UseEnergy(aerialAttackEnergyCost)) //to replace with energy later
             {
                 attackCoroutine = StartCoroutine(AerialAttack());
             }
@@ -728,7 +772,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual IEnumerator Dash()
     {
         isInvincible = true;
-        canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -746,29 +789,30 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         isDashing = false;
     }
 
-    protected virtual IEnumerator DashCooldown(float cooldown)
-    {
-        yield return new WaitWhile(() => isDashing);
-        canDash = false;
-        yield return new WaitForSeconds(cooldown);
-        canDash = true;
-    }
+    // protected virtual IEnumerator DashCooldown(float cooldown)
+    // {
+    //     yield return new WaitWhile(() => isDashing);
+    //     canDash = false;
+    //     yield return new WaitForSeconds(cooldown);
+    //     canDash = true;
+    // }
 
     protected virtual IEnumerator Slide()
     {
-        canDash = false;
         isDashing = true;
 
         rb.linearVelocity = new(Mathf.Sign(transform.localScale.x) * slidePower, 0f);
 
-        yield return new WaitForSeconds(slidingCooldown);
+        yield return new WaitForSeconds(0.5f);
+        // Wait while still sliding fast (velocity > 0.1), then exit when it slows down or hits wall
+        yield return new WaitWhile(() => Mathf.Abs(rb.linearVelocity.x) > 0.5f);
         isDashing = false;
 
     }
 
     protected virtual IEnumerator AerialAttack()
     {
-        aerialTimer = aerialCooldown;
+        // aerialTimer = aerialCooldown;
         SetupAerialAttack();
         isAttacking = true;
         StartAttackWatchdog(maxAttackDuration);
@@ -878,12 +922,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         }
 
         StartCoroutine(animatorScript.HurtFlash(0.2f));
-        HealthManager.instance.TakeDamage(damage);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
-        isDead = HealthManager.instance.IsDead();
+
+        // Apply damage - HealthManager will fire OnPlayerDeath event if player dies
+        // Die() will be called by the event subscription, so we just check if dead to skip knockback
+        HealthManager.instance.TakeDamage(damage);
+        bool playerDied = HealthManager.instance.IsDead();
 
         // Only apply knockback if player didn't die
-        if (!isDead)
+        if (!playerDied)
         {
             if (useRadialKnockback)
             {
@@ -895,6 +942,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             }
             StartCoroutine(InvincibilityFrames());
         }
+        // If player died, Die() will be called by OnPlayerDeath event subscription
     }
 
     protected virtual void CancelAllActions()
@@ -902,46 +950,47 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Cancel attacks
         if (attackCoroutine != null)
         {
-            StopCoroutine(attackCoroutine);
+            try { StopCoroutine(attackCoroutine); } catch { }
             attackCoroutine = null;
         }
         if (attackTimeoutCoroutine != null)
         {
-            StopCoroutine(attackTimeoutCoroutine);
+            try { StopCoroutine(attackTimeoutCoroutine); } catch { }
             attackTimeoutCoroutine = null;
         }
         isAttacking = false;
         if (attackResetCoroutine != null)
         {
-            StopCoroutine(attackResetCoroutine);
+            try { StopCoroutine(attackResetCoroutine); } catch { }
             attackResetCoroutine = null;
         }
 
         isReloading = false;
         if (reloadCoroutine != null)
         {
-            StopCoroutine(reloadCoroutine);
+            try { StopCoroutine(reloadCoroutine); } catch { }
             reloadCoroutine = null;
         }
-
 
         // Cancel dash/slide
         isDashing = false;
         if (slideCoroutine != null)
         {
-            StopCoroutine(slideCoroutine);
+            try { StopCoroutine(slideCoroutine); } catch { }
             slideCoroutine = null;
         }
-        if (dashCooldownCoroutine != null)
-        {
-            StopCoroutine(dashCooldownCoroutine);
-            dashCooldownCoroutine = null;
-        }
-        canDash = true;
+        // if (dashCooldownCoroutine != null)
+        // {
+        //     try { StopCoroutine(dashCooldownCoroutine); } catch { }
+        //     dashCooldownCoroutine = null;
+        // }
         isInvincible = false;
 
         // Reset gravity if was dashing
-        rb.gravityScale = 3f; //change, hardcoded so far.
+        if (rb != null)
+        {
+            rb.gravityScale = 3f; //change, hardcoded so far.
+        }
 
         if (trail != null)
             trail.emitting = false;
@@ -955,7 +1004,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Clear hurt state timeout
         if (hurtTimeoutCoroutine != null)
         {
-            StopCoroutine(hurtTimeoutCoroutine);
+            try { StopCoroutine(hurtTimeoutCoroutine); } catch { }
             hurtTimeoutCoroutine = null;
         }
     }
@@ -986,7 +1035,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Stop timeout coroutine if it's still running
         if (hurtTimeoutCoroutine != null)
         {
-            StopCoroutine(hurtTimeoutCoroutine);
+            try { StopCoroutine(hurtTimeoutCoroutine); } catch { }
             hurtTimeoutCoroutine = null;
         }
     }
@@ -1004,6 +1053,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void Die()
     {
+        // Idempotent: if already dead, don't process death again
+        if (isDead) return;
+
+        // Check if object is still valid before proceeding
+        if (this == null || gameObject == null) return;
+
         isDead = true;
 
         // Disable hitbox immediately on death
@@ -1016,10 +1071,21 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         CancelAllActions();
 
         // Stop all movement
-        rb.linearVelocity = Vector2.zero;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
 
-        // Start death sequence
-        StartCoroutine(DeathSequence());
+        // Start death sequence - use try-catch to handle destroyed object case
+        try
+        {
+            StartCoroutine(DeathSequence());
+        }
+        catch (System.Exception)
+        {
+            // Object was destroyed, can't start coroutine - this is fine, death was already processed
+            Debug.LogWarning("Player object destroyed before death sequence could start");
+        }
     }
 
     protected virtual IEnumerator DeathSequence()
@@ -1037,6 +1103,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         if (GameRestartManager.Instance != null)
         {
             GameRestartManager.Instance.RespawnCharacter();
+        }
+        else
+        {
+            Debug.LogError("GameRestartManager is null! Cannot respawn player.");
         }
     }
 
@@ -1078,7 +1148,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         if (attackTimeoutCoroutine != null)
         {
-            StopCoroutine(attackTimeoutCoroutine);
+            try { StopCoroutine(attackTimeoutCoroutine); } catch { }
         }
         attackTimeoutCoroutine = StartCoroutine(AttackTimeout(duration));
     }
@@ -1108,7 +1178,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             case 2:
                 hitboxManager.CustomizeHitbox(attackHitboxes[1]);
                 animatorScript.ChangeAnimationState(playerStates.Punch2);
-                attackTimer = attackCooldown;
+                // attackTimer = attackCooldown;
                 break;
         }
     }
