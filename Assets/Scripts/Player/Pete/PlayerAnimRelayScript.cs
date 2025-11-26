@@ -61,4 +61,10 @@ public class PeteAnimRelay : MonoBehaviour
         movementScript.InitDynamite();
     }
 
+    public void CallWalkSound()
+    {
+        audioMgr.StopRunLoop();
+        audioMgr.StartRunLoop();
+    }
+
 }
