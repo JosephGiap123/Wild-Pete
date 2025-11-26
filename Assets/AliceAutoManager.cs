@@ -20,6 +20,7 @@ public class AliceAudioManager : MonoBehaviour
     [SerializeField] private AudioClip punch;
     [SerializeField] private AudioClip slide;
 
+
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
 
@@ -100,10 +101,12 @@ public class AliceAudioManager : MonoBehaviour
     public void PlayDeath() => PlayOneShot(death);
     public void PlaySlide() => PlayOneShot(slide);
 
+    public void PlayPunch() => PlayOneShot(punch);
+
     // Reload at exactly 2x speed (pitch up). Robust against OneShot pitch quirks.
     public void PlayReload()
     {
-        if (!reload) return;
+        if (!reload || sfxSource == null) return;
 
         if (pitchResetCo != null) StopCoroutine(pitchResetCo);
 
@@ -123,7 +126,7 @@ public class AliceAudioManager : MonoBehaviour
     // Continuous run loop control
     public void StartRunLoop()
     {
-        if (!runLoop || loopSource.isPlaying) return;
+        if (!runLoop || loopSource == null || loopSource.isPlaying) return;
         loopSource.clip = runLoop;
         loopSource.pitch = 1f;
         loopSource.volume = sfxVolume;
@@ -132,19 +135,19 @@ public class AliceAudioManager : MonoBehaviour
 
     public void StopRunLoop()
     {
-        if (loopSource.isPlaying) loopSource.Stop();
+        if (loopSource != null && loopSource.isPlaying) loopSource.Stop();
     }
 
     public void SetSfxVolume(float value01)
     {
         sfxVolume = Mathf.Clamp01(value01);
-        if (loopSource.isPlaying) loopSource.volume = sfxVolume;
+        if (loopSource != null && loopSource.isPlaying) loopSource.volume = sfxVolume;
     }
 
     // ---------- Helpers ----------
     private void PlayOneShot(AudioClip clip)
     {
-        if (!clip) return;
+        if (!clip || sfxSource == null) return;
         float oldPitch = sfxSource.pitch;
         sfxSource.pitch = 1f + Random.Range(-pitchJitter, pitchJitter);
         sfxSource.PlayOneShot(clip, sfxVolume);
@@ -154,9 +157,12 @@ public class AliceAudioManager : MonoBehaviour
     private IEnumerator ResetPitchAfter(float seconds, float oldPitch, AudioClip oldClip)
     {
         yield return new WaitForSeconds(seconds);
-        sfxSource.pitch = oldPitch;
-        if (sfxSource.clip == reload && !sfxSource.isPlaying)
-            sfxSource.clip = oldClip;
+        if (sfxSource != null)
+        {
+            sfxSource.pitch = oldPitch;
+            if (sfxSource.clip == reload && !sfxSource.isPlaying)
+                sfxSource.clip = oldClip;
+        }
         pitchResetCo = null;
     }
 }

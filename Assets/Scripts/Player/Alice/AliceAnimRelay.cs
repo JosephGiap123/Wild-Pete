@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class AliceAnimRelayScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] AliceMovement2D movementScript;
     [SerializeField] GenericAttackHitbox hitboxScript;
     [SerializeField] AliceAudioManager audioMgr;
@@ -71,4 +70,8 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.InitDynamite();
     }
 
+    public void CallPunchSound()
+    {
+        audioMgr.PlayPunch();
+    }
 }

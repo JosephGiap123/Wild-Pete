@@ -13,6 +13,12 @@ GameObject:
   - component: {fileID: 5466335579314495554}
   - component: {fileID: 8556886436127199544}
   - component: {fileID: 3554655927625909859}
+  - component: {fileID: 4219925445003508224}
+  - component: {fileID: 892631889321125751}
+  - component: {fileID: 7889889698610521013}
+  - component: {fileID: 11418297021498573}
+  - component: {fileID: 5058760496962662551}
+  - component: {fileID: 1017878564692138300}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -50,7 +56,14 @@ MonoBehaviour:
   Pete: {fileID: 8045371504318166606, guid: 4059668e691054cfc9e3e573a48c55e7, type: 3}
   Alice: {fileID: 3172980308799934302, guid: ac8071ac360bc4469a4807cca43db5a6, type: 3}
   cinemachineCam: {fileID: 0}
-  selectedCharacter: 1
+  sceneNames:
+  - Prison
+  - TheCave
+  spawnPositions:
+  - {x: -25, y: 0}
+  - {x: -14, y: -2}
+  UsePlayerPrefs: 0
+  selectedCharacter: 0
 --- !u!114 &5466335579314495554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,9 +112,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cfcf74ad749c546d98ba838c1e8733e1, type: 2}
   - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
   - {fileID: 11400000, guid: ae097470687c340999bc94288acc912b, type: 2}
+  - {fileID: 11400000, guid: 976dd2851b73b486089f0582221eb7c0, type: 2}
   consumableSOs:
   - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
   - {fileID: 11400000, guid: 90f83fff8c7634eaa845757bff46a396, type: 2}
+  equipmentSOs:
+  - {fileID: 11400000, guid: 3601372c1e00e4e3d89c9746681cd1f4, type: 2}
+  - {fileID: 11400000, guid: 73afeca589db842d690897b7e1691446, type: 2}
+  - {fileID: 11400000, guid: 20443e2d927374b9a870349565d4d0fe, type: 2}
+  - {fileID: 11400000, guid: 557f241640b43454cbd6614f66ac4538, type: 2}
+  - {fileID: 11400000, guid: fdbef89e28d784620aab0a8c4ba2cc3f, type: 2}
+  - {fileID: 11400000, guid: 322bdc18252c041039b905481616fe6c, type: 2}
+  equipmentSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   itemDescriptionIcon: {fileID: 0}
   ItemDescriptionNameText: {fileID: 0}
   ItemDescriptionText: {fileID: 0}
@@ -118,7 +144,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ae44f42a37ff41940a32a0e72a205702, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -202,3 +228,124 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4219925445003508224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3582a5f193f76b4a9a42fc8cf0f5133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPanel: {fileID: 0}
+--- !u!114 &892631889321125751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ddd804ca46149b0a52459f1b5b4b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7889889698610521013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3152a13565b4f5d98bb6507a6f8236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11418297021498573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaee5a287f5ad46e6bf98a63dcb3ebe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCodeConnection: 6100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a00000009000000
+  keyCodeTextSprite:
+  - {fileID: 2034027205657940892, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 5154534066194307114, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 8576032828887383715, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 5659948278567256574, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -7171846517338786785, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 1289345212855127187, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 4622204439171014847, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -795487476495214414, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -88771792832466665, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -3503104605487143698, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 8945770550378771382, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -2623614159944544811, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 841932908133905425, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 6696921907058406458, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 6660411949551003238, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -4574750814335597539, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -4151368434907373243, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -4734975955494428036, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -5133236599841499020, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -8162821175474351256, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -5762030713825323452, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 2904411089672981400, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 2217581415950342377, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: -5474083909161965783, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 596670891182276658, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 2522374825302669731, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+  - {fileID: 3438530186889635827, guid: 37b26706aedf644a2be8d0cbf498b29d, type: 3}
+--- !u!114 &5058760496962662551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed9b5f92d93ab4316b9f3f0c331f9e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMaxHealth: 50
+  baseMaxAmmo: 5
+  baseMovementSpeed: 5
+  baseJumpCount: 1
+  baseDashSpeed: 14
+  baseSlideSpeed: 10
+  baseBulletSpeed: 10
+  baseBulletCount: 0
+  baseMeleeAttack: 0
+  baseRangedAttack: 0
+  baseUniversalAttack: 0
+  baseEnergy: 10
+  baseEnergyRegenRate: 1.5
+--- !u!114 &1017878564692138300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29eb95fa2ac26433781295b2a6c73ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyBar: {fileID: 0}
+  energy: 10
+  maxEnergy: 10
+  energyRegenRate: 2
+  energyRegenDelay: 1
+  energyRegenDelayTimer: 0

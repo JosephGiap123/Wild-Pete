@@ -5,6 +5,7 @@ public class Dynamite : MonoBehaviour
 {
     [SerializeField] GameObject explosionCloud;
     [SerializeField] GameObject explosionParticles;
+    [SerializeField] AttackHitboxInfo explosionHitbox;
     [SerializeField] float explosionTime = 3f;
     private Rigidbody2D rb;
     public void Awake()
@@ -21,7 +22,8 @@ public class Dynamite : MonoBehaviour
     public IEnumerator Explode()
     {
         yield return new WaitForSeconds(explosionTime);
-        Instantiate(explosionCloud, transform.position, Quaternion.identity);
+        GameObject newExplosionCloud = Instantiate(explosionCloud, transform.position, Quaternion.identity);
+        newExplosionCloud.GetComponent<ExplosionCloud>().Initialize(explosionHitbox);
         Instantiate(explosionParticles, transform.position, Quaternion.identity);
         GetComponentInChildren<CinemachineImpulseSource>()?.GenerateImpulse(1.0f);
         Destroy(gameObject);

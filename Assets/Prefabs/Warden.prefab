@@ -217,7 +217,7 @@ SpriteRenderer:
   m_SortingLayerID: -1778098357
   m_SortingLayer: 3
   m_SortingOrder: 5
-  m_Sprite: {fileID: 410236811915836702, guid: 1d4ac23a8654c4baba6f801dce049b35, type: 3}
+  m_Sprite: {fileID: -6465840940894248477, guid: 1d4ac23a8654c4baba6f801dce049b35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -795,6 +795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 80
+  isDead: 0
+  isHurt: 0
   rb: {fileID: 7337193208649306649}
   sr: {fileID: 2998731447188189554}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
