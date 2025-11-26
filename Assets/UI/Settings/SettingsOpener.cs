@@ -7,12 +7,12 @@ public class SettingsOpener : MonoBehaviour
 {
     [SerializeField] private GameObject settingsPanel;   // assign SettingsUIRoot here
 
-    bool isOpen = false;
     float prevTimeScale = 1f;
 
     void Awake()
     {
-        if (settingsPanel != null) settingsPanel.SetActive(false);
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
     }
 
     void Update()
@@ -31,38 +31,41 @@ public class SettingsOpener : MonoBehaviour
     {
         if (settingsPanel == null) return;
 
-        isOpen = !isOpen;
-        settingsPanel.SetActive(isOpen);
+        bool newOpenState = !settingsPanel.activeSelf;
+        SetOpen(newOpenState);
+    }
 
-        if (isOpen)
+    // This is what the Settings UI (red X button) will call
+    public void SetOpen(bool open)
+    {
+        if (settingsPanel == null) return;
+
+        settingsPanel.SetActive(open);
+
+        if (open)
         {
             // Pause
             prevTimeScale = Time.timeScale;
             Time.timeScale = 0f;
 
-            // Optional: make cursor usable in menus
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-
-            // If you use an Input System Action Map for UI:
-            // PlayerInput.all[0]?.SwitchCurrentActionMap("UI");
         }
         else
         {
             // Unpause
             Time.timeScale = prevTimeScale;
 
-            // Optional: re-lock cursor for gameplay
+            // If you want to relock the cursor in gameplay scenes:
             // Cursor.lockState = CursorLockMode.Locked;
             // Cursor.visible = false;
-
-            // PlayerInput.all[0]?.SwitchCurrentActionMap("Gameplay");
         }
     }
 
     void OnDisable()
     {
-        // Safety: if the script/scene disables while open, unpause
-        if (isOpen) Time.timeScale = prevTimeScale;
+        // Safety: if something disables this while menu is open, unpause
+        if (settingsPanel != null && settingsPanel.activeSelf)
+            Time.timeScale = prevTimeScale;
     }
 }
