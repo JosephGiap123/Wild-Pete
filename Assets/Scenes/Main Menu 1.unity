@@ -501,6 +501,7 @@ RectTransform:
   m_Children:
   - {fileID: 1329870221}
   - {fileID: 334119960}
+  - {fileID: 1040671925}
   - {fileID: 1051862221}
   - {fileID: 113010849}
   - {fileID: 1101403848}
@@ -1839,19 +1840,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1040671921}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1656267689}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 187368346}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 959.9998, y: 540.2882}
+  m_SizeDelta: {x: 1920, y: 1080.5767}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1051862218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,7 +2652,7 @@ Transform:
   m_GameObject: {fileID: 1656267688}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.00018310547, y: 0.00012207031, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2922,9 +2923,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0.7169812, g: 0.5066746, b: 0.1318975, a: 1}
-      maxColor: {r: 0.9056604, g: 0.7828649, b: 0.51690996, a: 1}
+      maxColor: {r: 0.84313726, g: 0.23921569, b: 0.050980393, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 1}
@@ -2988,7 +2989,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
+      scalar: 0.25
       minScalar: 0.05
       maxCurve:
         serializedVersion: 2
@@ -3570,9 +3571,9 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 1200
-      minScalar: 700
+      minMaxState: 0
+      scalar: 30
+      minScalar: 400
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -8148,4 +8149,3 @@ SceneRoots:
   - {fileID: 1450439427}
   - {fileID: 1015563388}
   - {fileID: 291813413}
-  - {fileID: 1040671925}
