@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 11418297021498573}
   - component: {fileID: 5058760496962662551}
   - component: {fileID: 1017878564692138300}
+  - component: {fileID: 5307116508878272368}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -131,6 +132,8 @@ MonoBehaviour:
   itemDescriptionIcon: {fileID: 0}
   ItemDescriptionNameText: {fileID: 0}
   ItemDescriptionText: {fileID: 0}
+  equipEventSO: {fileID: 0}
+  unequipEventSO: {fileID: 0}
 --- !u!82 &3554655927625909859
 AudioSource:
   m_ObjectHideFlags: 0
@@ -349,3 +352,19 @@ MonoBehaviour:
   energyRegenRate: 2
   energyRegenDelay: 1
   energyRegenDelayTimer: 0
+--- !u!114 &5307116508878272368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7829673183724783459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d91bd15c14d40f3a3e3c7331c27b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nameText: {fileID: 0}
+  portraitImage: {fileID: 0}
