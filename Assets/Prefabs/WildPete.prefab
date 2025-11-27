@@ -15754,7 +15754,6 @@ MonoBehaviour:
   maxAmmo: 10
   maxAttackChain: 3
   comboResetTime: 2
-  attackCooldown: 1.4
   invincibilityTime: 0
   hurtStateTimeout: 1
   deathAnimationDuration: 2
@@ -15762,9 +15761,13 @@ MonoBehaviour:
   dashingPower: 15
   dashingTime: 0.3
   slidePower: 13
-  dashingCooldown: 2
-  slidingCooldown: 0.5
-  aerialCooldown: 1
+  dashingEnergyCost: 5
+  slidingEnergyCost: 2
+  weaponlessMeleeEnergyCost: 1
+  groundAttackEnergyCost: 1
+  aerialAttackEnergyCost: 1
+  crouchingAttackEnergyCost: 1
+  jumpEnergyCost: 0.5
   maxAttackDuration: 0.9
   wallRay: {fileID: 1896967197796685413}
   wallMask:

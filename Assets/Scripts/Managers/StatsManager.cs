@@ -19,6 +19,8 @@ public class StatsManager : MonoBehaviour
     [SerializeField] private float baseMeleeAttack = 0f;
     [SerializeField] private float baseRangedAttack = 0f;
     [SerializeField] private float baseUniversalAttack = 0f;
+    [SerializeField] private float baseEnergy = 10f;
+    [SerializeField] private float baseEnergyRegenRate = 1f;
 
     // Modifier tracking - stores all active modifiers for each stat
     private Dictionary<EquipmentSO.Stats, List<float>> statModifiers = new Dictionary<EquipmentSO.Stats, List<float>>();
@@ -35,7 +37,8 @@ public class StatsManager : MonoBehaviour
     public float meleeAttack => baseMeleeAttack + GetTotalModifier(EquipmentSO.Stats.MeleeAttack);
     public float rangedAttack => baseRangedAttack + GetTotalModifier(EquipmentSO.Stats.RangedAttack);
     public float universalAttack => baseUniversalAttack + GetTotalModifier(EquipmentSO.Stats.UniversalAttack);
-
+    public float maxEnergy => baseEnergy + GetTotalModifier(EquipmentSO.Stats.MaxEnergy);
+    public float energyRegenRate => baseEnergyRegenRate + GetTotalModifier(EquipmentSO.Stats.EnergyRegenRate);
     public event Action<EquipmentSO.Stats, float> OnStatChanged;
 
     void Awake() //singleton!
@@ -164,6 +167,10 @@ public class StatsManager : MonoBehaviour
                 return rangedAttack;
             case EquipmentSO.Stats.UniversalAttack:
                 return universalAttack;
+            case EquipmentSO.Stats.MaxEnergy:
+                return maxEnergy;
+            case EquipmentSO.Stats.EnergyRegenRate:
+                return energyRegenRate;
             default:
                 return 0f;
         }

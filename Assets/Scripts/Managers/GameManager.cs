@@ -14,8 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] sceneNames;
     [SerializeField] private Vector2[] spawnPositions;
 
+    public enum Characters
+    {
+        Pete,
+        Alice
+    }
     public bool UsePlayerPrefs = true;
-    public int selectedCharacter = 1;
+    public Characters selectedCharacter = Characters.Pete;
+
     public GameObject player { get; private set; }
 
     public static event Action<GameObject> OnPlayerSet;
@@ -63,13 +69,13 @@ public class GameManager : MonoBehaviour
         // Find the Cinemachine camera in the current scene first
         FindCinemachineCamera();
 
-        if (UsePlayerPrefs) selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
+        if (UsePlayerPrefs) selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0) == 1 ? Characters.Pete : Characters.Alice;
         switch (selectedCharacter)
         {
-            case 1:
+            case Characters.Pete:
                 player = Instantiate(Pete, spawnPosition, Quaternion.identity);
                 break;
-            case 2:
+            case Characters.Alice:
                 player = Instantiate(Alice, spawnPosition, Quaternion.identity);
                 break;
             default:
