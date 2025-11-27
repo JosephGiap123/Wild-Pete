@@ -70,4 +70,19 @@ public class AliceAnimRelayScript : MonoBehaviour
         movementScript.InitDynamite();
     }
 
+    public void CallPunchSound()
+    {
+        audioMgr.PlayPunch();
+    }
+
+    public void CallThrowSound()
+    {
+        audioMgr.PlayThrow();
+    }
+
+    public void CallWalkSound()
+    {
+        // audioMgr.StopRunLoop();
+        audioMgr.StartRunLoop();
+    }
 }

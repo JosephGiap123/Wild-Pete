@@ -52,18 +52,22 @@ public class AliceMovement2D : BasePlayerMovement2D
             return;
         }
 
-        bool shouldRunLoop =
-            !isDead &&
-            !isHurt &&
-            !isReloading &&
-            !isAttacking &&
-            !isDashing &&
-            isGrounded &&
-            !isCrouching &&
-            Mathf.Abs(rb.linearVelocity.x) > runMinSpeed;
+        // Only stop the loop when conditions aren't met (safety net)
+        // Animation events handle starting the loop for sync
+        bool shouldStopLoop =
+            isDead ||
+            isHurt ||
+            isReloading ||
+            isAttacking ||
+            isDashing ||
+            !isGrounded ||
+            isCrouching ||
+            Mathf.Abs(rb.linearVelocity.x) <= runMinSpeed;
 
-        if (shouldRunLoop) audioMgr.StartRunLoop();
-        else audioMgr.StopRunLoop();
+        if (shouldStopLoop)
+        {
+            audioMgr.StopRunLoop();
+        }
     }
 
     public override void FlipSprite()
@@ -105,33 +109,41 @@ public class AliceMovement2D : BasePlayerMovement2D
             reloadCoroutine = StartCoroutine(Reload());
         }
 
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && canDash && !isWallSliding)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
-            isDashing = true;
-
-            // stop run loop and play dash SFX immediately
-            audioMgr?.StopRunLoop();
-
-
-            if (!isCrouching)
+            if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
             {
+                isDashing = true;
+
+                // stop run loop and play dash SFX immediately
+                audioMgr?.StopRunLoop();
+
                 CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 dashParticle.Emit(emitParams, 1);
                 slideCoroutine = StartCoroutine(Dash());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(dashingCooldown));
                 audioMgr?.PlayDash();
             }
-            else
+            else if (isCrouching && EnergyManager.instance.UseEnergy(slidingEnergyCost))
             {
+                isDashing = true;
+
+                // stop run loop and play dash SFX immediately
+                audioMgr?.StopRunLoop();
+
                 CallInputInvoke("Slide", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
                 emitParams.rotation3D = new(0f, isFacingRight ? 0f : 180f);
                 slideParticle.Emit(emitParams, 1);
                 audioMgr?.PlaySlide();
                 StartCoroutine(Slide());
-                dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+                // dashCooldownCoroutine = StartCoroutine(DashCooldown(slidingCooldown));
+            }
+            else
+            {
+                Debug.Log("Not enough energy to dash or slide");
             }
         }
 
@@ -170,7 +182,7 @@ public class AliceMovement2D : BasePlayerMovement2D
             case 1:
                 hitboxManager.CustomizeHitbox(attackHitboxes[3]);
                 animatorScript.ChangeAnimationState(playerStates.Melee2);
-                attackTimer = attackCooldown;
+                // attackTimer = attackCooldown;
                 break;
             default:
                 break;
@@ -183,7 +195,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         hitboxManager.CustomizeHitbox(attackHitboxes[4]);
         animatorScript.ChangeAnimationState(playerStates.CrouchAttack);
         audioMgr?.PlaySweep();
-        attackTimer = attackCooldown / 3;
+        // attackTimer = attackCooldown / 3;
     }
 
     protected override void SetupAerialAttack()
@@ -191,7 +203,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         CallInputInvoke("AerialMelee", PlayerControls.Melee, ControlManager.instance.inputMapping[PlayerControls.Melee]);
         hitboxManager.CustomizeHitbox(attackHitboxes[5]);
         animatorScript.ChangeAnimationState(playerStates.AerialAttack);
-        aerialTimer = aerialCooldown;
+        // aerialTimer = aerialCooldown;
     }
 
     protected override void CheckGround()
@@ -243,8 +255,8 @@ public class AliceMovement2D : BasePlayerMovement2D
     protected override IEnumerator ThrowAttack()
     {
         CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
-        // audioMgr.PlayThrow();
-        // audioMgr?.StopRunLoop();
+        audioMgr.PlayThrow();
+        audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();
     }
 
