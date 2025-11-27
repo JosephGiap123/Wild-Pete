@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CharacterSelect : MonoBehaviour
 {
@@ -22,8 +23,14 @@ public class CharacterSelect : MonoBehaviour
       default:
         break;
     }
-    // sceneSwapEventSO.RaiseEvent("Prison");
-    SceneManager.LoadScene(2);
+    sceneSwapEventSO.RaiseEvent("Prison");
+    StartCoroutine(LoadSceneCoroutine());
     //then load scene.
+  }
+
+  public IEnumerator LoadSceneCoroutine()
+  {
+    yield return new WaitForSecondsRealtime(1f);
+    SceneManager.LoadScene(2);
   }
 }

@@ -6,15 +6,18 @@ public class DeathTipScript : MonoBehaviour
 {
     [SerializeField] string[] deathTips;
     [SerializeField] GameObject deathCanvas;
+    [SerializeField] TMP_Text deathCountText;
+    [SerializeField] TMP_Text deathTipText;
     private Animator anim;
-    public void OnEnable()
+    public void Awake()
     {
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
         GameRestartManager.CharacterRespawned += Respawn;
         GameManager.OnPlayerSet += SetPlayerEvents;
+        anim = deathCanvas.GetComponent<Animator>();
     }
 
-    public void OnDisable()
+    public void OnDestroy()
     {
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
         GameRestartManager.CharacterRespawned -= Respawn;
@@ -43,9 +46,9 @@ public class DeathTipScript : MonoBehaviour
     {
         if (deathTips.Length > 0)
         {
-            deathCanvas.GetComponentInChildren<TMP_Text>().text = deathTips[Random.Range(0, deathTips.Length)];
-
+            deathTipText.text = deathTips[Random.Range(0, deathTips.Length)];
         }
+        deathCountText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
         anim.Play("FadeIn");
     }
 
@@ -54,8 +57,4 @@ public class DeathTipScript : MonoBehaviour
         anim.Play("Fadeout");
     }
 
-    public void Awake()
-    {
-        anim = deathCanvas.GetComponent<Animator>();
-    }
 }
