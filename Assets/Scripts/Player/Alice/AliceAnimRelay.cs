@@ -82,7 +82,7 @@ public class AliceAnimRelayScript : MonoBehaviour
 
     public void CallWalkSound()
     {
-        audioMgr.StopRunLoop();
+        // audioMgr.StopRunLoop();
         audioMgr.StartRunLoop();
     }
 }

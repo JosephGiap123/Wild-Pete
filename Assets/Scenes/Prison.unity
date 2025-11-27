@@ -29828,6 +29828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredItem: {fileID: 11400000, guid: 976dd2851b73b486089f0582221eb7c0, type: 2}
   sceneToSwapTo: TheCave
+  sceneSwapEventSO: {fileID: 11400000, guid: 885e8c9f03981448f8f3e9d14a01ecf0, type: 2}
 --- !u!61 &221841675
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -97385,6 +97386,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1929822496}
   nameText: {fileID: 288037795}
   portraitImage: {fileID: 962551637}
+  npcName: Yousif
 --- !u!212 &1521569995
 SpriteRenderer:
   m_ObjectHideFlags: 0

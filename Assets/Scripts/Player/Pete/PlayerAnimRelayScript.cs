@@ -63,7 +63,7 @@ public class PeteAnimRelay : MonoBehaviour
 
     public void CallWalkSound()
     {
-        audioMgr.StopRunLoop();
+        // audioMgr.StopRunLoop();
         audioMgr.StartRunLoop();
     }
 

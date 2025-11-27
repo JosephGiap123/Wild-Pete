@@ -14,6 +14,12 @@ public class LockPick : MonoBehaviour, IInteractable
 
     private LockpickFiveInARow activeGame;
 
+    public string interactionName { get; private set; }
+    public string InteractMessage()
+    {
+        return " to lockpick the cell door";
+    }
+
     public bool CanInteract()
     {
         // Keep your existing logic; block re-opening while active
