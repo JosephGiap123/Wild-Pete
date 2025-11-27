@@ -14,37 +14,52 @@ public class NPC : MonoBehaviour, IInteractable
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
 
-    public bool CanInteract(){
+    public string npcName;
+    public string InteractMessage()
+    {
+        return " to speak with " + npcName;
+    }
+    public bool CanInteract()
+    {
         return !isDialogueActive;
     }
 
-    public void Interact(){
-        if(dialogueData == null || (PauseController.IsGamePaused && !isDialogueActive)){
+    public void Interact()
+    {
+        if (dialogueData == null || (PauseController.IsGamePaused && !isDialogueActive))
+        {
             return;
         }
-        if(isDialogueActive){
+        if (isDialogueActive)
+        {
             NextLine();
         }
-        else{
+        else
+        {
             StartDialogue();
         }
     }
 
-    void NextLine(){
-        if(isTyping){
+    void NextLine()
+    {
+        if (isTyping)
+        {
             StopAllCoroutines();
             dialogueText.SetText(dialogueData.dialogueLines[dialogueIndex]);
             isTyping = false;
         }
-        else if(++dialogueIndex < dialogueData.dialogueLines.Length){
+        else if (++dialogueIndex < dialogueData.dialogueLines.Length)
+        {
             StartCoroutine(TypeLine());
         }
-        else{
+        else
+        {
             EndDialogue();
         }
     }
 
-    void StartDialogue(){
+    void StartDialogue()
+    {
         isDialogueActive = true;
         dialogueIndex = 0;
 
@@ -57,22 +72,26 @@ public class NPC : MonoBehaviour, IInteractable
         StartCoroutine(TypeLine());
     }
 
-    private IEnumerator TypeLine(){
+    private IEnumerator TypeLine()
+    {
         isTyping = true;
         dialogueText.SetText("");
 
-        foreach(char letter in dialogueData.dialogueLines[dialogueIndex]){
+        foreach (char letter in dialogueData.dialogueLines[dialogueIndex])
+        {
             dialogueText.text += letter;
             yield return new WaitForSecondsRealtime(dialogueData.typingSpeed);
         }
         isTyping = false;
-        if(dialogueData.autoProgressLines.Length > dialogueIndex && dialogueData.autoProgressLines[dialogueIndex]){
+        if (dialogueData.autoProgressLines.Length > dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
+        {
             yield return new WaitForSecondsRealtime(dialogueData.autoProgressDelay);
             NextLine();
         }
     }
 
-    public void EndDialogue(){
+    public void EndDialogue()
+    {
         StopAllCoroutines();
         isDialogueActive = false;
         dialogueText.SetText("");

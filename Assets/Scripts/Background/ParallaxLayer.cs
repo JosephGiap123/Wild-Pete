@@ -31,10 +31,12 @@ public class ParallaxLayer : MonoBehaviour
     
     private Transform cameraTransform;
     private Vector3 lastCameraPosition;
+    private Vector3 smoothedCameraPosition; // Smoothed camera position to avoid shake artifacts
     private float spriteWidth;
     private SpriteRenderer spriteRenderer;
     private GameObject[] tileInstances;
     private int tilesNeeded;
+    [SerializeField] private float cameraSmoothing = 0.1f; // How much to smooth camera position (lower = more smoothing)
     
     void Start()
     {
@@ -89,6 +91,7 @@ public class ParallaxLayer : MonoBehaviour
         
         // Store initial camera position
         lastCameraPosition = cameraTransform.position;
+        smoothedCameraPosition = cameraTransform.position;
         
         // Setup infinite scroll tiles
         if (infiniteScroll && spriteWidth > 0)
@@ -240,10 +243,15 @@ public class ParallaxLayer : MonoBehaviour
             return;
         }
         
-        // Anchor position to camera with parallax speed
-        // This ensures the parallax layer always follows the camera at the correct speed
-        float targetX = cameraTransform.position.x * parallaxSpeedX + offset.x;
-        float targetY = cameraTransform.position.y * parallaxSpeedY + offset.y;
+        // Smooth camera position to avoid shake artifacts affecting parallax
+        // Use frame-rate independent smoothing
+        float smoothFactor = 1f - Mathf.Pow(1f - cameraSmoothing, Time.deltaTime * 60f);
+        smoothedCameraPosition = Vector3.Lerp(smoothedCameraPosition, cameraTransform.position, smoothFactor);
+        
+        // Anchor position to smoothed camera with parallax speed
+        // This ensures the parallax layer follows the camera smoothly, ignoring shake
+        float targetX = smoothedCameraPosition.x * parallaxSpeedX + offset.x;
+        float targetY = smoothedCameraPosition.y * parallaxSpeedY + offset.y;
         float currentZ = transform.position.z; // Preserve Z position for depth sorting
         transform.position = new Vector3(targetX, targetY, currentZ);
         
@@ -272,8 +280,9 @@ public class ParallaxLayer : MonoBehaviour
         if (cameraTransform == null || tileInstances == null || tileInstances.Length == 0) return;
         
         float cameraWidth = GetCameraWidth();
-        float cameraLeft = cameraTransform.position.x - cameraWidth * 0.5f;
-        float cameraRight = cameraTransform.position.x + cameraWidth * 0.5f;
+        // Use smoothed camera position for tile repositioning to avoid shake artifacts
+        float cameraLeft = smoothedCameraPosition.x - cameraWidth * 0.5f;
+        float cameraRight = smoothedCameraPosition.x + cameraWidth * 0.5f;
         
         // Check each tile and reposition if needed to ensure continuous coverage
         for (int i = 0; i < tileInstances.Length; i++)
