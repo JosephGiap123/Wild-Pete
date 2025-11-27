@@ -35,6 +35,7 @@ public class SkeletonMinerAnimRelay : MonoBehaviour
 
     public void CallWalkSound()
     {
+        audioMgr.StopRunLoop();
         audioMgr.StartRunLoop();
     }
 

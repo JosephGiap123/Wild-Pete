@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class RespawnInteractable : MonoBehaviour, IInteractable
 {
+
+    public string interactionName { get; private set; }
+    public string InteractMessage()
+    {
+        return " to set checkpoint";
+    }
     public bool CanInteract()
     {
         return true;
