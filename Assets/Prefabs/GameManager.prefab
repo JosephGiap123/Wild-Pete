@@ -330,7 +330,7 @@ MonoBehaviour:
   baseRangedAttack: 0
   baseUniversalAttack: 0
   baseEnergy: 10
-  baseEnergyRegenRate: 1.5
+  baseEnergyRegenRate: 2.5
 --- !u!114 &1017878564692138300
 MonoBehaviour:
   m_ObjectHideFlags: 0

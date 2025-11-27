@@ -82,7 +82,8 @@ public class EnergyManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Menu")
+        // Skip energy UI setup for menu-type scenes
+        if (scene.name.Contains("Menu"))
         {
             return;
         }

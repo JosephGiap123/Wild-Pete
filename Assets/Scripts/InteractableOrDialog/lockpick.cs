@@ -20,6 +20,11 @@ public class LockPick : MonoBehaviour, IInteractable
         return " to lockpick the cell door";
     }
 
+    public void Awake()
+    {
+        uiCanvas = GameObject.Find("UI").GetComponent<Canvas>();
+    }
+
     public bool CanInteract()
     {
         // Keep your existing logic; block re-opening while active
@@ -33,6 +38,10 @@ public class LockPick : MonoBehaviour, IInteractable
         if (activeGame != null) return;
 
         // Spawn popup under the UI Canvas
+        if (uiCanvas == null)
+        {
+            uiCanvas = GameObject.Find("UI").GetComponent<Canvas>();
+        }
         activeGame = Instantiate(minigamePrefab, uiCanvas.transform);
         StopPlayerRunLoops();
 

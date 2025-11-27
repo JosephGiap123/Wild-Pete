@@ -10670,7 +10670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b8b33617c5940278d0d52366598270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionHint: {fileID: 845659534304248930}
+  interactionHint: {fileID: 7817402748905348911}
 --- !u!61 &5476739496776434005
 BoxCollider2D:
   m_ObjectHideFlags: 0
