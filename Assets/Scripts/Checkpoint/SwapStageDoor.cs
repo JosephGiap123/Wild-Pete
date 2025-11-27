@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class SwapStageDoor : MonoBehaviour, IInteractable
 {
-    [SerializeField]
+    public string interactionName;
+    public string InteractMessage()
+    {
+        return " to enter " + interactionName;
+    }
     public bool CanInteract()
     {
         return PlayerInventory.instance.HasItem("Master Key") > 0;

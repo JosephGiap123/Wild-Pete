@@ -16,6 +16,11 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
     [SerializeField] private float teleportCooldown = 0.5f; // Prevent immediate re-teleport
     private float lastTeleportTime = -999f;
 
+    public string InteractMessage()
+    {
+        return " to enter the door";
+    }
+
     // [Header("Optional Effects")]
     // [SerializeField] private AudioClip teleportSound;
     // [SerializeField] private GameObject teleportEffect;

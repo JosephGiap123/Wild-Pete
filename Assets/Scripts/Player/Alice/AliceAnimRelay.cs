@@ -74,4 +74,15 @@ public class AliceAnimRelayScript : MonoBehaviour
     {
         audioMgr.PlayPunch();
     }
+
+    public void CallThrowSound()
+    {
+        audioMgr.PlayThrow();
+    }
+
+    public void CallWalkSound()
+    {
+        // audioMgr.StopRunLoop();
+        audioMgr.StartRunLoop();
+    }
 }
