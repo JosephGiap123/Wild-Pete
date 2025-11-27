@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;   // IMPORTANT for Image
+using UnityEngine.UI;
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;      // <- make sure you have this at the top!
 
 public class SettingsUIController : MonoBehaviour
 {
@@ -14,47 +18,58 @@ public class SettingsUIController : MonoBehaviour
     [Header("Panels")]
     public GameObject gameSettingsPanel;
     public GameObject controlSettingsPanel;
-    public GameObject cheatPanel;   // not used yet, can be null
-
-    [Header("Cheat Mode Visuals")]
-    public Image cheatButtonImage;       // assign in Inspector
-    public Color cheatOffColor = Color.white;
-    public Color cheatOnColor = Color.green;
+    public GameObject cheatPanel;
 
     [Header("Main Menu Scene Name")]
     public string mainMenuSceneName = "Main Menu 1";
 
+    [Header("Opener (for pause/unpause)")]
+    public SettingsOpener settingsOpener;
+
+    // 🔽 ADD THIS BLOCK 🔽
+    [Header("Cheat Mode Visuals")]
+    public Image cheatModeButtonImage;
+    public Color cheatOffColor = Color.white;
+    public Color cheatOnColor = Color.green;
+    // 🔼 ADD THIS BLOCK 🔼
+
+    [Header("Main Menu Panel (optional)")]
+    public GameObject mainMenuPanel;
+
+
 
     private void Awake()
     {
-        // Ensure the settings menu starts hidden at runtime
-        if (Application.isPlaying)
+        if (settingsOpener == null)
         {
-            gameObject.SetActive(false);
+            settingsOpener = FindObjectOfType<SettingsOpener>();
+        }
+
+        // Auto-find the Image for the cheat button if not set
+        if (cheatModeButtonImage == null && btnCheatMode != null)
+        {
+            cheatModeButtonImage = btnCheatMode.GetComponent<Image>();
         }
     }
+
 
     private void OnEnable()
     {
         ShowSettingsHub();
-        UpdateCheatVisual();
+        SyncCheatVisual();
     }
 
     void ShowSettingsHub()
     {
-        // show hub buttons
         btnBackToGame.SetActive(true);
         btnGameSettings.SetActive(true);
         btnControlSettings.SetActive(true);
         btnCheatMode.SetActive(true);
         btnQuitToMenu.SetActive(true);
 
-        // hide sub-panels
         gameSettingsPanel.SetActive(false);
         if (controlSettingsPanel != null) controlSettingsPanel.SetActive(false);
         if (cheatPanel != null) cheatPanel.SetActive(false);
-
-        UpdateCheatVisual();
     }
 
     void HideHubButtons()
@@ -66,7 +81,7 @@ public class SettingsUIController : MonoBehaviour
         btnQuitToMenu.SetActive(false);
     }
 
-    // ----- hub buttons -----
+    // ---------- HUB BUTTON HANDLERS ----------
 
     public void OnGameSettingsPressed()
     {
@@ -80,17 +95,17 @@ public class SettingsUIController : MonoBehaviour
         if (controlSettingsPanel != null) controlSettingsPanel.SetActive(true);
     }
 
-    // THIS is your toggle behavior
+    // 🔴 CHEAT: this should just toggle, not open another panel
     public void OnCheatModePressed()
     {
         if (CheatManager.Instance != null)
         {
             CheatManager.Instance.ToggleInvulnerability();
-            UpdateCheatVisual();
+            SyncCheatVisual();
         }
         else
         {
-            Debug.LogWarning("CheatManager instance not found in scene.");
+            Debug.LogWarning("SettingsUIController: CheatManager.Instance is null, cannot toggle cheat.");
         }
     }
 
@@ -102,7 +117,7 @@ public class SettingsUIController : MonoBehaviour
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
-    // ----- back buttons -----
+    // ---------- BACK BUTTON HANDLERS ----------
 
     public void OnBackToSettingsHubPressed()
     {
@@ -110,26 +125,31 @@ public class SettingsUIController : MonoBehaviour
     }
 
     public void OnBackToGamePressed()
+{
+    if (settingsOpener != null)
     {
-        var opener = FindObjectOfType<SettingsOpener>();
-        if (opener != null)
-        {
-            opener.SetOpen(false);
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            gameObject.SetActive(false);
-        }
+        // Gameplay scenes: use opener to unpause + hide menu
+        settingsOpener.CloseFromUI();
     }
-
-    // ----- helper -----
-
-    void UpdateCheatVisual()
+    else
     {
-        if (cheatButtonImage == null) return;
+        // Main menu scene: show the main menu UI again
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(true);
+
+        // Hide the settings root (SettingsMenu / SettingsUIRoot)
+        gameObject.SetActive(false);
+    }
+}
+
+
+    // ---------- CHEAT VISUALS ----------
+
+    private void SyncCheatVisual()
+    {
+        if (cheatModeButtonImage == null) return;
 
         bool on = CheatManager.Instance != null && CheatManager.Instance.invulnerable;
-        cheatButtonImage.color = on ? cheatOnColor : cheatOffColor;
+        cheatModeButtonImage.color = on ? cheatOnColor : cheatOffColor;
     }
 }
