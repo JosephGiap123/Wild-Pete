@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GunUIScript : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class GunUIScript : MonoBehaviour
     private BasePlayerMovement2D playerMovement;
     private int ammo, maxAmmo;
 
-    void OnEnable()
+    void Awake()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
         SubscribeToInventoryEvents();
 
         // If player is already set, update UI immediately
@@ -24,6 +26,21 @@ public class GunUIScript : MonoBehaviour
 
         // Also try to update UI after a short delay in case inventory wasn't ready
         StartCoroutine(DelayedInitialUpdate());
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("Menu"))
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+            DrawGunUI();
+            DrawAmmoUI();
+        }
     }
 
     private void SubscribeToInventoryEvents()
@@ -51,9 +68,10 @@ public class GunUIScript : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
         GameManager.OnPlayerSet -= HandlePlayerSet;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
 
         if (PlayerInventory.instance != null)
         {
@@ -216,7 +234,7 @@ public class GunUIScript : MonoBehaviour
         StartCoroutine(DelayedUIUpdate());
     }
 
-    private System.Collections.IEnumerator DelayedUIUpdate()
+    private IEnumerator DelayedUIUpdate()
     {
         // Wait one frame to ensure inventory state is fully updated
         yield return null;
