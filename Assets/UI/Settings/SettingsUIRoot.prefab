@@ -1192,6 +1192,9 @@ MonoBehaviour:
   gameSettingsPanel: {fileID: 4008900385776947708}
   controlSettingsPanel: {fileID: 0}
   cheatPanel: {fileID: 0}
+  cheatButtonImage: {fileID: 1719072307615548947}
+  cheatOffColor: {r: 0.764151, g: 0.17661981, b: 0.17661981, a: 1}
+  cheatOnColor: {r: 0, g: 1, b: 0, a: 1}
   mainMenuSceneName: Main Menu 1
 --- !u!1 &5917766350134178304
 GameObject:

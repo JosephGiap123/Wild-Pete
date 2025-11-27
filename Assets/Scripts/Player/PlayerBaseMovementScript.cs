@@ -877,6 +877,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     public virtual void HurtPlayer(int damage, Vector2 knockbackForce, float? knockbackDirection = null, Vector2? hitboxCenter = null)
     {
+        // CHEAT: full invulnerability
+        if (CheatManager.Instance != null && CheatManager.Instance.invulnerable)
+        {
+        // Optional: debug log so you can see it's working
+        // Debug.Log("HurtPlayer ignored: cheat invulnerability ON");
+            return;
+        }
+        
         // Don't get hurt if invincible or dead
         if (isInvincible || isDead) return;
 
