@@ -9,9 +9,18 @@ public class TutorialKeySetTextUI : MonoBehaviour
 
     private void SetText(KeyCode mappedKeyCode)
     {
-        Debug.Log(mappedKeyCode);
         Sprite keyCodeSprite = ControlManager.instance.spriteMapping[mappedKeyCode];
         keyText.sprite = keyCodeSprite;
+        if (mappedKeyCode == KeyCode.Tab)
+        {
+            keyText.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(64f, 36f);
+            keyText.rectTransform.sizeDelta = new Vector2(36f, 12f);
+        }
+        else
+        {
+            keyText.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(36f, 36f);
+            keyText.rectTransform.sizeDelta = new Vector2(12f, 12f);
+        }
 
     }
     public void Initialize(PlayerControls inputName)

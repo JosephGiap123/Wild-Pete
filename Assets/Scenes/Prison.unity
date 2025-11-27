@@ -30102,68 +30102,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 877035169302362656, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 877035169302362656, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 877035169302362656, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -500
-      objectReference: {fileID: 0}
-    - target: {fileID: 877035169302362656, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -350
-      objectReference: {fileID: 0}
-    - target: {fileID: 1736877701305165270, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845674008679027450, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845674008679027450, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845674008679027450, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -500
-      objectReference: {fileID: 0}
-    - target: {fileID: 1845674008679027450, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -300
-      objectReference: {fileID: 0}
-    - target: {fileID: 2159052659804660665, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_text
-      value: You can dash by pressing this key. A dash takes a large amount of stamina
-        (the bar below health). You'll notice jumps also take stamina.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2159052659804660665, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_fontSize
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 2159052659804660665, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479903907916367623, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2698510014472789463, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_text
-      value: The player can also slide by combining these two inputs. Slides have
-        a lower stamina cost and can be cancelled, but do not give I-Frames.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2775662319576450267, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_text
-      value: Move around
-      objectReference: {fileID: 0}
     - target: {fileID: 2967630564765570583, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
       propertyPath: m_Name
       value: Tutorial
@@ -30247,43 +30185,6 @@ PrefabInstance:
     - target: {fileID: 3129469758624699067, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3573572725054881381, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 3916872563029269949, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4090980754569347264, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204843228753801082, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204843228753801082, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -500
-      objectReference: {fileID: 0}
-    - target: {fileID: 4651036276001032398, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 6470887517887349588, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_text
-      value: Attack using this key. Right now you can only punch until you get your
-        weapons. It also takes stamina.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6706381343437779855, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 8440553828742403328, guid: 21e8f82c7581f46f2be06b23737a54c0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -87275,96 +87176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &978143060
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1320568038}
-    m_Modifications:
-    - target: {fileID: 24671869360854881, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_Name
-      value: Guard
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -16.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 26.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3463634147269906014, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 8426817888908902439, guid: 7701c4678c3c846dc9290be3cc847917, type: 3}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: raycastHeightOffset
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: patrolPoints.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: patrolPoints.Array.data[0].x
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: patrolPoints.Array.data[0].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: patrolPoints.Array.data[1].x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
-      propertyPath: patrolPoints.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ac176455f72b044bea7494aeea718098, type: 3}
---- !u!4 &978143061 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
-  m_PrefabInstance: {fileID: 978143060}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &987983276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87726,6 +87537,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 361515166692331594, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1042448996164158202, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -87829,6 +87644,14 @@ PrefabInstance:
     - target: {fileID: 8007983031255102289, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031062008528614072, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 118.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031062008528614072, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -96678,7 +96501,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 978143061}
   - {fileID: 1594665610}
   - {fileID: 1388764620}
   - {fileID: 1887177587}
@@ -96715,7 +96537,6 @@ Transform:
   m_Children:
   - {fileID: 198286630}
   - {fileID: 1347165187}
-  - {fileID: 1584560229}
   - {fileID: 705055108}
   - {fileID: 1941347839}
   - {fileID: 86212462}
@@ -96994,20 +96815,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolWaitTime
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].x
-      value: 110
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].y
-      value: -4.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].x
-      value: 120
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].y
-      value: -4.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -97541,68 +97370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3582a5f193f76b4a9a42fc8cf0f5133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1584560228
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1326585081}
-    m_Modifications:
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 91
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.10796988
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8785098392557859180, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-      propertyPath: m_Name
-      value: Box (5)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
---- !u!4 &1584560229 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7504814126046881393, guid: 5ed70a7de8dd0436c91fef7967e9b575, type: 3}
-  m_PrefabInstance: {fileID: 1584560228}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1591613187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2156183562160531984, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
@@ -97665,20 +97432,24 @@ PrefabInstance:
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].x
-      value: 80
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].y
-      value: -4.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].x
-      value: 100
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].y
-      value: -4.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -98780,7 +98551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.433891
+      value: -14.41
       objectReference: {fileID: 0}
     - target: {fileID: 1297115642755967973, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: m_LocalPosition.y
@@ -98820,11 +98591,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.size
-      value: 3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
+      propertyPath: useRelativePatrolPoints
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].x
-      value: -1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[0].y
@@ -98832,7 +98607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].x
-      value: 2
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4778260064776062145, guid: ac176455f72b044bea7494aeea718098, type: 3}
       propertyPath: patrolPoints.Array.data[1].y
@@ -135298,6 +135073,10 @@ PrefabInstance:
       propertyPath: cinemachineCam
       value: 
       objectReference: {fileID: 606041107}
+    - target: {fileID: 6655991858760121315, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: selectedCharacter
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7829673183724783459, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: m_Name
       value: GameManager

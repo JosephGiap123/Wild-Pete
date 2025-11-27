@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 8949a10391c4f4a3f8a806801ed67d64
+guid: 160ec65cd627441468b33b9bbca9a478
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8074543095275169724
-    second: UISelect2 1_0
+      213: 8209660055318790805
+    second: portrait2_0
+  - first:
+      213: 3838560826839080549
+    second: portrait2_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UISelect2 1_0
+      name: portrait2_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 14
-        width: 100
-        height: 36
+        x: 0
+        y: 0
+        width: 42
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cb7a5751a2a8e0070800000000000000
-      internalID: 8074543095275169724
+      spriteID: 5928dfbd2529ee170800000000000000
+      internalID: 8209660055318790805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: portrait2_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56e19740cbe454530800000000000000
+      internalID: 3838560826839080549
       vertices: []
       indices: 
       edges: []
@@ -125,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c94dfb1164ba2428cabafa7b1ff50b73
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UISelect2 1_0: 8074543095275169724
+      portrait2_0: 8209660055318790805
+      portrait2_1: 3838560826839080549
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

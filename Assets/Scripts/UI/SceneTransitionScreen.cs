@@ -11,9 +11,9 @@ public class SceneTransitionScreen : MonoBehaviour
     {
         thisScreen = this.gameObject;
         thisScreenAnimator = thisScreen.GetComponent<Animator>();
-        imageAnimator = thisScreen.GetComponentInChildren<Animator>();
         thisScreen.SetActive(false);
         sceneSwapEventSO.onEventRaised.AddListener(OnSceneSwap);
+        Debug.Log(GameManager.Instance.selectedCharacter);
         if (GameManager.Instance.selectedCharacter == GameManager.Characters.Pete)
         {
             imageAnimator.Play("pete");
@@ -32,6 +32,8 @@ public class SceneTransitionScreen : MonoBehaviour
     {
         thisScreen.SetActive(true);
         thisScreenAnimator.Play("fadein");
+        sceneSwapEventSO.onEventRaised.AddListener(OnSceneSwap);
+        Debug.Log(GameManager.Instance.selectedCharacter);
         if (GameManager.Instance.selectedCharacter == GameManager.Characters.Pete)
         {
             imageAnimator.Play("pete");
