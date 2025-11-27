@@ -4,7 +4,8 @@ public class Run : StateMachineBehaviour
 {
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
+    //{ Hello Everyone! My Name is Yousif , I am a Unity Game Developer. Welcome to my channel. Please like , share and subscribe for more awesome content.
+    // i fix alot of code and create awesome scripts for free. Thank you for your support. 
     //    
     //}
 
