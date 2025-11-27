@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &2454099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1640666238180745053, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &17697194
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +345,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500050818}
   m_CullTransparentMesh: 1
+--- !u!114 &505713589 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3866409233284649270, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &596568945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -402,6 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1232219599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2156183562160531984, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1434111968
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,6 +718,14 @@ PrefabInstance:
       propertyPath: 'deathTips.Array.data[7]'
       value: Before a large fight, loot up the places you have access to.
       objectReference: {fileID: 0}
+    - target: {fileID: 5636865369179815815, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: equipEventSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d1eccfc6b76e436988c395fb0cdd421, type: 2}
+    - target: {fileID: 5636865369179815815, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: unequipEventSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 93eb90ff3ce324aaab08db632f44f011, type: 2}
     - target: {fileID: 6579684422749410431, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -992,6 +1027,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3478cce5297c473bb3670328082dd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1914603222 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4436413544829592982, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1955822203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,6 +1170,22 @@ PrefabInstance:
       propertyPath: settingsPanel
       value: 
       objectReference: {fileID: 1811137389}
+    - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 505713589}
+    - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 2454099}
+    - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: dialoguePanel
+      value: 
+      objectReference: {fileID: 1232219599}
+    - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: portraitImage
+      value: 
+      objectReference: {fileID: 1914603222}
     - target: {fileID: 5466335579314495554, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: healthBar
       value: 
@@ -1180,6 +1242,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: equipEventSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d1eccfc6b76e436988c395fb0cdd421, type: 2}
+    - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: unequipEventSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 93eb90ff3ce324aaab08db632f44f011, type: 2}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: ItemDescriptionText
       value: 

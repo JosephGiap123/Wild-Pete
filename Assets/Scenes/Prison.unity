@@ -86310,7 +86310,7 @@ PrefabInstance:
     - target: {fileID: 5932826598214060873, guid: 91059e117776a418297f233b666da61b, type: 3}
       propertyPath: itemSO
       value: 
-      objectReference: {fileID: 11400000, guid: 3601372c1e00e4e3d89c9746681cd1f4, type: 2}
+      objectReference: {fileID: 11400000, guid: 557f241640b43454cbd6614f66ac4538, type: 2}
     - target: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
       propertyPath: m_Name
       value: Shotgun
