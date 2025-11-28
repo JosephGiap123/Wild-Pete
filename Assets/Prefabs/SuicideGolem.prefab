@@ -495,7 +495,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3dff549c0c29341ea8330817bda146ad, type: 2}
   isFacingRight: 1
   currentState: 0
-  patrolPoints: []
+  patrolPoints:
+  - {x: -2, y: 0}
+  - {x: 5, y: 0}
   useRelativePatrolPoints: 1
   patrolWaitTime: 2
   detectionRange: 9

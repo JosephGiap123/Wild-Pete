@@ -285,6 +285,7 @@ public class WardenAI : EnemyBase
 
     protected override void Die()
     {
+        audioManager?.StopBossMusic();
         base.Die();
     }
 
@@ -376,6 +377,8 @@ public class WardenAI : EnemyBase
     public void EndAttackState()
     {
         inAttackState = false;
+        // Boss music starts when entrance ends and combat begins
+        audioManager?.StartBossMusic();
     }
 
     public void ActivateHitbox()

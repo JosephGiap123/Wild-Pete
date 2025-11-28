@@ -224,6 +224,65 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.68452454, y: 1.2575951}
   m_EdgeRadius: 0
+--- !u!1 &1386459518062195059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2846507700803341838}
+  - component: {fileID: 5456752655272162261}
+  m_Layer: 0
+  m_Name: HBAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2846507700803341838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386459518062195059}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3600006, y: -1.0400009, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8849763587999112926}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5456752655272162261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386459518062195059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1e3259605af854bbf3725fe9ecbfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  meleeClip: {fileID: 8300000, guid: 97d57d5122cf80d42b48ee0a3c1bc117, type: 3}
+  boosterDashClip: {fileID: 8300000, guid: 250e736eba2d6b749ac95be2e4cb849c, type: 3}
+  rocketShotClip: {fileID: 8300000, guid: 06ecafd459b8c7f4883bcfa0023af995, type: 3}
+  rocketExplosiveClip: {fileID: 0}
+  dynamiteClip: {fileID: 0}
+  hurtClip: {fileID: 8300000, guid: 485b22a56908a4c44af2b01dd4d06e1f, type: 3}
+  staggerIndicatorClip: {fileID: 8300000, guid: c378c0704605d6c43beb5e29de7517cd, type: 3}
+  rocketJumpClip: {fileID: 0}
+  deathClip: {fileID: 8300000, guid: acc87e57e05005a4584d48e52acdbb92, type: 3}
+  runLoopClip: {fileID: 8300000, guid: a814f722b64438c4faee78993aaca44f, type: 3}
+  sfxMixerGroup: {fileID: 0}
+  sfxVolume: 1
+  pitchJitter: 0.04
+  max3dDistance: 30
 --- !u!1 &2053022129572803968
 GameObject:
   m_ObjectHideFlags: 0
@@ -20179,6 +20238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bomberBoss: {fileID: 8214778499155990645}
   hitboxScript: {fileID: 1711177795937728857}
+  audioManager: {fileID: 5456752655272162261}
 --- !u!1 &8829387417164712626
 GameObject:
   m_ObjectHideFlags: 0
@@ -20254,6 +20314,7 @@ Transform:
   - {fileID: 6864422720264622945}
   - {fileID: 7659778313588237792}
   - {fileID: 1806781559543012357}
+  - {fileID: 2846507700803341838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &945366372731786584
@@ -20308,6 +20369,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 415a45ba452cb49169ea61652e38f24b, type: 2}
   isFacingRight: 1
   anim: {fileID: 7082321385611465724}
+  originalMoveSpeed: 2
   moveSpeed: 2
   groundCheckBox: {fileID: 7651797576323890106}
   groundLayer:
