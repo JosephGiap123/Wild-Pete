@@ -26,8 +26,8 @@ public class PlayerInventory : MonoBehaviour
     public TMP_Text ItemDescriptionNameText;
     public TMP_Text ItemDescriptionText;
 
-    public event Action<EquipmentSO> OnEquipmentEquippedEvent;
-    public event Action<EquipmentSO> OnEquipmentUnequippedEvent;
+    [SerializeField] private EquipmentChangeEventSO equipEventSO;
+    [SerializeField] private EquipmentChangeEventSO unequipEventSO;
 
     private void Awake()
     {
@@ -441,7 +441,7 @@ public class PlayerInventory : MonoBehaviour
         if (equipment == null) return;
 
         // Trigger the event
-        OnEquipmentEquippedEvent?.Invoke(equipment);
+        equipEventSO.RaiseEvent(equipment);
 
         // Apply stat bonuses from equipment
         if (StatsManager.instance != null)
@@ -476,7 +476,7 @@ public class PlayerInventory : MonoBehaviour
         if (equipment == null) return;
 
         // Trigger the event
-        OnEquipmentUnequippedEvent?.Invoke(equipment);
+        unequipEventSO.RaiseEvent(equipment);
 
         // Remove stat bonuses from equipment
         if (StatsManager.instance != null)

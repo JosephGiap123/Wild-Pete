@@ -52,18 +52,22 @@ public class AliceMovement2D : BasePlayerMovement2D
             return;
         }
 
-        bool shouldRunLoop =
-            !isDead &&
-            !isHurt &&
-            !isReloading &&
-            !isAttacking &&
-            !isDashing &&
-            isGrounded &&
-            !isCrouching &&
-            Mathf.Abs(rb.linearVelocity.x) > runMinSpeed;
+        // Only stop the loop when conditions aren't met (safety net)
+        // Animation events handle starting the loop for sync
+        bool shouldStopLoop =
+            isDead ||
+            isHurt ||
+            isReloading ||
+            isAttacking ||
+            isDashing ||
+            !isGrounded ||
+            isCrouching ||
+            Mathf.Abs(rb.linearVelocity.x) <= runMinSpeed;
 
-        if (shouldRunLoop) audioMgr.StartRunLoop();
-        else audioMgr.StopRunLoop();
+        if (shouldStopLoop)
+        {
+            audioMgr.StopRunLoop();
+        }
     }
 
     public override void FlipSprite()
@@ -251,9 +255,19 @@ public class AliceMovement2D : BasePlayerMovement2D
     protected override IEnumerator ThrowAttack()
     {
         CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
-        // audioMgr.PlayThrow();
-        // audioMgr?.StopRunLoop();
+        audioMgr.PlayThrow();
+        audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();
+    }
+
+    protected override void CancelAllActions()
+    {
+        // Cancel reload audio if reloading was interrupted
+        if (isReloading)
+        {
+            audioMgr?.CancelReload();
+        }
+        base.CancelAllActions();
     }
 
     private void OnDisable() { audioMgr?.StopRunLoop(); }

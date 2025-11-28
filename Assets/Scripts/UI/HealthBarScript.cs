@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class HealthBarScript : MonoBehaviour
 {
@@ -15,6 +16,28 @@ public class HealthBarScript : MonoBehaviour
 
     private Coroutine chipRoutine;
 
+    void Awake()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("Menu"))
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
     public void SetMaxHealth(int health)
     {
         curHealthSlider.maxValue = health;

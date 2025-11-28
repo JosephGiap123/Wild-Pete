@@ -48,18 +48,10 @@ public class TutorialSlide : MonoBehaviour
             Debug.Log("TutorialSlide " + name + ": Adding input event listener");
             inputEvent.onEventRaised.AddListener(OnInputUsed);
         }
-        else
-        {
-            Debug.LogError("TutorialSlide " + name + ": inputEvent is null! Cannot add listener.");
-        }
         if (itemPickUpEvent != null)
         {
             Debug.Log("TutorialSlide " + name + ": Adding item pick up event listener");
             itemPickUpEvent.onEventRaised.AddListener(OnItemPickUp);
-        }
-        else
-        {
-            Debug.LogError("TutorialSlide " + name + ": itemPickUpEvent is null! Cannot add listener.");
         }
 
         // Store original lists for reset
@@ -77,7 +69,6 @@ public class TutorialSlide : MonoBehaviour
 
     void OnInputUsed(string inputName, PlayerControls playerControls, KeyCode keyCode)
     {
-        Debug.Log("Input used: " + inputName + " tutorial called");
         if (tutorialComplete || tutorialType != TutorialType.PressInput) return;
 
         if (listenForInputs.Contains(inputName))
@@ -86,7 +77,6 @@ public class TutorialSlide : MonoBehaviour
         }
         if (listenForInputs.Count == 0)
         {
-            Debug.Log("All inputs used, completing tutorial");
             CompleteTutorial();
         }
     }
@@ -99,7 +89,6 @@ public class TutorialSlide : MonoBehaviour
         }
 
         // Reset tutorial state
-        Debug.Log("Activating tutorial: " + name);
         tutorialComplete = false;
         tutorialTime = 0f;
 
@@ -111,10 +100,6 @@ public class TutorialSlide : MonoBehaviour
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("TutorialSlide: tutorialPanel is null! Cannot activate tutorial.");
         }
     }
 
@@ -154,7 +139,6 @@ public class TutorialSlide : MonoBehaviour
         if (tutorialComplete || tutorialType != TutorialType.ItemPickUp) return;
         if (item.itemName == itemNameToPickUp)
         {
-            Debug.Log("Item picked up: " + item.itemName + " Completing tutorial");
             CompleteTutorial();
         }
     }
@@ -162,14 +146,12 @@ public class TutorialSlide : MonoBehaviour
     public void CompleteTutorial()
     {
         tutorialComplete = true;
-        Debug.Log("Tutorial complete");
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
         if (goToNextAfterComplete)
         {
-            Debug.Log("Going to next tutorial");
             TutorialManager.Instance.NextTutorial();
         }
         else

@@ -1,4 +1,6 @@
-public interface IInteractable{
+public interface IInteractable
+{
+    string InteractMessage();
     void Interact();
     bool CanInteract();
 }

@@ -8,6 +8,8 @@ public class HealthManager : MonoBehaviour
     private int health;
     private int maxHealth;
 
+    public int numDeaths = 0;
+
     public event Action<int, int> OnHealthChanged; // current, max
     public event Action<int> OnMaxHealthChanged;
     public event Action OnPlayerDeath;
@@ -16,6 +18,7 @@ public class HealthManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            this.numDeaths = 0;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -131,6 +134,7 @@ public class HealthManager : MonoBehaviour
         // Fire death event if player was alive and is now dead
         if (wasAlive && health <= 0)
         {
+            numDeaths++;
             OnPlayerDeath?.Invoke();
         }
     }
@@ -154,6 +158,7 @@ public class HealthManager : MonoBehaviour
 
         if (wasAlive)
         {
+            numDeaths++;
             OnPlayerDeath?.Invoke();
         }
     }

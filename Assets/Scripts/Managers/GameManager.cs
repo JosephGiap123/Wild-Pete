@@ -108,7 +108,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Menu")
+        // Skip gameplay setup for menu-type scenes
+        if (scene.name.Contains("Menu"))
         {
             return;
         }
