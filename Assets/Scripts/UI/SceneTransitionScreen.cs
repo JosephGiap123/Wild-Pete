@@ -13,7 +13,10 @@ public class SceneTransitionScreen : MonoBehaviour
         thisScreenAnimator = thisScreen.GetComponent<Animator>();
         thisScreen.SetActive(false);
         sceneSwapEventSO.onEventRaised.AddListener(OnSceneSwap);
-        Debug.Log(GameManager.Instance.selectedCharacter);
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
         if (GameManager.Instance.selectedCharacter == GameManager.Characters.Pete)
         {
             imageAnimator.Play("pete");
@@ -30,10 +33,11 @@ public class SceneTransitionScreen : MonoBehaviour
 
     void OnSceneSwap(string sceneName)
     {
+        Debug.Log("OnSceneSwap: " + sceneName);
         thisScreen.SetActive(true);
+        this.transform.parent.gameObject.SetActive(true);
         thisScreenAnimator.Play("fadein");
         sceneSwapEventSO.onEventRaised.AddListener(OnSceneSwap);
-        Debug.Log(GameManager.Instance.selectedCharacter);
         if (GameManager.Instance.selectedCharacter == GameManager.Characters.Pete)
         {
             imageAnimator.Play("pete");

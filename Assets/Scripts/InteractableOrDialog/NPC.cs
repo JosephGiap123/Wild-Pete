@@ -19,6 +19,14 @@ public class NPC : MonoBehaviour, IInteractable
     {
         return " to speak with " + npcName;
     }
+
+    void Awake()
+    {
+        dialoguePanel = DialogManager.Instance.dialoguePanel;
+        dialogueText = DialogManager.Instance.dialogueText;
+        nameText = DialogManager.Instance.nameText;
+        portraitImage = DialogManager.Instance.portraitImage;
+    }
     public bool CanInteract()
     {
         return !isDialogueActive;

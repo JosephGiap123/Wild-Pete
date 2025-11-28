@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private string[] sceneNames;
     [SerializeField] private Vector2[] spawnPositions;
+    [SerializeField] private IntEventSO selectedCharacterEventSO;
 
     public enum Characters
     {
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        selectedCharacterEventSO.onEventRaised.AddListener(OnSelectedCharacterChanged);
         // singleton of death and doom
         if (Instance != null && Instance != this)
         {
@@ -37,6 +40,11 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject); //keep across scene loads
+    }
+
+    private void OnSelectedCharacterChanged(int characterIndex)
+    {
+        selectedCharacter = (characterIndex == 1) ? Characters.Pete : Characters.Alice;
     }
 
     private void OnEnable()
@@ -68,8 +76,6 @@ public class GameManager : MonoBehaviour
     {
         // Find the Cinemachine camera in the current scene first
         FindCinemachineCamera();
-
-        if (UsePlayerPrefs) selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0) == 1 ? Characters.Pete : Characters.Alice;
         switch (selectedCharacter)
         {
             case Characters.Pete:
@@ -108,7 +114,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Menu")
+        // Skip gameplay setup for menu-type scenes
+        if (scene.name.Contains("Menu"))
         {
             return;
         }

@@ -21,7 +21,8 @@ public class CameraManager : MonoBehaviour
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Menu")
+        // Skip camera confines setup for menu-type scenes
+        if (scene.name.Contains("Menu"))
         {
             return;
         }

@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class HealthBarScript : MonoBehaviour
 {
     [SerializeField] private Slider curHealthSlider;
     [SerializeField] private Slider chipAwaySlider;
+    [SerializeField] private TMP_Text healthText;
+
+    private int currentHealth = 0;
+    private int maxHealth = 0;
     public Gradient gradient;
     public Image fill;
 
@@ -15,25 +21,52 @@ public class HealthBarScript : MonoBehaviour
 
     private Coroutine chipRoutine;
 
+    void Awake()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("Menu"))
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+        }
+    }
     public void SetMaxHealth(int health)
     {
         curHealthSlider.maxValue = health;
         chipAwaySlider.maxValue = health;
         curHealthSlider.value = health;
         chipAwaySlider.value = health;
+        maxHealth = health;
         fill.color = gradient.Evaluate(1f);
+        UpdateHealthText(currentHealth, maxHealth);
     }
 
     public void SetHealth(int health)
     {
         curHealthSlider.value = health;
         chipAwaySlider.value = health;
+        currentHealth = health;
     }
 
     public void UpdateHealthBar(int current, int max)
     {
         curHealthSlider.maxValue = max;
         chipAwaySlider.maxValue = max;
+        currentHealth = current;
+        maxHealth = max;
 
         // Stop previous animation if it's still running
         if (chipRoutine != null)
@@ -56,6 +89,7 @@ public class HealthBarScript : MonoBehaviour
             chipAwaySlider.value = current;
             fill.color = gradient.Evaluate(curHealthSlider.normalizedValue);
         }
+        UpdateHealthText(currentHealth, maxHealth);
     }
 
     public void UpdateMaxHealth(int max)
@@ -63,6 +97,12 @@ public class HealthBarScript : MonoBehaviour
         curHealthSlider.maxValue = max;
         chipAwaySlider.maxValue = max;
         fill.color = gradient.Evaluate(curHealthSlider.normalizedValue);
+        maxHealth = max;
+    }
+
+    public void UpdateHealthText(int current, int max)
+    {
+        healthText.text = current.ToString() + "/" + max.ToString();
     }
 
     private IEnumerator AnimateChipAway(int targetValue)

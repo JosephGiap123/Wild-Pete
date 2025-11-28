@@ -260,6 +260,16 @@ public class AliceMovement2D : BasePlayerMovement2D
         yield return base.ThrowAttack();
     }
 
+    protected override void CancelAllActions()
+    {
+        // Cancel reload audio if reloading was interrupted
+        if (isReloading)
+        {
+            audioMgr?.CancelReload();
+        }
+        base.CancelAllActions();
+    }
+
     private void OnDisable() { audioMgr?.StopRunLoop(); }
     private void OnDestroy() { audioMgr?.StopRunLoop(); }
 }
