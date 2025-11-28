@@ -1238,6 +1238,10 @@ PrefabInstance:
       propertyPath: cinemachineCam
       value: 
       objectReference: {fileID: 596568946}
+    - target: {fileID: 6655991858760121315, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: selectedCharacterEventSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
     - target: {fileID: 7829673183724783459, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: m_Name
       value: GameManager
