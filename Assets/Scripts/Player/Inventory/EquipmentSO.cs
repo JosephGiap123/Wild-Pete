@@ -22,6 +22,7 @@ public class EquipmentSO : ItemSO
 	{
 		MaxHealth,
 		MeleeAttack,
+		WeaponlessMeleeAttack,
 		RangedAttack,
 		UniversalAttack,
 		MovementSpeed,

@@ -87,7 +87,7 @@ public class GameRestartManager : MonoBehaviour
         playerMovementScript = player.GetComponent<BasePlayerMovement2D>();
         if (playerMovementScript != null)
         {
-            playerMovementScript.PlayerDied += PlayerDeath;
+        playerMovementScript.PlayerDied += PlayerDeath;
             Debug.Log($"GameRestartManager: Subscribed to new player's PlayerDied event");
         }
         else
@@ -146,7 +146,7 @@ public class GameRestartManager : MonoBehaviour
                 {
                     currentPlayer.OnRespawn(respawnLocation);
                     // Also invoke the event so UI elements (like death screen) can respond
-                    CharacterRespawned?.Invoke(respawnLocation);
+        CharacterRespawned?.Invoke(respawnLocation);
                 }
                 else
                 {

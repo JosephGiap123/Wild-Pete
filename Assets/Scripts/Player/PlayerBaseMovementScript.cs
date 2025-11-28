@@ -93,7 +93,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     // [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected GenericAttackHitbox hitboxManager;
+    [SerializeField] protected PlayerAttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
     [SerializeField] protected GameObject damageText;
@@ -187,9 +187,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
                 slidePower,
                 10f, // bulletSpeed (default, adjust if needed)
                 0, // bulletCount (default)
-                0f, // meleeAttack (default)
-                0f, // rangedAttack (default)
-                0f  // universalAttack (default)
+                0, // weaponless melee attack (default)
+                0, // melee attack (default)
+                0, // rangedAttack (default)
+                0  // universalAttack (default)
             );
 
             // Initialize jumps remaining from StatsManager
@@ -242,11 +243,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
             case EquipmentSO.Stats.JumpCount:
                 // Update max jump count from StatsManager
-                // If we're grounded, reset jumps to the new max
-                if (isGrounded)
-                {
-                    jumpsRemaining = StatsManager.instance.jumpCount;
-                }
+                // Always update jumpsRemaining to the new max when jump count changes
+                // This ensures boots work whether equipped on ground or in air
+                jumpsRemaining = StatsManager.instance.jumpCount;
                 break;
 
             case EquipmentSO.Stats.BulletSpeed:

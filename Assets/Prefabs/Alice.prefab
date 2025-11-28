@@ -10479,9 +10479,9 @@ GameObject:
   - component: {fileID: 2802167836047707247}
   - component: {fileID: 8862283075697551678}
   - component: {fileID: 8607775664743977173}
-  - component: {fileID: 7824528446332788342}
   - component: {fileID: 1842705194756823511}
   - component: {fileID: 8843492388788499034}
+  - component: {fileID: 4151880046429748963}
   m_Layer: 0
   m_Name: Alice
   m_TagString: Untagged
@@ -10570,7 +10570,7 @@ MonoBehaviour:
     m_Bits: 1048576
   bulletOrigin: {fileID: 5187375710118761005}
   bullet: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}
-  hitboxManager: {fileID: 7824528446332788342}
+  hitboxManager: {fileID: 4151880046429748963}
   animatorScript: {fileID: 8862283075697551678}
   interactor: {fileID: 6863490962301667883}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
@@ -10628,21 +10628,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7824528446332788342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3172980308799934302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCol: {fileID: 6182104108368122417}
-  circleCol: {fileID: 5102368542197912802}
-  parentScript: {fileID: 2802167836047707247}
 --- !u!114 &1842705194756823511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10673,6 +10658,21 @@ MonoBehaviour:
   dashGhostPrefab: {fileID: 4590786847380258048, guid: 144b9e367fd5f40d59ae84787a1ba4ca, type: 3}
   spawnAt: {fileID: 6511603142273697009}
   dashGhostDelay: 0.1
+--- !u!114 &4151880046429748963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172980308799934302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922f4bd8eecbb417fa8fd3e6e380f9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCol: {fileID: 6182104108368122417}
+  circleCol: {fileID: 5102368542197912802}
+  parentScript: {fileID: 2802167836047707247}
 --- !u!1 &3244053087830911747
 GameObject:
   m_ObjectHideFlags: 0
@@ -10929,7 +10929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 2802167836047707247}
-  hitboxScript: {fileID: 7824528446332788342}
+  hitboxScript: {fileID: 4151880046429748963}
   audioMgr: {fileID: 2581573120976467173}
 --- !u!95 &1601049201458241287
 Animator:

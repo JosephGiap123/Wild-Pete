@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ded2df74c1645f38e4c562127a36a2, type: 3}
+  m_Name: Spider Fang Knife
+  m_EditorClassIdentifier: 
+  itemName: Spider Fang Knife
+  icon: {fileID: -7426262274631301078, guid: 0338b478bd4a9423db566d8dc214b7f6, type: 3}
+  dropIcon: {fileID: -2547317243878739160, guid: c1c14447676e345cb9b8007e4ebd3542, type: 3}
+  maxStackSize: 1
+  quantity: 1
+  itemDesc: A knife taken from the mouth of one of the giant spiders in the Mines.
+    It is awfully sharp and possibly toxic.
+  itemStats: 01000000
+  itemStatAmounts:
+  - 1
+  equipmentType: 2
+  equipableBy: 1
