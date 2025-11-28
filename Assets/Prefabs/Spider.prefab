@@ -469,6 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spiderAI: {fileID: 7861613852618866291}
   hitboxScript: {fileID: 2025989532765267944}
+  audioMgr: {fileID: 7558935010606720940}
 --- !u!1 &4875164777802096295
 GameObject:
   m_ObjectHideFlags: 0
