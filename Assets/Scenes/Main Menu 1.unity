@@ -220,17 +220,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7498133}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.9996336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1450439427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 1}
-  m_SizeDelta: {x: 1050, y: 750}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -499.00027, y: 200.99973}
+  m_SizeDelta: {x: 1000, y: 1100}
+  m_Pivot: {x: 0, y: 0.7}
 --- !u!114 &7498135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,13 +644,12 @@ MonoBehaviour:
   cutsceneImage: {fileID: 7498135}
   typewriter: {fileID: 1710826873}
   cutsceneCanvas: {fileID: 1450439423}
-  charSelectCanvas: {fileID: 680862315}
   slides:
   - image: {fileID: -6525251533827417197, guid: 82b5aae2f19934179bf8c080568c80a8, type: 3}
     text: Where is my family??
-  - image: {fileID: 8226425564562956206, guid: 1bed8e08f7996427c8b59214f6f90790, type: 3}
-    text: Where am I??
   - image: {fileID: 1241413740848690482, guid: b1915609ae71648e58eb190c0affd952, type: 3}
+    text: Where am I??
+  - image: {fileID: 8226425564562956206, guid: 1bed8e08f7996427c8b59214f6f90790, type: 3}
     text: YOUSIF SUCKS
 --- !u!4 &291813413
 Transform:
@@ -661,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 291813411}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 390.75, y: 260.70312, z: 0}
+  m_LocalPosition: {x: 400, y: 260.70312, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1998,6 +1997,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSwapEventSO: {fileID: 11400000, guid: 885e8c9f03981448f8f3e9d14a01ecf0, type: 2}
   selectedCharacterEventSO: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
+  cutsceneManager: {fileID: 291813412}
+  mainMenuCanvas: {fileID: 187368342}
+  charSelectCanvas: {fileID: 680862315}
 --- !u!1 &1036362730
 GameObject:
   m_ObjectHideFlags: 0
@@ -8029,8 +8031,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: -450}
+  m_AnchoredPosition: {x: 1, y: 1}
+  m_SizeDelta: {x: 1050, y: -500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710826872
 MonoBehaviour:
@@ -8068,8 +8070,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8c2e9b3c7b3a64e67a695f9d95f0da0d, type: 2}
-  m_sharedMaterial: {fileID: -6382941192836138784, guid: 8c2e9b3c7b3a64e67a695f9d95f0da0d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}
+  m_sharedMaterial: {fileID: 6587118482528661454, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8093,8 +8095,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8134,7 +8136,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1710826874
