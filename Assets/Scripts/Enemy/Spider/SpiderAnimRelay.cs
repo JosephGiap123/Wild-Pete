@@ -5,6 +5,8 @@ public class SpiderAnimRelay : MonoBehaviour
     [SerializeField] SpiderAI spiderAI;
     [SerializeField] GenericAttackHitbox hitboxScript;
 
+    [SerializeField] SpiderAudioManager audioMgr;
+
     public void CallEndAttack()
     {
         spiderAI.EndAttack();
@@ -36,5 +38,29 @@ public class SpiderAnimRelay : MonoBehaviour
     public void CallEndDash()
     {
         spiderAI.StopMoving();
+    }
+    public void CallLungeSound()
+    {
+        audioMgr.PlayLunge();
+    }
+    public void CallSwipeSound()
+    {
+        audioMgr.PlaySwipe();
+    }
+    public void CallWebShotSound()
+    {
+        audioMgr.PlayWebShot();
+    }
+    public void CallHurtSound()
+    {
+        audioMgr.PlayHurt();
+    }
+    public void CallDeathSound()
+    {
+        audioMgr.PlayDeath();
+    }
+    public void CallWalkSound()
+    {
+        audioMgr.StartCrawlLoop();
     }
 }

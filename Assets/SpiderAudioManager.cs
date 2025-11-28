@@ -2,15 +2,18 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
 
-public class SkeletonAudioManager : MonoBehaviour
+public class SpiderAudioManager : MonoBehaviour
 {
     [Header("Audio Source (auto-created if empty)")]
     [SerializeField] private AudioSource sfxSource;
 
     [Header("Clips")]
-    [SerializeField] private AudioClip attackClip;
+    [SerializeField] private AudioClip lungeClip;
+    [SerializeField] private AudioClip swipeClip;
+    [SerializeField] private AudioClip webShotClip;
     [SerializeField] private AudioClip hurtClip;
-    [SerializeField] private AudioClip runLoopClip;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private AudioClip crawlLoopClip;
 
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -22,7 +25,7 @@ public class SkeletonAudioManager : MonoBehaviour
 
     private AudioSource loopSource;
     [Header("Distance Fade")]
-    [Tooltip("Enable distance-based fading for the run loop")]
+    [Tooltip("Enable distance-based fading for the crawl/run loop")]
     public bool enableDistanceFade = true;
     [Tooltip("Distance (units) within which the loop is at full run volume")]
     public float fadeFullDistance = 6f;
@@ -51,7 +54,7 @@ public class SkeletonAudioManager : MonoBehaviour
         loopSource.playOnAwake = false;
         loopSource.outputAudioMixerGroup = sfxMixerGroup;
         loopSource.volume = sfxVolume;
-        // try to find player
+        // find player if possible
         var playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj) player = playerObj.transform;
     }
@@ -91,9 +94,19 @@ public class SkeletonAudioManager : MonoBehaviour
     }
 
     // Public API
-    public void PlayAttack()
+    public void PlayLunge()
     {
-        PlayOneShot(attackClip);
+        PlayOneShot(lungeClip);
+    }
+
+    public void PlaySwipe()
+    {
+        PlayOneShot(swipeClip);
+    }
+
+    public void PlayWebShot()
+    {
+        PlayOneShot(webShotClip);
     }
 
     public void PlayHurt()
@@ -101,17 +114,22 @@ public class SkeletonAudioManager : MonoBehaviour
         PlayOneShot(hurtClip);
     }
 
-    public void StartRunLoop()
+    public void PlayDeath()
     {
-        if (runLoopClip == null || loopSource == null) return;
+        PlayOneShot(deathClip);
+    }
+
+    public void StartCrawlLoop()
+    {
+        if (crawlLoopClip == null || loopSource == null) return;
         if (loopSource.isPlaying) return;
-        loopSource.clip = runLoopClip;
+        loopSource.clip = crawlLoopClip;
         loopSource.pitch = 1f + Random.Range(-pitchJitter, pitchJitter);
         loopSource.volume = sfxVolume;
         loopSource.Play();
     }
 
-    public void StopRunLoop()
+    public void StopCrawlLoop()
     {
         if (loopSource == null) return;
         if (loopSource.isPlaying) loopSource.Stop();
@@ -123,7 +141,7 @@ public class SkeletonAudioManager : MonoBehaviour
         if (loopSource != null && loopSource.isPlaying) loopSource.volume = sfxVolume;
     }
 
-    // Helper
+    // Helpers
     private void PlayOneShot(AudioClip clip)
     {
         if (clip == null || sfxSource == null) return;

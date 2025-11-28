@@ -2,14 +2,24 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
 
-public class SkeletonAudioManager : MonoBehaviour
+public class HBAudioManager : MonoBehaviour
 {
-    [Header("Audio Source (auto-created if empty)")]
+    [Header("Audio Sources")]
     [SerializeField] private AudioSource sfxSource;
+    private AudioSource loopSource;
 
-    [Header("Clips")]
-    [SerializeField] private AudioClip attackClip;
+    [Header("Attack Sounds")]
+    [SerializeField] private AudioClip meleeClip;
+    [SerializeField] private AudioClip boosterDashClip;
+    [SerializeField] private AudioClip rocketShotClip;
+    [SerializeField] private AudioClip rocketExplosiveClip;
+    [SerializeField] private AudioClip dynamiteClip;
+
+    [Header("State Sounds")]
     [SerializeField] private AudioClip hurtClip;
+    [SerializeField] private AudioClip staggerIndicatorClip;
+    [SerializeField] private AudioClip rocketJumpClip;
+    [SerializeField] private AudioClip deathClip;
     [SerializeField] private AudioClip runLoopClip;
 
     [Header("Mixer (optional)")]
@@ -18,19 +28,7 @@ public class SkeletonAudioManager : MonoBehaviour
     [Header("Tuning")]
     [Range(0f, 1f)] public float sfxVolume = 1f;
     [Range(0f, 0.3f)] public float pitchJitter = 0.04f;
-    public float max3dDistance = 20f;
-
-    private AudioSource loopSource;
-    [Header("Distance Fade")]
-    [Tooltip("Enable distance-based fading for the run loop")]
-    public bool enableDistanceFade = true;
-    [Tooltip("Distance (units) within which the loop is at full run volume")]
-    public float fadeFullDistance = 6f;
-    [Tooltip("Distance (units) beyond which the loop is silent")]
-    public float fadeZeroDistance = 20f;
-    [Range(0f,1f)] public float runVolumeMultiplier = 0.6f; // make loop quieter by default
-
-    private Transform player;
+    public float max3dDistance = 30f;
 
     private void Awake()
     {
@@ -51,56 +49,56 @@ public class SkeletonAudioManager : MonoBehaviour
         loopSource.playOnAwake = false;
         loopSource.outputAudioMixerGroup = sfxMixerGroup;
         loopSource.volume = sfxVolume;
-        // try to find player
-        var playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj) player = playerObj.transform;
     }
 
-    private void OnEnable()
+    // Public API - Attack Sounds
+    public void PlayMelee()
     {
-        GameManager.OnPlayerSet += HandlePlayerSet;
+        PlayOneShot(meleeClip);
     }
 
-    private void OnDisable()
+    public void PlayBoosterDash()
     {
-        GameManager.OnPlayerSet -= HandlePlayerSet;
+        PlayOneShot(boosterDashClip);
     }
 
-    private void HandlePlayerSet(GameObject playerObj)
+    public void PlayRocketShot()
     {
-        if (playerObj != null) player = playerObj.transform;
+        PlayOneShot(rocketShotClip);
     }
 
-    private void Update()
+    public void PlayRocketExplosive()
     {
-        if (loopSource != null && loopSource.isPlaying && enableDistanceFade && player != null)
-        {
-            float dist = Vector2.Distance(player.position, transform.position);
-            float fade = ComputeFadeMultiplier(dist, fadeFullDistance, fadeZeroDistance);
-            loopSource.volume = sfxVolume * runVolumeMultiplier * fade;
-        }
+        PlayOneShot(rocketExplosiveClip);
     }
 
-    private float ComputeFadeMultiplier(float distance, float fullDist, float zeroDist)
+    public void PlayDynamite()
     {
-        if (!enableDistanceFade) return 1f;
-        if (distance <= fullDist) return 1f;
-        if (distance >= zeroDist) return 0f;
-        if (Mathf.Approximately(zeroDist, fullDist)) return 0f;
-        return 1f - ((distance - fullDist) / (zeroDist - fullDist));
+        PlayOneShot(dynamiteClip);
     }
 
-    // Public API
-    public void PlayAttack()
-    {
-        PlayOneShot(attackClip);
-    }
-
+    // State Sounds
     public void PlayHurt()
     {
         PlayOneShot(hurtClip);
     }
 
+    public void PlayStaggerIndicator()
+    {
+        PlayOneShot(staggerIndicatorClip);
+    }
+
+    public void PlayRocketJump()
+    {
+        PlayOneShot(rocketJumpClip);
+    }
+
+    public void PlayDeath()
+    {
+        PlayOneShot(deathClip);
+    }
+
+    // Run Loop Control
     public void StartRunLoop()
     {
         if (runLoopClip == null || loopSource == null) return;
