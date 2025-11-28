@@ -66,7 +66,7 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Wild-Pete.sln",
+    "dotnet.defaultSolution": "WildPete.sln",
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,

@@ -1251,6 +1251,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1811137391}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: equipmentSOs.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: 'itemSlots.Array.data[0]'
       value: 
       objectReference: {fileID: 1811137408}
@@ -1314,6 +1318,10 @@ PrefabInstance:
       propertyPath: 'itemSlots.Array.data[15]'
       value: 
       objectReference: {fileID: 1811137393}
+    - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: 'equipmentSOs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 43443451c60f74943ba7b59c24c11b9d, type: 2}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: 'equipmentSlots.Array.data[0]'
       value: 
