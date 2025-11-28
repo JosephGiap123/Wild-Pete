@@ -63,7 +63,8 @@ MonoBehaviour:
   spawnPositions:
   - {x: -25, y: 0}
   - {x: -14, y: -2}
-  UsePlayerPrefs: 0
+  selectedCharacterEventSO: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
+  UsePlayerPrefs: 1
   selectedCharacter: 0
 --- !u!114 &5466335579314495554
 MonoBehaviour:
@@ -78,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
+  numDeaths: 0
 --- !u!114 &8556886436127199544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +126,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 557f241640b43454cbd6614f66ac4538, type: 2}
   - {fileID: 11400000, guid: fdbef89e28d784620aab0a8c4ba2cc3f, type: 2}
   - {fileID: 11400000, guid: 322bdc18252c041039b905481616fe6c, type: 2}
+  - {fileID: 11400000, guid: d4a16a4713d9d4268b37cd2434c00be9, type: 2}
+  - {fileID: 11400000, guid: 99962ec69568849f2b43990caf95a0db, type: 2}
   equipmentSlots:
   - {fileID: 0}
   - {fileID: 0}
@@ -132,8 +136,8 @@ MonoBehaviour:
   itemDescriptionIcon: {fileID: 0}
   ItemDescriptionNameText: {fileID: 0}
   ItemDescriptionText: {fileID: 0}
-  equipEventSO: {fileID: 0}
-  unequipEventSO: {fileID: 0}
+  equipEventSO: {fileID: 11400000, guid: 9d1eccfc6b76e436988c395fb0cdd421, type: 2}
+  unequipEventSO: {fileID: 11400000, guid: 93eb90ff3ce324aaab08db632f44f011, type: 2}
 --- !u!82 &3554655927625909859
 AudioSource:
   m_ObjectHideFlags: 0
@@ -330,6 +334,7 @@ MonoBehaviour:
   baseBulletSpeed: 10
   baseBulletCount: 0
   baseMeleeAttack: 0
+  baseWeaponlessMeleeAttack: 0
   baseRangedAttack: 0
   baseUniversalAttack: 0
   baseEnergy: 10

@@ -15785,10 +15785,10 @@ GameObject:
   - component: {fileID: 5995900776780897598}
   - component: {fileID: 675986149054274358}
   - component: {fileID: 8139471980475301415}
-  - component: {fileID: 8742557805554968667}
   - component: {fileID: 2942441695391280840}
   - component: {fileID: 7504804122771053848}
   - component: {fileID: 2693860177620366825}
+  - component: {fileID: 1527333825809728639}
   m_Layer: 6
   m_Name: WildPete
   m_TagString: Untagged
@@ -15877,7 +15877,7 @@ MonoBehaviour:
     m_Bits: 1048576
   bulletOrigin: {fileID: 6009581206254739397}
   bullet: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}
-  hitboxManager: {fileID: 8742557805554968667}
+  hitboxManager: {fileID: 1527333825809728639}
   animatorScript: {fileID: 8139471980475301415}
   interactor: {fileID: 936485352055800519}
   damageText: {fileID: 1286448661199670106, guid: 112903423ffd24700affc731233c2850, type: 3}
@@ -15909,21 +15909,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2275127635874104794}
   sprite: {fileID: 5790001502036111594}
---- !u!114 &8742557805554968667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8045371504318166606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9f3d29bc6d0444abffec9204f5d37f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCol: {fileID: 2803381632177467573}
-  circleCol: {fileID: 781829894381207796}
-  parentScript: {fileID: 675986149054274358}
 --- !u!50 &2942441695391280840
 Rigidbody2D:
   serializedVersion: 5
@@ -15981,6 +15966,21 @@ MonoBehaviour:
   dashGhostPrefab: {fileID: 4590786847380258048, guid: 144b9e367fd5f40d59ae84787a1ba4ca, type: 3}
   spawnAt: {fileID: 7437727049883004661}
   dashGhostDelay: 0.1
+--- !u!114 &1527333825809728639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922f4bd8eecbb417fa8fd3e6e380f9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCol: {fileID: 2803381632177467573}
+  circleCol: {fileID: 781829894381207796}
+  parentScript: {fileID: 675986149054274358}
 --- !u!1 &8113746080852306424
 GameObject:
   m_ObjectHideFlags: 0
@@ -16105,5 +16105,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 675986149054274358}
-  hitboxScript: {fileID: 8742557805554968667}
+  hitboxScript: {fileID: 1527333825809728639}
   audioMgr: {fileID: 6832124629652602160}
