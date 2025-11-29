@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CutSceneManager : MonoBehaviour
 {
+  [SerializeField] private SwapSceneEventSO sceneSwapEventSO;
   [System.Serializable]
   public class Slide
   {
@@ -28,7 +29,7 @@ public class CutSceneManager : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.Space))
     {
       StopAllCoroutines();
-      EndCutscene();
+      StartCoroutine(EndCutscene());
     }
   }
 
@@ -78,7 +79,7 @@ public class CutSceneManager : MonoBehaviour
 
     if (index >= slides.Length)
     {
-      EndCutscene();
+      StartCoroutine(EndCutscene());
     }
     else
     {
@@ -86,12 +87,13 @@ public class CutSceneManager : MonoBehaviour
     }
   }
 
-  void EndCutscene()
+  protected IEnumerator EndCutscene()
   {
     cutsceneCanvas.SetActive(false);
 
+    sceneSwapEventSO.RaiseEvent("Prison");
+    yield return new WaitForSecondsRealtime(1f);
     SceneManager.LoadScene("Prison");
-
   }
 
 }
