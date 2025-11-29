@@ -19,7 +19,7 @@ MonoBehaviour:
   quantity: 1
   itemDesc: A surprisingly light set of boots. They seem to allow the player to perform
     double jumps.
-  itemStats: 0400000005000000
+  itemStats: 0500000006000000
   itemStatAmounts:
   - 0.1
   - 1

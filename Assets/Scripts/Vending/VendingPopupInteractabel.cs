@@ -72,6 +72,11 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     // --- IInteractable ---
     public bool CanInteract() => true;
 
+    public string InteractMessage()
+    {
+        return " to use the vending machine";
+    }
+
     // Called by your world interaction (e.g., player presses E).
     // Shows the mini-game canvas and the vending popup screen.
     public void Interact()
@@ -117,10 +122,10 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
 
         // Tell keypad where to return when Hide() is called
         keypadInstance.SetVendingPopup(vendingPopup);
-        
+
         // Tell keypad about this controller so it can change the sprite when code is correct
         keypadInstance.SetVendingPopupController(this);
-        
+
         // Link wire game reference to keypad so it knows if wires are connected
         // Wire game is inside the screw panel, so find it there
         if (screwPanelInstance != null)
@@ -150,7 +155,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         // Lock a fixed on-screen size (tweak as you like)
         float w = 260f, h = 260f;
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, w);
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,   h);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, h);
 
         keypadInstance.Show();
         Debug.Log("[VendingPopupInteractable] Keypad shown");
@@ -188,7 +193,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         // Bring to front and ensure exact dimensions match prefab
         var rt = screwPanelInstance.GetComponent<RectTransform>();
         screwPanelInstance.transform.SetAsLastSibling();
-        
+
         // Match closed panel dimensions exactly:
         // Anchor: center-center (0.5, 0.5)
         // Position: (0, 3.2)

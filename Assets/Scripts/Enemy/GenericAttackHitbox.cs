@@ -5,27 +5,27 @@ using UnityEngine;
 public class GenericAttackHitbox : MonoBehaviour
 {
     [Header("Hitbox Configuration")]
-    private AttackHitboxInfo hitboxData;
-    [SerializeField] private BoxCollider2D boxCol;
-    [SerializeField] private CircleCollider2D circleCol;
+    protected AttackHitboxInfo hitboxData;
+    [SerializeField] protected BoxCollider2D boxCol;
+    [SerializeField] protected CircleCollider2D circleCol;
 
     [Header("Parent Reference (auto-detected if null)")]
-    [SerializeField] private MonoBehaviour parentScript; // Optional: manually assign parent if auto-detection fails
+    [SerializeField] protected MonoBehaviour parentScript; // Optional: manually assign parent if auto-detection fails
 
-    private bool active = false;
-    private readonly HashSet<GameObject> alreadyHit = new();
-    private Vector2 currentKnockbackForce;
-    private int currentDamage;
-    private bool disableAfterFirstHit;
-    private bool hasCheckedInitialOverlap = false; // Track if we've done the initial overlap check
+    protected bool active = false;
+    protected readonly HashSet<GameObject> alreadyHit = new();
+    protected Vector2 currentKnockbackForce;
+    protected int currentDamage;
+    protected bool disableAfterFirstHit;
+    protected bool hasCheckedInitialOverlap = false; // Track if we've done the initial overlap check
 
     // Cached parent for facing direction detection
-    private MonoBehaviour parentWithFacing;
-    private IHasFacing parentInterface;
-    private System.Reflection.FieldInfo facingField;
-    private System.Reflection.PropertyInfo facingProperty;
+    protected MonoBehaviour parentWithFacing;
+    protected IHasFacing parentInterface;
+    protected System.Reflection.FieldInfo facingField;
+    protected System.Reflection.PropertyInfo facingProperty;
 
-    private void Awake()
+    protected void Awake()
     {
         // Find parent component that implements IHasFacing
         if (parentScript == null)
@@ -80,7 +80,7 @@ public class GenericAttackHitbox : MonoBehaviour
         }
     }
 
-    public void CustomizeHitbox(AttackHitboxInfo hitboxInfo)
+    public virtual void CustomizeHitbox(AttackHitboxInfo hitboxInfo)
     {
         if (hitboxInfo == null)
         {

@@ -5,6 +5,8 @@ public class SkeletonMinerAnimRelay : MonoBehaviour
     [SerializeField] SkeletonMinerAI skeletonMinerAI;
     [SerializeField] GenericAttackHitbox hitboxScript;
 
+    [SerializeField] SkeletonAudioManager audioMgr;
+
     public void CallEndAttack()
     {
         skeletonMinerAI.EndAttack();
@@ -24,5 +26,21 @@ public class SkeletonMinerAnimRelay : MonoBehaviour
     public void CallZeroVelocity()
     {
         skeletonMinerAI.StopMoving();
+    }
+
+    public void CallAttackSound()
+    {
+        audioMgr.PlayAttack();
+    }
+
+    public void CallWalkSound()
+    {
+        audioMgr.StopRunLoop();
+        audioMgr.StartRunLoop();
+    }
+
+    public void CallHurt()
+    {
+        audioMgr.PlayHurt();
     }
 }

@@ -39,13 +39,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected float invincibilityTime = 0.1f; // I-frames after hurt
     [SerializeField] protected float hurtStateTimeout = 1.0f; // Max time to stay in hurt state (safety fallback)
     protected bool isHurt = false;
+    public bool IsHurt => isHurt;
     protected bool isInvincible = false;
     protected bool isDead = false;
+    public bool IsDead => isDead;
     [SerializeField] protected float deathAnimationDuration = 4f; // How long death animation plays
     [SerializeField] protected float deathYThreshold = -50f; // Y position below which player dies (falling into pit)
 
     [Header("Dash Settings")]
-    protected bool isDashing;
+    public bool isDashing { get; protected set; } = false;
     public float dashingPower = 12f;
     public float dashingTime = 0.3f;
     public float slidePower = 6f;
@@ -83,14 +85,15 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     [Header("References")]
     [SerializeField] protected Rigidbody2D rb;
+    public Rigidbody2D RB => rb;
     [SerializeField] protected BoxCollider2D boxCol;
     [SerializeField] protected BoxCollider2D groundCheck;
     [SerializeField] protected BoxCollider2D roofCheck; //check if u can uncrouch
     [SerializeField] protected LayerMask groundMask;
-    [SerializeField] protected TrailRenderer trail;
+    // [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
     [SerializeField] protected GameObject bullet;
-    [SerializeField] protected GenericAttackHitbox hitboxManager;
+    [SerializeField] protected PlayerAttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
     [SerializeField] protected GameObject damageText;
@@ -184,9 +187,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
                 slidePower,
                 10f, // bulletSpeed (default, adjust if needed)
                 0, // bulletCount (default)
-                0f, // meleeAttack (default)
-                0f, // rangedAttack (default)
-                0f  // universalAttack (default)
+                0, // weaponless melee attack (default)
+                0, // melee attack (default)
+                0, // rangedAttack (default)
+                0  // universalAttack (default)
             );
 
             // Initialize jumps remaining from StatsManager
@@ -239,11 +243,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
             case EquipmentSO.Stats.JumpCount:
                 // Update max jump count from StatsManager
-                // If we're grounded, reset jumps to the new max
-                if (isGrounded)
-                {
-                    jumpsRemaining = StatsManager.instance.jumpCount;
-                }
+                // Always update jumpsRemaining to the new max when jump count changes
+                // This ensures boots work whether equipped on ground or in air
+                jumpsRemaining = StatsManager.instance.jumpCount;
                 break;
 
             case EquipmentSO.Stats.BulletSpeed:
@@ -355,10 +357,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         if (PauseController.IsGamePaused)
         {
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                interactor.OnInteract();
-            }
             return;
         }
 
@@ -779,12 +777,12 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         float power = dashingPower;
         rb.linearVelocity = new(Mathf.Sign(transform.localScale.x) * power, 0f);
 
-        trail.emitting = true;
+        // trail.emitting = true;
 
         yield return new WaitForSeconds(dashingTime);
 
         isInvincible = false;
-        trail.emitting = false;
+        // trail.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
     }
@@ -992,8 +990,8 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             rb.gravityScale = 3f; //change, hardcoded so far.
         }
 
-        if (trail != null)
-            trail.emitting = false;
+        // if (trail != null)
+        //     trail.emitting = false;
 
         if (hitboxManager != null)
             hitboxManager.DisableHitbox();

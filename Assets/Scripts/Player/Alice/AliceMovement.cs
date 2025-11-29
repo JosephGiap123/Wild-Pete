@@ -52,18 +52,22 @@ public class AliceMovement2D : BasePlayerMovement2D
             return;
         }
 
-        bool shouldRunLoop =
-            !isDead &&
-            !isHurt &&
-            !isReloading &&
-            !isAttacking &&
-            !isDashing &&
-            isGrounded &&
-            !isCrouching &&
-            Mathf.Abs(rb.linearVelocity.x) > runMinSpeed;
+        // Only stop the loop when conditions aren't met (safety net)
+        // Animation events handle starting the loop for sync
+        bool shouldStopLoop =
+            isDead ||
+            isHurt ||
+            isReloading ||
+            isAttacking ||
+            isDashing ||
+            !isGrounded ||
+            isCrouching ||
+            Mathf.Abs(rb.linearVelocity.x) <= runMinSpeed;
 
-        if (shouldRunLoop) audioMgr.StartRunLoop();
-        else audioMgr.StopRunLoop();
+        if (shouldStopLoop)
+        {
+            audioMgr.StopRunLoop();
+        }
     }
 
     public override void FlipSprite()
@@ -108,11 +112,11 @@ public class AliceMovement2D : BasePlayerMovement2D
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
             if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
-            {
-                isDashing = true;
+        {
+            isDashing = true;
 
-                // stop run loop and play dash SFX immediately
-                audioMgr?.StopRunLoop();
+            // stop run loop and play dash SFX immediately
+            audioMgr?.StopRunLoop();
 
                 CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
@@ -227,7 +231,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         {
             CallInputInvoke("CrouchRangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-            animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
+                animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
         }
         else
         {
@@ -251,9 +255,19 @@ public class AliceMovement2D : BasePlayerMovement2D
     protected override IEnumerator ThrowAttack()
     {
         CallInputInvoke("Throw", PlayerControls.Throw, ControlManager.instance.inputMapping[PlayerControls.Throw]);
-        // audioMgr.PlayThrow();
-        // audioMgr?.StopRunLoop();
+        audioMgr.PlayThrow();
+        audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();
+    }
+
+    protected override void CancelAllActions()
+    {
+        // Cancel reload audio if reloading was interrupted
+        if (isReloading)
+        {
+            audioMgr?.CancelReload();
+        }
+        base.CancelAllActions();
     }
 
     private void OnDisable() { audioMgr?.StopRunLoop(); }

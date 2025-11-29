@@ -19,6 +19,8 @@ public class AliceAudioManager : MonoBehaviour
     [SerializeField] private AudioClip runLoop;      // continuous footsteps loop
     [SerializeField] private AudioClip punch;
     [SerializeField] private AudioClip slide;
+    [SerializeField] private AudioClip throwSound;
+
 
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
@@ -100,6 +102,9 @@ public class AliceAudioManager : MonoBehaviour
     public void PlayDeath() => PlayOneShot(death);
     public void PlaySlide() => PlayOneShot(slide);
 
+    public void PlayPunch() => PlayOneShot(punch);
+    public void PlayThrow() => PlayOneShot(throwSound);
+
     // Reload at exactly 2x speed (pitch up). Robust against OneShot pitch quirks.
     public void PlayReload()
     {
@@ -118,6 +123,23 @@ public class AliceAudioManager : MonoBehaviour
 
         float playTime = reload.length / 2f; // half the original duration at 2×
         pitchResetCo = StartCoroutine(ResetPitchAfter(playTime, oldPitch, oldClip));
+    }
+
+    // Cancel reload and immediately reset pitch (called when reload is interrupted)
+    public void CancelReload()
+    {
+        if (pitchResetCo != null)
+        {
+            StopCoroutine(pitchResetCo);
+            pitchResetCo = null;
+        }
+
+        if (sfxSource != null && sfxSource.clip == reload)
+        {
+            sfxSource.Stop();
+            sfxSource.pitch = 1f; // Reset to normal pitch
+            sfxSource.clip = null; // Clear the reload clip
+        }
     }
 
     // Continuous run loop control

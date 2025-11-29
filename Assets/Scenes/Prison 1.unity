@@ -29198,6 +29198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredItem: {fileID: 11400000, guid: 976dd2851b73b486089f0582221eb7c0, type: 2}
   sceneToSwapTo: TheCave
+  sceneSwapEventSO: {fileID: 0}
 --- !u!61 &221841675
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29761,6 +29762,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &373534091
@@ -86012,6 +86014,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &887129808 stripped
@@ -86819,6 +86822,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &1106079503
@@ -87377,6 +87381,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &1154661345
@@ -96042,7 +96047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   miniGameCanvas: {fileID: 1625394120}
   vendingPopup: {fileID: 550344441}
-  emptyVendingSprite: {fileID: 8276381719635364936, guid: ad0af215f9539b94d8d75b176b398d49, type: 3}
+  emptyVendingSprite: {fileID: 0}
   keypadPrefab: {fileID: 6720884900011375928, guid: 0711f6b0ad5e71b4e9943d2a88fea8f0, type: 3}
   screwPanelPrefab: {fileID: 6715613986383626791, guid: 00a1b86acf2c7734e9c67bd31e241a03, type: 3}
   screwdriverItemName: Screwdriver
@@ -96466,6 +96471,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1929822496}
   nameText: {fileID: 288037795}
   portraitImage: {fileID: 962551637}
+  npcName: 
 --- !u!212 &1521569995
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97433,6 +97439,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
   teleportCooldown: 0.5
 --- !u!1001 &1737229620
@@ -97686,6 +97693,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!114 &1871297145 stripped

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GunUIScript : MonoBehaviour
 {
@@ -8,12 +9,16 @@ public class GunUIScript : MonoBehaviour
     [SerializeField] private GameObject shotgunAmmoPrefab, revolverAmmoPrefab;
     [SerializeField] private Transform ammoContainer;
 
+    [SerializeField] private EquipmentChangeEventSO equipEventSO;
+    [SerializeField] private EquipmentChangeEventSO unequipEventSO;
+
     private BasePlayerMovement2D playerMovement;
     private int ammo, maxAmmo;
 
-    void OnEnable()
+    void Awake()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SubscribeToInventoryEvents();
 
         // If player is already set, update UI immediately
@@ -21,44 +26,43 @@ public class GunUIScript : MonoBehaviour
         {
             HandlePlayerSet(GameManager.Instance.player);
         }
+    }
 
-        // Also try to update UI after a short delay in case inventory wasn't ready
-        StartCoroutine(DelayedInitialUpdate());
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("Menu"))
+        {
+            this.gameObject.SetActive(false);
+            SubscribeToInventoryEvents();
+            return;
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+            SubscribeToInventoryEvents();
+            DrawGunUI();
+            DrawAmmoUI();
+        }
     }
 
     private void SubscribeToInventoryEvents()
     {
         if (PlayerInventory.instance != null)
         {
-            PlayerInventory.instance.OnEquipmentEquippedEvent += UpdateGunUI;
-            PlayerInventory.instance.OnEquipmentUnequippedEvent += UpdateGunUI;
+            equipEventSO.onEventRaised.AddListener(UpdateGunUI);
+            unequipEventSO.onEventRaised.AddListener(UpdateGunUI);
         }
     }
 
-    private System.Collections.IEnumerator DelayedInitialUpdate()
-    {
-        // Wait a frame to ensure everything is initialized
-        yield return null;
-
-        // Try subscribing again in case inventory wasn't ready
-        SubscribeToInventoryEvents();
-
-        // Force update UI to catch any equipment that was already equipped
-        DrawGunUI();
-        if (playerMovement != null)
-        {
-            DrawAmmoUI();
-        }
-    }
-
-    void OnDisable()
+    void OnDestroy()
     {
         GameManager.OnPlayerSet -= HandlePlayerSet;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
 
         if (PlayerInventory.instance != null)
         {
-            PlayerInventory.instance.OnEquipmentEquippedEvent -= UpdateGunUI;
-            PlayerInventory.instance.OnEquipmentUnequippedEvent -= UpdateGunUI;
+            equipEventSO.onEventRaised.RemoveListener(UpdateGunUI);
+            unequipEventSO.onEventRaised.RemoveListener(UpdateGunUI);
         }
 
         // Unsubscribe from ammo event when disabled
@@ -96,7 +100,6 @@ public class GunUIScript : MonoBehaviour
 
     private void DrawGunUI()
     {
-        // Check if slot 3 (Ranged) exists and has equipment
         bool hasRangedWeapon = PlayerInventory.instance != null
             && PlayerInventory.instance.equipmentSlots != null
             && PlayerInventory.instance.equipmentSlots.Length > 3
@@ -187,8 +190,7 @@ public class GunUIScript : MonoBehaviour
 
     private void UpdateGunUI(EquipmentSO equipment)
     {
-        // If equipment is null (unequipped), check if slot 3 is empty
-        // If equipment is not null, only update if this is a ranged weapon
+        Debug.Log("Ran UpdateGunUI");
         if (equipment != null)
         {
             if (equipment.equipmentType != EquipmentSO.EquipmentSlot.Ranged)
@@ -216,7 +218,7 @@ public class GunUIScript : MonoBehaviour
         StartCoroutine(DelayedUIUpdate());
     }
 
-    private System.Collections.IEnumerator DelayedUIUpdate()
+    private IEnumerator DelayedUIUpdate()
     {
         // Wait one frame to ensure inventory state is fully updated
         yield return null;

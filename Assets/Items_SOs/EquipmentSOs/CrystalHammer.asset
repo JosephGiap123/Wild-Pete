@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ded2df74c1645f38e4c562127a36a2, type: 3}
+  m_Name: CrystalHammer
+  m_EditorClassIdentifier: 
+  itemName: Crystal Hammer
+  icon: {fileID: 4088144695865659119, guid: 0338b478bd4a9423db566d8dc214b7f6, type: 3}
+  dropIcon: {fileID: 2474890215901491729, guid: c1c14447676e345cb9b8007e4ebd3542, type: 3}
+  maxStackSize: 1
+  quantity: 1
+  itemDesc: A crystal sledgehammer, taken from the Mines. The glimmering crystals
+    seem awfully durable.
+  itemStats: 01000000
+  itemStatAmounts:
+  - 2
+  equipmentType: 2
+  equipableBy: 0

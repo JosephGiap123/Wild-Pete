@@ -27,3 +27,4 @@ MonoBehaviour:
   damage: 4
   stunTime: 0
   constantKnockback: 0
+  attackType: 1
