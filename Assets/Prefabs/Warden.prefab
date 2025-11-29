@@ -54,12 +54,18 @@ MonoBehaviour:
   teleportSlam: {fileID: 8300000, guid: 045e6a09a3f47f743b696c60fc0ca0c9, type: 3}
   groundLasers: {fileID: 8300000, guid: a04035c198fdac945a32c80767804dbf, type: 3}
   laserBeam: {fileID: 8300000, guid: eb376db9b45dc694f99512a12a6bd3be, type: 3}
-  hurt: {fileID: 0}
+  hurt: {fileID: 8300000, guid: c27c710d3c5acf94186d2f65e3258a6c, type: 3}
   death: {fileID: 8300000, guid: 496ff05c11d51564daaffd84ad39602d, type: 3}
+  bossMusicClip: {fileID: 8300000, guid: e5d3a17cd01bf094f801e3b139a7d8d7, type: 3}
+  musicVolume: 0.7
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.05
   max3dDistance: 30
+  enableDistanceFade: 1
+  fadeFullDistance: 8
+  fadeZeroDistance: 40
+  runVolumeMultiplier: 0.5
 --- !u!1 &2607281548831199066
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,6 +840,7 @@ MonoBehaviour:
   attackHitboxScript: {fileID: 5913845750460254907}
   slamParticlePrefab: {fileID: 6792127021393328816, guid: 80c0ce31cefeb4d9e8bd4bb9295c3c64, type: 3}
   phaseChangeParticles: {fileID: 142381578256920333, guid: 4024ccd309fc3492d9c784f04e30e0f9, type: 3}
+  arenaBoundsCollider: {fileID: 0}
   hpBarInteractor: {fileID: 1190115757944002534}
   audioManager: {fileID: 1632042738502019196}
 --- !u!114 &4983157678869263840
@@ -872,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 0}
-  wardenAI: {fileID: 8446106769678175166}
+  bossAI: {fileID: 0}
 --- !u!114 &5913845750460254907
 MonoBehaviour:
   m_ObjectHideFlags: 0

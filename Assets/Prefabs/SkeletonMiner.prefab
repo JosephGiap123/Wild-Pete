@@ -47,7 +47,7 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   attackClip: {fileID: 8300000, guid: 65355b342ce28364fa206f7e51e6a72f, type: 3}
   hurtClip: {fileID: 8300000, guid: b9de23104d3de0a4fbcf75128e871401, type: 3}
-  runLoopClip: {fileID: 8300000, guid: 474bc4ab4be09d84bbf482226162b277, type: 3}
+  runLoopClip: {fileID: 8300000, guid: be9cdc13c60bfdd48acf4f30a47e1e7c, type: 3}
   sfxMixerGroup: {fileID: 0}
   sfxVolume: 1
   pitchJitter: 0.04

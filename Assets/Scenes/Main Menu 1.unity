@@ -194,6 +194,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6800899}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
 --- !u!1 &7498133
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +270,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7498133}
   m_CullTransparentMesh: 1
+=======
+>>>>>>> 1d5a01f55e81a109621cd8b9b283a3af28a508a6
 --- !u!1 &107547903
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,16 +644,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650f3b4e9ee0a4507a32e7137b0d0b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneImage: {fileID: 7498135}
+  cutsceneImage: {fileID: 516574105}
   typewriter: {fileID: 1710826873}
   cutsceneCanvas: {fileID: 1450439423}
   slides:
+<<<<<<< HEAD
   - image: {fileID: -6525251533827417197, guid: 82b5aae2f19934179bf8c080568c80a8, type: 3}
     text: Where is my family??
   - image: {fileID: 1241413740848690482, guid: b1915609ae71648e58eb190c0affd952, type: 3}
     text: Where am I??
   - image: {fileID: 8226425564562956206, guid: 1bed8e08f7996427c8b59214f6f90790, type: 3}
     text: YOUSIF SUCKS
+=======
+  - image: {fileID: 4588988972441794107, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: You walk back towards my house, after a long days work.
+  - image: {fileID: 1174537010, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: But upon arriving, the house is empty, worse yet, it seems like a fight
+      happened?
+  - image: {fileID: 1692466799, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: My family... where are they??
+  - image: {fileID: 462364342, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: You ready your weapons, it is hunting season, to find wherever your family
+      is.
+  - image: {fileID: -946197044, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: However, you suddenly lose consciousness.
+  - image: {fileID: 2006148363, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: Your body feels tense, and a sudden shock wakes you up.
+  - image: {fileID: -565456236, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+    text: You open your eyes to see steel bars and a cold, brick floor.
+>>>>>>> 1d5a01f55e81a109621cd8b9b283a3af28a508a6
 --- !u!4 &291813413
 Transform:
   m_ObjectHideFlags: 0
@@ -719,6 +741,83 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 187368345}
   charSelectCanvas: {fileID: 680862318}
+--- !u!1 &359557304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359557305}
+  - component: {fileID: 359557307}
+  - component: {fileID: 359557306}
+  m_Layer: 5
+  m_Name: Blackout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &359557305
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359557304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1710826871}
+  - {fileID: 516574104}
+  m_Father: {fileID: 1450439427}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &359557306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359557304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &359557307
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359557304}
+  m_CullTransparentMesh: 1
 --- !u!1 &368910739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1106,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495506304}
+  m_CullTransparentMesh: 1
+--- !u!1 &516574103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516574104}
+  - component: {fileID: 516574106}
+  - component: {fileID: 516574105}
+  m_Layer: 5
+  m_Name: CutsceneImg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &516574104
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516574103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 359557305}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -450}
+  m_SizeDelta: {x: 800, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &516574105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516574103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 4588988972441794107, guid: 65257aecf593249a6917f014d14793c2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &516574106
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516574103}
   m_CullTransparentMesh: 1
 --- !u!1 &567917615
 GameObject:
@@ -2930,7 +3104,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -389732845
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1450439427
 RectTransform:
@@ -2944,8 +3118,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7498134}
-  - {fileID: 1710826871}
+  - {fileID: 359557305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8022,12 +8195,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710826870}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1450439427}
+  m_Father: {fileID: 359557305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8068,7 +8241,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: blah blah blah save my soul please
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}
   m_sharedMaterial: {fileID: 6587118482528661454, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}

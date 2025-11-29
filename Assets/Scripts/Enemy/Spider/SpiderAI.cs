@@ -155,7 +155,7 @@ public class SpiderAI : PatrolEnemyAI
 
                 if (playerIsBehind)
                 {
-                    FlipSprite();
+            FlipSprite();
                 }
             }
 
