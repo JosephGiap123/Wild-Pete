@@ -6,13 +6,29 @@ using UnityEngine;
 
 public class Dialogue : ScriptableObject
 {
-    public string npcName;
-    public Sprite portrait;
-    public string[] dialogueLines;
-    public bool[] autoProgressLines;
-    public float typingSpeed = 0.05f;
-    //can include audio after.
-    public float autoProgressDelay = 1.5f;
 
+    [System.Serializable]
+    public class DialogueNode
+    {
+        public string text;
+        public string npcName;
+        public Sprite portrait;
+        public bool isEnd;
+        public Choice[] choices = new Choice[3];
+        [Range(-1, 99)]
+        public int nextNodeIndex = -1; // index into dialogueNodes, -1 means no next node
+    }
 
+    [System.Serializable]
+    public class Choice
+    {
+        public string choiceText;
+        [Range(-1, 99)]
+        public int nextNodeIndex = -1; // index into dialogueNodes, -1 means end or no next
+    }
+
+    public List<DialogueNode> dialogueNodes;
+
+    public Sprite defaultPortrait;
+    public string defaultName;
 }
