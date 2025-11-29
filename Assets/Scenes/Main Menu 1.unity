@@ -194,84 +194,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6800899}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
---- !u!1 &7498133
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7498134}
-  - component: {fileID: 7498136}
-  - component: {fileID: 7498135}
-  m_Layer: 5
-  m_Name: CutSceneImage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &7498134
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498133}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.9996336}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1450439427}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -499.00027, y: 200.99973}
-  m_SizeDelta: {x: 1000, y: 1100}
-  m_Pivot: {x: 0, y: 0.7}
---- !u!114 &7498135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -6525251533827417197, guid: 82b5aae2f19934179bf8c080568c80a8, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &7498136
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498133}
-  m_CullTransparentMesh: 1
-=======
->>>>>>> 1d5a01f55e81a109621cd8b9b283a3af28a508a6
 --- !u!1 &107547903
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,15 +569,8 @@ MonoBehaviour:
   cutsceneImage: {fileID: 516574105}
   typewriter: {fileID: 1710826873}
   cutsceneCanvas: {fileID: 1450439423}
+  charSelectCanvas: {fileID: 680862315}
   slides:
-<<<<<<< HEAD
-  - image: {fileID: -6525251533827417197, guid: 82b5aae2f19934179bf8c080568c80a8, type: 3}
-    text: Where is my family??
-  - image: {fileID: 1241413740848690482, guid: b1915609ae71648e58eb190c0affd952, type: 3}
-    text: Where am I??
-  - image: {fileID: 8226425564562956206, guid: 1bed8e08f7996427c8b59214f6f90790, type: 3}
-    text: YOUSIF SUCKS
-=======
   - image: {fileID: 4588988972441794107, guid: 65257aecf593249a6917f014d14793c2, type: 3}
     text: You walk back towards my house, after a long days work.
   - image: {fileID: 1174537010, guid: 65257aecf593249a6917f014d14793c2, type: 3}
@@ -672,7 +587,6 @@ MonoBehaviour:
     text: Your body feels tense, and a sudden shock wakes you up.
   - image: {fileID: -565456236, guid: 65257aecf593249a6917f014d14793c2, type: 3}
     text: You open your eyes to see steel bars and a cold, brick floor.
->>>>>>> 1d5a01f55e81a109621cd8b9b283a3af28a508a6
 --- !u!4 &291813413
 Transform:
   m_ObjectHideFlags: 0
@@ -682,7 +596,7 @@ Transform:
   m_GameObject: {fileID: 291813411}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 400, y: 260.70312, z: 0}
+  m_LocalPosition: {x: 390.75, y: 260.70312, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2171,9 +2085,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSwapEventSO: {fileID: 11400000, guid: 885e8c9f03981448f8f3e9d14a01ecf0, type: 2}
   selectedCharacterEventSO: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
-  cutsceneManager: {fileID: 291813412}
-  mainMenuCanvas: {fileID: 187368342}
-  charSelectCanvas: {fileID: 680862315}
 --- !u!1 &1036362730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3939,7 +3850,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 500
+    maxNumParticles: 1000000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -4005,9 +3916,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 10, y: 4, z: 0}
+    m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 0, y: 15, z: 0}
+    m_Scale: {x: 100, y: 100, z: 0}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -4205,7 +4116,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 30
       minScalar: 400
       maxCurve:
         serializedVersion: 2
@@ -4829,9 +4740,9 @@ ParticleSystem:
     enabled: 1
     x:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: -10
-      minScalar: -5
+      minMaxState: 0
+      scalar: -30
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4882,9 +4793,9 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: -2
-      minScalar: -1
+      minMaxState: 0
+      scalar: -7.6
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4935,7 +4846,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -8204,8 +8115,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 1}
-  m_SizeDelta: {x: 1050, y: -500}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710826872
 MonoBehaviour:
@@ -8243,8 +8154,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: blah blah blah save my soul please
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}
-  m_sharedMaterial: {fileID: 6587118482528661454, guid: ce77a6e4a3e0c4c2aaf31fcb230f438e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c2e9b3c7b3a64e67a695f9d95f0da0d, type: 2}
+  m_sharedMaterial: {fileID: -6382941192836138784, guid: 8c2e9b3c7b3a64e67a695f9d95f0da0d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8268,8 +8179,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8309,7 +8220,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1710826874
