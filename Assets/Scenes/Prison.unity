@@ -30514,6 +30514,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &373534091
@@ -86888,6 +86889,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
   teleportCooldown: 0.5
 --- !u!61 &763776105
@@ -87139,6 +87141,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &887129808 stripped
@@ -87909,6 +87912,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &1106079503
@@ -88117,6 +88121,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &1154661345
@@ -97983,6 +97988,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
   teleportCooldown: 0.5
 --- !u!1001 &1737229620
@@ -98276,6 +98282,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
   teleportCooldown: 0.5
 --- !u!1 &1823634846
@@ -98570,6 +98577,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitOffset: 1
   faceRightOnExit: 1
+  onTeleportStart: {fileID: 11400000, guid: b5be1300ab05b408bad3525027cda392, type: 2}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!1001 &1876373243

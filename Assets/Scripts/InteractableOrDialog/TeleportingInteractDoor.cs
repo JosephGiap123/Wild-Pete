@@ -8,6 +8,7 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
     [SerializeField] private Transform exitPoint; // Where player spawns (optional)
     [SerializeField] private float exitOffset = 1f; // Distance from door when teleporting
     [SerializeField] private bool faceRightOnExit = true; // Which way player faces after teleport
+    [SerializeField] private VoidEvents onTeleportStart;
 
     [SerializeField] private ItemSO requiredItem = null;
     private BasePlayerMovement2D playerMovement;
@@ -83,6 +84,7 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
     {
         // Play effects at current location
         // PlayTeleportEffects(transform.position);
+        onTeleportStart.RaiseEvent();
 
         // Calculate exit position
         Vector3 exitPosition;
