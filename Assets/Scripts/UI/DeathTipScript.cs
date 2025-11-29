@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class DeathTipScript : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class DeathTipScript : MonoBehaviour
         GameRestartManager.CharacterRespawned += Respawn;
         GameManager.OnPlayerSet += SetPlayerEvents;
         anim = deathCanvas.GetComponent<Animator>();
+        deathCanvas.SetActive(false);
     }
 
     public void OnDestroy()
@@ -27,15 +29,7 @@ public class DeathTipScript : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name.Contains("Menu"))
-        {
-            deathCanvas.SetActive(false);
-            return;
-        }
-        else
-        {
-            deathCanvas.SetActive(true);
-        }
+        deathCanvas.SetActive(false);
     }
     public void SetPlayerEvents(GameObject player)
     {
@@ -44,12 +38,19 @@ public class DeathTipScript : MonoBehaviour
 
     public void PlayerDeath()
     {
+        StartCoroutine(PlayerDeathCoroutine());
+    }
+    public IEnumerator PlayerDeathCoroutine()
+    {
         if (deathTips.Length > 0)
         {
             deathTipText.text = deathTips[Random.Range(0, deathTips.Length)];
         }
         deathCountText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
+        deathCanvas.SetActive(true);
         anim.Play("FadeIn");
+        yield return new WaitForSeconds(1.5f);
+        anim.Play("FadeOut");
     }
 
     public void Respawn(Vector2 spawnLoc)
