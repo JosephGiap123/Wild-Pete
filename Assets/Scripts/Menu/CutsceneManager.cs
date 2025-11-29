@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CutSceneManager : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class CutSceneManager : MonoBehaviour
   public Image cutsceneImage;
   public TextMeshProUGUI typewriter;
   public GameObject cutsceneCanvas;
-  public GameObject charSelectCanvas;
 
   public Slide[] slides;
 
@@ -24,6 +24,7 @@ public class CutSceneManager : MonoBehaviour
 
   void Update()
   {
+    // Skip the cutscene with Space
     if (Input.GetKeyDown(KeyCode.Space))
     {
       StopAllCoroutines();
@@ -34,7 +35,13 @@ public class CutSceneManager : MonoBehaviour
   public void BeginCutscene()
   {
     index = 0;
-    gameObject.SetActive(true);
+
+    // Show cutscene canvas
+    cutsceneCanvas.SetActive(true);
+
+    // Clear text at start
+    typewriter.text = "";
+
     StartCoroutine(PlaySlide());
   }
 
@@ -46,6 +53,7 @@ public class CutSceneManager : MonoBehaviour
     typewriter.text = "";
 
     string content = slides[index].text;
+
     foreach (char c in content)
     {
       typewriter.text += c;
@@ -55,14 +63,16 @@ public class CutSceneManager : MonoBehaviour
         break;
     }
 
+    // Ensure full text is printed
     typewriter.text = content;
     isTyping = false;
+
     yield return new WaitForSeconds(0.5f);
 
     NextSlide();
   }
 
-  void NextSlide()
+  private void NextSlide()
   {
     index++;
 
@@ -79,6 +89,9 @@ public class CutSceneManager : MonoBehaviour
   void EndCutscene()
   {
     cutsceneCanvas.SetActive(false);
-    charSelectCanvas.SetActive(true);
+
+    SceneManager.LoadScene("Prison");
+
   }
+
 }
