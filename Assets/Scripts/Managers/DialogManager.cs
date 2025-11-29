@@ -19,6 +19,8 @@ public class DialogManager : MonoBehaviour
     private bool choseChoice = false;
     private Dialogue dialogue;
     private Dialogue.DialogueNode currentNode;
+    private List<Dialogue.Choice> currentAvailableChoices; // Track which choices are actually available
+    private Coroutine typingCoroutine;
     public bool isTyping;
     public bool isDialogueActive = false;
     private bool hasChoices = false;
@@ -79,10 +81,18 @@ public class DialogManager : MonoBehaviour
         currentNode = null;
         hasChoices = false;
         isTyping = false;
+        currentAvailableChoices = null;
         dialogueText.text = "";
         nameText.text = "";
         portraitImage.sprite = null;
         HideChoices();
+
+        // Stop any running typing coroutine
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
     }
 
     public void ShowChoices(Dialogue.Choice[] choices)
@@ -126,11 +136,23 @@ public class DialogManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        if (dialogue == null || dialogue.dialogueNodes == null || dialogue.dialogueNodes.Count == 0)
+        {
+            Debug.LogError("DialogManager: Cannot start dialogue - dialogue is null or has no nodes!");
+            return;
+        }
+
+        // Stop any existing typing coroutine
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+
         this.dialogue = dialogue;
         currentNode = dialogue.dialogueNodes[0];
         isDialogueActive = true;
         ShowDialoguePanel();
-        StartCoroutine(TypeLine(currentNode));
+        typingCoroutine = StartCoroutine(TypeLine(currentNode));
     }
 
     private IEnumerator TypeLine(Dialogue.DialogueNode node)
@@ -138,7 +160,7 @@ public class DialogManager : MonoBehaviour
         // Starting a new line/node: reset choice state
         choseChoice = false;
         dialogueText.text = "";
-        if (node.npcName != null) nameText.text = node.npcName;
+        if (!string.IsNullOrEmpty(node.npcName)) nameText.text = node.npcName;
         else nameText.text = dialogue.defaultName;
         if (node.portrait != null) portraitImage.sprite = node.portrait;
         else portraitImage.sprite = dialogue.defaultPortrait;
@@ -173,6 +195,7 @@ public class DialogManager : MonoBehaviour
         }
 
         hasChoices = availableChoices.Count > 0;
+        currentAvailableChoices = availableChoices; // Store for ChooseChoice to use
         if (hasChoices)
         {
             DisplayChoices(availableChoices.ToArray());
@@ -182,7 +205,8 @@ public class DialogManager : MonoBehaviour
 
     public void ProgressDialogue()
     {
-        if (currentNode.isEnd)
+        // End dialogue if node has no choices and no next node
+        if (!hasChoices && currentNode.nextNodeIndex == -1)
         {
             EndDialogue();
             return;
@@ -202,7 +226,7 @@ public class DialogManager : MonoBehaviour
                 return;
             }
         }
-        StartCoroutine(TypeLine(currentNode));
+        typingCoroutine = StartCoroutine(TypeLine(currentNode));
     }
     // Called by button listeners (wired in Awake)
     private void OnChoiceButton(int choiceIndex)
@@ -213,14 +237,23 @@ public class DialogManager : MonoBehaviour
 
     public void ChooseChoice(int choiceIndex)
     {
-        if (choseChoice) return;
+        if (choseChoice || !hasChoices || currentAvailableChoices == null) return;
+
+        // Validate button index maps to an available choice
+        if (choiceIndex < 0 || choiceIndex >= currentAvailableChoices.Count)
+        {
+            Debug.LogWarning($"DialogManager: Invalid choice index {choiceIndex} (available: {currentAvailableChoices.Count})");
+            return;
+        }
+
         choseChoice = true;
-        // Follow the chosen node's next index if valid
-        var choice = currentNode.choices[choiceIndex];
+        // Use the choice from availableChoices, not the raw array
+        var choice = currentAvailableChoices[choiceIndex];
         if (choice != null &&
             choice.nextNodeIndex >= 0 &&
             choice.nextNodeIndex < dialogue.dialogueNodes.Count)
         {
+            Debug.Log("Choosing choice: " + choice.choiceText + " with next node index: " + choice.nextNodeIndex);
             currentNode = dialogue.dialogueNodes[choice.nextNodeIndex];
         }
         else
