@@ -357,10 +357,6 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     {
         if (PauseController.IsGamePaused)
         {
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                interactor.OnInteract();
-            }
             return;
         }
 
