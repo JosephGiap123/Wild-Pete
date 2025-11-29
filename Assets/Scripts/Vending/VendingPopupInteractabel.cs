@@ -18,6 +18,56 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     [Header("Screw Panel (optional)")]
     [SerializeField] private ScrewPanelUI screwPanelPrefab; // Drag ScrewPanelUI prefab
     private ScrewPanelUI screwPanelInstance;
+    
+    [Header("Screwdriver Requirement")]
+    [SerializeField] private string screwdriverItemName = "Screwdriver"; // Name of the screwdriver item in inventory (must match ItemSO name)
+
+    [Header("Bread Drop")]
+    [SerializeField] private GameObject itemPrefab; // Item prefab to instantiate (same one used for other items, like Item.prefab)
+    [SerializeField] private string breadItemName = "Bread"; // Name of the bread item in ItemSO (must match exactly)
+    [SerializeField] private Transform breadDropPosition; // Where to drop the bread (optional - if null, uses vending machine position)
+    
+    // Track if bread has been collected (game completed once)
+    private bool breadCollected = false;
+    
+    private void OnEnable()
+    {
+        // Subscribe to player death event to close vending popup when player dies
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath += OnPlayerDeath;
+        }
+    }
+    
+    private void OnDisable()
+    {
+        // Unsubscribe from player death event
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= OnPlayerDeath;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // Safety: unsubscribe in case OnDisable wasn't called
+        if (HealthManager.instance != null)
+        {
+            HealthManager.instance.OnPlayerDeath -= OnPlayerDeath;
+        }
+    }
+    
+    private void OnPlayerDeath()
+    {
+        // Close all vending UI when player dies
+        CloseAll();
+        Debug.Log("[VendingPopupInteractable] Player died - closed all vending UI");
+    }
+
+    private void Start()
+    {
+        // Nothing to initialize
+    }
 
     // --- IInteractable ---
     public bool CanInteract() => true;
@@ -30,6 +80,22 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             miniGameCanvas.gameObject.SetActive(true);
 
         if (vendingPopup) vendingPopup.SetActive(true);
+        
+        // If bread was already collected, show empty vending machine sprite
+        if (breadCollected && emptyVendingSprite != null)
+        {
+            Image vendingImage = vendingPopup.GetComponent<Image>();
+            if (vendingImage == null)
+            {
+                vendingImage = vendingPopup.GetComponentInChildren<Image>();
+            }
+            
+            if (vendingImage != null)
+            {
+                vendingImage.sprite = emptyVendingSprite;
+                Debug.Log("[VendingPopupInteractable] Showing empty vending machine (bread already collected)");
+            }
+        }
 
         Debug.Log("[VendingPopupInteractable] Popup shown");
     }
@@ -152,41 +218,112 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         Debug.Log("[VendingPopupInteractable] Closed all UI");
     }
 
-    // Called when the keypad code is correct - changes vending machine to empty sprite
+    // Called when the keypad code is correct - closes everything and drops bread
     public void OnVendingMachineEmpty()
     {
-        if (vendingPopup == null)
+        Debug.Log("[VendingPopupInteractable] Keypad completed - closing UI and dropping bread");
+        
+        // Mark that bread has been collected
+        breadCollected = true;
+        
+        // Close all UI immediately
+        CloseAll();
+        
+        // Drop bread from the vending machine
+        DropBread();
+    }
+    
+    /// <summary>
+    /// Drops bread item from the vending machine position
+    /// </summary>
+    private void DropBread()
+    {
+        if (itemPrefab == null)
         {
-            Debug.LogWarning("[VendingPopupInteractable] VendingPopup is null, cannot change sprite");
+            Debug.LogError("[VendingPopupInteractable] itemPrefab is NULL! Assign Item.prefab in Inspector!");
             return;
         }
         
-        // Find the Image component on the vending popup
-        Image vendingImage = vendingPopup.GetComponent<Image>();
-        if (vendingImage == null)
+        if (string.IsNullOrEmpty(breadItemName))
         {
-            // Try to find it in children
-            vendingImage = vendingPopup.GetComponentInChildren<Image>();
+            Debug.LogError("[VendingPopupInteractable] breadItemName is not set! Set it in Inspector!");
+            return;
         }
         
-        if (vendingImage != null && emptyVendingSprite != null)
+        // Find the Bread ItemSO
+        ItemSO breadItemSO = null;
+        
+        if (PlayerInventory.instance != null)
         {
-            vendingImage.sprite = emptyVendingSprite;
-            Debug.Log("[VendingPopupInteractable] Changed vending machine sprite to empty version");
+            // Check consumableSOs
+            if (PlayerInventory.instance.consumableSOs != null)
+            {
+                foreach (var so in PlayerInventory.instance.consumableSOs)
+                {
+                    if (so != null && so.itemName == breadItemName)
+                    {
+                        breadItemSO = so;
+                        break;
+                    }
+                }
+            }
+            
+            // Check equipmentSOs
+            if (breadItemSO == null && PlayerInventory.instance.equipmentSOs != null)
+            {
+                foreach (var so in PlayerInventory.instance.equipmentSOs)
+                {
+                    if (so != null && so.itemName == breadItemName)
+                    {
+                        breadItemSO = so;
+                        break;
+                    }
+                }
+            }
+            
+            // Check itemSOs
+            if (breadItemSO == null && PlayerInventory.instance.itemSOs != null)
+            {
+                foreach (var so in PlayerInventory.instance.itemSOs)
+                {
+                    if (so != null && so.itemName == breadItemName)
+                    {
+                        breadItemSO = so;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (breadItemSO == null)
+        {
+            Debug.LogError($"[VendingPopupInteractable] Could not find ItemSO named '{breadItemName}'! Make sure it's in PlayerInventory arrays.");
+            return;
+        }
+        
+        // Get drop position (use breadDropPosition if set, otherwise use vending machine position)
+        Vector3 dropPos = transform.position;
+        if (breadDropPosition != null)
+        {
+            dropPos = breadDropPosition.position;
+        }
+        
+        // Spawn bread item
+        GameObject breadItem = Instantiate(itemPrefab, dropPos, Quaternion.identity);
+        Item itemComponent = breadItem.GetComponent<Item>();
+        if (itemComponent != null)
+        {
+            // Initialize with upward velocity so it pops out
+            itemComponent.Initialize(new Vector2(0f, 3f), breadItemSO);
+            Debug.Log($"[VendingPopupInteractable] ✅ Dropped bread at position: {dropPos}");
         }
         else
         {
-            if (vendingImage == null)
-            {
-                Debug.LogWarning("[VendingPopupInteractable] No Image component found on vendingPopup GameObject");
-            }
-            if (emptyVendingSprite == null)
-            {
-                Debug.LogWarning("[VendingPopupInteractable] Empty vending sprite not assigned");
-            }
+            Debug.LogError("[VendingPopupInteractable] Item prefab doesn't have Item component!");
+            Destroy(breadItem);
         }
     }
-    
+
     // --- helpers ---
     private bool EnsureCanvasActive()
     {
