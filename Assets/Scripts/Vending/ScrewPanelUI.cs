@@ -21,8 +21,18 @@ public class ScrewPanelUI : MonoBehaviour
     [Header("Wire Game (appears after screws removed)")]
     [SerializeField] private WireConnectionGame wireGame; // Wire game that appears after panel opens
     [SerializeField] private GameObject wireGameContainer; // Container for wire game UI
+    
+    [Header("Screwdriver Requirement")]
+    [SerializeField] private string screwdriverItemName = "Screwdriver"; // Name of the screwdriver item in inventory
 
     public void SetVendingPopup(GameObject go) => vendingPopup = go;
+    
+    // Check if player has screwdriver
+    public bool HasScrewdriver()
+    {
+        if (PlayerInventory.instance == null) return false;
+        return PlayerInventory.instance.HasItem(screwdriverItemName) > 0;
+    }
 
     public Action OnPanelOpened;
 
@@ -135,6 +145,7 @@ public class ScrewPanelUI : MonoBehaviour
         if (wireGameContainer != null) wireGameContainer.SetActive(false);
 
         // Re-enable / reset screws
+        bool hasScrewdriver = HasScrewdriver();
         foreach (var s in screws)
         {
             if (s == null) continue;
@@ -142,9 +153,15 @@ public class ScrewPanelUI : MonoBehaviour
             if (img)
             {
                 img.enabled = true;
-                img.raycastTarget = true;
+                // Only allow interaction if player has screwdriver
+                img.raycastTarget = hasScrewdriver;
             }
             s.ResetScrew();
+            // Disable screw interaction if no screwdriver
+            if (s != null)
+            {
+                s.SetLocked(!hasScrewdriver);
+            }
         }
     }
 
