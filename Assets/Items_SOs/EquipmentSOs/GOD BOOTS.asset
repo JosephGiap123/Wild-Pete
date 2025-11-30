@@ -18,14 +18,15 @@ MonoBehaviour:
   maxStackSize: 1
   quantity: 1
   itemDesc: GOD TESTING ITEM
-  itemStats: 05000000060000000700000000000000010000000d0000000c000000
+  itemStats: 05000000060000000700000000000000010000000d0000000c00000008000000
   itemStatAmounts:
   - 20
   - 100
   - 10
   - 500
   - 20
-  - 10
-  - 20
+  - 30
+  - 500
+  - 30
   equipmentType: 1
   equipableBy: 2

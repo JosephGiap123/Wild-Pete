@@ -13,7 +13,6 @@ public class Dialogue : ScriptableObject
         public string text;
         public string npcName;
         public Sprite portrait;
-        public bool isEnd;
         public Choice[] choices = new Choice[3];
         [Range(-1, 99)]
         public int nextNodeIndex = -1; // index into dialogueNodes, -1 means no next node
