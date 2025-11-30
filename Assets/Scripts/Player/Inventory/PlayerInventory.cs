@@ -446,6 +446,35 @@ public class PlayerInventory : MonoBehaviour
     }
 
     /// <summary>
+    /// Adds an item to inventory directly from an ItemSO (for trades, rewards, etc.)
+    /// </summary>
+    public bool AddItemFromItemSO(ItemSO itemSO, int quantity = 1)
+    {
+        if (itemSO == null || quantity <= 0) return false;
+
+        // Create a temporary Item object to add to inventory
+        GameObject tempItem = new GameObject("TempItem");
+        Item itemComponent = tempItem.AddComponent<Item>();
+
+        // Initialize the item with ItemSO data
+        itemComponent.itemSO = itemSO;
+        itemComponent.itemName = itemSO.itemName;
+        itemComponent.icon = itemSO.icon;
+        itemComponent.dropIcon = itemSO.dropIcon;
+        itemComponent.maxStackSize = itemSO.maxStackSize;
+        itemComponent.quantity = quantity;
+        itemComponent.itemDesc = itemSO.itemDesc;
+
+        // Add to inventory
+        bool success = AddItem(itemComponent);
+
+        // Clean up temporary object
+        Destroy(tempItem);
+
+        return success;
+    }
+
+    /// <summary>
     /// Gets an EquipmentSO by name
     /// </summary>
     private EquipmentSO GetEquipmentSO(string itemName)

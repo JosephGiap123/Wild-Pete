@@ -277,30 +277,12 @@ public class ParallaxLayer : MonoBehaviour
     
     void UpdateInfiniteScroll()
     {
-        if (cameraTransform == null || tileInstances == null || tileInstances.Length == 0) return;
+        if (cameraTransform == null || tileInstances == null || tileInstances.Length == 0 || spriteWidth <= 0) return;
         
         float cameraWidth = GetCameraWidth();
         // Use smoothed camera position for tile repositioning to avoid shake artifacts
         float cameraLeft = smoothedCameraPosition.x - cameraWidth * 0.5f;
         float cameraRight = smoothedCameraPosition.x + cameraWidth * 0.5f;
-        
-        // Add buffer zones to ensure tiles are repositioned before gaps appear
-        float bufferZone = spriteWidth * 0.5f;
-        float effectiveCameraLeft = cameraLeft - bufferZone;
-        float effectiveCameraRight = cameraRight + bufferZone;
-        
-        // First, find the current leftmost and rightmost tiles
-        float leftmostX = float.MaxValue;
-        float rightmostX = float.MinValue;
-        foreach (GameObject tile in tileInstances)
-        {
-            if (tile != null)
-            {
-                float tileX = transform.position.x + tile.transform.localPosition.x;
-                if (tileX < leftmostX) leftmostX = tileX;
-                if (tileX > rightmostX) rightmostX = tileX;
-            }
-        }
         
         // Check each tile and reposition if needed to ensure continuous coverage
         for (int i = 0; i < tileInstances.Length; i++)
@@ -311,25 +293,43 @@ public class ParallaxLayer : MonoBehaviour
             float tileLeft = tileWorldX - spriteWidth * 0.5f;
             float tileRight = tileWorldX + spriteWidth * 0.5f;
             
-            // If tile is completely to the left of the effective camera view, move it to the right
-            if (tileRight < effectiveCameraLeft)
+            // If tile is completely to the left of camera view, move it to the right
+            if (tileRight < cameraLeft)
             {
+                // Find the rightmost tile
+                float rightmostX = float.MinValue;
+                foreach (GameObject tile in tileInstances)
+                {
+                    if (tile != null)
+                    {
+                        float tileX = transform.position.x + tile.transform.localPosition.x;
+                        if (tileX > rightmostX) rightmostX = tileX;
+                    }
+                }
+                
                 // Position this tile immediately to the right of the rightmost tile
                 float newWorldX = rightmostX + spriteWidth;
                 float newLocalX = newWorldX - transform.position.x;
                 tileInstances[i].transform.localPosition = new Vector3(newLocalX, tileInstances[i].transform.localPosition.y, 0);
-                // Update rightmost for next iteration
-                rightmostX = newWorldX;
             }
-            // If tile is completely to the right of the effective camera view, move it to the left
-            else if (tileLeft > effectiveCameraRight)
+            // If tile is completely to the right of camera view, move it to the left
+            else if (tileLeft > cameraRight)
             {
+                // Find the leftmost tile
+                float leftmostX = float.MaxValue;
+                foreach (GameObject tile in tileInstances)
+                {
+                    if (tile != null)
+                    {
+                        float tileX = transform.position.x + tile.transform.localPosition.x;
+                        if (tileX < leftmostX) leftmostX = tileX;
+                    }
+                }
+                
                 // Position this tile immediately to the left of the leftmost tile
                 float newWorldX = leftmostX - spriteWidth;
                 float newLocalX = newWorldX - transform.position.x;
                 tileInstances[i].transform.localPosition = new Vector3(newLocalX, tileInstances[i].transform.localPosition.y, 0);
-                // Update leftmost for next iteration
-                leftmostX = newWorldX;
             }
         }
     }
