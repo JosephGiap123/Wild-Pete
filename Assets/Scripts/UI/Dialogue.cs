@@ -34,6 +34,8 @@ public class Dialogue : ScriptableObject
         public ItemSO rewardItem;
         [Tooltip("How many of the reward item the player receives")]
         public int rewardQuantity = 1;
+        [Tooltip("If true, this trade can only be done once per dialogue instance")]
+        public bool oneTimeTrade = false;
     }
 
     public List<DialogueNode> dialogueNodes;
