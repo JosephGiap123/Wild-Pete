@@ -78,6 +78,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             itemIcon.enabled = false;
             quantityText.text = "0";
             quantityText.enabled = false;
+            // Reset icon scale to normal
+            if (itemIcon.rectTransform != null)
+            {
+                itemIcon.rectTransform.localScale = Vector3.one;
+            }
         }
         else
         {
@@ -86,6 +91,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             quantityText.text = quantity.ToString();
             // The text is enabled ONLY if the quantity is greater than 1 (a stack)
             quantityText.enabled = quantity > 1;
+            
+            // Scale down icon if it's a screwdriver (only affects screwdriver)
+            if (itemIcon.rectTransform != null)
+            {
+                if (itemName == "Screwdriver")
+                {
+                    // Make screwdriver icon smaller (adjust 0.7 to your desired size: 0.7 = 70%, 0.6 = 60%, etc.)
+                    itemIcon.rectTransform.localScale = new Vector3(0.7f, 0.7f, 1f);
+                }
+                else
+                {
+                    // Reset to normal size for all other items
+                    itemIcon.rectTransform.localScale = Vector3.one;
+                }
+            }
         }
     }
 

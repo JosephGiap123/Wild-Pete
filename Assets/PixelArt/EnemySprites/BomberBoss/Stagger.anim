@@ -92,7 +92,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.33333334
+  - time: 0.16666667
     functionName: CallPlayStagger
     data: 
     objectReferenceParameter: {fileID: 0}

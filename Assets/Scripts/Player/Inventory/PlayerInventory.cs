@@ -28,6 +28,7 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private EquipmentChangeEventSO equipEventSO;
     [SerializeField] private EquipmentChangeEventSO unequipEventSO;
+    [SerializeField] private VoidEvents inventoryChangedEventSO;
 
     private void Awake()
     {
@@ -85,14 +86,17 @@ public class PlayerInventory : MonoBehaviour
                 {
                     itemSlots[inventoryLocation].DecreaseQuantity(1);
                 }
+                inventoryChangedEventSO.RaiseEvent();
                 return;
             }
         }
         Debug.LogWarning("Item is not a consumable: " + itemName);
     }
-    public void AddItem(Item item)
+    public bool AddItem(Item item)
     {
-        if (item == null || itemSlots == null || item.quantity <= 0) return;
+        if (item == null || itemSlots == null || item.quantity <= 0) return false;
+
+        int originalQuantity = item.quantity; // Store original quantity
 
         // We will loop until the item is fully added (item.quantity <= 0) OR we run out of slots.
 
@@ -112,20 +116,23 @@ public class PlayerInventory : MonoBehaviour
             {
                 itemSlots[i].AddItem(item);
             }
-
+            inventoryChangedEventSO.RaiseEvent();
             // Check for full consumption *after* every slot interaction
             if (item.quantity <= 0)
             {
                 // Fully added!
-                return;
+                return true;
             }
         }
 
         // If we reach here, the item was not fully added.
         if (item.quantity > 0)
         {
-            Debug.LogWarning("Inventory Full! Could not add remaining item: " + item.itemName);
+            Debug.LogWarning("Inventory Full! Could not add remaining item: " + item.itemName + " (remaining: " + item.quantity + ")");
+            return false; // Return false to indicate item was not fully added
         }
+
+        return true; // Item was fully added
     }
 
     public bool UseItem(string itemName, int amount)
@@ -134,7 +141,43 @@ public class PlayerInventory : MonoBehaviour
         {
             if (slot != null && slot.itemName == itemName && slot.quantity > 0)
             {
+                // Check if this is a consumable - if so, consume it properly
+                if (consumableSOs != null)
+                {
+                    for (int i = 0; i < consumableSOs.Length; i++)
+                    {
+                        if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
+                        {
+                            // It's a consumable - try to consume it
+                            bool consumed = false;
+                            for (int j = 0; j < amount; j++)
+                            {
+                                if (consumableSOs[i].ConsumeItem())
+                                {
+                                    consumed = true;
+                                }
+                            }
+
+                            // Only decrease quantity if consumption was successful
+                            if (consumed)
+                            {
+                                slot.DecreaseQuantity(amount);
+                                inventoryChangedEventSO.RaiseEvent();
+                                Debug.Log("Used " + amount + " " + itemName);
+                                return true;
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"Cannot consume {itemName} - consumption failed (e.g., health already full)");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                // Not a consumable, or consumableSOs array is null - just decrease quantity
                 slot.DecreaseQuantity(amount);
+                inventoryChangedEventSO.RaiseEvent();
                 Debug.Log("Used " + amount + " " + itemName);
                 return true;
             }
@@ -185,6 +228,7 @@ public class PlayerInventory : MonoBehaviour
             if (slot != null)
             {
                 slot.ClearSlot();
+                inventoryChangedEventSO.RaiseEvent();
             }
         }
     }
@@ -320,6 +364,7 @@ public class PlayerInventory : MonoBehaviour
                 itemSlots[i].ClearSlot();
             }
         }
+        inventoryChangedEventSO.RaiseEvent();
     }
 
     // ========== EQUIPMENT SYSTEM ==========
@@ -367,6 +412,7 @@ public class PlayerInventory : MonoBehaviour
 
         // Remove one from inventory
         slot.DecreaseQuantity(1);
+        inventoryChangedEventSO.RaiseEvent();
 
         return true;
     }
@@ -397,6 +443,35 @@ public class PlayerInventory : MonoBehaviour
 
         // Clean up temporary object
         Destroy(tempItem);
+    }
+
+    /// <summary>
+    /// Adds an item to inventory directly from an ItemSO (for trades, rewards, etc.)
+    /// </summary>
+    public bool AddItemFromItemSO(ItemSO itemSO, int quantity = 1)
+    {
+        if (itemSO == null || quantity <= 0) return false;
+
+        // Create a temporary Item object to add to inventory
+        GameObject tempItem = new GameObject("TempItem");
+        Item itemComponent = tempItem.AddComponent<Item>();
+
+        // Initialize the item with ItemSO data
+        itemComponent.itemSO = itemSO;
+        itemComponent.itemName = itemSO.itemName;
+        itemComponent.icon = itemSO.icon;
+        itemComponent.dropIcon = itemSO.dropIcon;
+        itemComponent.maxStackSize = itemSO.maxStackSize;
+        itemComponent.quantity = quantity;
+        itemComponent.itemDesc = itemSO.itemDesc;
+
+        // Add to inventory
+        bool success = AddItem(itemComponent);
+
+        // Clean up temporary object
+        Destroy(tempItem);
+
+        return success;
     }
 
     /// <summary>

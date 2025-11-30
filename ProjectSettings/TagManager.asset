@@ -53,6 +53,9 @@ TagManager:
   - name: FX Layer
     uniqueID: 3305992881
     locked: 0
+  - name: FrontDecor
+    uniqueID: 1473589807
+    locked: 0
   - name: Foreground
     uniqueID: 1709080651
     locked: 0

@@ -23,10 +23,23 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
 
     private bool isHeld;
     private bool isRemoved;
+    private bool isLocked = false; // If true, cannot be unscrewed
     private Vector2 lastPos;
     private float accAngle; // accumulated rotation in degrees (signed)
 
     public bool IsRemoved => isRemoved;
+    
+    // Lock/unlock the screw (prevents unscrewing)
+    public void SetLocked(bool locked)
+    {
+        isLocked = locked;
+        // Optionally change visual appearance when locked
+        if (img && locked)
+        {
+            // You could change color or add a visual indicator here
+            // For now, we just prevent interaction
+        }
+    }
 
     private void Awake()
     {
@@ -46,14 +59,14 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
 
     public void OnPointerDown(PointerEventData e)
     {
-        if (isRemoved) return;
+        if (isRemoved || isLocked) return; // Cannot interact if locked
         isHeld = true;
         lastPos = e.position;
     }
 
     public void OnDrag(PointerEventData e)
     {
-        if (!isHeld || isRemoved) return;
+        if (!isHeld || isRemoved || isLocked) return; // Cannot drag if locked
 
         Vector2 cur = e.position;
         Vector2 delta = cur - lastPos;
@@ -117,12 +130,13 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
         isRemoved = false;
         accAngle = 0f;
         transform.localRotation = Quaternion.identity;
+        // Note: isLocked is NOT reset here - it's controlled by ScrewPanelUI
 
         if (!img) img = GetComponent<Image>();
         if (img)
         {
             img.enabled = true;
-            img.raycastTarget = true;
+            // raycastTarget will be set by ScrewPanelUI based on screwdriver availability
             if (screwIdle) img.sprite = screwIdle;
         }
     }
