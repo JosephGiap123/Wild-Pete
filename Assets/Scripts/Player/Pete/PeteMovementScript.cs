@@ -87,6 +87,14 @@ public class PeteMovement2D : BasePlayerMovement2D
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey1]) && isGrounded && PlayerInventory.instance.HasItem("Bandaid") > 0)
+        {
+            PlayerInventory.instance.UseItem("Bandaid", 1);
+        }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey2]) && isGrounded && PlayerInventory.instance.HasItem("Medkit") > 0)
+        {
+            PlayerInventory.instance.UseItem("Medkit", 1);
+        }
 
         // R = SHOOT (use base method so ammo is decremented there)
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)

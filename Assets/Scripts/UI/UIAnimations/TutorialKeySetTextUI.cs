@@ -6,7 +6,7 @@ public class TutorialKeySetTextUI : MonoBehaviour
 {
     [SerializeField] protected PlayerControls inputCmd;
     [SerializeField] protected Image keyText;
-
+    [SerializeField] private InputEvent inputEvent;
     private void SetText(KeyCode mappedKeyCode)
     {
         Sprite keyCodeSprite = ControlManager.instance.spriteMapping[mappedKeyCode];
@@ -38,7 +38,7 @@ public class TutorialKeySetTextUI : MonoBehaviour
     private IEnumerator WaitForControlManager()
     {
         yield return new WaitWhile(() => !ControlManager.instance);
-        ControlManager.instance.ChangedInput += ChangeInputSprite;
+        inputEvent.onEventRaised.AddListener(ChangeInputSprite);
         Debug.Log("found control manager");
         KeyCode mappedKeyCode = ControlManager.instance.inputMapping[inputCmd];
         SetText(mappedKeyCode);
@@ -46,10 +46,10 @@ public class TutorialKeySetTextUI : MonoBehaviour
 
     public void OnDisable()
     {
-        ControlManager.instance.ChangedInput -= ChangeInputSprite;
+        inputEvent.onEventRaised.RemoveListener(ChangeInputSprite);
     }
 
-    protected void ChangeInputSprite(PlayerControls inputName, KeyCode newKeyCode)
+    protected void ChangeInputSprite(string inpStringName, PlayerControls inputName, KeyCode newKeyCode)
     {
         if (inputName == inputCmd)
         {

@@ -97,6 +97,14 @@ public class AliceMovement2D : BasePlayerMovement2D
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey1]) && isGrounded && PlayerInventory.instance.HasItem("Bandaid") > 0)
+        {
+            PlayerInventory.instance.UseItem("Bandaid", 1);
+        }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey2]) && isGrounded && PlayerInventory.instance.HasItem("Medkit") > 0)
+        {
+            PlayerInventory.instance.UseItem("Medkit", 1);
+        }
 
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
@@ -112,11 +120,11 @@ public class AliceMovement2D : BasePlayerMovement2D
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Dash]) && !isAttacking && !isWallSliding)
         {
             if (!isCrouching && EnergyManager.instance.UseEnergy(dashingEnergyCost))
-        {
-            isDashing = true;
+            {
+                isDashing = true;
 
-            // stop run loop and play dash SFX immediately
-            audioMgr?.StopRunLoop();
+                // stop run loop and play dash SFX immediately
+                audioMgr?.StopRunLoop();
 
                 CallInputInvoke("Dash", PlayerControls.Dash, ControlManager.instance.inputMapping[PlayerControls.Dash]);
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
@@ -231,7 +239,7 @@ public class AliceMovement2D : BasePlayerMovement2D
         {
             CallInputInvoke("CrouchRangedAttack", PlayerControls.Ranged, ControlManager.instance.inputMapping[PlayerControls.Ranged]);
             bulletOrigin.transform.localPosition = new(bulletOrigin.transform.localPosition.x, -0.08f, 0f);
-                animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
+            animatorScript.ChangeAnimationState(playerStates.CrouchRangedAttack);
         }
         else
         {

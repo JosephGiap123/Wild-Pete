@@ -394,9 +394,17 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             Attack();
         }
-        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && false)
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Throw]) && isGrounded && PlayerInventory.instance.HasItem("Dynamite") > 0)
         {
             attackCoroutine = StartCoroutine(ThrowAttack());
+        }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey1]) && isGrounded && PlayerInventory.instance.HasItem("Bandaid") > 0)
+        {
+            PlayerInventory.instance.UseItem("Bandaid", 1);
+        }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey2]) && isGrounded && PlayerInventory.instance.HasItem("Medkit") > 0)
+        {
+            PlayerInventory.instance.UseItem("Medkit", 1);
         }
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3] != null && !PlayerInventory.instance.equipmentSlots[3].IsEmpty())
         {

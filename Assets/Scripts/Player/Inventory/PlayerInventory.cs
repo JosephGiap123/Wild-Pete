@@ -136,6 +136,41 @@ public class PlayerInventory : MonoBehaviour
         {
             if (slot != null && slot.itemName == itemName && slot.quantity > 0)
             {
+                // Check if this is a consumable - if so, consume it properly
+                if (consumableSOs != null)
+                {
+                    for (int i = 0; i < consumableSOs.Length; i++)
+                    {
+                        if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
+                        {
+                            // It's a consumable - try to consume it
+                            bool consumed = false;
+                            for (int j = 0; j < amount; j++)
+                            {
+                                if (consumableSOs[i].ConsumeItem())
+                                {
+                                    consumed = true;
+                                }
+                            }
+
+                            // Only decrease quantity if consumption was successful
+                            if (consumed)
+                            {
+                                slot.DecreaseQuantity(amount);
+                                inventoryChangedEventSO.RaiseEvent();
+                                Debug.Log("Used " + amount + " " + itemName);
+                                return true;
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"Cannot consume {itemName} - consumption failed (e.g., health already full)");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                // Not a consumable, or consumableSOs array is null - just decrease quantity
                 slot.DecreaseQuantity(amount);
                 inventoryChangedEventSO.RaiseEvent();
                 Debug.Log("Used " + amount + " " + itemName);
