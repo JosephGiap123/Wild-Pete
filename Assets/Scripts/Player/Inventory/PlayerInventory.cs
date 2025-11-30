@@ -28,6 +28,7 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private EquipmentChangeEventSO equipEventSO;
     [SerializeField] private EquipmentChangeEventSO unequipEventSO;
+    [SerializeField] private VoidEvents inventoryChangedEventSO;
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class PlayerInventory : MonoBehaviour
                 {
                     itemSlots[inventoryLocation].DecreaseQuantity(1);
                 }
+                inventoryChangedEventSO.RaiseEvent();
                 return;
             }
         }
@@ -112,7 +114,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 itemSlots[i].AddItem(item);
             }
-
+            inventoryChangedEventSO.RaiseEvent();
             // Check for full consumption *after* every slot interaction
             if (item.quantity <= 0)
             {
@@ -135,6 +137,7 @@ public class PlayerInventory : MonoBehaviour
             if (slot != null && slot.itemName == itemName && slot.quantity > 0)
             {
                 slot.DecreaseQuantity(amount);
+                inventoryChangedEventSO.RaiseEvent();
                 Debug.Log("Used " + amount + " " + itemName);
                 return true;
             }
@@ -185,6 +188,7 @@ public class PlayerInventory : MonoBehaviour
             if (slot != null)
             {
                 slot.ClearSlot();
+                inventoryChangedEventSO.RaiseEvent();
             }
         }
     }
@@ -320,6 +324,7 @@ public class PlayerInventory : MonoBehaviour
                 itemSlots[i].ClearSlot();
             }
         }
+        inventoryChangedEventSO.RaiseEvent();
     }
 
     // ========== EQUIPMENT SYSTEM ==========
@@ -367,6 +372,7 @@ public class PlayerInventory : MonoBehaviour
 
         // Remove one from inventory
         slot.DecreaseQuantity(1);
+        inventoryChangedEventSO.RaiseEvent();
 
         return true;
     }
