@@ -92,9 +92,11 @@ public class PlayerInventory : MonoBehaviour
         }
         Debug.LogWarning("Item is not a consumable: " + itemName);
     }
-    public void AddItem(Item item)
+    public bool AddItem(Item item)
     {
-        if (item == null || itemSlots == null || item.quantity <= 0) return;
+        if (item == null || itemSlots == null || item.quantity <= 0) return false;
+
+        int originalQuantity = item.quantity; // Store original quantity
 
         // We will loop until the item is fully added (item.quantity <= 0) OR we run out of slots.
 
@@ -119,15 +121,18 @@ public class PlayerInventory : MonoBehaviour
             if (item.quantity <= 0)
             {
                 // Fully added!
-                return;
+                return true;
             }
         }
 
         // If we reach here, the item was not fully added.
         if (item.quantity > 0)
         {
-            Debug.LogWarning("Inventory Full! Could not add remaining item: " + item.itemName);
+            Debug.LogWarning("Inventory Full! Could not add remaining item: " + item.itemName + " (remaining: " + item.quantity + ")");
+            return false; // Return false to indicate item was not fully added
         }
+
+        return true; // Item was fully added
     }
 
     public bool UseItem(string itemName, int amount)
