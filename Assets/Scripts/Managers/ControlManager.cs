@@ -16,7 +16,9 @@ public enum PlayerControls
     Up,
     Down,
     Left,
-    Right
+    Right,
+    Hotkey1,
+    Hotkey2
 
 }
 public class ControlManager : MonoBehaviour
@@ -27,7 +29,9 @@ public class ControlManager : MonoBehaviour
     [SerializeField] public List<Sprite> keyCodeTextSprite;
     public static ControlManager instance;
 
-    public event Action<PlayerControls, KeyCode> ChangedInput;
+    [SerializeField] private InputEvent controlChangedEventSO;
+
+    // public event Action<PlayerControls, KeyCode> ChangedInput;
     void Awake()
     {
         if (instance == null)
@@ -60,7 +64,9 @@ public class ControlManager : MonoBehaviour
                     { PlayerControls.Up, KeyCode.W },
                     { PlayerControls.Down, KeyCode.S },
                     { PlayerControls.Left, KeyCode.A },
-                    { PlayerControls.Right, KeyCode.D }
+                    { PlayerControls.Right, KeyCode.D },
+                    { PlayerControls.Hotkey1, KeyCode.C},
+                    { PlayerControls.Hotkey2, KeyCode.V},
                 };
         spriteMapping = new Dictionary<KeyCode, Sprite>();
         for (int i = 0; i < keyCodeConnection.Count; i++)
@@ -75,7 +81,8 @@ public class ControlManager : MonoBehaviour
         if (CheckInputExists(changedKeyCode))
         {
             inputMapping[input] = changedKeyCode;
-            ChangedInput?.Invoke(input, changedKeyCode);
+            // ChangedInput?.Invoke(input, changedKeyCode);
+            controlChangedEventSO.RaiseEvent(input.ToString(), input, changedKeyCode);
             return;
         }
         Debug.Log("Input already exists!");
