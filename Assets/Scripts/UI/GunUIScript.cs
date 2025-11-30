@@ -2,15 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GunUIScript : MonoBehaviour
 {
     [SerializeField] private Image shotgunImage, revolverImage;
     [SerializeField] private GameObject shotgunAmmoPrefab, revolverAmmoPrefab;
+    [SerializeField] private TMP_Text ammoText;
     [SerializeField] private Transform ammoContainer;
 
     [SerializeField] private EquipmentChangeEventSO equipEventSO;
     [SerializeField] private EquipmentChangeEventSO unequipEventSO;
+    [SerializeField] private VoidEvents inventoryChangedEventSO;
 
     private BasePlayerMovement2D playerMovement;
     private int ammo, maxAmmo;
@@ -51,6 +54,7 @@ public class GunUIScript : MonoBehaviour
         {
             equipEventSO.onEventRaised.AddListener(UpdateGunUI);
             unequipEventSO.onEventRaised.AddListener(UpdateGunUI);
+            inventoryChangedEventSO.onEventRaised.AddListener(UpdateAmmoText);
         }
     }
 
@@ -70,6 +74,11 @@ public class GunUIScript : MonoBehaviour
         {
             playerMovement.OnAmmoChanged -= UpdateAmmoUI;
         }
+    }
+
+    void UpdateAmmoText()
+    {
+        ammoText.text = 'x' + PlayerInventory.instance.HasItem("Ammo").ToString();
     }
 
     private void HandlePlayerSet(GameObject player)
@@ -96,6 +105,7 @@ public class GunUIScript : MonoBehaviour
         // Always update UI when player is set (in case equipment was equipped before player was set)
         DrawGunUI();
         DrawAmmoUI();
+        UpdateAmmoText();
     }
 
     private void DrawGunUI()
@@ -111,6 +121,7 @@ public class GunUIScript : MonoBehaviour
             Debug.Log("GunUI: Equipment slot 3 is empty or null");
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(false);
             return;
         }
 
@@ -120,6 +131,7 @@ public class GunUIScript : MonoBehaviour
             Debug.LogWarning("GunUI: playerMovement is null, cannot determine which gun to show");
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(false);
             return;
         }
 
@@ -127,11 +139,13 @@ public class GunUIScript : MonoBehaviour
         {
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(true);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(true);
         }
         else
         {
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(true);
+            ammoText.gameObject.SetActive(true);
         }
     }
 
