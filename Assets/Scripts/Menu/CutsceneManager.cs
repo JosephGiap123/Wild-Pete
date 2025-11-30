@@ -83,8 +83,13 @@ public class CutSceneManager : MonoBehaviour
     }
     else
     {
-      StartCoroutine(PlaySlide());
+      StartCoroutine(WaitAndPlayNextSlide());
     }
+  }
+  private IEnumerator WaitAndPlayNextSlide()
+  {
+    yield return new WaitForSeconds(0.5f);
+    StartCoroutine(PlaySlide());
   }
 
   protected IEnumerator EndCutscene()
