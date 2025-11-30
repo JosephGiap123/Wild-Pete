@@ -10,6 +10,9 @@ public class LockPick : MonoBehaviour, IInteractable
 
     [Header("Door to unlock (optional)")]
     [SerializeField] private InteractableDoor door;              // Assign if you want the door to open on success
+
+    [Header("Teleporting Door to unlock (optional)")]
+    [SerializeField] private GameObject teleportingDoor;              // Assign if you want the door to open on success
     bool active = true;
 
     private LockpickFiveInARow activeGame;
@@ -57,6 +60,7 @@ public class LockPick : MonoBehaviour, IInteractable
             {
                 Debug.Log("Lock successfully picked!");
                 if (door != null) door.Open();
+                if (teleportingDoor != null) teleportingDoor.SetActive(true);
                 active = false;
             }
             else
