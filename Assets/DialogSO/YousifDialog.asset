@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8baa87bf9e164d029d43a686a7a3210, type: 3}
+  m_Name: YousifDialog
+  m_EditorClassIdentifier: 
+  dialogueNodes:
+  - text: mmmm do you have food for me? key taste bad.
+    npcName: 
+    portrait: {fileID: 0}
+    choices:
+    - choiceText: Where would I get food?
+      nextNodeIndex: 1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 0
+      rewardItem: {fileID: 0}
+      rewardQuantity: 0
+      oneTimeTrade: 0
+    - choiceText: Yup, I've got your bread.
+      nextNodeIndex: 2
+      requiredItem: {fileID: 11400000, guid: ae097470687c340999bc94288acc912b, type: 2}
+      requiredQuantity: 1
+      rewardItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
+      rewardQuantity: 1
+      oneTimeTrade: 1
+    nextNodeIndex: 0
+  - text: mmm i think vending machine, but it broke. fix it and get me food before
+      i eat you
+    npcName: 
+    portrait: {fileID: 0}
+    choices: []
+    nextNodeIndex: -1
+  - text: yay bread taste better than key
+    npcName: 
+    portrait: {fileID: 0}
+    choices: []
+    nextNodeIndex: -1
+  defaultPortrait: {fileID: -6369375720986105966, guid: e8ace79c5cdee4d19a638372af772533, type: 3}
+  defaultName: Yousif
