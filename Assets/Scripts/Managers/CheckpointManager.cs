@@ -65,12 +65,17 @@ public class CheckpointManager : MonoBehaviour
         public List<InventorySlotData> inventorySlots = new List<InventorySlotData>(); // Inventory state
         public List<EquipmentSlotData> equipmentSlots = new List<EquipmentSlotData>(); // Equipment state
         public List<ItemData> items = new List<ItemData>(); // Dropped items on the map (both placed and dropped)
+        public List<string> completedTrades = new List<string>(); // One-time trades that were completed at this checkpoint
+        public Dictionary<int, bool> lockPickStates = new Dictionary<int, bool>(); // instanceID -> isActive (not lockpicked)
+        public Dictionary<int, bool> vendingMachineStates = new Dictionary<int, bool>(); // instanceID -> breadCollected
     }
 
     private CheckpointData currentCheckpoint;
     private Dictionary<int, EnemyBase> trackedEnemies = new Dictionary<int, EnemyBase>();
     private Dictionary<int, BreakableStatics> trackedStatics = new Dictionary<int, BreakableStatics>();
     private Dictionary<int, Item> trackedItems = new Dictionary<int, Item>(); // instanceID -> Item
+    private Dictionary<int, LockPick> trackedLockPicks = new Dictionary<int, LockPick>(); // instanceID -> LockPick
+    private Dictionary<int, VendingPopupInteractable> trackedVendingMachines = new Dictionary<int, VendingPopupInteractable>(); // instanceID -> VendingPopupInteractable
 
     public static event Action<Vector2> OnCheckpointSaved;
 
@@ -264,6 +269,54 @@ public class CheckpointManager : MonoBehaviour
             }
         }
 
+        // Capture completed one-time trades
+        currentCheckpoint.completedTrades.Clear();
+        if (DialogManager.Instance != null)
+        {
+            List<string> trades = DialogManager.GetCompletedTrades();
+            currentCheckpoint.completedTrades.AddRange(trades);
+        }
+
+        // Capture lockpick states
+        // First, ensure all lockpicks in the scene are tracked
+        LockPick[] allLockPicks = FindObjectsByType<LockPick>(FindObjectsSortMode.None);
+        foreach (LockPick lockPick in allLockPicks)
+        {
+            if (lockPick != null && !trackedLockPicks.ContainsKey(lockPick.gameObject.GetInstanceID()))
+            {
+                RegisterLockPick(lockPick);
+            }
+        }
+
+        currentCheckpoint.lockPickStates.Clear();
+        foreach (var kvp in trackedLockPicks)
+        {
+            if (kvp.Value != null)
+            {
+                currentCheckpoint.lockPickStates[kvp.Key] = kvp.Value.IsActive;
+            }
+        }
+
+        // Capture vending machine states
+        // First, ensure all vending machines in the scene are tracked
+        VendingPopupInteractable[] allVendingMachines = FindObjectsByType<VendingPopupInteractable>(FindObjectsSortMode.None);
+        foreach (VendingPopupInteractable vending in allVendingMachines)
+        {
+            if (vending != null && !trackedVendingMachines.ContainsKey(vending.gameObject.GetInstanceID()))
+            {
+                RegisterVendingMachine(vending);
+            }
+        }
+
+        currentCheckpoint.vendingMachineStates.Clear();
+        foreach (var kvp in trackedVendingMachines)
+        {
+            if (kvp.Value != null)
+            {
+                currentCheckpoint.vendingMachineStates[kvp.Key] = kvp.Value.IsBreadCollected;
+            }
+        }
+
         GameRestartManager.checkPointLocation = position;
         OnCheckpointSaved?.Invoke(position);
         Debug.Log($"CheckpointManager: Checkpoint saved at {position} in scene {currentCheckpoint.sceneName}");
@@ -421,6 +474,68 @@ public class CheckpointManager : MonoBehaviour
             RestoreItems(currentCheckpoint.items);
         }
 
+        // Restore completed one-time trades from checkpoint
+        // This ensures trades completed before the checkpoint are still marked as completed
+        if (DialogManager.Instance != null)
+        {
+            if (currentCheckpoint.completedTrades != null && currentCheckpoint.completedTrades.Count > 0)
+            {
+                DialogManager.RestoreCompletedTrades(currentCheckpoint.completedTrades);
+            }
+            else
+            {
+                // No trades in checkpoint, clear all (player respawned without any saved trades)
+                DialogManager.ClearCompletedTrades();
+            }
+        }
+
+        // Restore lockpick states
+        // First, ensure all lockpicks in the scene are tracked
+        LockPick[] allLockPicks = FindObjectsByType<LockPick>(FindObjectsSortMode.None);
+        foreach (LockPick lockPick in allLockPicks)
+        {
+            if (lockPick != null && !trackedLockPicks.ContainsKey(lockPick.gameObject.GetInstanceID()))
+            {
+                RegisterLockPick(lockPick);
+            }
+        }
+
+        foreach (var kvp in trackedLockPicks)
+        {
+            if (kvp.Value != null && currentCheckpoint.lockPickStates.ContainsKey(kvp.Key))
+            {
+                bool wasActive = currentCheckpoint.lockPickStates[kvp.Key];
+                kvp.Value.SetActive(wasActive);
+                
+                // If lockpick was completed (not active), restore door state
+                if (!wasActive)
+                {
+                    // Door should already be open from when it was lockpicked, but ensure it stays open
+                    // The door state is handled by the LockPick script itself
+                }
+            }
+        }
+
+        // Restore vending machine states
+        // First, ensure all vending machines in the scene are tracked
+        VendingPopupInteractable[] allVendingMachines = FindObjectsByType<VendingPopupInteractable>(FindObjectsSortMode.None);
+        foreach (VendingPopupInteractable vending in allVendingMachines)
+        {
+            if (vending != null && !trackedVendingMachines.ContainsKey(vending.gameObject.GetInstanceID()))
+            {
+                RegisterVendingMachine(vending);
+            }
+        }
+
+        foreach (var kvp in trackedVendingMachines)
+        {
+            if (kvp.Value != null && currentCheckpoint.vendingMachineStates.ContainsKey(kvp.Key))
+            {
+                bool breadWasCollected = currentCheckpoint.vendingMachineStates[kvp.Key];
+                kvp.Value.SetBreadCollected(breadWasCollected);
+            }
+        }
+
         Debug.Log($"Checkpoint restored at {currentCheckpoint.position}");
     }
 
@@ -468,6 +583,46 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
+    /// Registers a lockpick to be tracked by the checkpoint system.
+    /// Uses the GameObject's instance ID as the unique identifier.
+    public void RegisterLockPick(LockPick lockPick)
+    {
+        if (lockPick != null)
+        {
+            int instanceID = lockPick.gameObject.GetInstanceID();
+            trackedLockPicks[instanceID] = lockPick;
+        }
+    }
+
+    /// Unregisters a lockpick from tracking.
+    public void UnregisterLockPick(LockPick lockPick)
+    {
+        if (lockPick != null)
+        {
+            trackedLockPicks.Remove(lockPick.gameObject.GetInstanceID());
+        }
+    }
+
+    /// Registers a vending machine to be tracked by the checkpoint system.
+    /// Uses the GameObject's instance ID as the unique identifier.
+    public void RegisterVendingMachine(VendingPopupInteractable vending)
+    {
+        if (vending != null)
+        {
+            int instanceID = vending.gameObject.GetInstanceID();
+            trackedVendingMachines[instanceID] = vending;
+        }
+    }
+
+    /// Unregisters a vending machine from tracking.
+    public void UnregisterVendingMachine(VendingPopupInteractable vending)
+    {
+        if (vending != null)
+        {
+            trackedVendingMachines.Remove(vending.gameObject.GetInstanceID());
+        }
+    }
+
 
     /// Gets the current checkpoint position, or Vector2.zero if none saved.
 
@@ -502,6 +657,8 @@ public class CheckpointManager : MonoBehaviour
         trackedEnemies.Clear();
         trackedStatics.Clear();
         trackedItems.Clear();
+        trackedLockPicks.Clear();
+        trackedVendingMachines.Clear();
         Debug.Log("CheckpointManager: Checkpoint cleared for new scene");
     }
 
@@ -569,6 +726,34 @@ public class CheckpointManager : MonoBehaviour
         foreach (int key in nullItemKeys)
         {
             trackedItems.Remove(key);
+        }
+
+        // Clean up null lockpick references
+        List<int> nullLockPickKeys = new List<int>();
+        foreach (var kvp in trackedLockPicks)
+        {
+            if (kvp.Value == null)
+            {
+                nullLockPickKeys.Add(kvp.Key);
+            }
+        }
+        foreach (int key in nullLockPickKeys)
+        {
+            trackedLockPicks.Remove(key);
+        }
+
+        // Clean up null vending machine references
+        List<int> nullVendingKeys = new List<int>();
+        foreach (var kvp in trackedVendingMachines)
+        {
+            if (kvp.Value == null)
+            {
+                nullVendingKeys.Add(kvp.Key);
+            }
+        }
+        foreach (int key in nullVendingKeys)
+        {
+            trackedVendingMachines.Remove(key);
         }
     }
 

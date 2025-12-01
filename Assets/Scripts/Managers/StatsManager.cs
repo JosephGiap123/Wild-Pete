@@ -9,12 +9,12 @@ public class StatsManager : MonoBehaviour
 
     // Base stats (set in inspector or via InitializeStats)
     [SerializeField] private int baseMaxHealth = 20;
-    [SerializeField] private int baseMaxAmmo = 5;
+    [SerializeField] private int baseMaxAmmo = 0;
     [SerializeField] private float baseMovementSpeed = 3f;
     [SerializeField] private int baseJumpCount = 1;
     [SerializeField] private float baseDashSpeed = 12f;
-    [SerializeField] private float baseSlideSpeed = 6f;
-    [SerializeField] private float baseBulletSpeed = 10f;
+    [SerializeField] private float baseSlideSpeed = 10f;
+    [SerializeField] private float baseBulletSpeed = 0f;
     [SerializeField] private int baseBulletCount = 0;
     [SerializeField] private int baseMeleeAttack = 0;
     [SerializeField] private int baseWeaponlessMeleeAttack = 0;

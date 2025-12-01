@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 518c6cfbfef7a48ccaeadff3f4e54cc9, type: 3}
-  m_Name: ScrewdriverSO
+  m_Name: Mysterious Key
   m_EditorClassIdentifier: 
-  itemName: Screwdriver
-  icon: {fileID: -7630445104655385814, guid: eca537edb74c3ef428c02f20a588626f, type: 3}
-  dropIcon: {fileID: 6093936526812185673, guid: f4186b9c765479346812f52d90ba9003, type: 3}
+  itemName: Mysterious Key
+  icon: {fileID: -796954159943849205, guid: 21f15c967b83c46fbbb86709bfdaeed1, type: 3}
+  dropIcon: {fileID: 3123514060892983630, guid: 69bcdef5155964ae78563a8e14a77f4d, type: 3}
   maxStackSize: 1
   quantity: 1
-  itemDesc: A tool for removing some rusty screws
+  itemDesc: A key from the bomber, it seems to lead towards your freedom.

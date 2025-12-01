@@ -8,9 +8,9 @@ public class InputBroadcaster : MonoBehaviour
     void OnDestroy()
     {
         if (inputEvent != null)
-        {
+    {
             inputEvent.onEventRaised.RemoveListener(RaiseInputEvent);
-        }
+    }
     }
 
     public void RaiseInputEvent(string inputName, PlayerControls playerControls, KeyCode keyCode)

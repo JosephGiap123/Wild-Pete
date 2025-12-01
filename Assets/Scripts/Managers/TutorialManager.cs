@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject); //keep across scene loads
+        //will destroy itself on loading a new scene.
         // Singleton pattern
         if (Instance != null && Instance != this)
         {

@@ -32,6 +32,39 @@ public class DialogManager : MonoBehaviour
     // Track completed one-time trades: key = dialogue name + node index + choice index
     private static HashSet<string> completedTrades = new HashSet<string>();
 
+    /// <summary>
+    /// Clears all completed one-time trades. Should be called when restoring a checkpoint with no saved trades.
+    /// </summary>
+    public static void ClearCompletedTrades()
+    {
+        completedTrades.Clear();
+        Debug.Log("DialogManager: Cleared all completed one-time trades");
+    }
+
+    /// <summary>
+    /// Gets a copy of all completed trade keys. Used for saving to checkpoint.
+    /// </summary>
+    public static List<string> GetCompletedTrades()
+    {
+        return new List<string>(completedTrades);
+    }
+
+    /// <summary>
+    /// Restores completed trades from checkpoint data. Replaces current completed trades.
+    /// </summary>
+    public static void RestoreCompletedTrades(List<string> savedTrades)
+    {
+        completedTrades.Clear();
+        if (savedTrades != null)
+        {
+            foreach (string tradeKey in savedTrades)
+            {
+                completedTrades.Add(tradeKey);
+            }
+        }
+        Debug.Log($"DialogManager: Restored {completedTrades.Count} completed one-time trades from checkpoint");
+    }
+
 
     //holds refs to the dialogue panel, text, name, and portrait for dialog npcs to use
 
