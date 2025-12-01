@@ -91,16 +91,43 @@ public class Item : MonoBehaviour
 		if (collision.gameObject.CompareTag("Player") && isPickable)
 		{
 			Debug.Log("picking item up");
-			inventoryManager.AddItem(this);
-			itemPickUpEvent.RaiseEvent(this);
+			int quantityBefore = quantity;
+			bool fullyAdded = inventoryManager.AddItem(this);
 
-			// Unregister from checkpoint system before destroying
-			if (CheckpointManager.Instance != null)
+			if (fullyAdded)
 			{
-				CheckpointManager.Instance.UnregisterItem(this);
-			}
+				// Item was fully added to inventory - destroy it
+				itemPickUpEvent.RaiseEvent(this);
 
-			Destroy(gameObject);
+				// Unregister from checkpoint system before destroying
+				if (CheckpointManager.Instance != null)
+				{
+					CheckpointManager.Instance.UnregisterItem(this);
+				}
+
+				Destroy(gameObject);
+			}
+			else
+			{
+				// Item was partially added or not added at all
+				// The item's quantity has been modified by AddItem (reduced by what was added)
+				// If quantity is now 0, it was fully added (shouldn't happen, but safety check)
+				if (quantity <= 0)
+				{
+					itemPickUpEvent.RaiseEvent(this);
+					if (CheckpointManager.Instance != null)
+					{
+						CheckpointManager.Instance.UnregisterItem(this);
+					}
+					Destroy(gameObject);
+				}
+				else
+				{
+					// Item still has quantity left - keep it in the world
+					Debug.LogWarning($"Inventory full! Could not add {quantity} of {itemName}. Item remains in world.");
+					// Optionally: you could add visual/audio feedback here (e.g., play a "full" sound)
+				}
+			}
 		}
 	}
 

@@ -14,67 +14,105 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - text: Sup.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 0
     choices:
     - choiceText: Hi
       nextNodeIndex: 1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: Sup. See ya.
       nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
   - text: So you've landed yourself in this prison too? What got ya in here?
     npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 0
     choices:
     - choiceText: Dunno.
       nextNodeIndex: 2
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: Someone's out there for me.
       nextNodeIndex: 2
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: No need for you to know.
       nextNodeIndex: 3
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
   - text: Well, just word of advice, keep your head down in this prison. The warden's
       been a real handful lately.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 0
     choices:
     - choiceText: The warden?
       nextNodeIndex: 4
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: What's so bad about him?
       nextNodeIndex: 5
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
   - text: I'd be mad too if I was stuffed down here too like you were.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 1
     choices: []
     nextNodeIndex: -1
   - text: Yeah, the big old head of this prison.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 0
     choices:
     - choiceText: What's so bad about him?
       nextNodeIndex: 5
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: Gotcha.
       nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
   - text: He recently got himself a shiny new toy, they're callin' it a laser blaster
       or something.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 0
     choices: []
     nextNodeIndex: 6
   - text: Not going to lie, that stuff seems real dangerous. The guards are also
       a real pain, be careful of them.
-    npcName: Yousif
+    npcName: 
     portrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-    isEnd: 1
     choices: []
     nextNodeIndex: -1
   defaultPortrait: {fileID: 8727732916192786330, guid: 0a0684e3912854f50b37be44e47c71ac, type: 3}
-  defaultName: Yousif
+  defaultName: Johann

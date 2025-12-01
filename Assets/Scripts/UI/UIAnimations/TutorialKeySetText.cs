@@ -6,6 +6,12 @@ public class TutorialKeySetText : MonoBehaviour
     [SerializeField] protected PlayerControls inputCmd;
     [SerializeField] protected GameObject keyText;
 
+    [SerializeField] private InputEvent inputEvent;
+
+    void OnDisable()
+    {
+        inputEvent.onEventRaised.RemoveListener(ChangeInputSprite);
+    }
     private void SetText(KeyCode mappedKeyCode)
     {
         Debug.Log(mappedKeyCode);
@@ -37,18 +43,19 @@ public class TutorialKeySetText : MonoBehaviour
     private IEnumerator WaitForControlManager()
     {
         yield return new WaitWhile(() => !ControlManager.instance);
-        ControlManager.instance.ChangedInput += ChangeInputSprite;
+        // ControlManager.instance.ChangedInput += ChangeInputSprite;
+        inputEvent.onEventRaised.AddListener(ChangeInputSprite);
         Debug.Log("found control manager");
         KeyCode mappedKeyCode = ControlManager.instance.inputMapping[inputCmd];
         SetText(mappedKeyCode);
     }
 
-    public void OnDisable()
-    {
-        ControlManager.instance.ChangedInput -= ChangeInputSprite;
-    }
+    // public void OnDisable()
+    // {
+    //     ControlManager.instance.ChangedInput -= ChangeInputSprite;
+    // }
 
-    protected void ChangeInputSprite(PlayerControls inputName, KeyCode newKeyCode)
+    protected void ChangeInputSprite(string inputStringName, PlayerControls inputName, KeyCode newKeyCode)
     {
         if (inputName == inputCmd)
         {

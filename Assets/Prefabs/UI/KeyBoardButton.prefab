@@ -234,3 +234,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputCmd: 0
   keyText: {fileID: 2792144737675234609}
+  inputEvent: {fileID: 11400000, guid: c64eb4441d82449359a87835fd3d37c7, type: 2}
