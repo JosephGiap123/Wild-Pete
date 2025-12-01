@@ -42,8 +42,7 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
-        // Open/close inventory with Tab
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Inventory]))
         {
             if (menuCanvas == null)
             {
