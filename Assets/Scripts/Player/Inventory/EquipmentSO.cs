@@ -41,5 +41,12 @@ public class EquipmentSO : ItemSO
 
 	public EquipableBy equipableBy;
 
+	[Header("Weapon Behavior (Optional)")]
+	[Tooltip("If true, this melee weapon disables the held weapon but increases weaponless damage")]
+	public bool disablesHeldWeapon = false;
+
+	[Header("Ranged Weapon Projectile (Optional)")]
+	[Tooltip("Custom projectile prefab for this ranged weapon. If null, uses default bullet.")]
+	public GameObject customProjectilePrefab;
 
 }

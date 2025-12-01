@@ -36,8 +36,9 @@ public class PlayerInventory : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-
+            ClearDescriptionPanel();
+            DeselectAllSlots();
+            DeselectAllEquipmentSlots();
         }
         else
         {
@@ -235,6 +236,11 @@ public class PlayerInventory : MonoBehaviour
 
     public void FillDescriptionUI(string descName, string descText, Sprite descIcon)
     {
+        FillDescriptionUI(descName, descText, descIcon, null);
+    }
+
+    public void FillDescriptionUI(string descName, string descText, Sprite descIcon, EquipmentSO equipment)
+    {
         if (ItemDescriptionNameText == null || ItemDescriptionText == null || itemDescriptionIcon == null)
         {
             Debug.LogWarning("PlayerInventory: Description UI elements are not assigned!");
@@ -242,7 +248,23 @@ public class PlayerInventory : MonoBehaviour
         }
 
         ItemDescriptionNameText.text = descName ?? "";
-        ItemDescriptionText.text = descText ?? "";
+
+        // Build description text with stats if equipment is provided
+        string fullDescription = descText ?? "";
+        if (equipment != null && equipment.itemStats != null && equipment.itemStatAmounts != null)
+        {
+            string statsText = FormatEquipmentStats(equipment);
+            if (!string.IsNullOrEmpty(statsText))
+            {
+                if (!string.IsNullOrEmpty(fullDescription))
+                {
+                    fullDescription += "\n\n";
+                }
+                fullDescription += statsText;
+            }
+        }
+
+        ItemDescriptionText.text = fullDescription;
         itemDescriptionIcon.sprite = descIcon;
         if (descIcon == null)
         {
@@ -251,6 +273,99 @@ public class PlayerInventory : MonoBehaviour
         else
         {
             itemDescriptionIcon.enabled = true;
+        }
+    }
+
+    private string FormatEquipmentStats(EquipmentSO equipment)
+    {
+        if (equipment.itemStats == null || equipment.itemStatAmounts == null)
+        {
+            return "";
+        }
+
+        if (equipment.itemStats.Count == 0 || equipment.itemStats.Count != equipment.itemStatAmounts.Count)
+        {
+            return "";
+        }
+
+        System.Text.StringBuilder statsBuilder = new System.Text.StringBuilder();
+        statsBuilder.Append("<color=yellow>Stats:</color>\n");
+
+        for (int i = 0; i < equipment.itemStats.Count && i < equipment.itemStatAmounts.Count; i++)
+        {
+            EquipmentSO.Stats stat = equipment.itemStats[i];
+            float amount = equipment.itemStatAmounts[i];
+
+            string statName = FormatStatName(stat);
+            string statValue = FormatStatValue(stat, amount);
+
+            // Determine color and sign based on value
+            string color = amount >= 0 ? "green" : "red";
+            string sign = amount >= 0 ? "+" : ""; // Negative numbers already have a minus sign
+
+            statsBuilder.Append($"  {statName}: <color={color}>{sign}{statValue}</color>\n");
+        }
+
+        return statsBuilder.ToString();
+    }
+
+    private string FormatStatName(EquipmentSO.Stats stat)
+    {
+        switch (stat)
+        {
+            case EquipmentSO.Stats.MaxHealth:
+                return "Max Health";
+            case EquipmentSO.Stats.MeleeAttack:
+                return "Melee Attack";
+            case EquipmentSO.Stats.WeaponlessMeleeAttack:
+                return "Weaponless Attack";
+            case EquipmentSO.Stats.RangedAttack:
+                return "Ranged Attack";
+            case EquipmentSO.Stats.UniversalAttack:
+                return "Universal Attack";
+            case EquipmentSO.Stats.MovementSpeed:
+                return "Movement Speed";
+            case EquipmentSO.Stats.JumpCount:
+                return "Jump Count";
+            case EquipmentSO.Stats.DashSpeed:
+                return "Dash Speed";
+            case EquipmentSO.Stats.SlideSpeed:
+                return "Slide Speed";
+            case EquipmentSO.Stats.MaxAmmo:
+                return "Max Ammo";
+            case EquipmentSO.Stats.BulletSpeed:
+                return "Bullet Speed";
+            case EquipmentSO.Stats.BulletCount:
+                return "Bullet Count";
+            case EquipmentSO.Stats.MaxEnergy:
+                return "Max Energy";
+            case EquipmentSO.Stats.EnergyRegenRate:
+                return "Energy Regen";
+            default:
+                return stat.ToString();
+        }
+    }
+
+    private string FormatStatValue(EquipmentSO.Stats stat, float amount)
+    {
+        // Check if this is an integer stat
+        bool isIntStat = stat == EquipmentSO.Stats.MaxHealth ||
+                         stat == EquipmentSO.Stats.MaxAmmo ||
+                         stat == EquipmentSO.Stats.JumpCount ||
+                         stat == EquipmentSO.Stats.BulletCount ||
+                         stat == EquipmentSO.Stats.MeleeAttack ||
+                         stat == EquipmentSO.Stats.WeaponlessMeleeAttack ||
+                         stat == EquipmentSO.Stats.RangedAttack ||
+                         stat == EquipmentSO.Stats.UniversalAttack;
+
+        if (isIntStat)
+        {
+            return ((int)amount).ToString();
+        }
+        else
+        {
+            // Format float with 1 decimal place, remove trailing zeros
+            return amount.ToString("0.#");
         }
     }
 
@@ -511,7 +626,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// Called when equipment is equipped - apply stat bonuses
     /// </summary>
-    public void OnEquipmentEquipped(EquipmentSO equipment)
+    public void OnEquipmentEquipped(EquipmentSO equipment, EquipmentSO previousEquipment = null)
     {
         if (equipment == null) return;
 
@@ -529,7 +644,7 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning("PlayerInventory: StatsManager.instance is null! Cannot apply equipment stats.");
         }
 
-        // If this is a melee weapon, equip the weapon on the player
+        // If this is a melee weapon, handle weapon equipped state
         if (equipment.equipmentType == EquipmentSO.EquipmentSlot.Melee)
         {
             if (GameManager.Instance != null && GameManager.Instance.player != null)
@@ -537,7 +652,20 @@ public class PlayerInventory : MonoBehaviour
                 BasePlayerMovement2D playerMovement = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>();
                 if (playerMovement != null)
                 {
-                    playerMovement.SetWeaponEquipped(true);
+                    // If the new weapon requires weaponEquipped = true, but previous weapon disabled it,
+                    // we need to check if we should allow this
+                    if (!equipment.disablesHeldWeapon && previousEquipment != null && previousEquipment.disablesHeldWeapon)
+                    {
+                        // Previous weapon disabled held weapon, new weapon requires it
+                        // This is fine - the new weapon replaces the old one
+                        playerMovement.SetWeaponEquipped(true);
+                    }
+                    else
+                    {
+                        // Only set weapon equipped if it doesn't disable the held weapon
+                        // Weapons that disable held weapon are meant to boost weaponless attacks
+                        playerMovement.SetWeaponEquipped(!equipment.disablesHeldWeapon);
+                    }
                 }
             }
         }
@@ -572,7 +700,19 @@ public class PlayerInventory : MonoBehaviour
                 BasePlayerMovement2D playerMovement = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>();
                 if (playerMovement != null)
                 {
-                    playerMovement.SetWeaponEquipped(false);
+                    // Check if there's another melee weapon equipped that should keep weaponEquipped = true
+                    // Note: This is called BEFORE the new weapon is equipped, so we check the slot
+                    bool shouldKeepWeaponEquipped = false;
+                    EquipmentSlot meleeSlot = GetEquipmentSlotByType(EquipmentSO.EquipmentSlot.Melee);
+                    if (meleeSlot != null && !meleeSlot.IsEmpty())
+                    {
+                        EquipmentSO otherMelee = meleeSlot.GetEquippedItem();
+                        if (otherMelee != null && !otherMelee.disablesHeldWeapon)
+                        {
+                            shouldKeepWeaponEquipped = true;
+                        }
+                    }
+                    playerMovement.SetWeaponEquipped(shouldKeepWeaponEquipped);
                 }
             }
         }

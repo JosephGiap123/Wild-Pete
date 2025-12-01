@@ -737,9 +737,18 @@ public class WardenAI : EnemyBase
 
     public void InstBullet()
     {
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        // Calculate direction based on enemy facing, not spawn point rotation
+        // This ensures bullet always goes the correct direction even if enemy flips during attack
+        // For 2D: 0 degrees = right, 180 degrees = left
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
+
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, bulletRotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
-        projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        if (projScript != null)
+        {
+            projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        }
         return;
     }
 
