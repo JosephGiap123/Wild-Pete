@@ -1010,6 +1010,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2007587765783318737, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2120385454335549915, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1402,6 +1406,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: cheatModeButtonImage
+      value: 
+      objectReference: {fileID: 1790650804}
     - target: {fileID: 5795371620831987595, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_text
       value: 
@@ -1522,10 +1530,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 480
       objectReference: {fileID: 0}
-    - target: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
-      propertyPath: cheatModeButtonImage
-      value: 
-      objectReference: {fileID: 1790650804}
     - target: {fileID: 6579684422749410431, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

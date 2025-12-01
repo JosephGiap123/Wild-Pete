@@ -1,30 +1,21 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;   // for SceneManager & Scene
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject menuCanvas;
-    public InputBroadcaster inputBroadcaster;
+    [Header("Inventory / Tab menu panel (NOT the whole UI root)")]
+    public GameObject menuCanvas;                 // e.g. your Inventory / In-game menu panel
+    public InputBroadcaster inputBroadcaster;     // already used in your project
 
-
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name.Contains("Menu"))
-        {
-            this.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.gameObject.SetActive(true);
-        }
-    }
     void Awake()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+        // Keep this object between scenes
+        SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
+
         if (menuCanvas != null)
         {
+            // Start with the inventory/menu closed
             menuCanvas.SetActive(false);
         }
         else
@@ -35,23 +26,44 @@ public class MenuController : MonoBehaviour
 
     void OnDestroy()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // Update is called once per frame
+    // Called every time a new scene is loaded
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // IMPORTANT: we ONLY touch the menu panel, never this.gameObject
+        if (menuCanvas != null)
+        {
+            // Whether it's a Menu scene or Gameplay scene, start with Tab menu closed
+            menuCanvas.SetActive(false);
+        }
+    }
+
     void Update()
     {
+        // Open/close inventory with Tab
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (menuCanvas == null)
             {
-
                 Debug.LogError("MenuController: menuCanvas is null! Cannot toggle menu.");
                 return;
             }
 
-            if (!menuCanvas.activeSelf && PauseController.IsGamePaused) return;
-            inputBroadcaster.RaiseInputEvent("Inventory", PlayerControls.Inventory, KeyCode.Tab);
+            // Don’t allow opening a second menu if some other system has already paused the game
+            if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
+                return;
+
+            if (inputBroadcaster != null)
+            {
+                inputBroadcaster.RaiseInputEvent(
+                    "Inventory",
+                    PlayerControls.Inventory,
+                    KeyCode.Tab
+                );
+            }
+
             menuCanvas.SetActive(!menuCanvas.activeSelf);
         }
     }
