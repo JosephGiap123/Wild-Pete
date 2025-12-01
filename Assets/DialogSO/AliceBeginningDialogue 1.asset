@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8baa87bf9e164d029d43a686a7a3210, type: 3}
+  m_Name: AliceBeginningDialogue 1
+  m_EditorClassIdentifier: 
+  dialogueNodes:
+  - text: My head hurts...
+    npcName: 
+    portrait: {fileID: 6774402069111716254, guid: df9319809312c409db36e0afd3de235c, type: 3}
+    choices: []
+    nextNodeIndex: 1
+  - text: Where am I?
+    npcName: 
+    portrait: {fileID: 6774402069111716254, guid: df9319809312c409db36e0afd3de235c, type: 3}
+    choices: []
+    nextNodeIndex: 2
+  - text: Metal bars? Is this a prison?
+    npcName: 
+    portrait: {fileID: 0}
+    choices: []
+    nextNodeIndex: 3
+  - text: Why am I in a prison now?
+    npcName: 
+    portrait: {fileID: 0}
+    choices:
+    - choiceText: I have to find my family.
+      nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 0
+      rewardItem: {fileID: 0}
+      rewardQuantity: 0
+      oneTimeTrade: 0
+    - choiceText: I have to get out of here.
+      nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 0
+      rewardItem: {fileID: 0}
+      rewardQuantity: 0
+      oneTimeTrade: 0
+    nextNodeIndex: -1
+  defaultPortrait: {fileID: 6774402069111716254, guid: df9319809312c409db36e0afd3de235c, type: 3}
+  defaultName: Alice

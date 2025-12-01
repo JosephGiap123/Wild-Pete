@@ -572,7 +572,7 @@ MonoBehaviour:
   cutsceneCanvas: {fileID: 1450439423}
   slides:
   - image: {fileID: 4588988972441794107, guid: 65257aecf593249a6917f014d14793c2, type: 3}
-    text: You walk back towards my house, after a long days work.
+    text: You walk back towards your house, after a long days work.
   - image: {fileID: 1174537010, guid: 65257aecf593249a6917f014d14793c2, type: 3}
     text: But upon arriving, the house is empty, worse yet, it seems like a fight
       happened?
@@ -3398,7 +3398,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -389732845
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 999
   m_RenderMode: 0
   m_MeshDistribution: 0
