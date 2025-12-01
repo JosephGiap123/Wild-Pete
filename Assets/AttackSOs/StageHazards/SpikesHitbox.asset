@@ -21,9 +21,10 @@ MonoBehaviour:
   statics:
     serializedVersion: 2
     m_Bits: 0
-  knockbackForce: {x: 2, y: 2}
+  knockbackForce: {x: 0, y: 9}
   hitboxOffset: {x: 0, y: 0}
   hitboxSize: {x: 0, y: 0}
   damage: 10
   stunTime: 0
   constantKnockback: 1
+  attackType: 0

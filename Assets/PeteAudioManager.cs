@@ -83,6 +83,23 @@ public class PeteAudioManager : MonoBehaviour
         pitchResetCo = StartCoroutine(ResetPitchAfter(playTime, oldPitch, oldClip));
     }
 
+    // Cancel reload and immediately reset pitch (called when reload is interrupted)
+    public void CancelReload()
+    {
+        if (pitchResetCo != null)
+        {
+            StopCoroutine(pitchResetCo);
+            pitchResetCo = null;
+        }
+
+        if (sfxSource != null && sfxSource.clip == reload)
+        {
+            sfxSource.Stop();
+            sfxSource.pitch = 1f; // Reset to normal pitch
+            sfxSource.clip = null; // Clear the reload clip
+        }
+    }
+
     public void StartRunLoop()
     {
         if (!runLoop || loopSource == null || loopSource.isPlaying) return;

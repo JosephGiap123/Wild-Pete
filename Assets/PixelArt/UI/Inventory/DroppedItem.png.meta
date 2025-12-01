@@ -84,7 +84,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -108,7 +108,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -437,8 +437,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 725a208d227ff42bba6a09ebb58849e8
-      internalID: 40028045
+      spriteID: 88e7ddd8c5877447b8b1efd9ee43cc60
+      internalID: -852303987
       vertices: []
       indices: 
       edges: []
@@ -447,7 +447,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2188bb2e8fae84aafbe0dc6ef55ee9f9
+    spriteID: 1e4e1b1d1f4f740939d96aa9f699e7bc
     internalID: 0
     vertices: []
     indices: 
@@ -462,7 +462,7 @@ TextureImporter:
       DroppedItem_10: 3870007440393223046
       DroppedItem_11: 4135907101764349319
       DroppedItem_12: -4487801012766214874
-      DroppedItem_13: 40028045
+      DroppedItem_13: -852303987
       DroppedItem_2: -4828798527622135874
       DroppedItem_3: 1514126713615937113
       DroppedItem_4: 6073946270139058362

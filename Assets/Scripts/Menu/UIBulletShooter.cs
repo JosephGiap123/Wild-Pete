@@ -51,18 +51,14 @@ public class UIBulletShooter : MonoBehaviour
       yield return null;
     }
 
-    // TURN OFF MENU
-    if (mainMenuCanvas != null)
-      mainMenuCanvas.SetActive(false);
+    mainMenuCanvas.SetActive(false);
 
-    // TURN ON CUTSCENE CANVAS
-    if (cutSceneCanvas != null)
-      cutSceneCanvas.SetActive(true);
 
-    if (cutsceneManager != null)
-      cutsceneManager.BeginCutscene();
+    charSelectCanvas.SetActive(true);
 
-    // Fade back in
+    cutSceneCanvas.SetActive(false);
+
+
     t = 1f;
     while (t > 0f)
     {
@@ -73,4 +69,5 @@ public class UIBulletShooter : MonoBehaviour
 
     blackScreen.gameObject.SetActive(false);
   }
+
 }

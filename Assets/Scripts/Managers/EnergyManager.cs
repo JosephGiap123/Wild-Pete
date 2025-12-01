@@ -41,8 +41,8 @@ public class EnergyManager : MonoBehaviour
 
         // Unsubscribe from stat changes
         if (StatsManager.instance != null)
-        {
-            StatsManager.instance.OnStatChanged -= HandleStatChanged;
+    {
+        StatsManager.instance.OnStatChanged -= HandleStatChanged;
         }
     }
 
@@ -166,7 +166,7 @@ public class EnergyManager : MonoBehaviour
     }
 
     void SetEnergyRegenRate(float newEnergyRegenRate)
-    {
+        {
         energyRegenRate = newEnergyRegenRate;
         OnEnergyRegenRateChanged?.Invoke(energyRegenRate);
     }

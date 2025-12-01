@@ -48,11 +48,13 @@ public class WardenAI : EnemyBase
     [SerializeField] private GenericAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject slamParticlePrefab;
     [SerializeField] private GameObject phaseChangeParticles;
+    [SerializeField] private BoxCollider2D arenaBoundsCollider;
     private int ult1ChainCount = 0;
     protected float distanceToPlayer = 100f;
 
     [SerializeField] BossHPBarInteractor hpBarInteractor;
     [SerializeField] private WardenAudioManager audioManager;
+    [SerializeField] private BoolEventSO bossThemeEventSO;
     private Transform player;
 
 
@@ -140,6 +142,7 @@ public class WardenAI : EnemyBase
         }
 
         // Play entrance animation when player is nearby
+        bossThemeEventSO.RaiseEvent(true);
         ChangeAnimationState("Entrance");
         isInvincible = false;
         hpBarInteractor.ShowHealthBar(true);
@@ -272,6 +275,7 @@ public class WardenAI : EnemyBase
 
     protected IEnumerator Death()
     {
+        bossThemeEventSO.RaiseEvent(false);
         isDead = true;
         audioManager?.StopRunLoop();
         audioManager?.PlayDeath();
@@ -289,6 +293,7 @@ public class WardenAI : EnemyBase
 
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
+        bossThemeEventSO.RaiseEvent(false);
         // Boss always returns to spawn point, ignoring checkpoint position
         base.Respawn(null, facingRight);
 
@@ -543,23 +548,45 @@ public class WardenAI : EnemyBase
         }
     }
 
-    public IEnumerator Ult2LaserSpawn() //summons lasers that "chase" the player every half second.
+    public IEnumerator Ult2LaserSpawn() //summons lasers that "chase" the player every half second. OR spawns lasers in a set pattern if in phase 3
     {
-        int count = 4 + 2 * phaseNum;
-        for (int i = 0; i < count; i++)
+        if (Random.Range(0, 2) == 0 && phaseNum == 3)
         {
-            // Check if boss is still active and not dead before spawning each laser
-            if (isDead || !gameObject.activeSelf || !enabled)
+            //spawn lasers in a set pattern
+            Bounds arenaBounds = arenaBoundsCollider.bounds;
+            int numLasers = 10;
+            float arenaWidth = arenaBounds.max.x - arenaBounds.min.x;
+            for (int j = 0; j < 3; j++) //repeats a slightly different pattern x amount of times
             {
-                yield break; // Stop spawning if boss is dead or inactive
+                for (int i = 0; i < numLasers; i++) //laser spawns
+                {
+                    float xPos = arenaBounds.min.x + i * (arenaWidth / numLasers);
+                    GroundLaserBeam laserScript = Instantiate(laserPrefab, new(xPos, arenaBounds.min.y), Quaternion.identity).GetComponent<GroundLaserBeam>();
+                    laserScript.Initialize(new(xPos, arenaBounds.min.y), laserDmg, laserKnockback, 0.4f);
+                }
+                numLasers += 2;
+                yield return new WaitForSeconds(1f);
             }
-
-            Vector3 newPos = new(player.position.x, transform.position.y, 0f);
-            GroundLaserBeam laserScript = Instantiate(laserPrefab, newPos, Quaternion.identity).GetComponent<GroundLaserBeam>();
-            laserScript.Initialize(newPos, laserDmg, laserKnockback, 0.3f);
-            yield return new WaitForSeconds(0.5f);
         }
-        yield return null;
+        else
+        {
+            int count = 4 + 2 * phaseNum;
+            for (int i = 0; i < count; i++)
+            {
+                // Check if boss is still active and not dead before spawning each laser
+                if (isDead || !gameObject.activeSelf || !enabled)
+                {
+                    yield break; // Stop spawning if boss is dead or inactive
+                }
+
+                Vector3 newPos = new(player.position.x, transform.position.y, 0f);
+                GroundLaserBeam laserScript = Instantiate(laserPrefab, newPos, Quaternion.identity).GetComponent<GroundLaserBeam>();
+                laserScript.Initialize(newPos, laserDmg, laserKnockback, 0.3f);
+                yield return new WaitForSeconds(0.5f);
+            }
+            yield return null;
+        }
+
     }
     public void Ult1LaserSpawn()
     {
@@ -710,9 +737,18 @@ public class WardenAI : EnemyBase
 
     public void InstBullet()
     {
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        // Calculate direction based on enemy facing, not spawn point rotation
+        // This ensures bullet always goes the correct direction even if enemy flips during attack
+        // For 2D: 0 degrees = right, 180 degrees = left
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
+
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, bulletRotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
-        projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        if (projScript != null)
+        {
+            projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        }
         return;
     }
 

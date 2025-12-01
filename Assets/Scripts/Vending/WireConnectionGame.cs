@@ -70,11 +70,60 @@ public class WireConnectionGame : MonoBehaviour
         
         isActive = true;
         
-        // CRITICAL: Ensure all target points are visible and active
+        // CRITICAL: Ensure all target points are visible and active FIRST
         EnsureTargetsVisible();
         
+        // First, set each target to its correct wire color (based on which wire should connect to it)
+        // This gives the player a visual hint about which wire goes where
+        for (int i = 0; i < targetPoints.Count; i++)
+        {
+            var target = targetPoints[i];
+            if (target == null) continue;
+            
+            // Find which wire should connect to this target
+            Wire correctWire = null;
+            foreach (var wire in wires)
+            {
+                if (wire.correctTargetIndex == i)
+                {
+                    correctWire = wire;
+                    break;
+                }
+            }
+            
+            // If a wire should connect to this target, color it with that wire's color
+            // Otherwise, leave it white (or set to a default color)
+            Color targetColor;
+            if (correctWire != null)
+            {
+                targetColor = new Color(correctWire.wireColor.r, correctWire.wireColor.g, correctWire.wireColor.b, 1f);
+            }
+            else
+            {
+                targetColor = Color.white; // No wire assigned to this target
+            }
+            
+            var targetImage = target.GetComponent<Image>();
+            if (targetImage != null)
+            {
+                targetImage.color = targetColor;
+                targetImage.SetAllDirty();
+                
+                // Also set via CanvasRenderer
+                var canvasRenderer = target.GetComponent<CanvasRenderer>();
+                if (canvasRenderer != null)
+                {
+                    canvasRenderer.SetColor(targetColor);
+                }
+            }
+            target.color = targetColor;
+        }
+        
         // Recreate connection lines from saved connections (if any exist)
+        // This will update target colors if wires are already connected (overriding the initial colors)
         RecreateConnectionLines();
+        
+        Debug.Log($"[WireConnectionGame] Show() - wireToTargetMap.Count = {wireToTargetMap.Count}");
         
         // If already complete, show completed state
         if (isComplete)
@@ -85,6 +134,10 @@ public class WireConnectionGame : MonoBehaviour
         {
             // Reset visual state but keep connections if any
             UpdateWireVisuals();
+            
+            // Targets are already colored with their correct wire colors from the initial setup above
+            // RecreateConnectionLines() will have updated colors for already-connected wires
+            // No need to reset unconnected targets - they should stay colored with their correct wire color
         }
         
         Debug.Log("[WireConnectionGame] Wire game shown");
@@ -155,35 +208,47 @@ public class WireConnectionGame : MonoBehaviour
         // NOTE: wireToTargetMap is NOT cleared - this saves the progress
         // When Show() is called, RecreateConnectionLines() will restore the connections
         
-        // Return to vending popup
+        // Return to vending popup (if it exists)
+        // Note: We don't unpause here because the vending popup or screw panel might still be open
+        // The pause will be handled when CloseAll() is called on the vending popup
         if (vendingPopup) vendingPopup.SetActive(true);
     }
     
     // Recreate connection lines from saved connections
     private void RecreateConnectionLines()
     {
+        // If wireToTargetMap is empty but wireToLineMap has entries, we need to rebuild wireToTargetMap
+        // by finding which target each line connects to
+        if (wireToTargetMap.Count == 0 && wireToLineMap.Count > 0)
+        {
+            Debug.Log($"[WireConnectionGame] wireToTargetMap is empty but {wireToLineMap.Count} lines exist - attempting to rebuild connections");
+            RebuildConnectionsFromLines();
+        }
+        
         if (wireToTargetMap.Count == 0)
         {
-            Debug.Log("[WireConnectionGame] No saved connections to recreate");
+            Debug.Log("[WireConnectionGame] No saved connections to recreate - all targets will remain white");
             return;
         }
         
         Debug.Log($"[WireConnectionGame] Recreating {wireToTargetMap.Count} connection lines from saved progress");
         
+        // Recreate connections and color the connected targets
         foreach (var kvp in wireToTargetMap)
         {
             Image wire = kvp.Key;
             int targetIndex = kvp.Value;
             
-            if (wire == null || targetIndex < 0 || targetIndex >= targetPoints.Count) continue;
+            if (wire == null || targetIndex < 0 || targetIndex >= targetPoints.Count)
+            {
+                Debug.LogWarning($"[WireConnectionGame] Invalid wire or targetIndex: wire={wire?.name}, targetIndex={targetIndex}");
+                continue;
+            }
             
             Image target = targetPoints[targetIndex];
-            if (target == null) continue;
-            
-            // Check if line already exists (shouldn't happen, but safety check)
-            if (wireToLineMap.ContainsKey(wire))
+            if (target == null)
             {
-                Debug.Log($"[WireConnectionGame] Line for wire {wire.name} already exists, skipping");
+                Debug.LogWarning($"[WireConnectionGame] Target at index {targetIndex} is null");
                 continue;
             }
             
@@ -198,19 +263,35 @@ public class WireConnectionGame : MonoBehaviour
                 }
             }
             
-            if (wireData == null) continue;
+            if (wireData == null)
+            {
+                Debug.LogWarning($"[WireConnectionGame] Wire data not found for wire {wire.name}");
+                continue;
+            }
             
-            // Recreate the connection line visual
-            CreateLineVisual(wire, target, wireData.wireColor);
+            // Make sure target is active first
+            target.gameObject.SetActive(true);
             
-            // Make sure target shows the wire color and is visible
+            // Set the wire color on the target - CRITICAL: do this BEFORE creating the line
+            Color wireColor = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
+            
+            // Set color on both the Image component and the target directly (target IS an Image)
             var targetImage = target.GetComponent<Image>();
             if (targetImage != null)
             {
                 targetImage.enabled = true;
-                targetImage.color = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
+                targetImage.color = wireColor;
+                Debug.Log($"[WireConnectionGame] Set target {targetIndex} Image.color to {wireColor} (RGB: {wireColor.r:F2}, {wireColor.g:F2}, {wireColor.b:F2})");
             }
-            target.gameObject.SetActive(true);
+            // Also set on target directly (target IS an Image, so this is the same reference)
+            target.color = wireColor;
+            Debug.Log($"[WireConnectionGame] Set target {targetIndex} direct color to {wireColor} (RGB: {wireColor.r:F2}, {wireColor.g:F2}, {wireColor.b:F2})");
+            
+            // Force update to ensure color is applied
+            if (targetImage != null)
+            {
+                targetImage.SetAllDirty(); // Force Unity to update the visual
+            }
             
             // Ensure target has proper CanvasGroup settings
             var canvasGroup = target.GetComponent<CanvasGroup>();
@@ -221,17 +302,110 @@ public class WireConnectionGame : MonoBehaviour
             canvasGroup.alpha = 1f;
             canvasGroup.ignoreParentGroups = true;
             
-            Debug.Log($"[WireConnectionGame] Recreated line for wire {wire.name} to target {targetIndex}");
+            // Check if line already exists (shouldn't happen, but safety check)
+            if (wireToLineMap.ContainsKey(wire))
+            {
+                Debug.Log($"[WireConnectionGame] Line for wire {wire.name} already exists, skipping line creation");
+                continue;
+            }
+            
+            // Recreate the connection line visual
+            CreateLineVisual(wire, target, wireData.wireColor);
+            
+            Debug.Log($"[WireConnectionGame] Recreated line for wire {wire.name} to target {targetIndex} with color {wireColor}");
         }
     }
     
-    private void HideInstant()
+    // Rebuild wireToTargetMap from existing lines by finding the closest target to each line
+    private void RebuildConnectionsFromLines()
+    {
+        foreach (var kvp in wireToLineMap)
+        {
+            Image wire = kvp.Key;
+            GameObject line = kvp.Value;
+            
+            if (wire == null || line == null) continue;
+            
+            // Find wire data to get the wire color
+            Wire wireData = null;
+            foreach (var w in wires)
+            {
+                if (w.wireImage == wire)
+                {
+                    wireData = w;
+                    break;
+                }
+            }
+            
+            if (wireData == null) continue;
+            
+            // Find the closest target to this wire by checking line direction
+            RectTransform wireRect = wire.rectTransform;
+            Vector3 wireCenter = wireRect.position;
+            
+            RectTransform lineRect = line.GetComponent<RectTransform>();
+            if (lineRect == null) continue;
+            
+            // Get line's end position (line extends from wire center in lineRect.right direction)
+            Vector3 lineEnd = wireCenter + lineRect.right * (lineRect.sizeDelta.x * 0.5f);
+            
+            Image closestTarget = null;
+            int closestTargetIndex = -1;
+            float closestDistance = float.MaxValue;
+            
+            for (int i = 0; i < targetPoints.Count; i++)
+            {
+                Image target = targetPoints[i];
+                if (target == null) continue;
+                
+                RectTransform targetRect = target.rectTransform;
+                Vector3 targetCenter = targetRect.position;
+                float distance = Vector3.Distance(lineEnd, targetCenter);
+                
+                // If this target is closer to the line's end, it's likely the connected target
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = target;
+                    closestTargetIndex = i;
+                }
+            }
+            
+            if (closestTarget != null && closestTargetIndex >= 0)
+            {
+                wireToTargetMap[wire] = closestTargetIndex;
+                Debug.Log($"[WireConnectionGame] Rebuilt connection: wire {wire.name} -> target {closestTargetIndex} (distance: {closestDistance:F2})");
+                
+                // Color the target
+                Color wireColor = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
+                var targetImage = closestTarget.GetComponent<Image>();
+                if (targetImage != null)
+                {
+                    targetImage.color = wireColor;
+                    targetImage.SetAllDirty();
+                }
+                closestTarget.color = wireColor;
+                
+                // Ensure target has proper CanvasGroup settings
+                var canvasGroup = closestTarget.GetComponent<CanvasGroup>();
+                if (canvasGroup == null)
+                {
+                    canvasGroup = closestTarget.gameObject.AddComponent<CanvasGroup>();
+                }
+                canvasGroup.alpha = 1f;
+                canvasGroup.ignoreParentGroups = true;
+            }
+        }
+    }
+    
+    public void HideInstant()
     {
         if (!canvasGroup) canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
         gameObject.SetActive(false);
+        isActive = false;
     }
     
     public void SetVendingPopup(GameObject go) => vendingPopup = go;
@@ -353,18 +527,38 @@ public class WireConnectionGame : MonoBehaviour
             
             // Visual feedback - color the target with wire color
             // CRITICAL: Ensure target stays visible and active FOREVER
-            closestTarget.color = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
             closestTarget.gameObject.SetActive(true);
-            closestTarget.enabled = true;
             
-            // Make sure Image component is enabled
+            // Set the wire color on the target - do this FIRST before any other operations
+            Color wireColor = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
+            
+            // Make sure Image component is enabled and colored
             var targetImage = closestTarget.GetComponent<Image>();
             if (targetImage != null)
             {
                 targetImage.enabled = true;
                 targetImage.raycastTarget = true;
-                targetImage.color = new Color(wireData.wireColor.r, wireData.wireColor.g, wireData.wireColor.b, 1f);
+                // Set color on the Image component (closestTarget IS an Image, but we need to be explicit)
+                targetImage.color = wireColor;
+                targetImage.SetAllDirty(); // Force Unity to update the visual immediately
+                
+                // Also try setting via CanvasRenderer (more direct approach)
+                var canvasRenderer = closestTarget.GetComponent<CanvasRenderer>();
+                if (canvasRenderer != null)
+                {
+                    canvasRenderer.SetColor(wireColor);
+                }
             }
+            // Also set on target directly (closestTarget IS an Image)
+            closestTarget.color = wireColor;
+            closestTarget.enabled = true;
+            
+            Debug.Log($"[WireConnectionGame] Set target {targetIndex} color to {wireColor} (RGB: {wireColor.r:F2}, {wireColor.g:F2}, {wireColor.b:F2})");
+            Debug.Log($"[WireConnectionGame] Target Image.color is now: {closestTarget.color} (RGB: {closestTarget.color.r:F2}, {closestTarget.color.g:F2}, {closestTarget.color.b:F2})");
+            
+            // Force multiple frame updates to ensure color is applied
+            StartCoroutine(ForceTargetColorUpdate(closestTarget, wireColor));
+            StartCoroutine(ForceTargetColorUpdateDelayed(closestTarget, wireColor, 0.1f));
             
             // CRITICAL: Add CanvasGroup with ignoreParentGroups to keep target visible
             var targetCanvasGroup = closestTarget.GetComponent<CanvasGroup>();
@@ -375,9 +569,6 @@ public class WireConnectionGame : MonoBehaviour
             targetCanvasGroup.alpha = 1f;
             targetCanvasGroup.ignoreParentGroups = true; // CRITICAL: Ignore parent alpha!
             targetCanvasGroup.blocksRaycasts = true;
-            
-            // Force target to stay visible - call this to ensure all targets are visible
-            EnsureTargetsVisible();
             
             // Convert the drag line to a permanent connection line
             // KEEP THE EXACT DRAG LENGTH - DON'T EXTEND IT
@@ -411,8 +602,8 @@ public class WireConnectionGame : MonoBehaviour
             
             Debug.Log($"[WireConnectionGame] Wire {wireIndex} correctly connected to target {targetIndex}");
             
-            // CRITICAL: Ensure all targets stay visible after connection
-            EnsureTargetsVisible();
+            // Don't call EnsureTargetsVisible() here - it preserves existing colors which might be white
+            // We've already set the target color above, so we don't need to call it
             
             // Check if all wires are correctly connected
             CheckCompletion();
@@ -780,6 +971,27 @@ public class WireConnectionGame : MonoBehaviour
         }
         wireToLineMap.Clear();
         
+        // Clear all drag lines (temporary)
+        foreach (var dragLine in wireToDragLineMap.Values)
+        {
+            if (dragLine != null)
+                Destroy(dragLine);
+        }
+        wireToDragLineMap.Clear();
+        
+        // Reset wire positions to original
+        foreach (var wire in wires)
+        {
+            if (wire.wireImage != null)
+            {
+                var dragHandler = wire.wireImage.GetComponent<WireDragHandler>();
+                if (dragHandler != null)
+                {
+                    dragHandler.ResetPosition();
+                }
+            }
+        }
+        
         // Reset target colors
         foreach (var target in targetPoints)
         {
@@ -788,5 +1000,54 @@ public class WireConnectionGame : MonoBehaviour
         }
         
         UpdateWireVisuals();
+    }
+    
+    // Coroutine to force target color update after a frame delay
+    private System.Collections.IEnumerator ForceTargetColorUpdate(Image target, Color color)
+    {
+        yield return null; // Wait one frame
+        
+        if (target != null)
+        {
+            var targetImage = target.GetComponent<Image>();
+            if (targetImage != null)
+            {
+                targetImage.color = color;
+                targetImage.SetAllDirty();
+                
+                // Also set via CanvasRenderer
+                var canvasRenderer = target.GetComponent<CanvasRenderer>();
+                if (canvasRenderer != null)
+                {
+                    canvasRenderer.SetColor(color);
+                }
+            }
+            target.color = color;
+            Debug.Log($"[WireConnectionGame] Force updated target color to {color} (RGB: {color.r:F2}, {color.g:F2}, {color.b:F2})");
+        }
+    }
+    
+    // Additional delayed color update
+    private System.Collections.IEnumerator ForceTargetColorUpdateDelayed(Image target, Color color, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        if (target != null)
+        {
+            var targetImage = target.GetComponent<Image>();
+            if (targetImage != null)
+            {
+                targetImage.color = color;
+                targetImage.SetAllDirty();
+                
+                var canvasRenderer = target.GetComponent<CanvasRenderer>();
+                if (canvasRenderer != null)
+                {
+                    canvasRenderer.SetColor(color);
+                }
+            }
+            target.color = color;
+            Debug.Log($"[WireConnectionGame] Delayed force updated target color to {color} (RGB: {color.r:F2}, {color.g:F2}, {color.b:F2})");
+        }
     }
 }

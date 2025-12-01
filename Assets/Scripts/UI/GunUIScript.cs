@@ -2,12 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GunUIScript : MonoBehaviour
 {
     [SerializeField] private Image shotgunImage, revolverImage;
     [SerializeField] private GameObject shotgunAmmoPrefab, revolverAmmoPrefab;
+    [SerializeField] private TMP_Text ammoText;
     [SerializeField] private Transform ammoContainer;
+
+    [SerializeField] private EquipmentChangeEventSO equipEventSO;
+    [SerializeField] private EquipmentChangeEventSO unequipEventSO;
+    [SerializeField] private VoidEvents inventoryChangedEventSO;
 
     private BasePlayerMovement2D playerMovement;
     private int ammo, maxAmmo;
@@ -15,7 +21,7 @@ public class GunUIScript : MonoBehaviour
     void Awake()
     {
         GameManager.OnPlayerSet += HandlePlayerSet;
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SubscribeToInventoryEvents();
 
         // If player is already set, update UI immediately
@@ -23,9 +29,6 @@ public class GunUIScript : MonoBehaviour
         {
             HandlePlayerSet(GameManager.Instance.player);
         }
-
-        // Also try to update UI after a short delay in case inventory wasn't ready
-        StartCoroutine(DelayedInitialUpdate());
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -33,11 +36,13 @@ public class GunUIScript : MonoBehaviour
         if (scene.name.Contains("Menu"))
         {
             this.gameObject.SetActive(false);
+            SubscribeToInventoryEvents();
             return;
         }
         else
         {
             this.gameObject.SetActive(true);
+            SubscribeToInventoryEvents();
             DrawGunUI();
             DrawAmmoUI();
         }
@@ -47,24 +52,9 @@ public class GunUIScript : MonoBehaviour
     {
         if (PlayerInventory.instance != null)
         {
-            PlayerInventory.instance.OnEquipmentEquippedEvent += UpdateGunUI;
-            PlayerInventory.instance.OnEquipmentUnequippedEvent += UpdateGunUI;
-        }
-    }
-
-    private System.Collections.IEnumerator DelayedInitialUpdate()
-    {
-        // Wait a frame to ensure everything is initialized
-        yield return null;
-
-        // Try subscribing again in case inventory wasn't ready
-        SubscribeToInventoryEvents();
-
-        // Force update UI to catch any equipment that was already equipped
-        DrawGunUI();
-        if (playerMovement != null)
-        {
-            DrawAmmoUI();
+            equipEventSO.onEventRaised.AddListener(UpdateGunUI);
+            unequipEventSO.onEventRaised.AddListener(UpdateGunUI);
+            inventoryChangedEventSO.onEventRaised.AddListener(UpdateAmmoText);
         }
     }
 
@@ -75,8 +65,8 @@ public class GunUIScript : MonoBehaviour
 
         if (PlayerInventory.instance != null)
         {
-            PlayerInventory.instance.OnEquipmentEquippedEvent -= UpdateGunUI;
-            PlayerInventory.instance.OnEquipmentUnequippedEvent -= UpdateGunUI;
+            equipEventSO.onEventRaised.RemoveListener(UpdateGunUI);
+            unequipEventSO.onEventRaised.RemoveListener(UpdateGunUI);
         }
 
         // Unsubscribe from ammo event when disabled
@@ -84,6 +74,11 @@ public class GunUIScript : MonoBehaviour
         {
             playerMovement.OnAmmoChanged -= UpdateAmmoUI;
         }
+    }
+
+    void UpdateAmmoText()
+    {
+        ammoText.text = 'x' + PlayerInventory.instance.HasItem("Ammo").ToString();
     }
 
     private void HandlePlayerSet(GameObject player)
@@ -110,11 +105,11 @@ public class GunUIScript : MonoBehaviour
         // Always update UI when player is set (in case equipment was equipped before player was set)
         DrawGunUI();
         DrawAmmoUI();
+        UpdateAmmoText();
     }
 
     private void DrawGunUI()
     {
-        // Check if slot 3 (Ranged) exists and has equipment
         bool hasRangedWeapon = PlayerInventory.instance != null
             && PlayerInventory.instance.equipmentSlots != null
             && PlayerInventory.instance.equipmentSlots.Length > 3
@@ -126,6 +121,7 @@ public class GunUIScript : MonoBehaviour
             Debug.Log("GunUI: Equipment slot 3 is empty or null");
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(false);
             return;
         }
 
@@ -135,6 +131,7 @@ public class GunUIScript : MonoBehaviour
             Debug.LogWarning("GunUI: playerMovement is null, cannot determine which gun to show");
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(false);
             return;
         }
 
@@ -142,11 +139,13 @@ public class GunUIScript : MonoBehaviour
         {
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(true);
             if (revolverImage != null) revolverImage.gameObject.SetActive(false);
+            ammoText.gameObject.SetActive(true);
         }
         else
         {
             if (shotgunImage != null) shotgunImage.gameObject.SetActive(false);
             if (revolverImage != null) revolverImage.gameObject.SetActive(true);
+            ammoText.gameObject.SetActive(true);
         }
     }
 
@@ -205,8 +204,7 @@ public class GunUIScript : MonoBehaviour
 
     private void UpdateGunUI(EquipmentSO equipment)
     {
-        // If equipment is null (unequipped), check if slot 3 is empty
-        // If equipment is not null, only update if this is a ranged weapon
+        Debug.Log("Ran UpdateGunUI");
         if (equipment != null)
         {
             if (equipment.equipmentType != EquipmentSO.EquipmentSlot.Ranged)

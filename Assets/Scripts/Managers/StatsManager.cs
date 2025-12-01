@@ -9,16 +9,17 @@ public class StatsManager : MonoBehaviour
 
     // Base stats (set in inspector or via InitializeStats)
     [SerializeField] private int baseMaxHealth = 20;
-    [SerializeField] private int baseMaxAmmo = 5;
+    [SerializeField] private int baseMaxAmmo = 0;
     [SerializeField] private float baseMovementSpeed = 3f;
     [SerializeField] private int baseJumpCount = 1;
     [SerializeField] private float baseDashSpeed = 12f;
-    [SerializeField] private float baseSlideSpeed = 6f;
-    [SerializeField] private float baseBulletSpeed = 10f;
+    [SerializeField] private float baseSlideSpeed = 10f;
+    [SerializeField] private float baseBulletSpeed = 0f;
     [SerializeField] private int baseBulletCount = 0;
-    [SerializeField] private float baseMeleeAttack = 0f;
-    [SerializeField] private float baseRangedAttack = 0f;
-    [SerializeField] private float baseUniversalAttack = 0f;
+    [SerializeField] private int baseMeleeAttack = 0;
+    [SerializeField] private int baseWeaponlessMeleeAttack = 0;
+    [SerializeField] private int baseRangedAttack = 0;
+    [SerializeField] private int baseUniversalAttack = 0;
     [SerializeField] private float baseEnergy = 10f;
     [SerializeField] private float baseEnergyRegenRate = 1f;
 
@@ -34,9 +35,10 @@ public class StatsManager : MonoBehaviour
     public float slideSpeed => baseSlideSpeed + GetTotalModifier(EquipmentSO.Stats.SlideSpeed);
     public float bulletSpeed => baseBulletSpeed + GetTotalModifier(EquipmentSO.Stats.BulletSpeed);
     public int bulletCount => baseBulletCount + (int)GetTotalModifier(EquipmentSO.Stats.BulletCount);
-    public float meleeAttack => baseMeleeAttack + GetTotalModifier(EquipmentSO.Stats.MeleeAttack);
-    public float rangedAttack => baseRangedAttack + GetTotalModifier(EquipmentSO.Stats.RangedAttack);
-    public float universalAttack => baseUniversalAttack + GetTotalModifier(EquipmentSO.Stats.UniversalAttack);
+    public int meleeAttack => baseMeleeAttack + (int)GetTotalModifier(EquipmentSO.Stats.MeleeAttack);
+    public int weaponlessMeleeAttack => baseWeaponlessMeleeAttack + (int)GetTotalModifier(EquipmentSO.Stats.WeaponlessMeleeAttack);
+    public int rangedAttack => baseRangedAttack + (int)GetTotalModifier(EquipmentSO.Stats.RangedAttack);
+    public int universalAttack => baseUniversalAttack + (int)GetTotalModifier(EquipmentSO.Stats.UniversalAttack);
     public float maxEnergy => baseEnergy + GetTotalModifier(EquipmentSO.Stats.MaxEnergy);
     public float energyRegenRate => baseEnergyRegenRate + GetTotalModifier(EquipmentSO.Stats.EnergyRegenRate);
     public event Action<EquipmentSO.Stats, float> OnStatChanged;
@@ -61,7 +63,7 @@ public class StatsManager : MonoBehaviour
 
     public void InitializeStats(int baseMaxHealth, int baseMaxAmmo, float baseMovementSpeed, int baseJumpCount,
         float baseDashSpeed, float baseSlideSpeed, float baseBulletSpeed, int baseBulletCount,
-        float baseMeleeAttack, float baseRangedAttack, float baseUniversalAttack)
+        int baseMeleeAttack, int baseWeaponlessMeleeAttack, int baseRangedAttack, int baseUniversalAttack)
     {
         this.baseMaxHealth = baseMaxHealth;
         this.baseMaxAmmo = baseMaxAmmo;
@@ -72,6 +74,7 @@ public class StatsManager : MonoBehaviour
         this.baseBulletSpeed = baseBulletSpeed;
         this.baseBulletCount = baseBulletCount;
         this.baseMeleeAttack = baseMeleeAttack;
+        this.baseWeaponlessMeleeAttack = baseWeaponlessMeleeAttack;
         this.baseRangedAttack = baseRangedAttack;
         this.baseUniversalAttack = baseUniversalAttack;
 
@@ -161,12 +164,6 @@ public class StatsManager : MonoBehaviour
                 return slideSpeed;
             case EquipmentSO.Stats.BulletSpeed:
                 return bulletSpeed;
-            case EquipmentSO.Stats.MeleeAttack:
-                return meleeAttack;
-            case EquipmentSO.Stats.RangedAttack:
-                return rangedAttack;
-            case EquipmentSO.Stats.UniversalAttack:
-                return universalAttack;
             case EquipmentSO.Stats.MaxEnergy:
                 return maxEnergy;
             case EquipmentSO.Stats.EnergyRegenRate:
@@ -188,6 +185,15 @@ public class StatsManager : MonoBehaviour
                 return jumpCount;
             case EquipmentSO.Stats.BulletCount:
                 return bulletCount;
+            case EquipmentSO.Stats.MeleeAttack:
+                return meleeAttack;
+            case EquipmentSO.Stats.RangedAttack:
+                return rangedAttack;
+            case EquipmentSO.Stats.UniversalAttack:
+                return universalAttack;
+            case EquipmentSO.Stats.WeaponlessMeleeAttack:
+                return weaponlessMeleeAttack;
+
             default:
                 return 0;
         }
@@ -222,6 +228,11 @@ public class StatsManager : MonoBehaviour
         return stat == EquipmentSO.Stats.MaxHealth ||
                stat == EquipmentSO.Stats.MaxAmmo ||
                stat == EquipmentSO.Stats.JumpCount ||
-               stat == EquipmentSO.Stats.BulletCount;
+
+               stat == EquipmentSO.Stats.BulletCount ||
+               stat == EquipmentSO.Stats.WeaponlessMeleeAttack ||
+               stat == EquipmentSO.Stats.MeleeAttack ||
+               stat == EquipmentSO.Stats.RangedAttack ||
+               stat == EquipmentSO.Stats.UniversalAttack;
     }
 }

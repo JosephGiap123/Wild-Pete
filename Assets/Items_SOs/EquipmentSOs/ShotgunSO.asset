@@ -18,6 +18,11 @@ MonoBehaviour:
   maxStackSize: 1
   quantity: 1
   itemDesc: A basic shotgun, sprays 5 pellets.
-  itemStats: 
-  itemStatAmounts: []
+  itemStats: 0b00000009000000
+  itemStatAmounts:
+  - 5
+  - 5
   equipmentType: 3
+  equipableBy: 0
+  disablesHeldWeapon: 0
+  customProjectilePrefab: {fileID: 5375625646062328855, guid: f29d5ff69b0b3457f94f85c1769b38f4, type: 3}

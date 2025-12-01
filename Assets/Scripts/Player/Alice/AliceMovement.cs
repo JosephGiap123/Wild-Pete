@@ -97,6 +97,14 @@ public class AliceMovement2D : BasePlayerMovement2D
             attackCoroutine = StartCoroutine(ThrowAttack());
             PlayerInventory.instance.UseItem("Dynamite", 1);
         }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey1]) && isGrounded && PlayerInventory.instance.HasItem("Bandaid") > 0)
+        {
+            PlayerInventory.instance.UseItem("Bandaid", 1);
+        }
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Hotkey2]) && isGrounded && PlayerInventory.instance.HasItem("Medkit") > 0)
+        {
+            PlayerInventory.instance.UseItem("Medkit", 1);
+        }
 
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Ranged]) && isGrounded && !isAttacking && ammoCount > 0 && PlayerInventory.instance.equipmentSlots[3].GetEquippedItem() != null)
         {
@@ -147,7 +155,7 @@ public class AliceMovement2D : BasePlayerMovement2D
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty() && PlayerInventory.instance.equipmentSlots[2].GetEquippedItem().disablesHeldWeapon == false)
         {
             weaponEquipped = !weaponEquipped;
         }
@@ -243,14 +251,42 @@ public class AliceMovement2D : BasePlayerMovement2D
     }
 
     // Multi-pellet shotgun: play the shotgun SFX ONCE per shot, then spawn N pellets
-    public void InstBullet(int num)
+    public void InstBullet()
     {
         // Shotgun blast SFX (once)
 
+        // Get projectile prefab from equipped ranged weapon, or use default
+        GameObject projectilePrefab = GetCurrentProjectilePrefab();
+        int num = StatsManager.instance.bulletCount;
+        if (num == 0)
+        {
+            num = 1;
+        }
         for (int i = 0; i < num; i++)
         {
-            bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+            bulletInstance = Instantiate(projectilePrefab, bulletOrigin.position, bulletOrigin.rotation);
+            bulletInstance.GetComponent<GeneralizedBullet>().AddDamage(StatsManager.instance.rangedAttack);
         }
+    }
+
+    /// <summary>
+    /// Gets the projectile prefab from the currently equipped ranged weapon, or returns default bullet
+    /// </summary>
+    private GameObject GetCurrentProjectilePrefab()
+    {
+        if (PlayerInventory.instance != null && PlayerInventory.instance.equipmentSlots != null && PlayerInventory.instance.equipmentSlots.Length > 3)
+        {
+            EquipmentSlot rangedSlot = PlayerInventory.instance.equipmentSlots[3];
+            if (rangedSlot != null && !rangedSlot.IsEmpty())
+            {
+                EquipmentSO rangedWeapon = rangedSlot.GetEquippedItem();
+                if (rangedWeapon != null && rangedWeapon.customProjectilePrefab != null)
+                {
+                    return rangedWeapon.customProjectilePrefab;
+                }
+            }
+        }
+        return bullet; // Fallback to default bullet
     }
     protected override IEnumerator ThrowAttack()
     {
@@ -258,6 +294,16 @@ public class AliceMovement2D : BasePlayerMovement2D
         audioMgr.PlayThrow();
         audioMgr?.StopRunLoop();
         yield return base.ThrowAttack();
+    }
+
+    protected override void CancelAllActions()
+    {
+        // Cancel reload audio if reloading was interrupted
+        if (isReloading)
+        {
+            audioMgr?.CancelReload();
+        }
+        base.CancelAllActions();
     }
 
     private void OnDisable() { audioMgr?.StopRunLoop(); }

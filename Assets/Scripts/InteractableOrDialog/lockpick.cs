@@ -10,7 +10,29 @@ public class LockPick : MonoBehaviour, IInteractable
 
     [Header("Door to unlock (optional)")]
     [SerializeField] private InteractableDoor door;              // Assign if you want the door to open on success
+
+    [Header("Teleporting Door to unlock (optional)")]
+    [SerializeField] private GameObject teleportingDoor;              // Assign if you want the door to open on success
     bool active = true;
+
+    // Public property for checkpoint system
+    public bool IsActive => active;
+    public void SetActive(bool value)
+    {
+        active = value;
+        if (!active)
+        {
+            // If restoring to completed state, ensure doors are open
+            if (door != null) door.Open();
+            if (teleportingDoor != null) teleportingDoor.SetActive(true);
+        }
+        else
+        {
+            // If restoring to locked state, close door and hide teleporting door
+            if (door != null) door.Close();
+            if (teleportingDoor != null) teleportingDoor.SetActive(false);
+        }
+    }
 
     private LockpickFiveInARow activeGame;
 
@@ -23,6 +45,21 @@ public class LockPick : MonoBehaviour, IInteractable
     public void Awake()
     {
         uiCanvas = GameObject.Find("UI").GetComponent<Canvas>();
+
+        // Register with CheckpointManager
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.RegisterLockPick(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Unregister from CheckpointManager
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.UnregisterLockPick(this);
+        }
     }
 
     public bool CanInteract()
@@ -57,6 +94,7 @@ public class LockPick : MonoBehaviour, IInteractable
             {
                 Debug.Log("Lock successfully picked!");
                 if (door != null) door.Open();
+                if (teleportingDoor != null) teleportingDoor.SetActive(true);
                 active = false;
             }
             else

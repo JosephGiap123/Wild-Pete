@@ -21,6 +21,16 @@ public class SkeletonAudioManager : MonoBehaviour
     public float max3dDistance = 20f;
 
     private AudioSource loopSource;
+    [Header("Distance Fade")]
+    [Tooltip("Enable distance-based fading for the run loop")]
+    public bool enableDistanceFade = true;
+    [Tooltip("Distance (units) within which the loop is at full run volume")]
+    public float fadeFullDistance = 6f;
+    [Tooltip("Distance (units) beyond which the loop is silent")]
+    public float fadeZeroDistance = 20f;
+    [Range(0f,1f)] public float runVolumeMultiplier = 0.6f; // make loop quieter by default
+
+    private Transform player;
 
     private void Awake()
     {
@@ -41,6 +51,43 @@ public class SkeletonAudioManager : MonoBehaviour
         loopSource.playOnAwake = false;
         loopSource.outputAudioMixerGroup = sfxMixerGroup;
         loopSource.volume = sfxVolume;
+        // try to find player
+        var playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj) player = playerObj.transform;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnPlayerSet += HandlePlayerSet;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnPlayerSet -= HandlePlayerSet;
+    }
+
+    private void HandlePlayerSet(GameObject playerObj)
+    {
+        if (playerObj != null) player = playerObj.transform;
+    }
+
+    private void Update()
+    {
+        if (loopSource != null && loopSource.isPlaying && enableDistanceFade && player != null)
+        {
+            float dist = Vector2.Distance(player.position, transform.position);
+            float fade = ComputeFadeMultiplier(dist, fadeFullDistance, fadeZeroDistance);
+            loopSource.volume = sfxVolume * runVolumeMultiplier * fade;
+        }
+    }
+
+    private float ComputeFadeMultiplier(float distance, float fullDist, float zeroDist)
+    {
+        if (!enableDistanceFade) return 1f;
+        if (distance <= fullDist) return 1f;
+        if (distance >= zeroDist) return 0f;
+        if (Mathf.Approximately(zeroDist, fullDist)) return 0f;
+        return 1f - ((distance - fullDist) / (zeroDist - fullDist));
     }
 
     // Public API

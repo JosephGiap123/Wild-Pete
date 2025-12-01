@@ -6,13 +6,40 @@ using UnityEngine;
 
 public class Dialogue : ScriptableObject
 {
-    public string npcName;
-    public Sprite portrait;
-    public string[] dialogueLines;
-    public bool[] autoProgressLines;
-    public float typingSpeed = 0.05f;
-    //can include audio after.
-    public float autoProgressDelay = 1.5f;
 
+    [System.Serializable]
+    public class DialogueNode
+    {
+        public string text;
+        public string npcName;
+        public Sprite portrait;
+        public Choice[] choices = new Choice[3];
+        [Range(-1, 99)]
+        public int nextNodeIndex = -1; // index into dialogueNodes, -1 means no next node
+    }
 
+    [System.Serializable]
+    public class Choice
+    {
+        public string choiceText;
+        [Range(-1, 99)]
+        public int nextNodeIndex = -1; // index into dialogueNodes, -1 means end or no next
+
+        [Header("Trade (Optional)")]
+        [Tooltip("If set, player must have this item to select this choice")]
+        public ItemSO requiredItem;
+        [Tooltip("How many of the required item the player needs")]
+        public int requiredQuantity = 1;
+        [Tooltip("Item the player receives when selecting this choice")]
+        public ItemSO rewardItem;
+        [Tooltip("How many of the reward item the player receives")]
+        public int rewardQuantity = 1;
+        [Tooltip("If true, this trade can only be done once per dialogue instance")]
+        public bool oneTimeTrade = false;
+    }
+
+    public List<DialogueNode> dialogueNodes;
+
+    public Sprite defaultPortrait;
+    public string defaultName;
 }

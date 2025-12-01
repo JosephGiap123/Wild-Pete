@@ -21,8 +21,18 @@ public class ScrewPanelUI : MonoBehaviour
     [Header("Wire Game (appears after screws removed)")]
     [SerializeField] private WireConnectionGame wireGame; // Wire game that appears after panel opens
     [SerializeField] private GameObject wireGameContainer; // Container for wire game UI
+    
+    [Header("Screwdriver Requirement")]
+    [SerializeField] private string screwdriverItemName = "Screwdriver"; // Name of the screwdriver item in inventory
 
     public void SetVendingPopup(GameObject go) => vendingPopup = go;
+    
+    // Check if player has screwdriver
+    public bool HasScrewdriver()
+    {
+        if (PlayerInventory.instance == null) return false;
+        return PlayerInventory.instance.HasItem(screwdriverItemName) > 0;
+    }
 
     public Action OnPanelOpened;
 
@@ -31,6 +41,59 @@ public class ScrewPanelUI : MonoBehaviour
     private bool wasOpenedBefore = false; // Persist state - remember if already opened
     private Vector2 originalClosedPosition; // Store the original closed panel position
     private bool hasStoredOriginalPosition = false; // Track if we've stored the original position
+
+    // Public method to reset the panel state (for checkpoint restoration)
+    public void ResetPanel()
+    {
+        wasOpenedBefore = false;
+        isOpen = false;
+        removedCount = 0;
+        
+        // Hide wire game container FIRST (before resetting wire game)
+        if (wireGameContainer != null)
+        {
+            wireGameContainer.SetActive(false);
+        }
+        
+        // Reset wire game if it exists (must be done after hiding container)
+        if (wireGame != null)
+        {
+            wireGame.ResetGame();
+            // Ensure wire game is hidden
+            wireGame.HideInstant();
+        }
+        
+        // Reset panel sprite to closed
+        if (panelBGImage != null && closedSprite != null)
+        {
+            panelBGImage.sprite = closedSprite;
+            // Reset position if we stored it
+            if (hasStoredOriginalPosition && panelBGImage.rectTransform != null)
+            {
+                panelBGImage.rectTransform.anchoredPosition = originalClosedPosition;
+            }
+        }
+        
+        // Re-enable screws (they should be visible and interactable)
+        bool hasScrewdriver = HasScrewdriver();
+        foreach (var s in screws)
+        {
+            if (s == null) continue;
+            var img = s.GetComponent<Image>();
+            if (img)
+            {
+                img.enabled = true;
+                img.raycastTarget = hasScrewdriver;
+            }
+            s.ResetScrew();
+            if (s != null)
+            {
+                s.SetLocked(!hasScrewdriver);
+            }
+        }
+        
+        Debug.Log("[ScrewPanelUI] Panel reset to initial state");
+    }
 
     void Awake()
     {
@@ -135,6 +198,7 @@ public class ScrewPanelUI : MonoBehaviour
         if (wireGameContainer != null) wireGameContainer.SetActive(false);
 
         // Re-enable / reset screws
+        bool hasScrewdriver = HasScrewdriver();
         foreach (var s in screws)
         {
             if (s == null) continue;
@@ -142,9 +206,15 @@ public class ScrewPanelUI : MonoBehaviour
             if (img)
             {
                 img.enabled = true;
-                img.raycastTarget = true;
+                // Only allow interaction if player has screwdriver
+                img.raycastTarget = hasScrewdriver;
             }
             s.ResetScrew();
+            // Disable screw interaction if no screwdriver
+            if (s != null)
+            {
+                s.SetLocked(!hasScrewdriver);
+            }
         }
     }
 
@@ -168,7 +238,17 @@ public class ScrewPanelUI : MonoBehaviour
         gameObject.SetActive(false);
 
         // Return to vending screen
-        if (vendingPopup) vendingPopup.SetActive(true);
+        if (vendingPopup != null)
+        {
+            vendingPopup.SetActive(true);
+        }
+        else
+        {
+            // If vending popup is null, we might be closing directly - ensure game is unpaused
+            // This handles edge cases where the panel is closed without going through normal flow
+            PauseController.SetPause(false);
+            Debug.LogWarning("[ScrewPanelUI] Vending popup is null when hiding - unpausing game as safety measure");
+        }
     }
 
     private void HideInstant()

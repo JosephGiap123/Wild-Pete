@@ -4,6 +4,7 @@ public class BomberBossAnimRelay : MonoBehaviour
 {
     [SerializeField] BomberBoss bomberBoss;
     [SerializeField] GenericAttackHitbox hitboxScript;
+    [SerializeField] HBAudioManager audioManager;
 
     public void CallEndAttack()
     {
@@ -86,5 +87,47 @@ public class BomberBossAnimRelay : MonoBehaviour
     public void CallUseAmmo()
     {
         bomberBoss.UseAmmo();
+    }
+
+    // Audio Sound Calls
+    public void CallPlayMelee()
+    {
+        audioManager?.PlayMelee();
+    }
+
+    public void CallPlayDash()
+    {
+        audioManager?.PlayBoosterDash();
+    }
+
+    public void CallPlayRocketShot()
+    {
+        audioManager?.PlayRocketShot();
+    }
+
+    public void CallPlayHurt()
+    {
+        audioManager?.PlayHurt();
+    }
+
+    public void CallPlayStagger()
+    {
+        audioManager?.PlayStaggerIndicator();
+    }
+
+    public void CallPlayDeath()
+    {
+        audioManager?.PlayDeath();
+    }
+
+    public void CallStartRunLoop()
+    {
+        audioManager?.StopRunLoop();
+        audioManager?.StartRunLoop();
+    }
+
+    public void CallStopRunLoop()
+    {
+        audioManager?.StopRunLoop();
     }
 }

@@ -1,29 +1,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CharacterSelect : MonoBehaviour
 {
-
-  [SerializeField] private SwapSceneEventSO sceneSwapEventSO;
+  [SerializeField] private IntEventSO selectedCharacterEventSO;
+  public CutSceneManager cutsceneManager;
+  // public GameObject mainMenuCanvas;
+  public GameObject charSelectCanvas;
   public void chooseCharacter(int charNum)
   {
-    switch (charNum)
-    {
-      case 1:
-        PlayerPrefs.SetInt("SelectedCharacter", 1);
-        PlayerPrefs.Save();
-        Debug.Log("Pete");
-        break;
-      case 2: //alice
-        PlayerPrefs.SetInt("SelectedCharacter", 2);
-        PlayerPrefs.Save();
-        Debug.Log("Alice");
-        break;
-      default:
-        break;
-    }
-    // sceneSwapEventSO.RaiseEvent("Prison");
-    SceneManager.LoadScene(2);
+    charNum = Mathf.Clamp(charNum, 1, 2);
+    selectedCharacterEventSO.RaiseEvent(charNum);
+    charSelectCanvas.SetActive(false);
+    // mainMenuCanvas.SetActive(false);
+    // StartCoroutine(LoadSceneCoroutine());
+    cutsceneManager.BeginCutscene();
     //then load scene.
   }
 }

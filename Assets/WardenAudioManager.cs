@@ -33,6 +33,16 @@ public class WardenAudioManager : MonoBehaviour
 
     private AudioSource loopSource;
     private int lastMeleeIndex = -1;
+    [Header("Distance Fade")]
+    [Tooltip("Enable distance-based fading for the run loop")]
+    public bool enableDistanceFade = true;
+    [Tooltip("Distance (units) within which the loop is at full run volume")]
+    public float fadeFullDistance = 8f;
+    [Tooltip("Distance (units) beyond which the loop is silent")]
+    public float fadeZeroDistance = 40f;
+    [Range(0f, 1f)] public float runVolumeMultiplier = 0.5f; // quieter baseline for Warden
+
+    private Transform player;
 
     private void Awake()
     {
@@ -54,6 +64,44 @@ public class WardenAudioManager : MonoBehaviour
         loopSource.maxDistance = max3dDistance;
         loopSource.outputAudioMixerGroup = sfxMixerGroup;
         loopSource.volume = sfxVolume;
+
+        // try to find player
+        var playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj) player = playerObj.transform;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnPlayerSet += HandlePlayerSet;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnPlayerSet -= HandlePlayerSet;
+    }
+
+    private void HandlePlayerSet(GameObject playerObj)
+    {
+        if (playerObj != null) player = playerObj.transform;
+    }
+
+    private void Update()
+    {
+        if (loopSource != null && loopSource.isPlaying && enableDistanceFade && player != null)
+        {
+            float dist = Vector2.Distance(player.position, transform.position);
+            float fade = ComputeFadeMultiplier(dist, fadeFullDistance, fadeZeroDistance);
+            loopSource.volume = sfxVolume * runVolumeMultiplier * fade;
+        }
+    }
+
+    private float ComputeFadeMultiplier(float distance, float fullDist, float zeroDist)
+    {
+        if (!enableDistanceFade) return 1f;
+        if (distance <= fullDist) return 1f;
+        if (distance >= zeroDist) return 0f;
+        if (Mathf.Approximately(zeroDist, fullDist)) return 0f;
+        return 1f - ((distance - fullDist) / (zeroDist - fullDist));
     }
 
     // ---- Public hooks ----

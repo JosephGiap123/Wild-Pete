@@ -400,9 +400,18 @@ public class GuardAI : PatrolEnemyAI
 
     public void InstBullet()
     {
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        // Calculate direction based on enemy facing, not spawn point rotation
+        // This ensures bullet always goes the correct direction even if enemy flips during attack
+        // For 2D: 0 degrees = right, 180 degrees = left
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
+        
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, bulletRotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
+        if (projScript != null)
+        {
         projScript.Initialize(rangedDamage, bulletSpeed, bulletLifeTime);
+        }
         return;
     }
     public override void Hurt(int dmg, Vector2 knockbackForce)

@@ -13,4 +13,14 @@ public class AttackHitboxInfo : ScriptableObject
 	public float stunTime;
 	public bool constantKnockback = true;
 
+	public enum AttackType //CHANGE THIS LATER!
+	{
+		None,
+		Melee,
+		Ranged,
+		WeaponlessMelee
+	}
+
+	public AttackType attackType;
+
 }
