@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: 26d91bd15c14d40f3a3e3c7331c27b94
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dialoguePanel: {instanceID: 0}
+  - dialogueText: {instanceID: 0}
+  - nameText: {instanceID: 0}
+  - portraitImage: {instanceID: 0}
+  - choicesPanel: {instanceID: 0}
+  - choiceClickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
+  - choiceAudioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -29752,6 +29752,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &373534091
@@ -86004,6 +86007,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &887129808 stripped
@@ -86801,6 +86807,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!4 &1106079503
@@ -87460,6 +87469,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!61 &1154661345
@@ -96127,6 +96139,7 @@ MonoBehaviour:
   vendingPopup: {fileID: 550344441}
   emptyVendingSprite: {fileID: 0}
   keypadPrefab: {fileID: 6720884900011375928, guid: 0711f6b0ad5e71b4e9943d2a88fea8f0, type: 3}
+  keypadAudioManager: {fileID: 0}
   screwPanelPrefab: {fileID: 6715613986383626791, guid: 00a1b86acf2c7734e9c67bd31e241a03, type: 3}
   screwdriverItemName: Screwdriver
   itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
@@ -97509,6 +97522,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
   teleportCooldown: 0.5
 --- !u!1001 &1737229620
@@ -97652,6 +97668,7 @@ MonoBehaviour:
   uiCanvas: {fileID: 1109755428}
   minigamePrefab: {fileID: 6549017859370201581, guid: db20150d555666d4c8f84ecb67149049, type: 3}
   door: {fileID: 1295428162}
+  teleportingDoor: {fileID: 0}
 --- !u!4 &1851589158
 Transform:
   m_ObjectHideFlags: 0
@@ -97763,6 +97780,9 @@ MonoBehaviour:
   exitOffset: 1
   faceRightOnExit: 1
   onTeleportStart: {fileID: 0}
+  doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  doorEnterVolume: 1
+  doorAudioSource: {fileID: 0}
   requiredItem: {fileID: 0}
   teleportCooldown: 0.5
 --- !u!114 &1871297145 stripped

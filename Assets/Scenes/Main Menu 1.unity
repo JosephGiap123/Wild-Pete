@@ -655,6 +655,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 187368345}
   charSelectCanvas: {fileID: 680862318}
+  buttonClickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
+  buttonClickVolume: 1
+  buttonAudioSource: {fileID: 0}
 --- !u!1 &359557304
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,7 +3401,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -389732845
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 999
   m_RenderMode: 0
   m_MeshDistribution: 0

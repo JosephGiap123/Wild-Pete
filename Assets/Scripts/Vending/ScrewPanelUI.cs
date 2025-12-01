@@ -24,6 +24,9 @@ public class ScrewPanelUI : MonoBehaviour
     
     [Header("Screwdriver Requirement")]
     [SerializeField] private string screwdriverItemName = "Screwdriver"; // Name of the screwdriver item in inventory
+    
+    [Header("Audio")]
+    [SerializeField] private ScrewAudioManager screwAudioManager;
 
     public void SetVendingPopup(GameObject go) => vendingPopup = go;
     
@@ -42,8 +45,21 @@ public class ScrewPanelUI : MonoBehaviour
     private Vector2 originalClosedPosition; // Store the original closed panel position
     private bool hasStoredOriginalPosition = false; // Track if we've stored the original position
 
+    private void EnsureScrewAudioManager()
+    {
+        if (screwAudioManager) return;
+        screwAudioManager = GetComponentInChildren<ScrewAudioManager>();
+        if (!screwAudioManager) screwAudioManager = FindObjectOfType<ScrewAudioManager>();
+    }
+
     void Awake()
     {
+        EnsureScrewAudioManager();
+        if (wireGame != null)
+        {
+            wireGame.OnWireConnected -= HandleWireConnected;
+            wireGame.OnWireConnected += HandleWireConnected;
+        }
         // subscribe safely (match Action<Screw>)
         foreach (var s in screws)
         {
@@ -57,6 +73,7 @@ public class ScrewPanelUI : MonoBehaviour
 
     public void Show()
     {
+        EnsureScrewAudioManager();
         gameObject.SetActive(true);
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
@@ -149,6 +166,7 @@ public class ScrewPanelUI : MonoBehaviour
         foreach (var s in screws)
         {
             if (s == null) continue;
+            if (screwAudioManager != null) s.SetAudioManager(screwAudioManager);
             var img = s.GetComponent<Image>();
             if (img)
             {
@@ -178,6 +196,9 @@ public class ScrewPanelUI : MonoBehaviour
         {
             wireGameContainer.SetActive(false);
         }
+
+        // Stop any screw loop that might be running while closing the panel
+        screwAudioManager?.StopScrewLoop();
         
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
@@ -194,6 +215,14 @@ public class ScrewPanelUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (wireGame != null)
+        {
+            wireGame.OnWireConnected -= HandleWireConnected;
+        }
     }
 
     // ✅ now matches Action<Screw>
@@ -265,5 +294,11 @@ public class ScrewPanelUI : MonoBehaviour
         }
 
         OnPanelOpened?.Invoke();
+    }
+
+    private void HandleWireConnected(bool _)
+    {
+        EnsureScrewAudioManager();
+        screwAudioManager?.PlayWireConnect();
     }
 }

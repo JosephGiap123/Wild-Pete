@@ -19,6 +19,21 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
     [Tooltip("Mouse drag sensitivity; higher = faster turning.")]
     [SerializeField] private float sensitivity = 0.35f;
 
+    [Header("Audio")]
+    [SerializeField] private ScrewAudioManager audioManager;
+    
+    private void EnsureAudioManager()
+    {
+        if (audioManager) return;
+        audioManager = GetComponentInParent<ScrewAudioManager>();
+        if (!audioManager) audioManager = FindObjectOfType<ScrewAudioManager>();
+    }
+
+    public void SetAudioManager(ScrewAudioManager manager)
+    {
+        audioManager = manager;
+    }
+
     public event Action<Screw> onRemoved;
 
     private bool isHeld;
@@ -43,6 +58,7 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
 
     private void Awake()
     {
+        EnsureAudioManager();
         if (!img) img = GetComponent<Image>();
         // Ensure we start in a sane visual state
         if (img && screwIdle) img.sprite = screwIdle;
@@ -55,13 +71,16 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
     private void Reset()
     {
         img = GetComponent<Image>();
+        EnsureAudioManager();
     }
 
     public void OnPointerDown(PointerEventData e)
     {
         if (isRemoved || isLocked) return; // Cannot interact if locked
+        EnsureAudioManager();
         isHeld = true;
         lastPos = e.position;
+        audioManager?.StartScrewLoop();
     }
 
     public void OnDrag(PointerEventData e)
@@ -121,6 +140,16 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerU
     public void OnPointerUp(PointerEventData e)
     {
         isHeld = false;
+        audioManager?.StopScrewLoop();
+    }
+
+    private void OnDisable()
+    {
+        if (isHeld)
+        {
+            isHeld = false;
+            audioManager?.StopScrewLoop();
+        }
     }
 
     // Optional helper if you ever want to reuse/reset this screw at runtime.

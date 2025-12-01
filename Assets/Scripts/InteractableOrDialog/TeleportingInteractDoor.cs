@@ -10,6 +10,11 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
     [SerializeField] private bool faceRightOnExit = true; // Which way player faces after teleport
     [SerializeField] private VoidEvents onTeleportStart;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip doorEnterClip;
+    [SerializeField] [Range(0f, 2f)] private float doorEnterVolume = 1f;
+    [SerializeField] private AudioSource doorAudioSource; // Optional: assign to play from a specific source
+
     [SerializeField] private ItemSO requiredItem = null;
     private BasePlayerMovement2D playerMovement;
 
@@ -85,6 +90,7 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
         // Play effects at current location
         // PlayTeleportEffects(transform.position);
         onTeleportStart.RaiseEvent();
+        PlayDoorEnterSound(transform.position);
 
         // Calculate exit position
         Vector3 exitPosition;
@@ -133,6 +139,29 @@ public class DoorTeleporter : MonoBehaviour, IInteractable
     //         AudioSource.PlayClipAtPoint(teleportSound, position);
     //     }
     // }
+
+    private void PlayDoorEnterSound(Vector3 position)
+    {
+        if (doorEnterClip == null) return;
+
+        float volume = doorEnterVolume * 2f; // Boost volume as requested
+
+        if (doorAudioSource != null)
+        {
+            doorAudioSource.transform.position = position;
+            doorAudioSource.PlayOneShot(doorEnterClip, volume);
+        }
+        else
+        {
+            // Ensure a source exists so the clip always plays, even if no AudioSource is assigned
+            var tempGO = new GameObject("DoorEnterAudio_Temp");
+            tempGO.transform.position = position;
+            var tempSource = tempGO.AddComponent<AudioSource>();
+            tempSource.spatialBlend = 1f;
+            tempSource.PlayOneShot(doorEnterClip, volume);
+            Destroy(tempGO, doorEnterClip.length + 0.1f);
+        }
+    }
 
     private void OnDrawGizmos()
     {

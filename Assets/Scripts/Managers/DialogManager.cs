@@ -14,6 +14,10 @@ public class DialogManager : MonoBehaviour
     [SerializeField] public Image portraitImage;
     [SerializeField] public GameObject choicesPanel;
     private Button[] choiceButtons;
+    [Header("Audio")]
+    [SerializeField] private AudioClip choiceClickClip;
+    [SerializeField] [Range(0f, 2f)] private float choiceClickVolume = 1f;
+    [SerializeField] private AudioSource choiceAudioSource; // Optional: assign to reuse a source
     [SerializeField] public float typingSpeed = 0.05f;
 
     private bool choseChoice = false;
@@ -281,6 +285,7 @@ public class DialogManager : MonoBehaviour
     private void OnChoiceButton(int choiceIndex)
     {
         if (!isDialogueActive || !hasChoices) return;
+        PlayChoiceClickSound();
         ChooseChoice(choiceIndex);
     }
 
@@ -365,6 +370,26 @@ public class DialogManager : MonoBehaviour
             return;
         }
         ProgressDialogue();
+    }
+
+    private void PlayChoiceClickSound()
+    {
+        if (choiceClickClip == null) return;
+
+        float volume = choiceClickVolume;
+        if (choiceAudioSource != null)
+        {
+            choiceAudioSource.PlayOneShot(choiceClickClip, volume);
+        }
+        else
+        {
+            // Fallback: spawn a temp AudioSource so the click always plays
+            var tempGO = new GameObject("DialogueChoiceClick_Temp");
+            var tempSource = tempGO.AddComponent<AudioSource>();
+            tempSource.spatialBlend = 0f;
+            tempSource.PlayOneShot(choiceClickClip, volume);
+            Destroy(tempGO, choiceClickClip.length + 0.05f);
+        }
     }
 
     public void EndDialogue()

@@ -40,6 +40,7 @@ public class WireConnectionGame : MonoBehaviour
     private bool isActive = false;
     
     public System.Action<bool> OnWireGameComplete;
+    public System.Action<bool> OnWireConnected; // bool: true = correct, false = wrong
     
     void Awake()
     {
@@ -317,6 +318,7 @@ public class WireConnectionGame : MonoBehaviour
             {
                 // Wrong target - don't connect, just return wire
                 Debug.Log($"[WireConnectionGame] Wrong target! Wire {wireIndex} should connect to target {wireData.correctTargetIndex}, but tried to connect to {targetIndex}");
+                OnWireConnected?.Invoke(false);
                 
                 var dragHandler = wire.GetComponent<WireDragHandler>();
                 if (dragHandler != null)
@@ -413,6 +415,7 @@ public class WireConnectionGame : MonoBehaviour
             
             // CRITICAL: Ensure all targets stay visible after connection
             EnsureTargetsVisible();
+            OnWireConnected?.Invoke(true);
             
             // Check if all wires are correctly connected
             CheckCompletion();
