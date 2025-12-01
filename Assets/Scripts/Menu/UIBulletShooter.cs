@@ -7,6 +7,10 @@ public class UIBulletShooter : MonoBehaviour
   public RectTransform bulletImage;
   public RectTransform startButton;
   public Image blackScreen;
+  [Header("Audio")]
+  [SerializeField] private AudioClip clickClip;
+  [SerializeField, Range(0f, 2f)] private float clickVolume = 1f;
+  [SerializeField] private AudioSource clickSource; // Optional: assign to reuse a specific source
 
   public GameObject mainMenuCanvas;
   public GameObject cutSceneCanvas;
@@ -18,6 +22,8 @@ public class UIBulletShooter : MonoBehaviour
 
   public void StartGame()
   {
+    PlayClickSound();
+
     if (startButton != null)
       startButton.gameObject.SetActive(false);
 
@@ -70,4 +76,23 @@ public class UIBulletShooter : MonoBehaviour
     blackScreen.gameObject.SetActive(false);
   }
 
+  private void PlayClickSound()
+  {
+    if (clickClip == null) return;
+
+    float volume = clickVolume;
+    if (clickSource != null)
+    {
+      clickSource.PlayOneShot(clickClip, volume);
+    }
+    else
+    {
+      // Fallback: spawn a temp AudioSource so the click always plays
+      var tempGO = new GameObject("UIBulletShooterClick_Temp");
+      var tempSource = tempGO.AddComponent<AudioSource>();
+      tempSource.spatialBlend = 0f;
+      tempSource.PlayOneShot(clickClip, volume);
+      Destroy(tempGO, clickClip.length + 0.05f);
+    }
+  }
 }

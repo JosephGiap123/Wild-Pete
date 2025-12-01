@@ -2090,6 +2090,9 @@ MonoBehaviour:
   selectedCharacterEventSO: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
   cutsceneManager: {fileID: 291813412}
   charSelectCanvas: {fileID: 680862315}
+  clickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
+  clickVolume: 1
+  clickSource: {fileID: 0}
 --- !u!1 &970193699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2994,6 +2997,9 @@ MonoBehaviour:
   bulletImage: {fileID: 113010849}
   startButton: {fileID: 1036362731}
   blackScreen: {fileID: 1051862219}
+  clickClip: {fileID: 8300000, guid: 30476190ae83b094ea48d482794ee2be, type: 3}
+  clickVolume: 1
+  clickSource: {fileID: 0}
   mainMenuCanvas: {fileID: 187368342}
   cutSceneCanvas: {fileID: 1450439423}
   charSelectCanvas: {fileID: 680862315}
