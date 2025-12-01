@@ -15893,6 +15893,8 @@ MonoBehaviour:
   slideParticle: {fileID: 6976379698817741947}
   jumpParticle: {fileID: 5284088687788283822}
   dashParticle: {fileID: 1014601021296711167}
+  endEntranceCutscene: {fileID: 11400000, guid: 94609246f1ea94bab849efe9516c4035, type: 2}
+  EntranceAnim: 0
   inputBroadcaster: {fileID: 7504804122771053848}
   runMinSpeed: 0.2
 --- !u!114 &8139471980475301415

@@ -32,7 +32,7 @@ public class MovingPlatform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         // Calculate distance to current waypoint
         float distanceToWaypoint = Vector2.Distance(transform.position, wayPoints[i]);
@@ -78,7 +78,7 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         for (int i = 0; i < wayPoints.Length; i++)

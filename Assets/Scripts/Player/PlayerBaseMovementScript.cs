@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.SceneManagement;
 
 public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 {
@@ -113,6 +114,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected ParticleSystem slideParticle;
     [SerializeField] protected ParticleSystem jumpParticle;
     [SerializeField] protected ParticleSystem dashParticle;
+    [SerializeField] protected VoidEvents endEntranceCutscene;
+
+    public bool EntranceAnim = false;
     //events
     public event Action<int, int> OnAmmoChanged;
     public event Action PlayerDied;
@@ -122,6 +126,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     protected virtual void Awake()
     {
         // Make ground check slightly smaller than character width
+        EntranceAnim = SceneManager.GetActiveScene().name == "Prison";
+        if (EntranceAnim)
+        {
+            animatorScript.ChangeAnimationState(playerStates.EntranceIdle);
+        }
         if (groundCheck != null)
         {
             groundCheck.size = new(CharWidth * 0.9f, groundCheck.size.y);
@@ -135,6 +144,27 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             StatsManager.instance.OnStatChanged += HandleStatChanged;
         }
+
+        // Subscribe to cutscene end event
+        if (endEntranceCutscene != null)
+        {
+            endEntranceCutscene.onEventRaised.AddListener(EndEntranceCutscene);
+        }
+    }
+
+    private void EndEntranceCutscene()
+    {
+        StartCoroutine(EndEntranceAnim());
+    }
+
+    private IEnumerator EndEntranceAnim()
+    {
+        if (animatorScript != null)
+        {
+            animatorScript.ChangeAnimationState(playerStates.GetUp);
+        }
+        yield return new WaitForSeconds(1.5f);
+        EntranceAnim = false;
     }
 
     private void OnDisable()
@@ -359,6 +389,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             return;
         }
+        if (EntranceAnim)
+        {
+            //play animation outside of function, plays as an opening to the prison scene.
+            return;
+        }
 
         // Check if player has fallen below death threshold
         if (!isDead && transform.position.y < deathYThreshold)
@@ -496,6 +531,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void AnimationControl()
     {
+        if (EntranceAnim)
+        {
+            return;
+        }
         if (isDead)
         {
             animatorScript.ChangeAnimationState(weaponEquipped ? playerStates.DeathWep : playerStates.Death);
@@ -634,6 +673,10 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void FixedUpdate()
     {
+        if (EntranceAnim)
+        {
+            return;
+        }
         if (isDead)
         {
             rb.linearVelocity = new(0, rb.linearVelocity.y);
