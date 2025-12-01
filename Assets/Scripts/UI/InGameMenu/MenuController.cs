@@ -41,7 +41,7 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Inventory]))
         {
             if (menuCanvas == null)
             {
