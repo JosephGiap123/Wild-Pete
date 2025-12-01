@@ -778,6 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   miniGameCanvas: {fileID: 1363262638}
   vendingPopup: {fileID: 724954882}
+  emptyVendingSprite: {fileID: 0}
   keypadPrefab: {fileID: 6720884900011375928, guid: 0711f6b0ad5e71b4e9943d2a88fea8f0, type: 3}
   screwPanelPrefab: {fileID: 6715613986383626791, guid: 00a1b86acf2c7734e9c67bd31e241a03, type: 3}
 --- !u!1 &419692925
@@ -1468,6 +1469,9 @@ MonoBehaviour:
   Pete: {fileID: 8045371504318166606, guid: 4059668e691054cfc9e3e573a48c55e7, type: 3}
   Alice: {fileID: 3172980308799934302, guid: ac8071ac360bc4469a4807cca43db5a6, type: 3}
   cinemachineCam: {fileID: 1380064350}
+  sceneNames: []
+  spawnPositions: []
+  UsePlayerPrefs: 1
   selectedCharacter: 1
 --- !u!4 &1003101526
 Transform:
@@ -2819,6 +2823,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 32377018557249402, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 32377018557249402, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 816780864675975990, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 924467528993120688, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2937,6 +2953,22 @@ PrefabInstance:
       objectReference: {fileID: 1798334893}
     - target: {fileID: 6500991754078149807, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6579684422749410431, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6579684422749410431, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007983031255102289, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007983031255102289, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8166427934214366762, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
