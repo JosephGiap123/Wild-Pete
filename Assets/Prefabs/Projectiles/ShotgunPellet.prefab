@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6883276819769829727}
   - component: {fileID: 9220857052083264943}
-  - component: {fileID: 1657822804174488544}
   - component: {fileID: 5253907090477036926}
   - component: {fileID: 827179761914624720}
   - component: {fileID: 3444959929535762634}
+  - component: {fileID: 6792789024886140306}
   m_Layer: 0
   m_Name: ShotgunPellet
   m_TagString: Untagged
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 5
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -4680526441721030097, guid: ad97b6b401d744060be502bd61d0d42d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,31 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1657822804174488544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5375625646062328855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecfbc1b1784fe4b4ca55763d62c5ef67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpeed: 10
-  bulletLifeTime: 2.5
-  bulletDestroyMask:
-    serializedVersion: 2
-    m_Bits: 1589760
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 512
-  staticMask:
-    serializedVersion: 2
-    m_Bits: 16384
-  shotgunCone: 20
-  maxSpeedVariation: 3
 --- !u!58 &5253907090477036926
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -231,3 +206,44 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &6792789024886140306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5375625646062328855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78f71de585334880afe761019bff4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpeed: 13
+  bulletLifeTime: 3
+  damage: 1
+  bulletDestroyMask:
+    serializedVersion: 2
+    m_Bits: 1572864
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  isPlayerBullet: 1
+  movementPattern: 3
+  waveAmplitude: 1
+  waveFrequency: 2
+  waveDirection: 90
+  spreadAngle: 30
+  maxSpeedVariation: 4
+  spiralRotationSpeed: 180
+  spiralRadius: 0.5
+  maxPierceCount: 0
+  pierceDamageReduction: 0
+  knockbackForce: {x: 0, y: 0}
+  useDirectionalKnockback: 1
+  knockbackStrength: 1

@@ -10537,8 +10537,8 @@ MonoBehaviour:
   minJumpPower: 4
   isFacingRight: 1
   maxHealth: 50
-  ammoCount: 5
-  maxAmmo: 5
+  ammoCount: 0
+  maxAmmo: 0
   maxAttackChain: 2
   comboResetTime: 3
   invincibilityTime: 0
@@ -10547,7 +10547,7 @@ MonoBehaviour:
   deathYThreshold: -21
   dashingPower: 15
   dashingTime: 0.3
-  slidePower: 12
+  slidePower: 14
   dashingEnergyCost: 5
   slidingEnergyCost: 2
   weaponlessMeleeEnergyCost: 1

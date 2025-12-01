@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518c6cfbfef7a48ccaeadff3f4e54cc9, type: 3}
+  m_Name: Mysterious Key
+  m_EditorClassIdentifier: 
+  itemName: Mysterious Key
+  icon: {fileID: -796954159943849205, guid: 21f15c967b83c46fbbb86709bfdaeed1, type: 3}
+  dropIcon: {fileID: 3123514060892983630, guid: 69bcdef5155964ae78563a8e14a77f4d, type: 3}
+  maxStackSize: 1
+  quantity: 1
+  itemDesc: A key from the bomber, it seems to lead towards your freedom.

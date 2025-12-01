@@ -10,6 +10,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
 
     [Header("Vending Machine Sprites")]
     [SerializeField] private Sprite emptyVendingSprite; // Sprite to show when vending machine is empty (after code is correct)
+    [SerializeField] private Sprite normalVendingSprite; // Original sprite for the vending machine (for restoration)
 
     [Header("Keypad (optional)")]
     [SerializeField] private KeypadUI keypadPrefab;     // Drag KeypadUI prefab
@@ -18,7 +19,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     [Header("Screw Panel (optional)")]
     [SerializeField] private ScrewPanelUI screwPanelPrefab; // Drag ScrewPanelUI prefab
     private ScrewPanelUI screwPanelInstance;
-    
+
     [Header("Screwdriver Requirement")]
     [SerializeField] private string screwdriverItemName = "Screwdriver"; // Name of the screwdriver item in inventory (must match ItemSO name)
 
@@ -26,10 +27,81 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     [SerializeField] private GameObject itemPrefab; // Item prefab to instantiate (same one used for other items, like Item.prefab)
     [SerializeField] private string breadItemName = "Bread"; // Name of the bread item in ItemSO (must match exactly)
     [SerializeField] private Transform breadDropPosition; // Where to drop the bread (optional - if null, uses vending machine position)
-    
+
     // Track if bread has been collected (game completed once)
     private bool breadCollected = false;
-    
+
+
+    // Public property for checkpoint system
+    public bool IsBreadCollected => breadCollected;
+    public void SetBreadCollected(bool value)
+    {
+        breadCollected = value;
+        // Update sprite immediately when state changes
+        UpdateVendingSprite();
+
+        // If restoring to uncollected state, reset mini-games
+        if (!breadCollected)
+        {
+            ResetMiniGames();
+        }
+    }
+
+    private void ResetMiniGames()
+    {
+        // Reset keypad if it exists
+        if (keypadInstance != null)
+        {
+            keypadInstance.ResetGame();
+        }
+
+        // Reset screw panel and wire game if it exists
+        if (screwPanelInstance != null)
+        {
+            // Reset the entire panel state (this will reset wasOpenedBefore, wire game, etc.)
+            var screwPanel = screwPanelInstance.GetComponent<ScrewPanelUI>();
+            if (screwPanel != null)
+            {
+                screwPanel.ResetPanel();
+            }
+
+            // Reset screws in the panel
+            var screws = screwPanelInstance.GetComponentsInChildren<Screw>(true);
+            foreach (var screw in screws)
+            {
+                if (screw != null)
+                {
+                    screw.ResetScrew();
+                }
+            }
+        }
+
+        Debug.Log("[VendingPopupInteractable] Reset mini-games to initial state");
+    }
+
+    private void UpdateVendingSprite()
+    {
+        if (vendingPopup == null) return;
+
+        Image vendingImage = vendingPopup.GetComponent<Image>();
+        if (vendingImage == null)
+        {
+            vendingImage = vendingPopup.GetComponentInChildren<Image>();
+        }
+
+        if (vendingImage != null)
+        {
+            if (breadCollected && emptyVendingSprite != null)
+            {
+                vendingImage.sprite = emptyVendingSprite;
+            }
+            else if (!breadCollected && normalVendingSprite != null)
+            {
+                vendingImage.sprite = normalVendingSprite;
+            }
+        }
+    }
+
     private void OnEnable()
     {
         // Subscribe to player death event to close vending popup when player dies
@@ -38,7 +110,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             HealthManager.instance.OnPlayerDeath += OnPlayerDeath;
         }
     }
-    
+
     private void OnDisable()
     {
         // Unsubscribe from player death event
@@ -47,7 +119,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             HealthManager.instance.OnPlayerDeath -= OnPlayerDeath;
         }
     }
-    
+
     private void OnDestroy()
     {
         // Safety: unsubscribe in case OnDisable wasn't called
@@ -55,8 +127,14 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         {
             HealthManager.instance.OnPlayerDeath -= OnPlayerDeath;
         }
+
+        // Unregister from CheckpointManager
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.UnregisterVendingMachine(this);
+        }
     }
-    
+
     private void OnPlayerDeath()
     {
         // Close all vending UI when player dies
@@ -66,7 +144,14 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        // Nothing to initialize
+        // Register with CheckpointManager
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.RegisterVendingMachine(this);
+        }
+
+        // Update sprite based on current state (in case it was restored before Start was called)
+        UpdateVendingSprite();
     }
 
     // --- IInteractable ---
@@ -85,10 +170,10 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             miniGameCanvas.gameObject.SetActive(true);
 
         if (vendingPopup) vendingPopup.SetActive(true);
-        
+
         // Pause the game when popup opens
         PauseController.SetPause(true);
-        
+
         // If bread was already collected, show empty vending machine sprite
         if (breadCollected && emptyVendingSprite != null)
         {
@@ -97,7 +182,7 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             {
                 vendingImage = vendingPopup.GetComponentInChildren<Image>();
             }
-            
+
             if (vendingImage != null)
             {
                 vendingImage.sprite = emptyVendingSprite;
@@ -178,14 +263,6 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
 
         if (!screwPanelInstance)
             screwPanelInstance = Instantiate(screwPanelPrefab, miniGameCanvas.transform, false);
-
-        // Check if wire game is already complete - if so, don't allow reopening
-        var wireGame = screwPanelInstance.GetComponentInChildren<WireConnectionGame>(true);
-        if (wireGame != null && wireGame.IsComplete())
-        {
-            Debug.Log("[VendingPopupInteractable] Wire game already complete - side panel disabled");
-            return; // Don't open the panel if game is complete
-        }
 
         // Tell screw panel where to return when Hide() is called
         screwPanelInstance.SetVendingPopup(vendingPopup);

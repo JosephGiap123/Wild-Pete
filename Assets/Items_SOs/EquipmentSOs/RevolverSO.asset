@@ -18,7 +18,10 @@ MonoBehaviour:
   maxStackSize: 1
   quantity: 1
   itemDesc: Pete's trusty revolver, it's never failed him before.
-  itemStats: 
-  itemStatAmounts: []
+  itemStats: 09000000
+  itemStatAmounts:
+  - 8
   equipmentType: 3
   equipableBy: 1
+  disablesHeldWeapon: 0
+  customProjectilePrefab: {fileID: 2277310032840431590, guid: 27460a4fe35ea429abaef33dffd887e4, type: 3}

@@ -257,7 +257,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
 
         thisItemSelected = true;
-        PlayerInventory.instance.FillDescriptionUI(itemName, itemDesc, itemSprite);
+        
+        // Check if this is an EquipmentSO and pass it to show stats
+        EquipmentSO equipmentSO = itemSO as EquipmentSO;
+        PlayerInventory.instance.FillDescriptionUI(itemName, itemDesc, itemSprite, equipmentSO);
     }
 
     public void OnRightClick()

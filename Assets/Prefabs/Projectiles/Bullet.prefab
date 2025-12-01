@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1738669096097711761}
   - component: {fileID: 5534638467408936531}
   - component: {fileID: 6760653022358294847}
-  - component: {fileID: 1713048969684777862}
   - component: {fileID: 592496376561069699}
   - component: {fileID: 4550577049182308193}
+  - component: {fileID: 186914198126307605}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -80,7 +80,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 5
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 0.2
   m_PreviewTimeScale: 1
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1778098357
-  m_SortingLayer: 5
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -8299802570147833756, guid: 442c1a21d131d4ef3967de2dce93b88a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -254,29 +254,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3125, y: 0.1875}
   m_EdgeRadius: 0
---- !u!114 &1713048969684777862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2277310032840431590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58d4d6d7c66cb47889f871d468522fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpeed: 20
-  bulletLifeTime: 3
-  bulletDestroyMask:
-    serializedVersion: 2
-    m_Bits: 1589760
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 512
-  staticMask:
-    serializedVersion: 2
-    m_Bits: 16384
 --- !u!50 &592496376561069699
 Rigidbody2D:
   serializedVersion: 5
@@ -356,3 +333,44 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &186914198126307605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277310032840431590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78f71de585334880afe761019bff4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpeed: 20
+  bulletLifeTime: 3
+  damage: 3
+  bulletDestroyMask:
+    serializedVersion: 2
+    m_Bits: 1572864
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 512
+  staticMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  isPlayerBullet: 1
+  movementPattern: 0
+  waveAmplitude: 1
+  waveFrequency: 2
+  waveDirection: 90
+  spreadAngle: 20
+  maxSpeedVariation: 3
+  spiralRotationSpeed: 180
+  spiralRadius: 0.5
+  maxPierceCount: 0
+  pierceDamageReduction: 0
+  knockbackForce: {x: 0, y: 0}
+  useDirectionalKnockback: 0
+  knockbackStrength: 0

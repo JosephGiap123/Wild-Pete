@@ -92,7 +92,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected LayerMask groundMask;
     // [SerializeField] protected TrailRenderer trail;
     [SerializeField] protected Transform bulletOrigin;
-    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected GameObject bullet; // Default bullet (fallback if no custom projectile)
     [SerializeField] protected PlayerAttackHitbox hitboxManager;
     [SerializeField] protected AnimScript animatorScript;
     [SerializeField] protected InteractionDetection interactor;
