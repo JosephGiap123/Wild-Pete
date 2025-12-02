@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class PrisonCutscene : MonoBehaviour
 {
+    [Header("Skip Settings")]
+    [SerializeField] private bool skipCutscene = false; // Set to true in Inspector to skip the cutscene
+
+    [Header("Cutscene References")]
     [SerializeField] private Animator eyesAnimator;
     [SerializeField] private VoidEvents onCutsceneEnd;
     [SerializeField] private Dialogue peteDialogue;
@@ -11,7 +15,15 @@ public class PrisonCutscene : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(StartCutscene());
+        if (skipCutscene)
+        {
+            // Skip the cutscene and immediately end it
+            StartCoroutine(EndCutscene());
+        }
+        else
+        {
+            StartCoroutine(StartCutscene());
+        }
     }
 
     private IEnumerator StartCutscene()
@@ -39,6 +51,7 @@ public class PrisonCutscene : MonoBehaviour
 
     private IEnumerator EndCutscene()
     {
+        yield return new WaitForSeconds(0.5f);
         if (onCutsceneEnd != null)
         {
             onCutsceneEnd.RaiseEvent();

@@ -97,15 +97,15 @@ public class Item : MonoBehaviour
 			if (fullyAdded)
 			{
 				// Item was fully added to inventory - destroy it
-				itemPickUpEvent.RaiseEvent(this);
+			itemPickUpEvent.RaiseEvent(this);
 
-				// Unregister from checkpoint system before destroying
-				if (CheckpointManager.Instance != null)
-				{
-					CheckpointManager.Instance.UnregisterItem(this);
-				}
+			// Unregister from checkpoint system before destroying
+			if (CheckpointManager.Instance != null)
+			{
+				CheckpointManager.Instance.UnregisterItem(this);
+			}
 
-				Destroy(gameObject);
+			Destroy(gameObject);
 			}
 			else
 			{

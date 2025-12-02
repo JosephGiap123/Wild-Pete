@@ -319,11 +319,10 @@ public class KeypadUI : MonoBehaviour
 
     public void Show()
     {
-        // Don't show keypad unless wires are connected
-        if (wireGameReference == null || !wireGameReference.IsComplete())
+        // Ensure the GameObject is active
+        if (!gameObject.activeSelf)
         {
-            Debug.Log("[KeypadUI] Wires not connected - keypad will not show");
-            return; // Don't show the keypad at all
+            gameObject.SetActive(true);
         }
         
         if (!cg) cg = GetComponent<CanvasGroup>();
@@ -332,13 +331,20 @@ public class KeypadUI : MonoBehaviour
         cg.blocksRaycasts = true;
         cg.interactable = true;
         
+        // Check if wires are connected - this will disable buttons if not connected
+        bool wiresConnected = wireGameReference != null && wireGameReference.IsComplete();
+        if (!wiresConnected)
+        {
+            Debug.Log($"[KeypadUI] Wires not connected - keypad buttons will be disabled. wireGameReference: {(wireGameReference != null ? "Found" : "NULL")}, IsComplete: {(wireGameReference != null ? wireGameReference.IsComplete().ToString() : "N/A")}");
+        }
+        
         // Reset input when showing (unless already complete)
         if (!isComplete)
         {
             ResetInput();
         }
         
-        // Check if wires are connected - disable buttons if not (should always be true here)
+        // Update button states - this will disable buttons if wires aren't connected
         UpdateButtonStates();
     }
     
