@@ -19,6 +19,14 @@ public class ScreenShake : MonoBehaviour
 
     public void Shake(float? amplitude = null, float? frequency = null)
     {
+        // 🔴 GLOBAL KILL SWITCH
+        if (ScreenShakeManager.Instance != null &&
+            !ScreenShakeManager.Instance.screenshakeEnabled)
+        {
+            // Screenshake is globally OFF → do nothing
+            return;
+        }
+
         if (!impulse) return;
 
         // update definition on the fly (optional)
