@@ -682,6 +682,7 @@ MonoBehaviour:
   screwHole: {fileID: 0}
   turnsToRemove: 1.25
   sensitivity: 0.35
+  audioManager: {fileID: 0}
 --- !u!1 &1002963741025944758
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +803,52 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1503188779637806554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7891641326905130410}
+  - component: {fileID: 1742405122977976751}
+  m_Layer: 0
+  m_Name: ScrewAudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7891641326905130410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503188779637806554}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0000030994, y: 0.0000121593475, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2534831799110196665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1742405122977976751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503188779637806554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5405dcb216c1f2749b188379b325fdbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screwLoopClip: {fileID: 8300000, guid: da84acd94672b8247bd77b594596b9cd, type: 3}
+  wireConnectClip: {fileID: 8300000, guid: 130775f6a1cddeb4caddbb36698cef1a, type: 3}
 --- !u!1 &2899389832039929064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,6 +1185,7 @@ MonoBehaviour:
   screwHole: {fileID: 0}
   turnsToRemove: 1.25
   sensitivity: 0.35
+  audioManager: {fileID: 0}
 --- !u!1 &4813760852879336147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,6 +1658,7 @@ RectTransform:
   - {fileID: 5121031760240780863}
   - {fileID: 3474259221535240743}
   - {fileID: 3958483751960481780}
+  - {fileID: 7891641326905130410}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1660,6 +1709,8 @@ MonoBehaviour:
   vendingPopup: {fileID: 0}
   wireGame: {fileID: 2064299515387438246}
   wireGameContainer: {fileID: 9160712437376337028}
+  screwdriverItemName: Screwdriver
+  screwAudioManager: {fileID: 0}
 --- !u!1 &9160712437376337028
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,6 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a0cf489271244f8b6fc181dfa5000f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  interactClip: {fileID: 8300000, guid: 8f15d32771ada8d4cb93fde6a40ff7db, type: 3}
+  enableDistanceFade: 1
+  fadeFullDistance: 4
+  fadeZeroDistance: 20
+  volumeMultiplier: 1
 --- !u!82 &848672276978413830
 AudioSource:
   m_ObjectHideFlags: 0

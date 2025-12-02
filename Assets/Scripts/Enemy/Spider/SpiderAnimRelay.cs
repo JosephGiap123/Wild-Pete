@@ -61,6 +61,7 @@ public class SpiderAnimRelay : MonoBehaviour
     }
     public void CallWalkSound()
     {
+        audioMgr.StopCrawlLoop();
         audioMgr.StartCrawlLoop();
     }
 }
