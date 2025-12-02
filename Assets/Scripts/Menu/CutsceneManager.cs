@@ -95,7 +95,7 @@ public class CutSceneManager : MonoBehaviour
     // Only auto-advance if still not typing (player might have pressed space during wait)
     if (!isTyping)
     {
-      NextSlide();
+    NextSlide();
     }
   }
 
