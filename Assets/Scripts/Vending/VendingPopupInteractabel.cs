@@ -207,8 +207,23 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             return;
         }
 
-        if (!keypadInstance)
+        // If instance doesn't exist or is inactive, create/recreate it
+        if (keypadInstance == null)
+        {
             keypadInstance = Instantiate(keypadPrefab, miniGameCanvas.transform, false);
+        }
+        else if (!keypadInstance.gameObject.activeInHierarchy)
+        {
+            // Instance exists but is inactive - destroy it and create a new one
+            Destroy(keypadInstance.gameObject);
+            keypadInstance = Instantiate(keypadPrefab, miniGameCanvas.transform, false);
+        }
+
+        // Ensure the keypad instance is active before setting it up
+        if (keypadInstance != null && !keypadInstance.gameObject.activeSelf)
+        {
+            keypadInstance.gameObject.SetActive(true);
+        }
 
         // Cache audio manager from keypad instance (if available)
         if (!keypadAudioManager && keypadInstance != null)
@@ -223,7 +238,16 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         keypadInstance.SetVendingPopupController(this);
 
         // Link wire game reference to keypad so it knows if wires are connected
-        // Wire game is inside the screw panel, so find it there
+        // Wire game is inside the screw panel, so we need to ensure the screw panel exists (even if hidden)
+        if (screwPanelInstance == null && screwPanelPrefab != null)
+        {
+            // Instantiate the screw panel (but keep it hidden) so we can get the wire game reference
+            screwPanelInstance = Instantiate(screwPanelPrefab, miniGameCanvas.transform, false);
+            screwPanelInstance.gameObject.SetActive(false); // Keep it hidden
+            screwPanelInstance.SetVendingPopup(vendingPopup);
+            Debug.Log("[VendingPopupInteractable] Instantiated screw panel (hidden) to get wire game reference");
+        }
+
         if (screwPanelInstance != null)
         {
             var wireGame = screwPanelInstance.GetComponentInChildren<WireConnectionGame>(true);
@@ -236,6 +260,10 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             {
                 Debug.LogWarning("[VendingPopupInteractable] Wire game not found in screw panel instance");
             }
+        }
+        else
+        {
+            Debug.LogWarning("[VendingPopupInteractable] Screw panel prefab not assigned - cannot link wire game to keypad");
         }
 
         // Hide vending while keypad is up
@@ -321,6 +349,18 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
 
         // Mark that bread has been collected
         breadCollected = true;
+
+        // Play success before UI is hidden so audio source remains active
+        EnsureKeypadAudioManager();
+        if (keypadAudioManager != null)
+        {
+            Vector3 playPos = Camera.main ? Camera.main.transform.position : transform.position;
+            keypadAudioManager.PlaySuccessAtPosition(playPos);
+        }
+        else
+        {
+            Debug.LogWarning("[VendingPopupInteractable] KeyPadAudioManager not found, cannot play success sound");
+        }
 
         // Play success before UI is hidden so audio source remains active
         EnsureKeypadAudioManager();

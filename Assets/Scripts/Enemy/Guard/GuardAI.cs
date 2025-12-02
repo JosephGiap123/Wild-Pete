@@ -461,10 +461,19 @@ public class GuardAI : PatrolEnemyAI
             if (debugMode) Debug.Log($"GuardAI: Hurt! Health: {health}, Entering Alert state!");
         }
     }
+    private Coroutine hurtWatchdogCoroutine;
+
     public override void EndHurtState()
     {
         isHurt = false;
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        
+        // Stop watchdog if it's running
+        if (hurtWatchdogCoroutine != null)
+        {
+            StopCoroutine(hurtWatchdogCoroutine);
+            hurtWatchdogCoroutine = null;
+        }
     }
 
     private void StartHurtAnim(int dmg)
@@ -473,7 +482,26 @@ public class GuardAI : PatrolEnemyAI
         isHurt = true;
         ChangeAnimationState("Hurt");
         StartCoroutine(DamageFlash(damageFlashTime));
+        
+        // Start hurt watchdog
+        if (hurtWatchdogCoroutine != null)
+        {
+            StopCoroutine(hurtWatchdogCoroutine);
+        }
+        hurtWatchdogCoroutine = StartCoroutine(HurtWatchdog());
+    }
 
+    private IEnumerator HurtWatchdog()
+    {
+        yield return new WaitForSeconds(0.3f);
+        
+        // If still hurt after 0.3s, force end the hurt state
+        if (isHurt)
+        {
+            EndHurtState();
+        }
+        
+        hurtWatchdogCoroutine = null;
     }
 
     protected override void IsGroundedCheck()

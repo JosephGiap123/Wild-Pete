@@ -78,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning($"PlayerInventory: Cannot use consumable {itemName} - quantity is 0!");
             return;
         }
-
+        
         for (int i = 0; i < consumableSOs.Length; i++)
         {
             if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
@@ -394,7 +394,7 @@ public class PlayerInventory : MonoBehaviour
 
         // Deselect all slots first
         DeselectAllSlots();
-
+        
         // Clear description panel
         ClearDescriptionPanel();
 
@@ -410,7 +410,7 @@ public class PlayerInventory : MonoBehaviour
             if (i < savedSlots.Count)
             {
                 var savedSlot = savedSlots[i];
-
+                
                 // If slot is empty in checkpoint, ensure it's cleared
                 if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
                 {
@@ -420,7 +420,7 @@ public class PlayerInventory : MonoBehaviour
 
                 // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
                 ItemSO foundItemSO = null;
-
+                
                 // First check consumableSOs (for consumables)
                 if (consumableSOs != null)
                 {
@@ -433,7 +433,7 @@ public class PlayerInventory : MonoBehaviour
                         }
                     }
                 }
-
+                
                 // If not found in consumables, check equipmentSOs (for equipment)
                 if (foundItemSO == null && equipmentSOs != null)
                 {
@@ -534,6 +534,7 @@ public class PlayerInventory : MonoBehaviour
 
     /// <summary>
     /// Adds an equipment item back to inventory when unequipped
+    /// If inventory is full, drops the item instead
     /// </summary>
     public void AddEquipmentToInventory(EquipmentSO equipment)
     {
@@ -554,7 +555,13 @@ public class PlayerInventory : MonoBehaviour
         itemComponent.itemDesc = equipment.itemDesc;
 
         // Add to inventory
-        AddItem(itemComponent);
+        bool success = AddItem(itemComponent);
+
+        // If inventory is full, drop the item instead of voiding it
+        if (!success && itemComponent.quantity > 0)
+        {
+            DropItemAtPlayer(equipment, itemComponent.quantity);
+        }
 
         // Clean up temporary object
         Destroy(tempItem);
@@ -562,6 +569,7 @@ public class PlayerInventory : MonoBehaviour
 
     /// <summary>
     /// Adds an item to inventory directly from an ItemSO (for trades, rewards, etc.)
+    /// If inventory is full, drops the item instead
     /// </summary>
     public bool AddItemFromItemSO(ItemSO itemSO, int quantity = 1)
     {
@@ -582,6 +590,12 @@ public class PlayerInventory : MonoBehaviour
 
         // Add to inventory
         bool success = AddItem(itemComponent);
+
+        // If inventory is full, drop the remaining quantity instead of losing it
+        if (!success && itemComponent.quantity > 0)
+        {
+            DropItemAtPlayer(itemSO, itemComponent.quantity);
+        }
 
         // Clean up temporary object
         Destroy(tempItem);
@@ -724,5 +738,77 @@ public class PlayerInventory : MonoBehaviour
     public bool IsEquipment(string itemName)
     {
         return GetEquipmentSO(itemName) != null;
+    }
+
+    /// <summary>
+    /// Drops an item at the player's position
+    /// </summary>
+    private void DropItemAtPlayer(ItemSO itemSO, int quantity)
+    {
+        if (itemSO == null || quantity <= 0) return;
+        if (GameManager.Instance == null || GameManager.Instance.player == null) return;
+
+        // Get item prefab from ItemSlot
+        GameObject itemPrefab = GetItemPrefab();
+        if (itemPrefab == null)
+        {
+            Debug.LogWarning("PlayerInventory: Could not find item prefab to drop item!");
+            return;
+        }
+
+        // Get player position and facing direction
+        BasePlayerMovement2D playerMovement = GameManager.Instance.player.GetComponent<BasePlayerMovement2D>();
+        if (playerMovement == null) return;
+
+        PlayerOrientationPosition playerOrPos = playerMovement.GetPlayerOrientPosition();
+        Transform playerPos = playerOrPos.position;
+        bool facingRight = playerOrPos.isFacingRight;
+        Vector3 dropPosition = new Vector3(playerPos.position.x, playerPos.position.y, 0f);
+
+        // Instantiate and initialize the item
+        GameObject itemToDrop = Instantiate(itemPrefab, dropPosition, facingRight ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0));
+        Item itemComponent = itemToDrop.GetComponent<Item>();
+        if (itemComponent != null)
+        {
+            // Initialize with velocity away from player
+            itemComponent.Initialize(new Vector2(3f * (facingRight ? 1f : -1f), 4f), itemSO);
+            itemComponent.quantity = quantity;
+        }
+        else
+        {
+            Debug.LogError("PlayerInventory: Item prefab doesn't have Item component!");
+            Destroy(itemToDrop);
+        }
+    }
+
+    /// <summary>
+    /// Gets the item prefab from ItemSlot (used for dropping items)
+    /// </summary>
+    private GameObject GetItemPrefab()
+    {
+        if (itemSlots == null) return null;
+
+        // Try to get itemPrefab from any ItemSlot using reflection
+        foreach (ItemSlot slot in itemSlots)
+        {
+            if (slot != null)
+            {
+                var itemPrefabField = typeof(ItemSlot).GetField("itemPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (itemPrefabField != null)
+                {
+                    GameObject prefab = itemPrefabField.GetValue(slot) as GameObject;
+                    if (prefab != null) return prefab;
+                }
+            }
+        }
+
+        // Fallback: try to get from DropItemsOnDeath
+        DropItemsOnDeath dropScript = FindFirstObjectByType<DropItemsOnDeath>();
+        if (dropScript != null && dropScript.itemPrefab != null)
+        {
+            return dropScript.itemPrefab;
+        }
+
+        return null;
     }
 }

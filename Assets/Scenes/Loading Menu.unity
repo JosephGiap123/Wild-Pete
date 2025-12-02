@@ -420,6 +420,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2019008726859457423, guid: 8f51ec0da609d45b4bf262856719030f, type: 3}
+      propertyPath: Composition.DeadZone.Size.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019008726859457423, guid: 8f51ec0da609d45b4bf262856719030f, type: 3}
+      propertyPath: Composition.DeadZone.Size.y
+      value: 0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 2961085567358416986, guid: 8f51ec0da609d45b4bf262856719030f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.4283538
@@ -1382,6 +1390,26 @@ PrefabInstance:
     - target: {fileID: 3841459684583860495, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003892401121334889, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: deathTips.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003892401121334889, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: 'deathTips.Array.data[1]'
+      value: Dashing is very important!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003892401121334889, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: 'deathTips.Array.data[2]'
+      value: Attack while in the air to perform an aerial attack.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003892401121334889, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: 'deathTips.Array.data[8]'
+      value: You can change your controls in the Settings Menu!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003892401121334889, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: 'deathTips.Array.data[9]'
+      value: Stuck on a boss? Try to find gear in the map to help fight the boss.
       objectReference: {fileID: 0}
     - target: {fileID: 4289687294261781065, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y

@@ -144,7 +144,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDesc = null;
         dropSprite = defaultIcon;
         PlayerInventory.instance.ClearDescriptionPanel();
-
+        
         // Update UI to reflect cleared state
         UpdateUI();
     }
@@ -180,7 +180,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             quantity = 0;
         }
-
+        
         // If quantity reaches 0, clear the slot completely
         if (quantity <= 0)
         {
@@ -209,7 +209,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 Debug.LogWarning("ItemSlot: Cannot use item - quantity is 0 or slot is empty!");
                 return;
             }
-
+            
             // Find this slot's index in the inventory array
             int slotIndex = -1;
             for (int i = 0; i < PlayerInventory.instance.itemSlots.Length; i++)
@@ -234,7 +234,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 else
                 {
                     // It's a consumable, use it normally
-                    PlayerInventory.instance.UseConsumable(itemName, slotIndex);
+                PlayerInventory.instance.UseConsumable(itemName, slotIndex);
                 }
             }
             else
