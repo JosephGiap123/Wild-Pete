@@ -319,9 +319,9 @@ MonoBehaviour:
   spiralRadius: 0.5
   maxPierceCount: 2
   pierceDamageReduction: 0
-  knockbackForce: {x: 3, y: 0}
-  useDirectionalKnockback: 0
-  knockbackStrength: 0
+  knockbackForce: {x: 0, y: 0}
+  useDirectionalKnockback: 1
+  knockbackStrength: 3
 --- !u!1 &7503808669520020204
 GameObject:
   m_ObjectHideFlags: 0
