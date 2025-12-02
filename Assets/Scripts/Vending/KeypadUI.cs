@@ -294,6 +294,15 @@ public class KeypadUI : MonoBehaviour
         ClearFeedback();
     }
     
+    // Public method to reset the keypad game state (for checkpoint restoration)
+    public void ResetGame()
+    {
+        isComplete = false;
+        currentInput = "";
+        UpdateDisplay();
+        ClearFeedback();
+    }
+    
     private void OnCodeCorrect()
     {
         isComplete = true;

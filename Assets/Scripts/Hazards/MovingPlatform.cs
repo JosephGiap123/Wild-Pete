@@ -7,6 +7,13 @@ public class MovingPlatform : MonoBehaviour
     public bool relativePoints = true;
     public int startingPoint = 0;
 
+    [Header("Slowdown Settings")]
+    [Tooltip("Distance from waypoint where slowdown begins")]
+    public float slowdownDistance = 2f;
+    [Tooltip("Minimum speed multiplier when at waypoint (0-1)")]
+    [Range(0f, 1f)]
+    public float minSpeedMultiplier = 0.2f;
+
     private int i;
 
     void Start()
@@ -25,13 +32,27 @@ public class MovingPlatform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        // Move towards current waypoint every frame
-        transform.position = Vector2.MoveTowards(transform.position, wayPoints[i], moveSpeed * Time.deltaTime);
+        // Calculate distance to current waypoint
+        float distanceToWaypoint = Vector2.Distance(transform.position, wayPoints[i]);
+
+        // Calculate speed multiplier based on distance (closer = slower)
+        float speedMultiplier = 1f;
+        if (distanceToWaypoint < slowdownDistance)
+        {
+            // Smoothly interpolate from minSpeedMultiplier to 1.0 as distance increases
+            // Closer to waypoint (smaller distance) = slower speed
+            float normalizedDistance = distanceToWaypoint / slowdownDistance;
+            speedMultiplier = Mathf.Lerp(minSpeedMultiplier, 1f, normalizedDistance);
+        }
+
+        // Apply speed multiplier to movement
+        float currentSpeed = moveSpeed * speedMultiplier;
+        transform.position = Vector2.MoveTowards(transform.position, wayPoints[i], currentSpeed * Time.deltaTime);
 
         // Check if we've reached the current waypoint
-        if (Vector2.Distance(transform.position, wayPoints[i]) < 0.02f)
+        if (distanceToWaypoint < 0.02f)
         {
             i++;
             if (i >= wayPoints.Length)
@@ -57,7 +78,7 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         for (int i = 0; i < wayPoints.Length; i++)

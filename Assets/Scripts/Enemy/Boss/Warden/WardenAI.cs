@@ -54,6 +54,7 @@ public class WardenAI : EnemyBase
 
     [SerializeField] BossHPBarInteractor hpBarInteractor;
     [SerializeField] private WardenAudioManager audioManager;
+    [SerializeField] private BoolEventSO bossThemeEventSO;
     private Transform player;
 
 
@@ -141,6 +142,7 @@ public class WardenAI : EnemyBase
         }
 
         // Play entrance animation when player is nearby
+        bossThemeEventSO.RaiseEvent(true);
         ChangeAnimationState("Entrance");
         isInvincible = false;
         hpBarInteractor.ShowHealthBar(true);
@@ -273,6 +275,7 @@ public class WardenAI : EnemyBase
 
     protected IEnumerator Death()
     {
+        bossThemeEventSO.RaiseEvent(false);
         isDead = true;
         audioManager?.StopRunLoop();
         audioManager?.PlayDeath();
@@ -285,12 +288,12 @@ public class WardenAI : EnemyBase
 
     protected override void Die()
     {
-        audioManager?.StopBossMusic();
         base.Die();
     }
 
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
+        bossThemeEventSO.RaiseEvent(false);
         // Boss always returns to spawn point, ignoring checkpoint position
         base.Respawn(null, facingRight);
 
@@ -377,8 +380,6 @@ public class WardenAI : EnemyBase
     public void EndAttackState()
     {
         inAttackState = false;
-        // Boss music starts when entrance ends and combat begins
-        audioManager?.StartBossMusic();
     }
 
     public void ActivateHitbox()
@@ -736,9 +737,18 @@ public class WardenAI : EnemyBase
 
     public void InstBullet()
     {
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        // Calculate direction based on enemy facing, not spawn point rotation
+        // This ensures bullet always goes the correct direction even if enemy flips during attack
+        // For 2D: 0 degrees = right, 180 degrees = left
+        float angle = isFacingRight ? 0f : 180f;
+        Quaternion bulletRotation = Quaternion.Euler(0, 0, angle);
+
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, bulletRotation);
         GuardBullet projScript = projectile.GetComponent<GuardBullet>();
-        projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        if (projScript != null)
+        {
+            projScript.Initialize(rangedDmg, rangedSpeed, rangedLifeSpan);
+        }
         return;
     }
 

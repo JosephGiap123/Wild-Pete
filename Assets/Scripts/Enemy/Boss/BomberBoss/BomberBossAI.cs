@@ -107,6 +107,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     [SerializeField] private ParticleSystem shootAirStraightParticle;
     [SerializeField] BossHPBarInteractor hpBarInteractor;
     private Transform player;
+    [SerializeField] private BoolEventSO bossThemeEventSO;
 
     [SerializeField] private Transform centerOfArena;
 
@@ -167,6 +168,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         }
 
         // Play entrance animation when player is nearby
+        bossThemeEventSO.RaiseEvent(true);
         ChangeAnimationState("Entrance");
         isInvincible = false;
         hpBarInteractor.ShowHealthBar(true);
@@ -372,6 +374,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     protected IEnumerator Death()
     {
         isDead = true;
+        bossThemeEventSO.RaiseEvent(false);
         ChangeAnimationState("Death");
         // audioManager?.StopRunLoop();
         // audioManager?.PlayDeath();
@@ -394,6 +397,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     public override void Respawn(Vector2? position = null, bool? facingRight = null)
     {
         // Boss always returns to spawn point, ignoring checkpoint position
+        bossThemeEventSO.RaiseEvent(false);
         base.Respawn(null, facingRight);
 
         // Reset all AI state variables

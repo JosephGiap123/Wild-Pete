@@ -18,8 +18,11 @@ MonoBehaviour:
   maxStackSize: 1
   quantity: 1
   itemDesc: A sturdy leather vest.
-  itemStats: 00000000
+  itemStats: 000000000c000000
   itemStatAmounts:
   - 20
+  - -1
   equipmentType: 0
   equipableBy: 2
+  disablesHeldWeapon: 0
+  customProjectilePrefab: {fileID: 0}

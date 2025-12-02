@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PeteMovement2D : BasePlayerMovement2D
 {
@@ -146,7 +147,7 @@ public class PeteMovement2D : BasePlayerMovement2D
             }
         }
 
-        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty())
+        if (!isAttacking && isGrounded && Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Unequip]) && PlayerInventory.instance.equipmentSlots[2] != null && !PlayerInventory.instance.equipmentSlots[2].IsEmpty() && PlayerInventory.instance.equipmentSlots[2].GetEquippedItem().disablesHeldWeapon == false)
         {
             weaponEquipped = !weaponEquipped;
         }
@@ -239,7 +240,38 @@ public class PeteMovement2D : BasePlayerMovement2D
 
     public void InstBullet()
     {
-        bulletInstance = Instantiate(bullet, bulletOrigin.position, bulletOrigin.rotation);
+        // Get projectile prefab from equipped ranged weapon, or use default
+        GameObject projectilePrefab = GetCurrentProjectilePrefab();
+        int num = StatsManager.instance.bulletCount;
+        if (num == 0)
+        {
+            num = 1;
+        }
+        for (int i = 0; i < num; i++)
+        {
+            bulletInstance = Instantiate(projectilePrefab, bulletOrigin.position, bulletOrigin.rotation);
+            bulletInstance.GetComponent<GeneralizedBullet>().AddDamage(StatsManager.instance.rangedAttack);
+        }
+    }
+
+    /// <summary>
+    /// Gets the projectile prefab from the currently equipped ranged weapon, or returns default bullet
+    /// </summary>
+    private GameObject GetCurrentProjectilePrefab()
+    {
+        if (PlayerInventory.instance != null && PlayerInventory.instance.equipmentSlots != null && PlayerInventory.instance.equipmentSlots.Length > 3)
+        {
+            EquipmentSlot rangedSlot = PlayerInventory.instance.equipmentSlots[3];
+            if (rangedSlot != null && !rangedSlot.IsEmpty())
+            {
+                EquipmentSO rangedWeapon = rangedSlot.GetEquippedItem();
+                if (rangedWeapon != null && rangedWeapon.customProjectilePrefab != null)
+                {
+                    return rangedWeapon.customProjectilePrefab;
+                }
+            }
+        }
+        return bullet; // Fallback to default bullet
     }
     protected override IEnumerator ThrowAttack()
     {
