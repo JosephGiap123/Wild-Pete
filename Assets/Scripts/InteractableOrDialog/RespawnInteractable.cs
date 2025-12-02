@@ -4,8 +4,9 @@ public class RespawnInteractable : MonoBehaviour, IInteractable
 {
 
     public string interactionName { get; private set; }
-    [Header("Audio Fade")]
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip interactClip;
+    [Header("Audio Fade")]
     [Tooltip("Enable distance fade of the object's AudioSource based on player distance")]
     [SerializeField] private bool enableDistanceFade = true;
     [Tooltip("Distance within which audio plays at full base volume")]
@@ -27,6 +28,10 @@ public class RespawnInteractable : MonoBehaviour, IInteractable
     public void Interact()
     {
         Debug.Log("Attempted to save checkpoint");
+        if (sfxSource && interactClip)
+        {
+            sfxSource.PlayOneShot(interactClip);
+        }
         // Save checkpoint at current position
         if (CheckpointManager.Instance != null)
         {

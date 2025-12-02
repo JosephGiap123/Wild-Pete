@@ -9,6 +9,8 @@ public class KeypadUI : MonoBehaviour
     [SerializeField] private CanvasGroup cg;
     [SerializeField] private GameObject vendingPopup; // set at runtime so Hide() can return to vending
     private VendingPopupInteractable vendingPopupController; // Reference to controller to change sprite
+    [Header("Audio")]
+    [SerializeField] private KeyPadAudioManager audioManager;
     
     [Header("Wire Connection Check")]
     [SerializeField] private WireConnectionGame wireGameReference; // Reference to check if wires are connected
@@ -19,10 +21,17 @@ public class KeypadUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayText; // Text to show current input
     [SerializeField] private TextMeshProUGUI feedbackText; // Text to show feedback (correct/incorrect count)
     [SerializeField] private int codeLength = 3; // Length of the code
-    
+
     private string currentInput = ""; // Current input string
     private bool isComplete = false; // Whether the code has been solved
     private float originalFontSize = 0f; // Store original font size
+
+    private void EnsureAudioManager()
+    {
+        if (audioManager) return;
+        audioManager = GetComponentInParent<KeyPadAudioManager>();
+        if (!audioManager) audioManager = FindObjectOfType<KeyPadAudioManager>();
+    }
 
     void Reset()
     {
@@ -34,11 +43,14 @@ public class KeypadUI : MonoBehaviour
     public void SetVendingPopupController(VendingPopupInteractable controller) => vendingPopupController = controller;
     
     public void SetWireGameReference(WireConnectionGame wireGame) => wireGameReference = wireGame;
+
+    public void SetAudioManager(KeyPadAudioManager manager) => audioManager = manager;
     
     // Called when a keypad button is pressed
-    public void OnButtonPressed(string value)
+    public bool OnButtonPressed(string value)
     {
         Debug.Log($"[KeypadUI] OnButtonPressed called with value: '{value}'");
+        EnsureAudioManager();
         
         // # button clears the selection (works at any time, even if complete or wires not connected)
         if (value == "#")
@@ -49,19 +61,19 @@ public class KeypadUI : MonoBehaviour
             // Clear input and reset display
             currentInput = "";
             UpdateDisplay();
-            return;
+            return true;
         }
         
         if (isComplete)
         {
             Debug.Log("[KeypadUI] Button press ignored - game is already complete");
-            return; // Don't accept input if already complete
+            return false; // Don't accept input if already complete
         }
         
         if (!wireGameReference || !wireGameReference.IsComplete())
         {
             Debug.LogWarning($"[KeypadUI] Button press ignored - wires not connected. wireGameReference: {(wireGameReference != null ? "Found" : "NULL")}, IsComplete: {(wireGameReference != null ? wireGameReference.IsComplete().ToString() : "N/A")}");
-            return; // Don't accept if wires not connected
+            return false; // Don't accept if wires not connected
         }
         
         Debug.Log($"[KeypadUI] Processing button press: '{value}', Current input length: {currentInput.Length}");
@@ -85,6 +97,8 @@ public class KeypadUI : MonoBehaviour
                 CheckCode();
             }
         }
+
+        return true;
     }
     
     private void ClearInput()
@@ -264,6 +278,7 @@ public class KeypadUI : MonoBehaviour
         {
             // Don't auto-clear feedback - it stays until user clicks a button
             // User clicking a button will switch display back to input mode
+            audioManager?.PlayFail();
         }
     }
     

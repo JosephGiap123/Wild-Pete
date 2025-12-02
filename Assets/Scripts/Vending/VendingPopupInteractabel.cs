@@ -15,6 +15,8 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
     [Header("Keypad (optional)")]
     [SerializeField] private KeypadUI keypadPrefab;     // Drag KeypadUI prefab
     private KeypadUI keypadInstance;
+    [Header("Audio")]
+    [SerializeField] private KeyPadAudioManager keypadAudioManager;
 
     [Header("Screw Panel (optional)")]
     [SerializeField] private ScrewPanelUI screwPanelPrefab; // Drag ScrewPanelUI prefab
@@ -223,6 +225,12 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
             keypadInstance.gameObject.SetActive(true);
         }
 
+        // Cache audio manager from keypad instance (if available)
+        if (!keypadAudioManager && keypadInstance != null)
+        {
+            keypadAudioManager = keypadInstance.GetComponentInChildren<KeyPadAudioManager>(true);
+        }
+
         // Tell keypad where to return when Hide() is called
         keypadInstance.SetVendingPopup(vendingPopup);
 
@@ -342,8 +350,11 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         // Mark that bread has been collected
         breadCollected = true;
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> main
         // Play success before UI is hidden so audio source remains active
         EnsureKeypadAudioManager();
         if (keypadAudioManager != null)
@@ -355,8 +366,12 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         {
             Debug.LogWarning("[VendingPopupInteractable] KeyPadAudioManager not found, cannot play success sound");
         }
+<<<<<<< HEAD
         
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> main
         // Close all UI immediately
         CloseAll();
         
@@ -466,5 +481,18 @@ public class VendingPopupInteractable : MonoBehaviour, IInteractable
         if (!miniGameCanvas.gameObject.activeSelf)
             miniGameCanvas.gameObject.SetActive(true);
         return true;
+    }
+
+    private void EnsureKeypadAudioManager()
+    {
+        if (keypadAudioManager) return;
+        if (keypadInstance != null)
+        {
+            keypadAudioManager = keypadInstance.GetComponentInChildren<KeyPadAudioManager>(true);
+        }
+        if (!keypadAudioManager)
+        {
+            keypadAudioManager = FindObjectOfType<KeyPadAudioManager>();
+        }
     }
 }

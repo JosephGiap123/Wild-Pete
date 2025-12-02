@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: a7227cb6f71c24b28bd117000c2ac2d0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - mainMenuCanvas: {instanceID: 0}
+  - charSelectCanvas: {instanceID: 0}
+  - buttonClickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
+  - buttonAudioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

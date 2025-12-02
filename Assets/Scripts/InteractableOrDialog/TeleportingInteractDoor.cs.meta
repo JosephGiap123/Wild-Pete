@@ -1,2 +1,17 @@
 fileFormatVersion: 2
 guid: dc13b61f968b54388a0eb6767ccd94a7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - linkedDoor: {instanceID: 0}
+  - exitPoint: {instanceID: 0}
+  - onTeleportStart: {instanceID: 0}
+  - doorEnterClip: {fileID: 8300000, guid: 4930d7344f5fde84e8fddee437b96b24, type: 3}
+  - doorAudioSource: {instanceID: 0}
+  - requiredItem: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

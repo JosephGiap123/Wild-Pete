@@ -654,6 +654,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 187368345}
   charSelectCanvas: {fileID: 680862318}
+  buttonClickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
+  buttonClickVolume: 1
+  buttonAudioSource: {fileID: 0}
 --- !u!1 &359557304
 GameObject:
   m_ObjectHideFlags: 0

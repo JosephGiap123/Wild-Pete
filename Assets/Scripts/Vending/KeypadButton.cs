@@ -5,8 +5,16 @@ using UnityEngine.UI;
 public class KeypadButton : MonoBehaviour
 {
     [SerializeField] private string buttonValue; // The value this button represents (e.g., "a", "b", "c", "1", "2", "#")
+    [SerializeField] private KeyPadAudioManager audioManager;
     private KeypadUI keypadUI;
     private Button button;
+
+    private void EnsureAudioManager()
+    {
+        if (audioManager) return;
+        audioManager = GetComponentInParent<KeyPadAudioManager>();
+        if (!audioManager) audioManager = FindObjectOfType<KeyPadAudioManager>();
+    }
     
     public string GetButtonValue() => buttonValue;
     
@@ -14,6 +22,7 @@ public class KeypadButton : MonoBehaviour
     {
         // Find KeypadUI in parent
         keypadUI = GetComponentInParent<KeypadUI>();
+        EnsureAudioManager();
         
         // Wire up button click
         button = GetComponent<Button>();
@@ -61,7 +70,15 @@ public class KeypadButton : MonoBehaviour
         }
         
         Debug.Log($"[KeypadButton] Sending button press to KeypadUI: '{buttonValue}'");
-        keypadUI.OnButtonPressed(buttonValue);
+        bool accepted = keypadUI.OnButtonPressed(buttonValue);
+        if (accepted)
+        {
+            audioManager?.PlayClick();
+        }
+        else
+        {
+            audioManager?.PlayFail();
+        }
     }
     
     // Debug method to check button state in editor
