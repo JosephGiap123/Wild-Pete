@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TheCave.unity
     guid: b29c464a788304968a2c01754fe2ec8e
+  - enabled: 1
+    path: Assets/Scenes/End Credits Menu.unity
+    guid: 941a2a38e7bb942c6a6fbe3bd8b2d6f3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
