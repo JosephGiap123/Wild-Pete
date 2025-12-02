@@ -13,6 +13,10 @@ public class SceneDoorSwapper : MonoBehaviour, IInteractable
     }
     public bool CanInteract()
     {
+        if (requiredItem == null)
+        {
+            return true;
+        }
         return PlayerInventory.instance.HasItem(requiredItem.itemName) > 0;
     }
 
