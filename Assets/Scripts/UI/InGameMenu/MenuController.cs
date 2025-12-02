@@ -42,6 +42,13 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
+        // Don't allow opening inventory in menu scenes
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName.Contains("Menu") || currentSceneName.Contains("menu"))
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(ControlManager.instance.inputMapping[PlayerControls.Inventory]))
         {
             if (menuCanvas == null)
@@ -50,7 +57,7 @@ public class MenuController : MonoBehaviour
                 return;
             }
 
-            // Don’t allow opening a second menu if some other system has already paused the game
+            // Don't allow opening a second menu if some other system has already paused the game
             if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
                 return;
 
