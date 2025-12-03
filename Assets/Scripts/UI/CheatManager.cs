@@ -6,6 +6,7 @@ public class CheatManager : MonoBehaviour
 
     [Tooltip("If true, player takes no damage.")]
     public bool invulnerable = false;
+    [SerializeField] private EquipmentSO adminBoots;
 
     void Awake()
     {
@@ -22,6 +23,10 @@ public class CheatManager : MonoBehaviour
     public void ToggleInvulnerability()
     {
         invulnerable = !invulnerable;
+        if (invulnerable)
+        {
+            PlayerInventory.instance.AddItemFromItemSO(adminBoots, 1);
+        }
         Debug.Log($"CheatMode Invulnerable = {invulnerable}");
     }
 }

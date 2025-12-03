@@ -78,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
             Debug.LogWarning($"PlayerInventory: Cannot use consumable {itemName} - quantity is 0!");
             return;
         }
-        
+
         for (int i = 0; i < consumableSOs.Length; i++)
         {
             if (consumableSOs[i] != null && consumableSOs[i].itemName == itemName)
@@ -394,7 +394,7 @@ public class PlayerInventory : MonoBehaviour
 
         // Deselect all slots first
         DeselectAllSlots();
-        
+
         // Clear description panel
         ClearDescriptionPanel();
 
@@ -410,7 +410,7 @@ public class PlayerInventory : MonoBehaviour
             if (i < savedSlots.Count)
             {
                 var savedSlot = savedSlots[i];
-                
+
                 // If slot is empty in checkpoint, ensure it's cleared
                 if (string.IsNullOrEmpty(savedSlot.itemName) || savedSlot.quantity <= 0)
                 {
@@ -420,7 +420,7 @@ public class PlayerInventory : MonoBehaviour
 
                 // Find the ItemSO by name - check consumableSOs first (since ConsumableSO extends ItemSO)
                 ItemSO foundItemSO = null;
-                
+
                 // First check consumableSOs (for consumables)
                 if (consumableSOs != null)
                 {
@@ -433,7 +433,7 @@ public class PlayerInventory : MonoBehaviour
                         }
                     }
                 }
-                
+
                 // If not found in consumables, check equipmentSOs (for equipment)
                 if (foundItemSO == null && equipmentSOs != null)
                 {
