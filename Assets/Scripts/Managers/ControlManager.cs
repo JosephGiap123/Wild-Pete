@@ -29,7 +29,7 @@ public class ControlManager : MonoBehaviour
     [SerializeField] public List<Sprite> keyCodeTextSprite;
     public static ControlManager instance;
 
-    [SerializeField] private InputEvent controlChangedEventSO;
+    [SerializeField] public InputEvent controlChangedEventSO;
 
     // public event Action<PlayerControls, KeyCode> ChangedInput;
     void Awake()

@@ -372,5 +372,5 @@ MonoBehaviour:
   maxPierceCount: 0
   pierceDamageReduction: 0
   knockbackForce: {x: 0, y: 0}
-  useDirectionalKnockback: 0
-  knockbackStrength: 0
+  useDirectionalKnockback: 1
+  knockbackStrength: 1

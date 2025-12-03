@@ -1068,21 +1068,14 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
     protected virtual void ApplyKnockback(float direction, Vector2 knockbackForce)
     {
-        if (direction != (isFacingRight ? -1f : 1f))
-        {
-            FlipSprite();
-        }
+        // Removed sprite flipping on hurt - player should not turn when damaged
         rb.linearVelocity = new(direction * knockbackForce.x, knockbackForce.y);
     }
 
     protected virtual void ApplyKnockbackRadial(float direction, Vector2 knockbackForce)
     {
         // For radial/explosion knockback, use the force vector directly
-        // Direction is only used for sprite flipping
-        if (direction != (isFacingRight ? -1f : 1f))
-        {
-            FlipSprite();
-        }
+        // Removed sprite flipping on hurt - player should not turn when damaged
         rb.linearVelocity = knockbackForce;
     }
 

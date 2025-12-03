@@ -81,22 +81,28 @@ public class HotkeyHotbar : MonoBehaviour
     }
     void UpdateHotkeyHotbar(string inpStringName, PlayerControls inputName, KeyCode newKeyCode)
     {
-        if (inputName == PlayerControls.Throw)
+        // Null checks to prevent errors
+        if (hotKeyButtonText == null || hotKeyButtonText.Length < 3)
+        {
+            Debug.LogWarning("HotkeyHotbar: hotKeyButtonText array is null or too short!");
+            return;
+        }
+
+        if (inputName == PlayerControls.Throw && hotKeyButtonText[0] != null)
         {
             hotKeyButtonText[0].text = newKeyCode.ToString();
         }
-        else if (inputName == PlayerControls.Hotkey1)
+        else if (inputName == PlayerControls.Hotkey1 && hotKeyButtonText[1] != null)
         {
             hotKeyButtonText[1].text = newKeyCode.ToString();
         }
-        else if (inputName == PlayerControls.Hotkey2)
+        else if (inputName == PlayerControls.Hotkey2 && hotKeyButtonText[2] != null)
         {
             hotKeyButtonText[2].text = newKeyCode.ToString();
         }
-        for (int i = 0; i < hotKeyPanel.Length; i++)
-        {
-            hotKeyPanel[i].SetActive(true);
-        }
+        
+        // Update all hotkey text when any control changes to ensure consistency
+        UpdateAllHotkeyText();
     }
 
     void UpdateInventoryHotkeyText()

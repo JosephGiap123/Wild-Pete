@@ -15789,6 +15789,7 @@ GameObject:
   - component: {fileID: 7504804122771053848}
   - component: {fileID: 2693860177620366825}
   - component: {fileID: 1527333825809728639}
+  - component: {fileID: 6612498594921824350}
   m_Layer: 6
   m_Name: WildPete
   m_TagString: Untagged
@@ -15861,7 +15862,7 @@ MonoBehaviour:
   groundAttackEnergyCost: 1
   aerialAttackEnergyCost: 1
   crouchingAttackEnergyCost: 1
-  jumpEnergyCost: 0.5
+  jumpEnergyCost: 0
   maxAttackDuration: 0.9
   wallRay: {fileID: 1896967197796685413}
   wallMask:
@@ -15983,6 +15984,28 @@ MonoBehaviour:
   boxCol: {fileID: 2803381632177467573}
   circleCol: {fileID: 781829894381207796}
   parentScript: {fileID: 675986149054274358}
+--- !u!114 &6612498594921824350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045371504318166606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600fbc857e09749a3a9daf7ce4c3e9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLookDistance: 3
+  useCameraBounds: 1
+  lookIndicatorPrefab: {fileID: 0}
+  showIndicator: 1
+  showDebugLine: 1
+  playerTransform: {fileID: 0}
+  mainCamera: {fileID: 0}
+  cameraFollowTarget: {fileID: 0}
+  updateCameraFollowTarget: 1
+  cameraFollowBlend: 0.5
 --- !u!1 &8113746080852306424
 GameObject:
   m_ObjectHideFlags: 0

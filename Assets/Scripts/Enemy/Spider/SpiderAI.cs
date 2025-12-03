@@ -512,18 +512,47 @@ public class SpiderAI : PatrolEnemyAI
         base.Die();
     }
 
+    private Coroutine hurtWatchdogCoroutine;
+
     private void StartHurtAnim(int dmg)
     {
         float damageFlashTime = Mathf.Max(0.2f, (dmg / (float)maxHealth));
         isHurt = true;
         ChangeAnimationState("Hurt");
         StartCoroutine(DamageFlash(damageFlashTime));
+        
+        // Start hurt watchdog
+        if (hurtWatchdogCoroutine != null)
+        {
+            StopCoroutine(hurtWatchdogCoroutine);
+        }
+        hurtWatchdogCoroutine = StartCoroutine(HurtWatchdog());
+    }
+
+    private IEnumerator HurtWatchdog()
+    {
+        yield return new WaitForSeconds(0.3f);
+        
+        // If still hurt after 0.3s, force end the hurt state
+        if (isHurt)
+        {
+            EndHurtState();
+        }
+        
+        hurtWatchdogCoroutine = null;
     }
 
     public override void EndHurtState()
     {
         isHurt = false;
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        
+        // Stop watchdog if it's running
+        if (hurtWatchdogCoroutine != null)
+        {
+            StopCoroutine(hurtWatchdogCoroutine);
+            hurtWatchdogCoroutine = null;
+        }
     }
 
     public override void Respawn(Vector2? position = null, bool? facingRight = null)

@@ -111,6 +111,30 @@ public class SettingsUIController : MonoBehaviour
 
     public void OnQuitToMenuPressed()
     {
+        // Clear inventory
+        if (PlayerInventory.instance != null)
+        {
+            PlayerInventory.instance.ClearInventory();
+            
+            // Clear all equipment slots
+            if (PlayerInventory.instance.equipmentSlots != null)
+            {
+                foreach (var equipmentSlot in PlayerInventory.instance.equipmentSlots)
+                {
+                    if (equipmentSlot != null)
+                    {
+                        equipmentSlot.ClearSlot();
+                    }
+                }
+            }
+        }
+        
+        // Clear checkpoint
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.ClearCheckpoint();
+        }
+        
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

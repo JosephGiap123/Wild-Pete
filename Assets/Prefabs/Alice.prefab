@@ -10482,6 +10482,7 @@ GameObject:
   - component: {fileID: 1842705194756823511}
   - component: {fileID: 8843492388788499034}
   - component: {fileID: 4151880046429748963}
+  - component: {fileID: 4675215198300459622}
   m_Layer: 0
   m_Name: Alice
   m_TagString: Untagged
@@ -10554,7 +10555,7 @@ MonoBehaviour:
   groundAttackEnergyCost: 1.5
   aerialAttackEnergyCost: 1.5
   crouchingAttackEnergyCost: 1
-  jumpEnergyCost: 0.5
+  jumpEnergyCost: 0
   maxAttackDuration: 0.9
   wallRay: {fileID: 4137327256938815234}
   wallMask:
@@ -10675,6 +10676,28 @@ MonoBehaviour:
   boxCol: {fileID: 6182104108368122417}
   circleCol: {fileID: 5102368542197912802}
   parentScript: {fileID: 2802167836047707247}
+--- !u!114 &4675215198300459622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172980308799934302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600fbc857e09749a3a9daf7ce4c3e9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLookDistance: 3
+  useCameraBounds: 1
+  lookIndicatorPrefab: {fileID: 0}
+  showIndicator: 1
+  showDebugLine: 1
+  playerTransform: {fileID: 0}
+  mainCamera: {fileID: 0}
+  cameraFollowTarget: {fileID: 0}
+  updateCameraFollowTarget: 1
+  cameraFollowBlend: 0.5
 --- !u!1 &3244053087830911747
 GameObject:
   m_ObjectHideFlags: 0

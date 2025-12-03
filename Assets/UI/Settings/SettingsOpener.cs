@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -20,14 +21,35 @@ public class SettingsOpener : MonoBehaviour
 
     void Update()
     {
-        // Toggle with Y in gameplay scenes
-        #if ENABLE_INPUT_SYSTEM
-        if (Keyboard.current != null && Keyboard.current.yKey.wasPressedThisFrame)
+        // Don't allow opening settings in menu scenes via shortcut
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if ((currentSceneName.Contains("Menu") || currentSceneName.Contains("menu")) && !isOpen)
+        {
+            return;
+        }
+
+        // Settings can only open if game isn't paused
+        if (PauseController.IsGamePaused && !isOpen)
+        {
+            return;
+        }
+
+        KeyCode settingsKey = KeyCode.Y; // Default fallback
+
+        // Try to get settings key from ControlManager
+        if (ControlManager.instance != null && ControlManager.instance.inputMapping != null)
+        {
+            if (ControlManager.instance.inputMapping.ContainsKey(PlayerControls.Setting))
+            {
+                settingsKey = ControlManager.instance.inputMapping[PlayerControls.Setting];
+            }
+        }
+
+        // Check for key press
+        if (Input.GetKeyDown(settingsKey))
+        {
             Toggle();
-        #else
-        if (Input.GetKeyDown(KeyCode.Y))
-            Toggle();
-        #endif
+        }
     }
 
     public void Toggle()
@@ -35,7 +57,7 @@ public class SettingsOpener : MonoBehaviour
         // If panel is not yet assigned, try to find it
         if (settingsPanel == null)
         {
-            var controller = FindObjectOfType<SettingsUIController>();
+            var controller = FindFirstObjectByType<SettingsUIController>();
             if (controller != null)
                 settingsPanel = controller.gameObject;
         }
@@ -47,9 +69,19 @@ public class SettingsOpener : MonoBehaviour
         }
 
         if (isOpen)
+        {
+            // Settings can only close if it was opened (isOpen flag is true)
             CloseInternal();
+        }
         else
+        {
+            // Settings can only open if game isn't paused
+            if (PauseController.IsGamePaused)
+            {
+                return;
+            }
             OpenInternal();
+        }
     }
 
     void OpenInternal()
