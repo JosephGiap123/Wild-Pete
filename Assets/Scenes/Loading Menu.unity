@@ -493,45 +493,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7457984367559264147, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
   m_PrefabInstance: {fileID: 1811137387}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &737900208 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7829673183724783459, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
-  m_PrefabInstance: {fileID: 2112887328}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &737900216 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3554655927625909859, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
-  m_PrefabInstance: {fileID: 2112887328}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &737900221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 737900208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18da63f58af24ae7ab978e8920cdf18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicSource: {fileID: 737900216}
-  musicClips:
-  - clip: {fileID: 8300000, guid: ae44f42a37ff41940a32a0e72a205702, type: 3}
-    name: Prison
-  - clip: {fileID: 8300000, guid: a108e3a5f11b8d84d9ead6e5a4c05058, type: 3}
-    name: Cave
-  - clip: {fileID: 8300000, guid: e5d3a17cd01bf094f801e3b139a7d8d7, type: 3}
-    name: Prison Boss
-  - clip: {fileID: 8300000, guid: 83c3545ff9485470cbc1b1c6bb911b11, type: 3}
-    name: Cave Boss
-  - clip: {fileID: 8300000, guid: df6dfb5a466d736419107a54e4d2944d, type: 3}
-    name: MainMenu
-  bossThemeEventSO: {fileID: 11400000, guid: ac722fc02044a4705987f087ca22e14e, type: 2}
-  musicVolume: 0.7
-  playOnAwake: 1
-  useFadeTransitions: 1
-  fadeDuration: 1
 --- !u!4 &737900232 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6477991791746115369, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
@@ -2705,10 +2666,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6477991791746115369, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 238037588}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7829673183724783459, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 737900221}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

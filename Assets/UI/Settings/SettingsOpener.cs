@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -20,34 +21,43 @@ public class SettingsOpener : MonoBehaviour
 
     void Update()
     {
-        // Don't allow opening settings if vending machine UI is open
-        if (IsVendingMachineUIOpen())
+        // Don't allow opening settings in menu scenes via shortcut
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if ((currentSceneName.Contains("Menu") || currentSceneName.Contains("menu")) && !isOpen)
         {
             return;
         }
 
-        // Toggle with Y in gameplay scenes
-        #if ENABLE_INPUT_SYSTEM
-        if (Keyboard.current != null && Keyboard.current.yKey.wasPressedThisFrame)
+        // Settings can only open if game isn't paused
+        if (PauseController.IsGamePaused && !isOpen)
+        {
+            return;
+        }
+
+        KeyCode settingsKey = KeyCode.Y; // Default fallback
+
+        // Try to get settings key from ControlManager
+        if (ControlManager.instance != null && ControlManager.instance.inputMapping != null)
+        {
+            if (ControlManager.instance.inputMapping.ContainsKey(PlayerControls.Setting))
+            {
+                settingsKey = ControlManager.instance.inputMapping[PlayerControls.Setting];
+            }
+        }
+
+        // Check for key press
+        if (Input.GetKeyDown(settingsKey))
+        {
             Toggle();
-        #else
-        if (Input.GetKeyDown(KeyCode.Y))
-            Toggle();
-        #endif
+        }
     }
 
     public void Toggle()
     {
-        // Don't allow opening settings if vending machine UI is open
-        if (!isOpen && IsVendingMachineUIOpen())
-        {
-            return;
-        }
-
         // If panel is not yet assigned, try to find it
         if (settingsPanel == null)
         {
-            var controller = FindObjectOfType<SettingsUIController>();
+            var controller = FindFirstObjectByType<SettingsUIController>();
             if (controller != null)
                 settingsPanel = controller.gameObject;
         }
@@ -59,46 +69,19 @@ public class SettingsOpener : MonoBehaviour
         }
 
         if (isOpen)
-            CloseInternal();
-        else
-            OpenInternal();
-    }
-
-    /// <summary>
-    /// Checks if the vending machine UI is currently open
-    /// </summary>
-    private bool IsVendingMachineUIOpen()
-    {
-        // Find all VendingPopupInteractable instances and check if their UI is active
-        VendingPopupInteractable[] vendingMachines = FindObjectsByType<VendingPopupInteractable>(FindObjectsSortMode.None);
-        foreach (VendingPopupInteractable vending in vendingMachines)
         {
-            if (vending == null) continue;
-
-            // Use reflection to check if vendingPopup or miniGameCanvas is active
-            var vendingPopupField = typeof(VendingPopupInteractable).GetField("vendingPopup", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var miniGameCanvasField = typeof(VendingPopupInteractable).GetField("miniGameCanvas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            if (vendingPopupField != null)
-            {
-                GameObject vendingPopup = vendingPopupField.GetValue(vending) as GameObject;
-                if (vendingPopup != null && vendingPopup.activeSelf)
-                {
-                    return true;
-                }
-            }
-
-            if (miniGameCanvasField != null)
-            {
-                Canvas miniGameCanvas = miniGameCanvasField.GetValue(vending) as Canvas;
-                if (miniGameCanvas != null && miniGameCanvas.gameObject.activeSelf)
-                {
-                    return true;
-                }
-            }
+            // Settings can only close if it was opened (isOpen flag is true)
+            CloseInternal();
         }
-
-        return false;
+        else
+        {
+            // Settings can only open if game isn't paused
+            if (PauseController.IsGamePaused)
+            {
+                return;
+            }
+            OpenInternal();
+        }
     }
 
     void OpenInternal()
