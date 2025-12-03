@@ -5161,6 +5161,12 @@ MonoBehaviour:
   explosionParticles: {fileID: 4177891046806048846, guid: ccfdd5d14f5e445a79ae08e3561701ca, type: 3}
   explosionHitbox: {fileID: 11400000, guid: dfa9467075ebb4535b240f1c4193e086, type: 2}
   explosionTime: 3
+  sfxSource: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 609588e115041bc48a63278def21fadd, type: 3}
+  explosionVolume: 1
+  fuseSound: {fileID: 8300000, guid: 4ce237b31fefdd746a4294b69ca93f9c, type: 3}
+  fuseVolume: 0.8
+  loopFuse: 0
 --- !u!50 &6273434030552163463
 Rigidbody2D:
   serializedVersion: 5

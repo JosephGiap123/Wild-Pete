@@ -12,6 +12,10 @@ public class Dynamite : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip explosionSound;
     [Range(0f, 1f)][SerializeField] private float explosionVolume = 1f;
+    [SerializeField] private AudioClip fuseSound;
+    [Range(0f, 1f)][SerializeField] private float fuseVolume = 0.8f;
+    [SerializeField] private bool loopFuse = true;
+    private AudioSource fuseSource;
     
     private Rigidbody2D rb;
     public void Awake()
@@ -23,17 +27,30 @@ public class Dynamite : MonoBehaviour
         sfxSource.spatialBlend = 1f;
         sfxSource.rolloffMode = AudioRolloffMode.Linear;
         sfxSource.playOnAwake = false;
+
+        // Separate source for fuse so it can loop independently from the explosion
+        fuseSource = gameObject.AddComponent<AudioSource>();
+        fuseSource.spatialBlend = 1f;
+        fuseSource.rolloffMode = AudioRolloffMode.Linear;
+        fuseSource.playOnAwake = false;
     }
     public void Initialize(Vector2 initVelocity)
     {
         rb.linearVelocity = initVelocity;
         rb.angularVelocity = 360f * (rb.rotation + 360) / Mathf.Abs(rb.rotation + 360);
+        PlayFuseSound();
         StartCoroutine(Explode());
     }
 
     public IEnumerator Explode()
     {
         yield return new WaitForSeconds(explosionTime);
+
+        // Stop fuse before explosion
+        if (fuseSource && fuseSource.isPlaying)
+        {
+            fuseSource.Stop();
+        }
         
         // Play explosion sound
         if (explosionSound && sfxSource)
@@ -53,5 +70,14 @@ public class Dynamite : MonoBehaviour
         }
         
         Destroy(gameObject);
+    }
+
+    private void PlayFuseSound()
+    {
+        if (fuseSound == null || fuseSource == null) return;
+        fuseSource.loop = loopFuse;
+        fuseSource.clip = fuseSound;
+        fuseSource.volume = fuseVolume;
+        fuseSource.Play();
     }
 }

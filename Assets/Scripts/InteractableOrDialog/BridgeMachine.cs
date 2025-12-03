@@ -9,12 +9,22 @@ public class BridgeMachine : MonoBehaviour, IInteractable
     public ItemSO[] requiredItems; ///requires cog, wood and lever to repair bridge machine
     public bool isRepaired = false;
     public bool bridgeIsPulled = false;
+    [Header("Audio")]
+    [SerializeField] private AudioClip leverTurnClip;
+    [SerializeField, Range(0f, 2f)] private float leverTurnVolume = 1f;
+    [SerializeField] private AudioSource leverAudioSource;
 
     public void Awake()
     {
         GetComponent<SpriteRenderer>().sprite = brokenSprite;
         isRepaired = false;
         bridgeIsPulled = false;
+
+        if (!leverAudioSource) leverAudioSource = GetComponent<AudioSource>();
+        if (!leverAudioSource) leverAudioSource = gameObject.AddComponent<AudioSource>();
+        leverAudioSource.playOnAwake = false;
+        leverAudioSource.spatialBlend = 1f;
+        leverAudioSource.rolloffMode = AudioRolloffMode.Linear;
     }
     public void Interact()
     {
@@ -42,6 +52,7 @@ public class BridgeMachine : MonoBehaviour, IInteractable
         }
         else
         {
+            PlayLeverSound();
             bridge.RaiseBridge();
             bridgeIsPulled = true;
         }
@@ -78,5 +89,11 @@ public class BridgeMachine : MonoBehaviour, IInteractable
         {
             return " to pull the bridge";
         }
+    }
+
+    private void PlayLeverSound()
+    {
+        if (leverTurnClip == null || leverAudioSource == null) return;
+        leverAudioSource.PlayOneShot(leverTurnClip, leverTurnVolume);
     }
 }

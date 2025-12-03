@@ -262,6 +262,9 @@ MonoBehaviour:
   timeToTrackPlayer: 5
   trackingSpeed: 5
   spawnHeightAbovePlayer: 10
+  sfxSource: {fileID: 0}
+  fallSound: {fileID: 8300000, guid: fde356c0cca128e4e93b970fbd92cbdd, type: 3}
+  fallVolume: 1
 --- !u!1 &1816088309605304256
 GameObject:
   m_ObjectHideFlags: 0
