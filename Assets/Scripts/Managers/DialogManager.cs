@@ -18,6 +18,11 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private AudioClip choiceClickClip;
     [SerializeField] [Range(0f, 2f)] private float choiceClickVolume = 1f;
     [SerializeField] private AudioSource choiceAudioSource; // Optional: assign to reuse a source
+    [Header("Typing Audio")]
+    [SerializeField] private AudioClip typingClip;
+    [SerializeField] [Range(0f, 1f)] private float typingVolume = 0.6f;
+    [SerializeField] private AudioSource typingAudioSource; // Optional: assign to reuse a source
+    [SerializeField] private bool loopTyping = true;
     [SerializeField] public float typingSpeed = 0.05f;
 
     private bool choseChoice = false;
@@ -89,6 +94,14 @@ public class DialogManager : MonoBehaviour
             }
         }
         dialoguePanel.SetActive(false);
+
+        // Ensure typing audio source exists and is configured
+        if (!typingAudioSource) typingAudioSource = GetComponent<AudioSource>();
+        if (!typingAudioSource) typingAudioSource = gameObject.AddComponent<AudioSource>();
+        typingAudioSource.playOnAwake = false;
+        typingAudioSource.spatialBlend = 0f; // UI sound
+        typingAudioSource.loop = loopTyping;
+        typingAudioSource.volume = typingVolume;
     }
 
     void Update()
@@ -102,6 +115,7 @@ public class DialogManager : MonoBehaviour
             else if (isTyping)
             { //if you press space while it is still typing, fast forward the typing.
                 isTyping = false;
+                StopTypingSound();
             }
         }
     }
@@ -133,6 +147,7 @@ public class DialogManager : MonoBehaviour
             StopCoroutine(typingCoroutine);
             typingCoroutine = null;
         }
+        StopTypingSound();
     }
 
     public void ShowChoices(Dialogue.Choice[] choices)
@@ -251,6 +266,7 @@ public class DialogManager : MonoBehaviour
         if (node.portrait != null) portraitImage.sprite = node.portrait;
         else portraitImage.sprite = dialogue.defaultPortrait;
         isTyping = true;
+        PlayTypingSound();
         HideChoices();
         foreach (char letter in node.text)
         {
@@ -265,6 +281,7 @@ public class DialogManager : MonoBehaviour
             if (!isTyping) break; //skip typing if the player presses space.
         }
         isTyping = false;
+        StopTypingSound();
         dialogueText.text = node.text;
 
         // Determine which choices are actually available (non-null and non-empty)
@@ -428,6 +445,26 @@ public class DialogManager : MonoBehaviour
     public void EndDialogue()
     {
         HideDialoguePanel();
+    }
+
+    private void PlayTypingSound()
+    {
+        if (typingClip == null || typingAudioSource == null) return;
+
+        typingAudioSource.clip = typingClip;
+        typingAudioSource.volume = typingVolume;
+        typingAudioSource.loop = loopTyping;
+
+        if (!typingAudioSource.isPlaying)
+            typingAudioSource.Play();
+    }
+
+    private void StopTypingSound()
+    {
+        if (typingAudioSource != null && typingAudioSource.isPlaying && typingAudioSource.clip == typingClip)
+        {
+            typingAudioSource.Stop();
+        }
     }
 
 
