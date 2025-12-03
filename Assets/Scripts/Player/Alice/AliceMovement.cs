@@ -46,7 +46,7 @@ public class AliceMovement2D : BasePlayerMovement2D
     private void UpdateRunLoopSound()
     {
         if (!audioMgr) return;
-        if (LockpickFiveInARow.IsLockpickActive)
+        if (PauseController.IsGamePaused)
         {
             audioMgr.StopRunLoop();
             return;
