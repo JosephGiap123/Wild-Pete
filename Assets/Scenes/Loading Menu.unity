@@ -865,6 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  adminBoots: {fileID: 11400000, guid: 43443451c60f74943ba7b59c24c11b9d, type: 2}
 --- !u!4 &1802847213
 Transform:
   m_ObjectHideFlags: 0
