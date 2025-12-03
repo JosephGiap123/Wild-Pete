@@ -68,7 +68,7 @@ public class BomberBoss : EnemyBase, IHasFacing
     [SerializeField] private GameObject rocketJumpExplosionPrefab;
     [SerializeField] private GenericAttackHitbox attackHitboxScript;
     [SerializeField] private GameObject phaseChangeParticles;
-    [SerializeField] private WardenAudioManager audioManager;
+    [SerializeField] private HBAudioManager audioManager;
     [Header("Rocket Spawn Points")]
     [SerializeField] private Transform standRocketProjSpawnPt;
     [SerializeField] private Transform airDiagonalRocketProjSpawnPt;
@@ -329,7 +329,7 @@ public class BomberBoss : EnemyBase, IHasFacing
         }
         hpBarInteractor.UpdateHealthVisual();
         StartCoroutine(base.DamageFlash(0.2f));
-        // audioManager?.PlayHurt();
+        audioManager?.PlayHurt();
         if (!isStaggered) currentStaggerDamage += dmg;
         if (currentStaggerDamage >= damageToStagger)
         {

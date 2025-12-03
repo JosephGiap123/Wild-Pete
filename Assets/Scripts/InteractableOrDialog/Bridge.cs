@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Bridge : MonoBehaviour
 {
@@ -7,9 +8,7 @@ public class Bridge : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource bridgeAudioSource;
     [SerializeField] private AudioClip raiseClip;
-    [SerializeField] private AudioClip lowerClip;
     [SerializeField, Range(0f, 2f)] private float raiseVolume = 1f;
-    [SerializeField, Range(0f, 2f)] private float lowerVolume = 1f;
     public void Awake()
     {
         anim.Play(isUp ? "BridgeUp" : "BridgeDown");
@@ -24,25 +23,37 @@ public class Bridge : MonoBehaviour
     {
         isUp = true;
         anim.Play("BridgeRise");
-        PlayRaiseSound();
+        PlayRaiseSoundLoop();
+        StartCoroutine(EndRaiseBridge());
     }
 
     public void LowerBridge()
     {
         isUp = false;
         anim.Play("BridgeDown");
-        PlayLowerSound();
     }
 
-    private void PlayRaiseSound()
+    private void PlayRaiseSoundLoop()
     {
         if (raiseClip == null || bridgeAudioSource == null) return;
+        bridgeAudioSource.clip = raiseClip;
         bridgeAudioSource.PlayOneShot(raiseClip, raiseVolume);
     }
 
-    private void PlayLowerSound()
+    private IEnumerator EndRaiseBridge()
     {
-        if (lowerClip == null || bridgeAudioSource == null) return;
-        bridgeAudioSource.PlayOneShot(lowerClip, lowerVolume);
+        yield return null;
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        StopBridgeRaiseSoundLoop();
+    }
+    public void StartBridgeRaiseSoundLoop()
+    {
+        if (!raiseClip || bridgeAudioSource == null || bridgeAudioSource.isPlaying) return;
+        bridgeAudioSource.Play();
+    }
+
+    public void StopBridgeRaiseSoundLoop()
+    {
+        if (bridgeAudioSource != null && bridgeAudioSource.isPlaying) bridgeAudioSource.Stop();
     }
 }

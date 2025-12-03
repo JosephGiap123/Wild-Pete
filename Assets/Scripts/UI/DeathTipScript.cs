@@ -26,7 +26,6 @@ public class DeathTipScript : MonoBehaviour
         GameManager.OnPlayerSet -= SetPlayerEvents;
     }
 
-
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         deathCanvas.SetActive(false);
@@ -46,7 +45,14 @@ public class DeathTipScript : MonoBehaviour
         {
             deathTipText.text = deathTips[Random.Range(0, deathTips.Length)];
         }
-        deathCountText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
+        if (HealthManager.instance.numDeaths == 1)
+        {
+            deathTipText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " time";
+        }
+        else
+        {
+            deathTipText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
+        }
         deathCanvas.SetActive(true);
         anim.Play("FadeIn");
         yield return new WaitForSeconds(1.5f);
@@ -57,5 +63,4 @@ public class DeathTipScript : MonoBehaviour
     {
         anim.Play("Fadeout");
     }
-
 }
