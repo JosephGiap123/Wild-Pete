@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 public class TutorialManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] public TutorialSlide currentTutorial;
     public IntEventSO tutorialIndexEvent;
     public VoidEvents tutorialCompletedEvent;
+    [SerializeField] private VoidEvents prisonCutsceneEndEvent;
 
     void Awake()
     {
@@ -21,6 +23,22 @@ public class TutorialManager : MonoBehaviour
         tutorialCompletedEvent.onEventRaised.AddListener(OnTutorialCompleted);
 
         Instance = this;
+    }
+
+    void OnEnable()
+    {
+        if (prisonCutsceneEndEvent != null)
+        {
+            prisonCutsceneEndEvent.onEventRaised.AddListener(OnPrisonCutsceneEnd);
+        }
+    }
+
+    void OnDisable()
+    {
+        if (prisonCutsceneEndEvent != null)
+        {
+            prisonCutsceneEndEvent.onEventRaised.RemoveListener(OnPrisonCutsceneEnd);
+        }
     }
 
 
@@ -108,5 +126,16 @@ public class TutorialManager : MonoBehaviour
     public void EndTutorial()
     {
         currentTutorial = null;
+    }
+
+    private void OnPrisonCutsceneEnd()
+    {
+        StartCoroutine(ShowTutorialAfterDelay());
+    }
+
+    private IEnumerator ShowTutorialAfterDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        StartTutorial();
     }
 }
