@@ -3631,6 +3631,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -75
       objectReference: {fileID: 0}
+    - target: {fileID: 5690247803460791109, guid: 96ef00853398c4a45bf6ba6d3175ec8c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1065012908735664857}
+    - target: {fileID: 5690247803460791109, guid: 96ef00853398c4a45bf6ba6d3175ec8c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBackToSettingsHubPressed
+      objectReference: {fileID: 0}
     - target: {fileID: 5714401217727766642, guid: 96ef00853398c4a45bf6ba6d3175ec8c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
