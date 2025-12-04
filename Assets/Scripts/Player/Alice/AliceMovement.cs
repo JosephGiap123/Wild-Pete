@@ -24,6 +24,10 @@ public class AliceMovement2D : BasePlayerMovement2D
 
     protected override void Update()
     {
+        if (PauseController.IsGamePaused)
+        {
+            audioMgr?.StopRunLoop();
+        }
         // Play jump SFX exactly when jump is initiated (works with multi-jump)
         if (!PauseController.IsGamePaused
             && !isDashing

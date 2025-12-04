@@ -332,6 +332,7 @@ MonoBehaviour:
   tutorialIndexEvent: {fileID: 0}
   particleEmitter: {fileID: 4024484180079263431, guid: 9527b8bad9d394a4390e56d3423e5291, type: 3}
   dropItemsOnDeath: {fileID: 363396052859599735}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
 --- !u!114 &363396052859599735
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1629,6 +1629,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: sfxMixer
+      value: 
+      objectReference: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
+    - target: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: clickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 7111e0c70ce1140e8bc6a5920225d5c2, type: 3}
     - target: {fileID: 5676496068659879773, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2496,7 +2504,7 @@ PrefabInstance:
     - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: choiceAudioSource
       value: 
-      objectReference: {fileID: 2112887329}
+      objectReference: {fileID: 2112887330}
     - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: typingAudioSource
       value: 
@@ -2705,6 +2713,11 @@ PrefabInstance:
 --- !u!82 &2112887329 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1607683271225385221, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+  m_PrefabInstance: {fileID: 2112887328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2112887330 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5578714043422063642, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
   m_PrefabInstance: {fileID: 2112887328}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

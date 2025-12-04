@@ -133,6 +133,7 @@ MonoBehaviour:
   successSound: {fileID: 8300000, guid: 2bb79c0555453b741bb982ab32d7bfef, type: 3}
   failSound: {fileID: 8300000, guid: f91785e518c91c04c8bfd06bd51b1202, type: 3}
   completedSound: {fileID: 8300000, guid: dcb5296f07c3314428d26b3f073fd336, type: 3}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
 --- !u!82 &3064513088502345935
 AudioSource:

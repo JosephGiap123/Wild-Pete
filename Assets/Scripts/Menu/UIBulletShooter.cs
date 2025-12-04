@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using System.Collections;
 
 public class UIBulletShooter : MonoBehaviour
@@ -11,6 +12,7 @@ public class UIBulletShooter : MonoBehaviour
   [SerializeField] private AudioClip clickClip;
   [SerializeField, Range(0f, 2f)] private float clickVolume = 1f;
   [SerializeField] private AudioSource clickSource; // Optional: assign to reuse a specific source
+  [SerializeField] private AudioMixerGroup sfxMixerGroup;
 
   public GameObject mainMenuCanvas;
   public GameObject cutSceneCanvas;
@@ -91,6 +93,7 @@ public class UIBulletShooter : MonoBehaviour
       var tempGO = new GameObject("UIBulletShooterClick_Temp");
       var tempSource = tempGO.AddComponent<AudioSource>();
       tempSource.spatialBlend = 0f;
+      tempSource.outputAudioMixerGroup = sfxMixerGroup;
       tempSource.PlayOneShot(clickClip, volume);
       Destroy(tempGO, clickClip.length + 0.05f);
     }

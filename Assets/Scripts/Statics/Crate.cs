@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
-
+using UnityEngine.Audio;
 public class Crate : BreakableStatics
 {
     [SerializeField] GameObject particleEmitter;
     [SerializeField] DropItemsOnDeath dropItemsOnDeath;
+    [SerializeField] private AudioMixerGroup sfxMixerGroup;
     protected override void Awake()
     {
         base.Awake();
@@ -49,8 +50,15 @@ public class Crate : BreakableStatics
     }
     protected void PlayBreakSound()
     {
-        if (!breakSound) return;
-        if (!sfxSource) return;
-        sfxSource.PlayOneShot(breakSound, breakVolume);
+        var temp = new GameObject($"LockPickAudio_{breakSound.name}");
+        var tempSource = temp.AddComponent<AudioSource>();
+        tempSource.playOnAwake = false;
+        tempSource.outputAudioMixerGroup = sfxMixerGroup;
+        tempSource.loop = false;
+        tempSource.spatialBlend = 0f;
+        tempSource.clip = breakSound;
+        tempSource.Play();
+        Object.Destroy(temp, breakSound.length);
+        return;
     }
 }
