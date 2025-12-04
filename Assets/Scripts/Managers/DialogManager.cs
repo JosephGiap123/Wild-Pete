@@ -515,7 +515,7 @@ public class DialogManager : MonoBehaviour
 
             GameObject itemObj = Instantiate(prefabToUse, itemPosition, Quaternion.identity);
             Item itemComponent = itemObj.GetComponent<Item>();
-            
+
             if (itemComponent != null)
             {
                 // Initialize with small upward velocity so it pops out

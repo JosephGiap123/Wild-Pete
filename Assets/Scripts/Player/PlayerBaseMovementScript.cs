@@ -82,6 +82,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected float wallSlideSpeed = 0.9f;
     [SerializeField] protected float maxWallSlideSpeed = 5f;
     [SerializeField] protected float tractionLossTime = 2f;
+    [SerializeField] protected float wallSlideHangTime = 0.25f; // Time before starting to fall while wall sliding
     protected bool isTouchingWall;
     protected bool isWallSliding = false;
     protected float castDistance = 0.3f;
@@ -92,9 +93,11 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
     [SerializeField] protected float wallJumpVerticalPower = 8f;
     [SerializeField] protected float wallJumpCooldown = 0.1f;
     [SerializeField] protected float wallJumpEnergyCost = 1.5f;
+    [SerializeField] protected float wallJumpControlLockDuration = 0.2f; // Time after wall jump where horizontal direction is locked
     protected bool canWallJump = true;
     protected Coroutine wallJumpCooldownCoroutine;
     protected bool isWallJumping = false;
+    protected float wallJumpControlLockTimer = 0f;
 
     [Header("References")]
     [SerializeField] protected Rigidbody2D rb;
@@ -332,6 +335,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         isGrounded = false;
         isReloading = false;
         attackCount = 0;
+        wallJumpControlLockTimer = 0f;
 
         // Stop all movement
         if (rb != null)
@@ -741,15 +745,30 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         // Wall slide behavior
         if (isWallSliding)
         {
-            // Gradually increase fall speed as traction is lost
+            // Track how long we've been wall sliding
             wallSlideTimer += Time.fixedDeltaTime;
-            float tractionProgress = Mathf.Clamp01(wallSlideTimer / tractionLossTime);
-            float currentWallSlideSpeed = Mathf.Lerp(wallSlideSpeed, maxWallSlideSpeed, tractionProgress);
 
-            rb.linearVelocity = new(
-                rb.linearVelocity.x,
-                Mathf.Clamp(rb.linearVelocity.y, -currentWallSlideSpeed, float.MaxValue)
-            );
+            // First, apply a short "hang" time where the player doesn't fall
+            if (wallSlideTimer < wallSlideHangTime)
+            {
+                // Prevent downward velocity, but allow any existing upward motion
+                rb.linearVelocity = new(
+                    rb.linearVelocity.x,
+                    Mathf.Max(rb.linearVelocity.y, 0f)
+                );
+            }
+            else
+            {
+                // After the hang time, gradually increase fall speed as traction is lost
+                float tractionProgress = Mathf.Clamp01((wallSlideTimer - wallSlideHangTime) / tractionLossTime);
+                float currentWallSlideSpeed = Mathf.Lerp(wallSlideSpeed, maxWallSlideSpeed, tractionProgress);
+
+                rb.linearVelocity = new(
+                    rb.linearVelocity.x,
+                    Mathf.Clamp(rb.linearVelocity.y, -currentWallSlideSpeed, float.MaxValue)
+                );
+            }
+
             return;
         }
         else
@@ -770,6 +789,18 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         {
             HandleAerialAttackMovement();
             return;
+        }
+
+        // Apply wall jump control lock: keep horizontal direction fixed briefly after a wall jump
+        if (wallJumpControlLockTimer > 0f)
+        {
+            wallJumpControlLockTimer -= Time.fixedDeltaTime;
+
+            // Lock horizontal input to the direction of current horizontal velocity (if any)
+            if (Mathf.Abs(rb.linearVelocity.x) > 0.01f)
+            {
+                horizontalInput = Mathf.Sign(rb.linearVelocity.x);
+            }
         }
 
         // Read horizontal input (updated in Update())
@@ -816,6 +847,9 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
         isWallSliding = false;
         isJumping = true;
         isGrounded = false;
+
+        // Lock horizontal control for a short duration so player can't immediately reverse direction
+        wallJumpControlLockTimer = wallJumpControlLockDuration;
 
         // Start cooldown
         if (wallJumpCooldownCoroutine != null)
@@ -1120,6 +1154,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
 
         // Cancel wall jump
         isWallJumping = false;
+        wallJumpControlLockTimer = 0f;
         canWallJump = true;
         if (wallJumpCooldownCoroutine != null)
         {
