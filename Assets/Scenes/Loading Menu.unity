@@ -459,6 +459,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7457984367559264147, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
   m_PrefabInstance: {fileID: 1811137387}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &777658908 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149477014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8234644321757162512, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
@@ -477,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolumeSlider: {fileID: 1680631987}
+  musicSlider: {fileID: 777658908}
   sfxSlider: {fileID: 222968503}
   masterMixer: {fileID: 24100000, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   screenshakeButtonImage: {fileID: 104355595}
@@ -1424,6 +1436,26 @@ PrefabInstance:
     - target: {fileID: 4471456874603870936, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1149477018}
+    - target: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMusicVolumeChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameSettingsPanelController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555107979115340578, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4653013070938805536, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2421,6 +2453,10 @@ PrefabInstance:
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 1811137388}
+    - target: {fileID: 3554655927625909859, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 7098107359381666036, guid: df6d59f162bb2484db30c9726240c366, type: 2}
     - target: {fileID: 4219925445003508224, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: settingsPanel
       value: 
