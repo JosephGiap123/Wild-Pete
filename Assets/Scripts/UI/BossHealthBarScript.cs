@@ -18,7 +18,15 @@ public class BossHealthBarScript : MonoBehaviour
     public void ActivateBossHPBar(bool set)
     {
         this.gameObject.SetActive(set);
-        bossHPBarShownEvent.RaiseEvent();
+        if (bossHPBarShownEvent != null && set)
+        {
+            bossHPBarShownEvent.RaiseEvent();
+            Debug.Log("[BossHealthBarScript] bossHPBarShownEvent raised, objectives will be hidden.");
+        }
+        else
+        {
+            Debug.LogWarning("[BossHealthBarScript] bossHPBarShownEvent is not assigned, objectives will not be notified.");
+        }
     }
     public void SetMaxHealth(int health)
     {

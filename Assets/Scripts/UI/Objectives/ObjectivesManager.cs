@@ -10,7 +10,6 @@ public class ObjectivesManager : MonoBehaviour
 	[SerializeField] private VoidEvents activationEvent;
 	[SerializeField] private bool activateOnStart = false;
 	[SerializeField] private VoidEvents bossBarShownEvent;
-	[SerializeField] private BoolEventSO bossThemeEventSO; // Boss battle start/end event
 
 	[Header("UI References")]
 	[SerializeField] private GameObject objectivesPanel;
@@ -55,11 +54,6 @@ public class ObjectivesManager : MonoBehaviour
 			bossBarShownEvent.onEventRaised.AddListener(OnBossBarShown);
 		}
 
-		// Subscribe to boss theme event (boss battle start/end)
-		if (bossThemeEventSO != null)
-		{
-			bossThemeEventSO.onEventRaised.AddListener(OnBossThemeChanged);
-		}
 
 		// Subscribe to respawn event to show objectives if needed
 		GameRestartManager.CharacterRespawned += OnCharacterRespawned;
@@ -111,11 +105,6 @@ public class ObjectivesManager : MonoBehaviour
 			bossBarShownEvent.onEventRaised.RemoveListener(OnBossBarShown);
 		}
 
-		if (bossThemeEventSO != null)
-		{
-			bossThemeEventSO.onEventRaised.RemoveListener(OnBossThemeChanged);
-		}
-
 		// Unsubscribe from respawn event
 		GameRestartManager.CharacterRespawned -= OnCharacterRespawned;
 
@@ -159,31 +148,16 @@ public class ObjectivesManager : MonoBehaviour
 
 	public void OnBossBarShown()
 	{
-		// Hide objectives when boss battle starts
 		if (objectivesPanel != null)
 		{
 			objectivesPanel.SetActive(false);
 		}
 	}
 
-	private void OnBossThemeChanged(bool bossThemeActive)
-	{
-		// Boss theme active = boss battle started
-		// Boss theme inactive = boss battle ended (boss defeated)
-		// Hide objectives - they won't show again unless player respawns
-		if (objectivesPanel != null)
-		{
-			objectivesPanel.SetActive(false);
-		}
-	}
 
 	private void OnCharacterRespawned(Vector2 respawnLocation)
 	{
-		// On respawn, show objectives again IF:
-		// 1. Objectives were active before
-		// 2. Not all objectives were completed at checkpoint
-		// (Respawn happens before boss fight, so objectives should show if not all complete)
-		// Use a small delay to ensure checkpoint restore has completed
+
 		StartCoroutine(ShowObjectivesOnRespawn());
 	}
 

@@ -1393,7 +1393,7 @@ PrefabInstance:
     - target: {fileID: 4018333256525879538, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: bossHPBarShownEvent
       value: 
-      objectReference: {fileID: 11400000, guid: 45bf7826d725c47299aac5c67f84fd96, type: 2}
+      objectReference: {fileID: 11400000, guid: 32b6f7d9ca5fd4347a229b1a83472cb2, type: 2}
     - target: {fileID: 4289687294261781065, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
