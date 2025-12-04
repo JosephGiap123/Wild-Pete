@@ -1,10 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;      // <- make sure you have this at the top!
+using UnityEngine.Audio;
 
 public class SettingsUIController : MonoBehaviour
 {
@@ -35,6 +32,12 @@ public class SettingsUIController : MonoBehaviour
 
     [Header("Main Menu Panel (optional)")]
     public GameObject mainMenuPanel;
+
+
+    [Header("Audio")]
+    [SerializeField] private AudioMixerGroup sfxMixer;
+    [SerializeField] private AudioClip clickSound;
+    [SerializeField] private AudioSource audioSrc;
 
 
 
@@ -85,12 +88,14 @@ public class SettingsUIController : MonoBehaviour
 
     public void OnGameSettingsPressed()
     {
+        PlayClickSound();
         HideHubButtons();
         gameSettingsPanel.SetActive(true);
     }
 
     public void OnControlSettingsPressed()
     {
+        PlayClickSound();
         HideHubButtons();
         if (controlSettingsPanel != null) controlSettingsPanel.SetActive(true);
     }
@@ -98,6 +103,7 @@ public class SettingsUIController : MonoBehaviour
     // 🔴 CHEAT: this should just toggle, not open another panel
     public void OnCheatModePressed()
     {
+        PlayClickSound();
         if (CheatManager.Instance != null)
         {
             CheatManager.Instance.ToggleInvulnerability();
@@ -111,11 +117,12 @@ public class SettingsUIController : MonoBehaviour
 
     public void OnQuitToMenuPressed()
     {
+        PlayClickSound();
         // Clear inventory
         if (PlayerInventory.instance != null)
         {
             PlayerInventory.instance.ClearInventory();
-            
+
             // Clear all equipment slots
             if (PlayerInventory.instance.equipmentSlots != null)
             {
@@ -128,13 +135,13 @@ public class SettingsUIController : MonoBehaviour
                 }
             }
         }
-        
+
         // Clear checkpoint
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.ClearCheckpoint();
         }
-        
+
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -145,26 +152,45 @@ public class SettingsUIController : MonoBehaviour
 
     public void OnBackToSettingsHubPressed()
     {
+        PlayClickSound();
         ShowSettingsHub();
     }
 
     public void OnBackToGamePressed()
-{
-    if (settingsOpener != null)
     {
-        // Gameplay scenes: use opener to unpause + hide menu
-        settingsOpener.CloseFromUI();
-    }
-    else
-    {
-        // Main menu scene: show the main menu UI again
-        if (mainMenuPanel != null)
-            mainMenuPanel.SetActive(true);
+        PlayClickSound();
+        if (settingsOpener != null)
+        {
+            // Gameplay scenes: use opener to unpause + hide menu
+            settingsOpener.CloseFromUI();
+        }
+        else
+        {
+            // Main menu scene: show the main menu UI again
+            if (mainMenuPanel != null)
+                mainMenuPanel.SetActive(true);
 
-        // Hide the settings root (SettingsMenu / SettingsUIRoot)
-        gameObject.SetActive(false);
+            // Hide the settings root (SettingsMenu / SettingsUIRoot)
+            gameObject.SetActive(false);
+        }
     }
-}
+
+    //audio stuff man
+    private void PlayClickSound(bool detach = true)
+    {
+        if (detach)
+        {
+            var temp = new GameObject("ClickSound_Temp").AddComponent<AudioSource>();
+            temp.spatialBlend = 0f;
+            temp.outputAudioMixerGroup = sfxMixer;
+            temp.PlayOneShot(clickSound);
+            Destroy(temp.gameObject, clickSound.length);
+        }
+        if (audioSrc != null)
+        {
+            audioSrc.PlayOneShot(clickSound);
+        }
+    }
 
 
     // ---------- CHEAT VISUALS ----------

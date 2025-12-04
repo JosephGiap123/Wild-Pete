@@ -271,7 +271,10 @@ public class ObjectivesManager : MonoBehaviour
 			}
 
 			string objectiveText = GetObjectiveDisplayText(objective);
-
+			if (objective.useDescriptionAsObjectiveText)
+			{
+				objectiveText = objective.objectiveDescription;
+			}
 			// Determine color based on state
 			Color textColor = objective.isCompleted ? completeColor : incompleteColor;
 

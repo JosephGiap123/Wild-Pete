@@ -13,6 +13,7 @@ public class Objective
     [Header("Objective Info")]
     public ObjectiveType objectiveType;
     public string objectiveDescription;
+    public bool useDescriptionAsObjectiveText = false;
 
     [Header("Collect Item Settings")]
     [Tooltip("List of items that count towards this objective")]

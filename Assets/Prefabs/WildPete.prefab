@@ -15871,10 +15871,12 @@ MonoBehaviour:
   wallSlideSpeed: 1.2
   maxWallSlideSpeed: 5
   tractionLossTime: 2
-  wallJumpHorizontalPower: 20
+  wallSlideHangTime: 0.25
+  wallJumpHorizontalPower: 18
   wallJumpVerticalPower: 8
   wallJumpCooldown: 0.1
-  wallJumpEnergyCost: 1.5
+  wallJumpEnergyCost: 1
+  wallJumpControlLockDuration: 0.2
   rb: {fileID: 2942441695391280840}
   boxCol: {fileID: 6528279183396595597}
   groundCheck: {fileID: 1050609727464449330}
