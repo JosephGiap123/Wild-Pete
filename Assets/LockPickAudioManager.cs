@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class LockPickAudioManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class LockPickAudioManager : MonoBehaviour
     [SerializeField] private AudioClip successSound;
     [SerializeField] private AudioClip failSound;
     [SerializeField] private AudioClip completedSound;
+    [SerializeField] private AudioMixerGroup sfxMixerGroup;
 
     [Header("Settings")]
     [Range(0f, 1f)] public float sfxVolume = 1f;
@@ -37,6 +39,7 @@ public class LockPickAudioManager : MonoBehaviour
             var temp = new GameObject($"LockPickAudio_{clip.name}");
             var tempSource = temp.AddComponent<AudioSource>();
             tempSource.playOnAwake = false;
+            tempSource.outputAudioMixerGroup = sfxMixerGroup;
             tempSource.loop = false;
             tempSource.spatialBlend = 0f;
             tempSource.volume = sfxVolume;

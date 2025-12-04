@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.Audio;
 
 public class CharacterSelect : MonoBehaviour
 {
   [SerializeField] private IntEventSO selectedCharacterEventSO;
+  [SerializeField] private AudioMixerGroup sfxMixerGroup;
   public CutSceneManager cutsceneManager;
-  // public GameObject mainMenuCanvas;
+
   public GameObject charSelectCanvas;
   [Header("Audio")]
   [SerializeField] private AudioClip clickClip;
@@ -41,6 +43,7 @@ public class CharacterSelect : MonoBehaviour
       var tempSource = tempGO.AddComponent<AudioSource>();
       tempSource.spatialBlend = 0f;
       tempSource.PlayOneShot(clickClip, volume);
+      tempSource.outputAudioMixerGroup = sfxMixerGroup;
       Destroy(tempGO, clickClip.length + 0.05f);
     }
   }

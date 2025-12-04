@@ -2496,7 +2496,7 @@ PrefabInstance:
     - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: choiceAudioSource
       value: 
-      objectReference: {fileID: 2112887329}
+      objectReference: {fileID: 2112887330}
     - target: {fileID: 5307116508878272368, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: typingAudioSource
       value: 
@@ -2705,6 +2705,11 @@ PrefabInstance:
 --- !u!82 &2112887329 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1607683271225385221, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+  m_PrefabInstance: {fileID: 2112887328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2112887330 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5578714043422063642, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
   m_PrefabInstance: {fileID: 2112887328}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

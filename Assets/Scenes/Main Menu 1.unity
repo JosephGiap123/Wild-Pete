@@ -2231,6 +2231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedCharacterEventSO: {fileID: 11400000, guid: a24f926e3b9924a119c4245e35ac0f57, type: 2}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   cutsceneManager: {fileID: 291813412}
   charSelectCanvas: {fileID: 680862315}
   clickClip: {fileID: 8300000, guid: d1441c2549fa22746a952e87f14d4381, type: 3}
@@ -3135,6 +3136,7 @@ MonoBehaviour:
   clickClip: {fileID: 8300000, guid: 30476190ae83b094ea48d482794ee2be, type: 3}
   clickVolume: 1
   clickSource: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   mainMenuCanvas: {fileID: 187368342}
   cutSceneCanvas: {fileID: 1450439423}
   charSelectCanvas: {fileID: 680862315}
