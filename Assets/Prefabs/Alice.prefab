@@ -5374,7 +5374,7 @@ MonoBehaviour:
   punch: {fileID: 8300000, guid: 6469ddbf37c36b448aa917f3dd11a2ce, type: 3}
   slide: {fileID: 8300000, guid: cf8dd7c7f9de51e4ba25dbbfea9e3092, type: 3}
   throwSound: {fileID: 0}
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.05
   max3dDistance: 20
@@ -10562,6 +10562,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 524288
   wallSlideSpeed: 1.2
+  maxWallSlideSpeed: 5
+  tractionLossTime: 2
+  wallJumpHorizontalPower: 20
+  wallJumpVerticalPower: 8
+  wallJumpCooldown: 0.1
+  wallJumpEnergyCost: 1.5
   rb: {fileID: 8607775664743977173}
   boxCol: {fileID: 8169233198180431905}
   groundCheck: {fileID: 3803627630943915765}
@@ -10693,7 +10699,7 @@ MonoBehaviour:
   lookIndicatorPrefab: {fileID: 0}
   showIndicator: 1
   showDebugLine: 1
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 8134312220912395196}
   mainCamera: {fileID: 0}
   cameraFollowTarget: {fileID: 0}
   updateCameraFollowTarget: 1

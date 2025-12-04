@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class GameSettingsPanelController : MonoBehaviour
 {
     [Header("Volume")]
     [SerializeField] private Slider masterVolumeSlider;   // VolumeSlider
+
+    [Header("SFX Volume")]
+    [SerializeField] private Slider sfxSlider;            // SFXSlider
+    [SerializeField] private AudioMixer masterMixer;      // MasterMixer asset
+    private const string SfxVolumeParam = "SFXVolume";    // exposed param name
 
     [Header("Screenshake Button")]
     [SerializeField] private Image screenshakeButtonImage; // Btn_Screenshake Image
@@ -13,6 +19,8 @@ public class GameSettingsPanelController : MonoBehaviour
 
     // start ON (set false if you want default off)
     private bool isScreenshakeOn = true;
+
+
 
     void Awake()
     {
@@ -70,4 +78,20 @@ public class GameSettingsPanelController : MonoBehaviour
             ? screenshakeOnColor
             : screenshakeOffColor;
     }
+
+    private void ApplySfxVolume(float sliderValue)
+    {    
+    if (masterMixer == null) return;
+
+    float v = Mathf.Clamp(sliderValue, 0.0001f, 1f);
+    float dB = Mathf.Log10(v) * 20f;
+    masterMixer.SetFloat(SfxVolumeParam, dB);
+    }
+
+
+    public void OnSfxVolumeChanged(float value)
+    {
+        ApplySfxVolume(value);
+    }
+
 }

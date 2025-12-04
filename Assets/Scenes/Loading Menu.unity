@@ -220,6 +220,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &222968503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &238037587
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolumeSlider: {fileID: 1680631987}
+  sfxSlider: {fileID: 222968503}
+  masterMixer: {fileID: 24100000, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   screenshakeButtonImage: {fileID: 104355595}
   screenshakeOffColor: {r: 0.3679245, g: 0.1475169, b: 0.1475169, a: 1}
   screenshakeOnColor: {r: 0.14070842, g: 0.3207547, b: 0.1555403, a: 1}
@@ -1861,6 +1874,30 @@ PrefabInstance:
     - target: {fileID: 7451912663656853605, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1149477018}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSfxVolumeChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameSettingsPanelController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7505921120383230174, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7828305283998631509, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
