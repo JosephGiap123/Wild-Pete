@@ -824,17 +824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1790650804 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5926301631184272383, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
-  m_PrefabInstance: {fileID: 1811137387}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1802847211
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,7 +889,11 @@ PrefabInstance:
     - target: {fileID: 296165565491324144, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -5812423482672286277, guid: 236587ec711348a4792e0060efb1bf73, type: 3}
+      objectReference: {fileID: 711346776, guid: a37e8466236089c45b610370218b5353, type: 3}
+    - target: {fileID: 296165565491324144, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 296165565491324144, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_Color.b
       value: 0.87322
@@ -1625,10 +1618,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
-      propertyPath: cheatModeButtonImage
-      value: 
-      objectReference: {fileID: 1790650804}
     - target: {fileID: 5676496068659879773, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
