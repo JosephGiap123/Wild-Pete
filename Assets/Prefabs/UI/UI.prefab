@@ -1501,6 +1501,7 @@ MonoBehaviour:
   fill: {fileID: 4002198153651211919}
   chipDelay: 0.3
   chipSpeed: 0.5
+  bossHPBarShownEvent: {fileID: 11400000, guid: 32b6f7d9ca5fd4347a229b1a83472cb2, type: 2}
 --- !u!1 &1591848232924047548
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,6 +54,7 @@ public class GlobalMusicManager : MonoBehaviour
         musicSource.playOnAwake = false;
         musicSource.volume = musicVolume;
         musicSource.spatialBlend = 0f; // 2D music
+        musicSource.ignoreListenerPause = true; // Continue playing during pause (dialog, menus, etc.)
 
         // Build dictionary for fast lookups
         BuildMusicDictionary();
