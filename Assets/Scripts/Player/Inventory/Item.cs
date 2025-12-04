@@ -84,6 +84,47 @@ public class Item : MonoBehaviour
 	{
 		yield return new WaitForSeconds(timeToPickUp);
 		isPickable = true;
+		
+		// Check for player already in trigger when item becomes pickable
+		CheckOverlappingColliders();
+		// Also check after a frame delay to catch any physics updates
+		StartCoroutine(CheckOverlapAfterFrame());
+	}
+	
+	private IEnumerator CheckOverlapAfterFrame()
+	{
+		// Wait for physics to update
+		yield return null;
+		if (isPickable)
+		{
+			CheckOverlappingColliders();
+		}
+	}
+	
+	private void CheckOverlappingColliders()
+	{
+		if (!isPickable) return;
+		
+		Collider2D itemCollider = GetComponent<Collider2D>();
+		if (itemCollider == null) return;
+		
+		// Use OverlapCollider to find all colliders already inside
+		ContactFilter2D filter = new ContactFilter2D();
+		filter.NoFilter(); // Check all layers
+		filter.useTriggers = true; // Include trigger colliders
+		
+		List<Collider2D> overlappingColliders = new List<Collider2D>();
+		itemCollider.Overlap(filter, overlappingColliders);
+		
+		// Process each overlapping collider as if it just entered
+		foreach (Collider2D other in overlappingColliders)
+		{
+			if (other != null && other != itemCollider && other.gameObject.CompareTag("Player"))
+			{
+				// Simulate OnTriggerEnter2D for player already inside
+				OnTriggerEnter2D(other);
+			}
+		}
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision)

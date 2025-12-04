@@ -11,12 +11,14 @@ public class BossHealthBarScript : MonoBehaviour
     [Header("Chip Away Settings")]
     [SerializeField] private float chipDelay = 0.3f;
     [SerializeField] private float chipSpeed = 0.5f;
+    [SerializeField] private VoidEvents bossHPBarShownEvent;
 
     private Coroutine chipRoutine;
 
     public void ActivateBossHPBar(bool set)
     {
         this.gameObject.SetActive(set);
+        bossHPBarShownEvent.RaiseEvent();
     }
     public void SetMaxHealth(int health)
     {

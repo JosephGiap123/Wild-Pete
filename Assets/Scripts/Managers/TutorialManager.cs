@@ -10,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     public IntEventSO tutorialIndexEvent;
     public VoidEvents tutorialCompletedEvent;
     [SerializeField] private VoidEvents prisonCutsceneEndEvent;
+    [SerializeField] private VoidEvents tutorialFullyCompletedEvent;
 
     void Awake()
     {
@@ -70,12 +71,10 @@ public class TutorialManager : MonoBehaviour
             Debug.LogWarning("TutorialManager: Current tutorial not found in list!");
             return;
         }
-        if (currentIndex >= tutorialSlides.Count - 1)
-        {
-            Debug.LogWarning("TutorialManager: No more tutorials available!");
-        }
         Debug.Log(currentIndex);
         tutorialIndexEvent.RaiseEvent(currentIndex);
+
+        // Don't raise fully completed event here - wait for NextTutorial or EndTutorial to handle it
     }
 
     public void NextTutorial()
@@ -100,9 +99,11 @@ public class TutorialManager : MonoBehaviour
         }
 
         int nextIndex = currentIndex + 1;
-        if (nextIndex >= tutorialSlides.Count)
+        if (nextIndex >= tutorialSlides.Count - 1)
         {
             Debug.LogWarning("TutorialManager: No more tutorials available!");
+            // This was the last tutorial, wait for it to fully complete before raising event
+            StartCoroutine(RaiseTutorialFullyCompletedAfterDelay());
             return;
         }
 
@@ -125,7 +126,33 @@ public class TutorialManager : MonoBehaviour
 
     public void EndTutorial()
     {
+        // Check if this was the last tutorial before ending
+        int currentIndex = tutorialSlides.IndexOf(currentTutorial);
+        bool wasLastTutorial = currentIndex >= tutorialSlides.Count - 1;
+
         currentTutorial = null;
+
+        // If this was the last tutorial, raise the fully completed event after a delay
+        if (wasLastTutorial)
+        {
+            StartCoroutine(RaiseTutorialFullyCompletedAfterDelay());
+        }
+    }
+
+    private IEnumerator RaiseTutorialFullyCompletedAfterDelay()
+    {
+        // Wait a frame to ensure the tutorial panel is deactivated
+        yield return null;
+
+        // Wait for the tutorial to fully finish displaying
+        // This ensures timed tutorials have completed their full duration
+        // and any animations/transitions have finished
+        yield return new WaitForSeconds(1f);
+
+        if (tutorialFullyCompletedEvent != null)
+        {
+            tutorialFullyCompletedEvent.RaiseEvent();
+        }
     }
 
     private void OnPrisonCutsceneEnd()
