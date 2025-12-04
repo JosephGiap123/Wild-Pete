@@ -56,9 +56,7 @@ MonoBehaviour:
   laserBeam: {fileID: 8300000, guid: eb376db9b45dc694f99512a12a6bd3be, type: 3}
   hurt: {fileID: 8300000, guid: c27c710d3c5acf94186d2f65e3258a6c, type: 3}
   death: {fileID: 8300000, guid: 496ff05c11d51564daaffd84ad39602d, type: 3}
-  bossMusicClip: {fileID: 8300000, guid: e5d3a17cd01bf094f801e3b139a7d8d7, type: 3}
-  musicVolume: 0.7
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.05
   max3dDistance: 30
@@ -843,6 +841,7 @@ MonoBehaviour:
   arenaBoundsCollider: {fileID: 0}
   hpBarInteractor: {fileID: 1190115757944002534}
   audioManager: {fileID: 1632042738502019196}
+  bossThemeEventSO: {fileID: 0}
 --- !u!114 &4983157678869263840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,11 +860,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
   - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
   - {fileID: 11400000, guid: a654970479a8447da86d523b91f59819, type: 2}
+  aliceSpecificItems: []
+  peteSpecificItems: []
   itemDropChances:
   - 100
   - 100
   - 100
   - 100
+  aliceSpecificItemDropChances: []
+  peteSpecificItemDropChances: []
 --- !u!114 &1190115757944002534
 MonoBehaviour:
   m_ObjectHideFlags: 0
