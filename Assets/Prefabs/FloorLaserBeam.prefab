@@ -116,7 +116,7 @@ AudioSource:
   m_GameObject: {fileID: 5993126028485846578}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: fbe0974f39bcb194f972ce24b087e72f, type: 3}
   m_PlayOnAwake: 0
@@ -377,7 +377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserScript: {fileID: 7237169467012508795}
   audMgr: {fileID: 499835946813284088}
-  laserSound: {fileID: 0}
 --- !u!114 &6254574113100033384
 MonoBehaviour:
   m_ObjectHideFlags: 0

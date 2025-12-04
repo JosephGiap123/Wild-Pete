@@ -50,6 +50,18 @@ public class CheckpointManager : MonoBehaviour
     }
 
     [System.Serializable]
+    public class ObjectivesStateData
+    {
+        public bool isActive;
+        public int completedObjectivesCount;
+        public List<bool> objectiveCompletedStates = new List<bool>(); // Index -> isCompleted
+        public List<bool> objectiveUnlockedStates = new List<bool>(); // Index -> isUnlocked
+        public List<int> objectiveCollectedItemCounts = new List<int>(); // Index -> collectedItemCount
+        public List<List<string>> objectiveCollectedItems = new List<List<string>>(); // Index -> list of collected item names
+        public bool allObjectivesCompletedAtCheckpoint; // Track if all objectives were completed when checkpoint was saved
+    }
+
+    [System.Serializable]
     public class CheckpointData
     {
         public Vector2 position;
@@ -68,6 +80,7 @@ public class CheckpointManager : MonoBehaviour
         public List<string> completedTrades = new List<string>(); // One-time trades that were completed at this checkpoint
         public Dictionary<int, bool> lockPickStates = new Dictionary<int, bool>(); // instanceID -> isActive (not lockpicked)
         public Dictionary<int, bool> vendingMachineStates = new Dictionary<int, bool>(); // instanceID -> breadCollected
+        public ObjectivesStateData objectivesState = null; // Objectives state at checkpoint
     }
 
     private CheckpointData currentCheckpoint;
@@ -76,6 +89,7 @@ public class CheckpointManager : MonoBehaviour
     private Dictionary<int, Item> trackedItems = new Dictionary<int, Item>(); // instanceID -> Item
     private Dictionary<int, LockPick> trackedLockPicks = new Dictionary<int, LockPick>(); // instanceID -> LockPick
     private Dictionary<int, VendingPopupInteractable> trackedVendingMachines = new Dictionary<int, VendingPopupInteractable>(); // instanceID -> VendingPopupInteractable
+    private ObjectivesManager trackedObjectivesManager = null; // Objectives manager in the scene
 
     public static event Action<Vector2> OnCheckpointSaved;
 
@@ -317,6 +331,16 @@ public class CheckpointManager : MonoBehaviour
             }
         }
 
+        // Capture objectives state
+        if (trackedObjectivesManager == null)
+        {
+            trackedObjectivesManager = FindFirstObjectByType<ObjectivesManager>();
+        }
+        if (trackedObjectivesManager != null)
+        {
+            currentCheckpoint.objectivesState = trackedObjectivesManager.SaveObjectivesState();
+        }
+
         GameRestartManager.checkPointLocation = position;
         OnCheckpointSaved?.Invoke(position);
         Debug.Log($"CheckpointManager: Checkpoint saved at {position} in scene {currentCheckpoint.sceneName}");
@@ -487,6 +511,16 @@ public class CheckpointManager : MonoBehaviour
                 // No trades in checkpoint, clear all (player respawned without any saved trades)
                 DialogManager.ClearCompletedTrades();
             }
+        }
+
+        // Restore objectives state
+        if (trackedObjectivesManager == null)
+        {
+            trackedObjectivesManager = FindFirstObjectByType<ObjectivesManager>();
+        }
+        if (trackedObjectivesManager != null && currentCheckpoint.objectivesState != null)
+        {
+            trackedObjectivesManager.RestoreObjectivesState(currentCheckpoint.objectivesState);
         }
 
         // Restore lockpick states

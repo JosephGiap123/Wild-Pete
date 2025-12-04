@@ -11,12 +11,22 @@ public class BossHealthBarScript : MonoBehaviour
     [Header("Chip Away Settings")]
     [SerializeField] private float chipDelay = 0.3f;
     [SerializeField] private float chipSpeed = 0.5f;
+    [SerializeField] private VoidEvents bossHPBarShownEvent;
 
     private Coroutine chipRoutine;
 
     public void ActivateBossHPBar(bool set)
     {
         this.gameObject.SetActive(set);
+        if (bossHPBarShownEvent != null && set)
+        {
+            bossHPBarShownEvent.RaiseEvent();
+            Debug.Log("[BossHealthBarScript] bossHPBarShownEvent raised, objectives will be hidden.");
+        }
+        else
+        {
+            Debug.LogWarning("[BossHealthBarScript] bossHPBarShownEvent is not assigned, objectives will not be notified.");
+        }
     }
     public void SetMaxHealth(int health)
     {

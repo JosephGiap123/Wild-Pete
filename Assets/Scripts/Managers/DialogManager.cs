@@ -16,11 +16,11 @@ public class DialogManager : MonoBehaviour
     private Button[] choiceButtons;
     [Header("Audio")]
     [SerializeField] private AudioClip choiceClickClip;
-    [SerializeField] [Range(0f, 2f)] private float choiceClickVolume = 1f;
+    [SerializeField][Range(0f, 2f)] private float choiceClickVolume = 1f;
     [SerializeField] private AudioSource choiceAudioSource; // Optional: assign to reuse a source
     [Header("Typing Audio")]
     [SerializeField] private AudioClip typingClip;
-    [SerializeField] [Range(0f, 1f)] private float typingVolume = 0.6f;
+    [SerializeField][Range(0f, 1f)] private float typingVolume = 0.6f;
     [SerializeField] private AudioSource typingAudioSource; // Optional: assign to reuse a source
     [SerializeField] private bool loopTyping = true;
     [SerializeField] public float typingSpeed = 0.05f;
@@ -33,6 +33,7 @@ public class DialogManager : MonoBehaviour
     public bool isTyping;
     public bool isDialogueActive = false;
     private bool hasChoices = false;
+    private NPC currentNPC; // Track which NPC started the current dialogue
 
     // Track completed one-time trades: key = dialogue name + node index + choice index
     private static HashSet<string> completedTrades = new HashSet<string>();
@@ -235,7 +236,7 @@ public class DialogManager : MonoBehaviour
         ShowChoices(choices);
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, NPC npc = null)
     {
         if (dialogue == null || dialogue.dialogueNodes == null || dialogue.dialogueNodes.Count == 0)
         {
@@ -250,6 +251,7 @@ public class DialogManager : MonoBehaviour
         }
 
         this.dialogue = dialogue;
+        currentNPC = npc; // Store reference to NPC that started this dialogue
         currentNode = dialogue.dialogueNodes[0];
         isDialogueActive = true;
         ShowDialoguePanel();
@@ -380,19 +382,10 @@ public class DialogManager : MonoBehaviour
 
             Debug.Log($"DialogManager: Removed {choice.requiredQuantity}x {choice.requiredItem.itemName} from inventory");
 
-            // Add reward item if specified
+            // Spawn reward item if specified
             if (choice.rewardItem != null && choice.rewardQuantity > 0)
             {
-                bool added = PlayerInventory.instance.AddItemFromItemSO(choice.rewardItem, choice.rewardQuantity);
-                if (added)
-                {
-                    Debug.Log($"DialogManager: Added {choice.rewardQuantity}x {choice.rewardItem.itemName} to inventory");
-                }
-                else
-                {
-                    Debug.LogWarning($"DialogManager: Failed to add {choice.rewardQuantity}x {choice.rewardItem.itemName} to inventory (inventory may be full)");
-                    // Note: We still proceed with the dialogue even if reward couldn't be added
-                }
+                SpawnRewardItem(choice.rewardItem, choice.rewardQuantity);
             }
 
             // Mark one-time trade as completed
@@ -444,6 +437,13 @@ public class DialogManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        // Fire NPC's dialogue end event if it exists
+        if (currentNPC != null && currentNPC.onDialogueEndEvent != null)
+        {
+            currentNPC.onDialogueEndEvent.RaiseEvent();
+        }
+
+        currentNPC = null; // Clear NPC reference
         HideDialoguePanel();
     }
 
@@ -467,5 +467,68 @@ public class DialogManager : MonoBehaviour
         }
     }
 
+    private void SpawnRewardItem(ItemSO itemSO, int quantity)
+    {
+        if (itemSO == null || quantity <= 0 || currentNPC == null) return;
+
+        // Get item prefab from NPC or PlayerInventory
+        GameObject prefabToUse = null;
+        if (currentNPC.itemPrefab != null)
+        {
+            prefabToUse = currentNPC.itemPrefab;
+        }
+        else
+        {
+            // Try to get from PlayerInventory
+            if (PlayerInventory.instance != null)
+            {
+                prefabToUse = PlayerInventory.instance.GetItemPrefab();
+            }
+        }
+
+        if (prefabToUse == null)
+        {
+            Debug.LogWarning($"DialogManager: Could not find item prefab to spawn {itemSO.itemName}. Assign itemPrefab to NPC or ensure PlayerInventory has one.");
+            return;
+        }
+
+        // Get spawn location (use NPC's spawn location if set, otherwise use NPC's position)
+        Vector3 spawnPosition;
+        if (currentNPC.itemSpawnLocation != null)
+        {
+            spawnPosition = currentNPC.itemSpawnLocation.position;
+        }
+        else
+        {
+            spawnPosition = currentNPC.transform.position;
+        }
+
+        // Spawn items (one at a time if quantity > 1, with slight offset)
+        for (int i = 0; i < quantity; i++)
+        {
+            Vector3 offset = new Vector3(
+                UnityEngine.Random.Range(-0.5f, 0.5f),
+                UnityEngine.Random.Range(0f, 0.3f),
+                0f
+            );
+            Vector3 itemPosition = spawnPosition + offset;
+
+            GameObject itemObj = Instantiate(prefabToUse, itemPosition, Quaternion.identity);
+            Item itemComponent = itemObj.GetComponent<Item>();
+
+            if (itemComponent != null)
+            {
+                // Initialize with small upward velocity so it pops out
+                itemComponent.Initialize(new Vector2(UnityEngine.Random.Range(-1f, 1f), 2f), itemSO);
+                itemComponent.quantity = 1; // Each spawned item has quantity 1
+                Debug.Log($"DialogManager: Spawned {itemSO.itemName} at position {itemPosition}");
+            }
+            else
+            {
+                Debug.LogError("DialogManager: Item prefab doesn't have Item component!");
+                Destroy(itemObj);
+            }
+        }
+    }
 
 }

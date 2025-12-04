@@ -279,7 +279,7 @@ MonoBehaviour:
   rocketJumpClip: {fileID: 0}
   deathClip: {fileID: 8300000, guid: acc87e57e05005a4584d48e52acdbb92, type: 3}
   runLoopClip: {fileID: 8300000, guid: a814f722b64438c4faee78993aaca44f, type: 3}
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.04
   max3dDistance: 30
