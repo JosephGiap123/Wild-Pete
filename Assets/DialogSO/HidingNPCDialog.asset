@@ -17,17 +17,46 @@ MonoBehaviour:
     npcName: 
     portrait: {fileID: 0}
     choices:
-    - choiceText: I didn't have a plan to.
+    - choiceText: You got a screwdriver?
       nextNodeIndex: 1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: What ye hiding for?
       nextNodeIndex: 2
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: Okay.
       nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
-  - text: Good, lets keep it that way.
+  - text: Yup, I do, do ya got shampoo?
     npcName: 
     portrait: {fileID: 0}
-    choices: []
+    choices:
+    - choiceText: Nope, I'll go fetch it for ya.
+      nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 0
+      rewardItem: {fileID: 0}
+      rewardQuantity: 0
+      oneTimeTrade: 0
+    - choiceText: Yup, I do, here it is
+      nextNodeIndex: -1
+      requiredItem: {fileID: 11400000, guid: 2157abaf782ba4b2496213158e177b3e, type: 2}
+      requiredQuantity: 1
+      rewardItem: {fileID: 11400000, guid: 0642e2add1e574ffca158a389b6ac4a5, type: 2}
+      rewardQuantity: 1
+      oneTimeTrade: 1
     nextNodeIndex: -1
   - text: The guards are out here to get ye when lights are out. Watch yourself.
     npcName: 
@@ -35,8 +64,18 @@ MonoBehaviour:
     choices:
     - choiceText: Nah, I'd win.
       nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     - choiceText: I'll keep an eye out then.
       nextNodeIndex: -1
+      requiredItem: {fileID: 0}
+      requiredQuantity: 1
+      rewardItem: {fileID: 0}
+      rewardQuantity: 1
+      oneTimeTrade: 0
     nextNodeIndex: -1
   defaultPortrait: {fileID: -8190872826560005155, guid: 95589173201914d7c9e0c78095d4adb7, type: 3}
   defaultName: Cody

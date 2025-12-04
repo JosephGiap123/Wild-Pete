@@ -593,7 +593,7 @@ public abstract class BasePlayerMovement2D : MonoBehaviour, IHasFacing
             if (!isGrounded)
             {
                 // Check for wall jump (high horizontal velocity)
-                float maxNormalSpeed = moveSpeed + 0.2f;
+                float maxNormalSpeed = moveSpeed - 0.5f;
                 bool hasHighHorizontalVelocity = Mathf.Abs(rb.linearVelocity.x) > maxNormalSpeed;
 
                 if (rb.linearVelocity.y > 0.1f)

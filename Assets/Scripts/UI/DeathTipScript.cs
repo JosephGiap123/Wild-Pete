@@ -47,11 +47,11 @@ public class DeathTipScript : MonoBehaviour
         }
         if (HealthManager.instance.numDeaths == 1)
         {
-            deathTipText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " time";
+            deathCountText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " time";
         }
         else
         {
-            deathTipText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
+            deathCountText.text = "You have died " + HealthManager.instance.numDeaths.ToString() + " times";
         }
         deathCanvas.SetActive(true);
         anim.Play("FadeIn");

@@ -10548,7 +10548,7 @@ MonoBehaviour:
   deathYThreshold: -21
   dashingPower: 15
   dashingTime: 0.3
-  slidePower: 14
+  slidePower: 16
   dashingEnergyCost: 5
   slidingEnergyCost: 2
   weaponlessMeleeEnergyCost: 1
@@ -10562,6 +10562,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 524288
   wallSlideSpeed: 1.2
+  maxWallSlideSpeed: 5
+  tractionLossTime: 2
+  wallJumpHorizontalPower: 20
+  wallJumpVerticalPower: 9
+  wallJumpCooldown: 0.1
+  wallJumpEnergyCost: 1
   rb: {fileID: 8607775664743977173}
   boxCol: {fileID: 8169233198180431905}
   groundCheck: {fileID: 3803627630943915765}

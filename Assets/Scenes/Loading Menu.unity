@@ -1390,6 +1390,10 @@ PrefabInstance:
       propertyPath: 'deathTips.Array.data[9]'
       value: Stuck on a boss? Try to find gear in the map to help fight the boss.
       objectReference: {fileID: 0}
+    - target: {fileID: 4018333256525879538, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: bossHPBarShownEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 45bf7826d725c47299aac5c67f84fd96, type: 2}
     - target: {fileID: 4289687294261781065, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1862,6 +1866,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -50
       objectReference: {fileID: 0}
+    - target: {fileID: 7804995190964746953, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1817273653}
+    - target: {fileID: 7804995190964746953, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBackToSettingsHubPressed
+      objectReference: {fileID: 0}
     - target: {fileID: 7828305283998631509, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2275,6 +2287,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3478cce5297c473bb3670328082dd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1817273653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5414034088422649653, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
+  m_PrefabInstance: {fileID: 1811137387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811137389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e5eb2d52c998146910190dfb32a312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1914603222 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4436413544829592982, guid: baa152b13fa9a4cc398835a13eca3266, type: 3}
@@ -2512,7 +2535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: itemSOs.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: ItemDescriptionText
@@ -2542,6 +2565,10 @@ PrefabInstance:
       propertyPath: 'itemSOs.Array.data[10]'
       value: 
       objectReference: {fileID: 11400000, guid: 0657dc51e8d954632a750e09743dbba3, type: 2}
+    - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
+      propertyPath: 'itemSOs.Array.data[11]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2157abaf782ba4b2496213158e177b3e, type: 2}
     - target: {fileID: 8556886436127199544, guid: f2bddc7dcbdc7421791dfaf1638f9e2e, type: 3}
       propertyPath: ItemDescriptionNameText
       value: 

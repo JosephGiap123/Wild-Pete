@@ -784,7 +784,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// Gets the item prefab from ItemSlot (used for dropping items)
     /// </summary>
-    private GameObject GetItemPrefab()
+    public GameObject GetItemPrefab()
     {
         if (itemSlots == null) return null;
 

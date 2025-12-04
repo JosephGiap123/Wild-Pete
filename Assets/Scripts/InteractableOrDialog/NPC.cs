@@ -9,6 +9,16 @@ public class NPC : MonoBehaviour, IInteractable
     public Dialogue dialogueData;
 
     public string npcName;
+    
+    [Header("Objectives")]
+    [Tooltip("Event that fires when this NPC's dialogue ends (for objectives system)")]
+    public VoidEvents onDialogueEndEvent;
+    
+    [Header("Item Spawning")]
+    [Tooltip("Item prefab to spawn when trading (if null, will try to get from PlayerInventory)")]
+    public GameObject itemPrefab;
+    [Tooltip("Transform where items should spawn (if null, uses NPC's position)")]
+    public Transform itemSpawnLocation;
     public string InteractMessage()
     {
         return " to speak with " + npcName;
@@ -26,7 +36,7 @@ public class NPC : MonoBehaviour, IInteractable
             Debug.LogError("NPC: No dialogue data assigned!");
             return;
         }
-        DialogManager.Instance.StartDialogue(dialogueData);
+        DialogManager.Instance.StartDialogue(dialogueData, this);
     }
 
     // void NextLine()
