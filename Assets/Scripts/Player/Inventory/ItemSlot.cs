@@ -91,21 +91,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             quantityText.text = quantity.ToString();
             // The text is enabled ONLY if the quantity is greater than 1 (a stack)
             quantityText.enabled = quantity > 1;
-            
+
             // Scale down icon if it's a screwdriver (only affects screwdriver)
-            if (itemIcon.rectTransform != null)
-            {
-                if (itemName == "Screwdriver")
-                {
-                    // Make screwdriver icon smaller (adjust 0.7 to your desired size: 0.7 = 70%, 0.6 = 60%, etc.)
-                    itemIcon.rectTransform.localScale = new Vector3(0.7f, 0.7f, 1f);
-                }
-                else
-                {
-                    // Reset to normal size for all other items
-                    itemIcon.rectTransform.localScale = Vector3.one;
-                }
-            }
+            // if (itemIcon.rectTransform != null)
+            // {
+            //     if (itemName == "Screwdriver")
+            //     {
+            //         // Make screwdriver icon smaller (adjust 0.7 to your desired size: 0.7 = 70%, 0.6 = 60%, etc.)
+            //         itemIcon.rectTransform.localScale = new Vector3(0.7f, 0.7f, 1f);
+            //     }
+            //     else
+            //     {
+            //         // Reset to normal size for all other items
+            //         itemIcon.rectTransform.localScale = Vector3.one;
+            //     }
+            // }
         }
     }
 
@@ -144,7 +144,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemDesc = null;
         dropSprite = defaultIcon;
         PlayerInventory.instance.ClearDescriptionPanel();
-        
+
         // Update UI to reflect cleared state
         UpdateUI();
     }
@@ -180,7 +180,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             quantity = 0;
         }
-        
+
         // If quantity reaches 0, clear the slot completely
         if (quantity <= 0)
         {
@@ -209,7 +209,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 Debug.LogWarning("ItemSlot: Cannot use item - quantity is 0 or slot is empty!");
                 return;
             }
-            
+
             // Find this slot's index in the inventory array
             int slotIndex = -1;
             for (int i = 0; i < PlayerInventory.instance.itemSlots.Length; i++)
@@ -234,7 +234,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 else
                 {
                     // It's a consumable, use it normally
-                PlayerInventory.instance.UseConsumable(itemName, slotIndex);
+                    PlayerInventory.instance.UseConsumable(itemName, slotIndex);
                 }
             }
             else
@@ -257,7 +257,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
 
         thisItemSelected = true;
-        
+
         // Check if this is an EquipmentSO and pass it to show stats
         EquipmentSO equipmentSO = itemSO as EquipmentSO;
         PlayerInventory.instance.FillDescriptionUI(itemName, itemDesc, itemSprite, equipmentSO);
