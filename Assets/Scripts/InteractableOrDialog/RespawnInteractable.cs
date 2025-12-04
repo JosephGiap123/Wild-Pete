@@ -13,8 +13,14 @@ public class RespawnInteractable : MonoBehaviour, IInteractable
     [SerializeField] private float fadeFullDistance = 4f;
     [Tooltip("Distance beyond which audio is silent")]
     [SerializeField] private float fadeZeroDistance = 20f;
-    [Range(0f,1f)][SerializeField] private float volumeMultiplier = 1f;
+    [Range(0f, 1f)][SerializeField] private float volumeMultiplier = 1f;
 
+    [Header("Healing")]
+    [SerializeField] private int healingAmount = 10;
+    [SerializeField] private Sprite unusedSprite;
+    [SerializeField] private Sprite usedSprite;
+    [SerializeField] private SpriteRenderer crystalSprite;
+    private bool hasBeenUsed = false;
     private Transform player;
     private float baseVolume = 1f;
     public string InteractMessage()
@@ -35,6 +41,12 @@ public class RespawnInteractable : MonoBehaviour, IInteractable
         // Save checkpoint at current position
         if (CheckpointManager.Instance != null)
         {
+            if (!hasBeenUsed)
+            {
+                HealthManager.instance.Heal(healingAmount);
+            }
+            hasBeenUsed = true;
+            crystalSprite.sprite = usedSprite;
             CheckpointManager.Instance.SaveCheckpoint(transform.position);
             Debug.Log($"Checkpoint saved at {transform.position}");
         }
