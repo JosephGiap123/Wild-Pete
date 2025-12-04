@@ -175,9 +175,13 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
   - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
+  aliceSpecificItems: []
+  peteSpecificItems: []
   itemDropChances:
   - 100
   - 60
+  aliceSpecificItemDropChances: []
+  peteSpecificItemDropChances: []
 --- !u!1 &1396458341714469533
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +266,7 @@ MonoBehaviour:
   death: {fileID: 0}
   runLoop: {fileID: 8300000, guid: 0ac8c1b9affa3d34ea93178a3eedd84e, type: 3}
   hit: {fileID: 8300000, guid: 2eead974c39c6354f98f06036fb8adf5, type: 3}
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.05
   max3dDistance: 20

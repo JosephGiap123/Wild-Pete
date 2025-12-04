@@ -554,8 +554,12 @@ MonoBehaviour:
   itemPrefab: {fileID: 6282593774700217466, guid: 91059e117776a418297f233b666da61b, type: 3}
   items:
   - {fileID: 11400000, guid: cfcf74ad749c546d98ba838c1e8733e1, type: 2}
+  aliceSpecificItems: []
+  peteSpecificItems: []
   itemDropChances:
   - 100
+  aliceSpecificItemDropChances: []
+  peteSpecificItemDropChances: []
 --- !u!1 &7568946971500160677
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +693,7 @@ MonoBehaviour:
   explodeClip: {fileID: 8300000, guid: 6e070dd367b923749bd9947eedce5d91, type: 3}
   beepClip: {fileID: 8300000, guid: 0a52540f7b2252a47a2fd10ba6ce1a6f, type: 3}
   runLoopClip: {fileID: 8300000, guid: 791d7724ba6407241a8ce30f0f5f0424, type: 3}
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.03
   max3dDistance: 20

@@ -48,10 +48,14 @@ MonoBehaviour:
   attackClip: {fileID: 8300000, guid: 65355b342ce28364fa206f7e51e6a72f, type: 3}
   hurtClip: {fileID: 8300000, guid: b9de23104d3de0a4fbcf75128e871401, type: 3}
   runLoopClip: {fileID: 8300000, guid: be9cdc13c60bfdd48acf4f30a47e1e7c, type: 3}
-  sfxMixerGroup: {fileID: 0}
+  sfxMixerGroup: {fileID: -1501486763229114349, guid: df6d59f162bb2484db30c9726240c366, type: 2}
   sfxVolume: 1
   pitchJitter: 0.04
   max3dDistance: 20
+  enableDistanceFade: 1
+  fadeFullDistance: 6
+  fadeZeroDistance: 20
+  runVolumeMultiplier: 0.6
 --- !u!1 &1825004053316584561
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,10 +208,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a9ec14dc3a8b48daa3e25066f88dee1, type: 2}
   - {fileID: 11400000, guid: 38a457d570ea943ec819a3c1f37bd0f9, type: 2}
   - {fileID: 11400000, guid: cfcf74ad749c546d98ba838c1e8733e1, type: 2}
+  aliceSpecificItems: []
+  peteSpecificItems: []
   itemDropChances:
   - 60
   - 100
   - 25
+  aliceSpecificItemDropChances: []
+  peteSpecificItemDropChances: []
 --- !u!1 &2030070163671870000
 GameObject:
   m_ObjectHideFlags: 0
