@@ -7,6 +7,10 @@ public class GameSettingsPanelController : MonoBehaviour
     [Header("Volume")]
     [SerializeField] private Slider masterVolumeSlider;   // VolumeSlider
 
+    [Header("Music Volume")]
+    [SerializeField] private Slider musicSlider;      // <- NEW
+    private const string MusicVolumeParam = "MusicVolume";
+
     [Header("SFX Volume")]
     [SerializeField] private Slider sfxSlider;            // SFXSlider
     [SerializeField] private AudioMixer masterMixer;      // MasterMixer asset
@@ -24,16 +28,35 @@ public class GameSettingsPanelController : MonoBehaviour
 
     void Awake()
     {
-        // ---- Volume init ----
-        if (masterVolumeSlider != null)
-        {
-            masterVolumeSlider.minValue = 0f;
-            masterVolumeSlider.maxValue = 1f;
-            masterVolumeSlider.wholeNumbers = false;
-            masterVolumeSlider.value = 1f;   // full volume
-        }
+    // ---- Master init ----
+    if (masterVolumeSlider != null)
+    {
+        masterVolumeSlider.minValue = 0f;
+        masterVolumeSlider.maxValue = 1f;
+        masterVolumeSlider.wholeNumbers = false;
+        masterVolumeSlider.value = 1f;
+    }
+    AudioListener.volume = 1f;
 
-        AudioListener.volume = 1f;
+    // ---- Music init ----
+    if (musicSlider != null)
+    {
+        musicSlider.minValue = 0f;
+        musicSlider.maxValue = 1f;
+        musicSlider.wholeNumbers = false;
+        musicSlider.value = 1f;
+    }
+    ApplyMusicVolume(musicSlider != null ? musicSlider.value : 1f);   // <- NEW
+
+    // ---- SFX init ----
+    if (sfxSlider != null)
+    {
+        sfxSlider.minValue = 0f;
+        sfxSlider.maxValue = 1f;
+        sfxSlider.wholeNumbers = false;
+        sfxSlider.value = 1f;
+    }
+    ApplySfxVolume(sfxSlider != null ? sfxSlider.value : 1f);
 
         // ---- Screenshake visual init ----
         UpdateScreenshakeVisual();
@@ -93,5 +116,24 @@ public class GameSettingsPanelController : MonoBehaviour
     {
         ApplySfxVolume(value);
     }
+
+    // === MUSIC ===
+    public void OnMusicVolumeChanged(float value)
+    {
+        ApplyMusicVolume(value);
+    }
+
+    private void ApplyMusicVolume(float sliderValue)
+    {
+        if (masterMixer == null) return;
+
+        // convert 0–1 slider to decibels
+        float v  = Mathf.Clamp(sliderValue, 0.0001f, 1f);
+        float dB = Mathf.Log10(v) * 20f;
+
+        masterMixer.SetFloat(MusicVolumeParam, dB);
+        // Debug.Log($"[GameSettings] Music slider = {sliderValue}, dB = {dB}");
+    }
+
 
 }
