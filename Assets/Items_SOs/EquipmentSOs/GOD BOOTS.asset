@@ -20,13 +20,13 @@ MonoBehaviour:
   itemDesc: GOD TESTING ITEM
   itemStats: 05000000060000000700000000000000010000000d0000000c00000008000000
   itemStatAmounts:
-  - 20
+  - 30
   - 100
   - 10
   - 500
-  - 20
-  - 30
+  - 130
   - 500
-  - 30
+  - 500
+  - 40
   equipmentType: 1
   equipableBy: 2

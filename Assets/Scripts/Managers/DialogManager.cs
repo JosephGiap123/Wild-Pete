@@ -25,6 +25,9 @@ public class DialogManager : MonoBehaviour
     public bool isDialogueActive = false;
     private bool hasChoices = false;
 
+    // Track completed one-time trades: key = dialogue name + node index + choice index
+    private static HashSet<string> completedTrades = new HashSet<string>();
+
 
     //holds refs to the dialogue panel, text, name, and portrait for dialog npcs to use
 
@@ -107,6 +110,43 @@ public class DialogManager : MonoBehaviour
             {
                 choiceButtons[i].GetComponentInChildren<TMP_Text>().text = choices[i].choiceText;
                 choiceButtons[i].gameObject.SetActive(true);
+
+                bool canInteract = true;
+
+                // Check if this is a one-time trade that's already been completed
+                if (choices[i].requiredItem != null && choices[i].oneTimeTrade)
+                {
+                    string tradeKey = GetTradeKey(i);
+                    if (completedTrades.Contains(tradeKey))
+                    {
+                        // Trade already completed - hide or disable this choice
+                        choiceButtons[i].gameObject.SetActive(false);
+                        canInteract = false;
+                    }
+                }
+
+                // Check if this choice requires a trade and if player has the item
+                if (canInteract && choices[i].requiredItem != null)
+                {
+                    int playerHas = PlayerInventory.instance != null ?
+                        PlayerInventory.instance.HasItem(choices[i].requiredItem.itemName) : 0;
+                    bool hasEnough = playerHas >= choices[i].requiredQuantity;
+
+                    // Disable button if player doesn't have required item
+                    choiceButtons[i].interactable = hasEnough;
+
+                    // Optionally gray out or add visual feedback
+                    if (!hasEnough)
+                    {
+                        // You could add visual feedback here, like changing button color
+                        Debug.Log($"Choice '{choices[i].choiceText}' requires {choices[i].requiredQuantity}x {choices[i].requiredItem.itemName}, but player only has {playerHas}");
+                    }
+                }
+                else if (canInteract)
+                {
+                    // No trade requirement, button is always interactable
+                    choiceButtons[i].interactable = true;
+                }
             }
             else
             {
@@ -114,6 +154,15 @@ public class DialogManager : MonoBehaviour
             }
         }
         choicesPanel.SetActive(true);
+    }
+
+    // Generate a unique key for tracking one-time trades
+    private string GetTradeKey(int choiceIndex)
+    {
+        if (dialogue == null || currentNode == null) return "";
+        // Use dialogue name + current node index + choice index as unique identifier
+        int nodeIndex = dialogue.dialogueNodes.IndexOf(currentNode);
+        return $"{dialogue.name}_node{nodeIndex}_choice{choiceIndex}";
     }
 
     public void HideChoices()
@@ -246,9 +295,62 @@ public class DialogManager : MonoBehaviour
             return;
         }
 
-        choseChoice = true;
         // Use the choice from availableChoices, not the raw array
         var choice = currentAvailableChoices[choiceIndex];
+
+        // Handle trade if this choice requires one
+        if (choice.requiredItem != null)
+        {
+            if (PlayerInventory.instance == null)
+            {
+                Debug.LogError("DialogManager: PlayerInventory.instance is null! Cannot process trade.");
+                return;
+            }
+
+            // Check if player has required item
+            int playerHas = PlayerInventory.instance.HasItem(choice.requiredItem.itemName);
+            if (playerHas < choice.requiredQuantity)
+            {
+                Debug.LogWarning($"DialogManager: Player doesn't have enough {choice.requiredItem.itemName} (has {playerHas}, needs {choice.requiredQuantity})");
+                return; // Don't proceed with the choice
+            }
+
+            // Remove required item from inventory
+            bool removed = PlayerInventory.instance.UseItem(choice.requiredItem.itemName, choice.requiredQuantity);
+            if (!removed)
+            {
+                Debug.LogWarning($"DialogManager: Failed to remove {choice.requiredQuantity}x {choice.requiredItem.itemName} from inventory");
+                return; // Don't proceed if removal failed
+            }
+
+            Debug.Log($"DialogManager: Removed {choice.requiredQuantity}x {choice.requiredItem.itemName} from inventory");
+
+            // Add reward item if specified
+            if (choice.rewardItem != null && choice.rewardQuantity > 0)
+            {
+                bool added = PlayerInventory.instance.AddItemFromItemSO(choice.rewardItem, choice.rewardQuantity);
+                if (added)
+                {
+                    Debug.Log($"DialogManager: Added {choice.rewardQuantity}x {choice.rewardItem.itemName} to inventory");
+                }
+                else
+                {
+                    Debug.LogWarning($"DialogManager: Failed to add {choice.rewardQuantity}x {choice.rewardItem.itemName} to inventory (inventory may be full)");
+                    // Note: We still proceed with the dialogue even if reward couldn't be added
+                }
+            }
+
+            // Mark one-time trade as completed
+            if (choice.oneTimeTrade)
+            {
+                string tradeKey = GetTradeKey(choiceIndex);
+                completedTrades.Add(tradeKey);
+                Debug.Log($"DialogManager: Marked one-time trade as completed: {tradeKey}");
+            }
+        }
+
+        choseChoice = true;
+
         if (choice != null &&
             choice.nextNodeIndex >= 0 &&
             choice.nextNodeIndex < dialogue.dialogueNodes.Count)

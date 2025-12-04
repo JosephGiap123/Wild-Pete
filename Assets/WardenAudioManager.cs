@@ -23,10 +23,6 @@ public class WardenAudioManager : MonoBehaviour
     [SerializeField] private AudioClip hurt;
     [SerializeField] private AudioClip death;
 
-    [Header("Boss Music")]
-    [SerializeField] private AudioClip bossMusicClip;
-    [Range(0f, 1f)][SerializeField] private float musicVolume = 0.7f;
-
     [Header("Mixer (optional)")]
     [SerializeField] private AudioMixerGroup sfxMixerGroup;
 
@@ -36,7 +32,6 @@ public class WardenAudioManager : MonoBehaviour
     public float max3dDistance = 30f;
 
     private AudioSource loopSource;
-    private AudioSource musicSource;
     private int lastMeleeIndex = -1;
     [Header("Distance Fade")]
     [Tooltip("Enable distance-based fading for the run loop")]
@@ -45,7 +40,7 @@ public class WardenAudioManager : MonoBehaviour
     public float fadeFullDistance = 8f;
     [Tooltip("Distance (units) beyond which the loop is silent")]
     public float fadeZeroDistance = 40f;
-    [Range(0f,1f)] public float runVolumeMultiplier = 0.5f; // quieter baseline for Warden
+    [Range(0f, 1f)] public float runVolumeMultiplier = 0.5f; // quieter baseline for Warden
 
     private Transform player;
 
@@ -69,13 +64,6 @@ public class WardenAudioManager : MonoBehaviour
         loopSource.maxDistance = max3dDistance;
         loopSource.outputAudioMixerGroup = sfxMixerGroup;
         loopSource.volume = sfxVolume;
-
-        musicSource = gameObject.AddComponent<AudioSource>();
-        musicSource.loop = true;
-        musicSource.playOnAwake = false;
-        musicSource.spatialBlend = 0f; // non-spatial for music
-        musicSource.outputAudioMixerGroup = sfxMixerGroup;
-        musicSource.volume = musicVolume;
 
         // try to find player
         var playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -123,21 +111,6 @@ public class WardenAudioManager : MonoBehaviour
     public void PlayLaserBeam() => PlayOneShot(laserBeam);
     public void PlayHurt() => PlayOneShot(hurt);
     public void PlayDeath() => PlayOneShot(death);
-
-    public void StartBossMusic()
-    {
-        if (!bossMusicClip || musicSource == null) return;
-        if (musicSource.isPlaying) return;
-        musicSource.clip = bossMusicClip;
-        musicSource.volume = musicVolume;
-        musicSource.Play();
-    }
-
-    public void StopBossMusic()
-    {
-        if (musicSource == null) return;
-        if (musicSource.isPlaying) musicSource.Stop();
-    }
 
     public void PlayMelee()
     {

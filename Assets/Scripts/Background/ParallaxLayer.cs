@@ -277,7 +277,7 @@ public class ParallaxLayer : MonoBehaviour
     
     void UpdateInfiniteScroll()
     {
-        if (cameraTransform == null || tileInstances == null || tileInstances.Length == 0) return;
+        if (cameraTransform == null || tileInstances == null || tileInstances.Length == 0 || spriteWidth <= 0) return;
         
         float cameraWidth = GetCameraWidth();
         // Use smoothed camera position for tile repositioning to avoid shake artifacts

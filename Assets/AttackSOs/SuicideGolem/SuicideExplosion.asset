@@ -17,7 +17,7 @@ MonoBehaviour:
     m_Bits: 64
   enemy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   statics:
     serializedVersion: 2
     m_Bits: 16384
@@ -27,3 +27,4 @@ MonoBehaviour:
   damage: 10
   stunTime: 0
   constantKnockback: 0
+  attackType: 0
